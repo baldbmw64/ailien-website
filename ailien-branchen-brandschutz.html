@@ -1,0 +1,1015 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KI für Brandschutz-Dienstleister | ailien</title>
+<meta name="description" content="Keine Prüffrist verpasst, kein Bericht am Abend: KI-Helfer für Brandschutz-Betriebe – Fristen überwachen, Kunden erinnern, Touren planen, Prüfbericht per Sprache.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F3F1EC; --ink:#0E1013; --muted:#5F636A; --line:#DEDBD3; --accent:#0F7A55;
+    --night:#0E1013; --night-2:#171A1E; --night-3:#22262B; --on-night:#F3F1EC; --on-night-muted:#A3A7AD; --mint:#8CF5C2;
+    --warn:#F2C46B;
+    --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+    --serif:"Instrument Serif",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);overflow-x:clip}
+  .btn{display:inline-flex;align-items:center;gap:10px;font:500 14px/20px var(--sans);padding:13px 20px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer}
+  .btn.p{background:var(--night);color:var(--on-night)}.btn.p:hover{background:#23262b}
+  .btn.s{color:var(--ink);border-color:var(--line)}.btn.s:hover{border-color:var(--ink)}
+  .btn:focus-visible,.dot:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--accent);margin:0 0 18px;display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--accent)}
+  .btn.m{background:var(--mint);color:var(--night)}.btn.m:hover{background:#a6f8d0}
+</style>
+<style>
+  /* ---------- Header (Variante C) ---------- */
+  .hd-sp{height:117px}
+  .hd{position:fixed;top:0;left:0;right:0;z-index:100;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+  .hd-w{max-width:1240px;margin:0 auto;padding:0 32px}
+  .hd-bar{background:var(--night);color:var(--on-night-muted);font-size:12px;height:36px;overflow:hidden;transition:height .35s,opacity .35s}
+  .hd-bar .hd-w{height:100%;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .hd-bar span{display:flex;gap:18px}
+  .hd-bar b{font-weight:500}
+  .hd-bar i{font-style:normal;color:var(--mint);margin-right:6px}
+  .hd-bar a{color:var(--on-night);text-decoration:none}.hd-bar a:hover{color:var(--mint)}
+  .hd-main{background:var(--paper);border-bottom:1px solid transparent;transition:border-color .3s}
+  .hd-main .hd-w{display:flex;align-items:center;gap:28px;padding-top:18px;padding-bottom:18px;transition:padding .35s}
+  .hd-lg{display:block;height:38px;width:auto;color:var(--ink);transition:height .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-nv{display:flex;align-items:center;gap:2px;margin-right:auto}
+  .hd-ni{font:400 14px/20px var(--sans);color:var(--ink);background:none;border:0;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;white-space:nowrap}
+  .hd-ni sup{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--accent);margin-right:2px;line-height:0}
+  .hd-ni:hover,.hd-dd.on .hd-ni{color:var(--accent)}
+  .hd-ni svg{width:9px;height:9px;opacity:.6;transition:transform .25s}
+  .hd-dd{position:relative}
+  .hd-dd.on .hd-ni svg{transform:rotate(180deg)}
+  .hd-p{position:absolute;top:calc(100% + 14px);left:0;z-index:5;transform:translateY(8px);opacity:0;visibility:hidden;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:0 30px 60px -20px rgba(14,16,19,.28);transition:opacity .25s,transform .25s cubic-bezier(.2,.7,.2,1),visibility .25s}
+  .hd-p::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px}
+  .hd-dd.on .hd-p{opacity:1;visibility:visible;transform:none}
+  .hd-p.wide{width:640px;display:grid;grid-template-columns:1fr 1fr 210px;gap:4px}
+  .hd-p.list{width:330px;display:grid;gap:2px}
+  .hd-i{position:relative;display:block;padding:14px;border-radius:12px;text-decoration:none;color:inherit;transition:background .2s}
+  .hd-i:hover{background:var(--paper)}
+  .hd-i b{display:block;font-weight:500;font-size:14.5px;letter-spacing:-.01em;margin-bottom:3px}
+  .hd-i b::before{content:"";position:absolute;left:5px;top:21px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity .2s}
+  .hd-i:hover b::before{opacity:1}
+  .hd-i span{display:block;font-size:13px;line-height:19px;color:var(--muted)}
+  .hd-feat{grid-row:1/3;grid-column:3;background:var(--night);color:var(--on-night);border-radius:12px;padding:18px;display:flex;flex-direction:column;text-decoration:none}
+  .hd-feat small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint)}
+  .hd-feat strong{font-weight:500;font-size:17px;line-height:23px;letter-spacing:-.02em;margin-top:10px}
+  .hd-feat strong em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;color:var(--mint)}
+  .hd-feat span{margin-top:auto;font-size:13px;color:var(--on-night-muted)}
+  .hd-all{grid-column:1/3;display:flex;justify-content:space-between;padding:12px 14px;margin-top:4px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);text-decoration:none}
+  .hd-all:hover{color:var(--accent)}
+  .hd-r{display:flex;gap:8px}
+  .hd .btn{padding:12px 20px;white-space:nowrap}
+  .hd .btn .ar{transition:transform .2s}.hd .btn:hover .ar{transform:translateX(3px)}
+  .hd-burger{display:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:none;cursor:pointer;position:relative;flex:none;color:var(--ink)}
+  .hd-burger::before,.hd-burger::after{content:"";position:absolute;left:14px;right:14px;height:1.5px;background:currentColor;transition:transform .3s,top .3s}
+  .hd-burger::before{top:17px}.hd-burger::after{top:25px}
+  .hd-open .hd-burger::before{top:21px;transform:rotate(45deg)}.hd-open .hd-burger::after{top:21px;transform:rotate(-45deg)}
+  .hd.sc .hd-bar{height:0;opacity:0}
+  .hd.sc .hd-main{border-color:var(--line)}
+  .hd.sc .hd-main .hd-w{padding-top:12px;padding-bottom:12px}
+  .hd.sc .hd-lg{height:32px}
+  .hd-lg.old{height:32px}.hd.sc .hd-lg.old{height:28px}
+  .hd.hide{transform:translateY(-100%)}
+
+  /* Handy-Menü */
+  .hd-mm{position:fixed;inset:0;z-index:99;background:var(--paper);display:flex;flex-direction:column;padding:120px 22px 24px;overflow:auto;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+  .hd-open .hd-mm{opacity:1;visibility:visible}
+  .hd-mm>ol{list-style:none;margin:0;padding:0;counter-reset:n}
+  .hd-mm>ol>li{counter-increment:n;border-bottom:1px solid var(--line);opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s}
+  .hd-open .hd-mm>ol>li{opacity:1;transform:none}
+  .hd-open .hd-mm>ol>li:nth-child(2){transition-delay:.04s}.hd-open .hd-mm>ol>li:nth-child(3){transition-delay:.08s}.hd-open .hd-mm>ol>li:nth-child(4){transition-delay:.12s}.hd-open .hd-mm>ol>li:nth-child(5){transition-delay:.16s}
+  .hd-t{display:flex;align-items:center;width:100%;padding:15px 0;font:500 26px/1.15 var(--sans);letter-spacing:-.03em;color:var(--ink);text-decoration:none;background:none;border:0;cursor:pointer;text-align:left}
+  .hd-t::after{content:"0" counter(n);margin-left:auto;font-family:var(--serif);font-style:italic;font-weight:400;font-size:17px;color:var(--accent)}
+  .hd-t .pl{order:3;margin-left:14px;width:12px;height:12px;position:relative;opacity:.6}
+  .hd-t .pl::before,.hd-t .pl::after{content:"";position:absolute;left:0;right:0;top:5.5px;height:1.5px;background:currentColor;transition:transform .3s}
+  .hd-t .pl::after{transform:rotate(90deg)}
+  .hd-mm li.ex .pl::after{transform:rotate(0)}
+  .hd-s{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-mm li.ex .hd-s{grid-template-rows:1fr}
+  .hd-s>div{overflow:hidden}
+  .hd-s a{display:block;padding:8px 0 8px 2px;font-size:16px;color:var(--ink);opacity:.75;text-decoration:none}
+  .hd-s a:last-child{margin-bottom:14px}
+  .hd-mf{margin-top:auto;padding-top:28px;display:grid;gap:14px}
+  .hd-mf .btn{justify-content:center;padding:15px}
+  .hd-mf small{font-size:12px;color:var(--muted);text-align:center}
+  body.hd-lock{overflow:hidden}
+
+  @media (max-width:1180px){.hd-r .btn.s{display:none}.hd-main .hd-w{gap:16px}}
+  @media (max-width:980px){
+    .hd-nv{display:none}.hd-burger{display:block}
+    .hd-r{margin-left:auto}.hd-bar a{display:none}
+    .hd-lg{height:34px}.hd.sc .hd-lg{height:30px}
+    .hd .btn{padding:10px 16px;font-size:13px}
+  }
+  @media (max-width:980px){.hd-sp{height:113px}}
+  @media (max-width:520px){
+    .hd-sp{height:109px}
+    .hd-w{padding:0 16px}.hd-bar{font-size:11px}
+    .hd-bar span b:nth-child(n+3){display:none}
+    .hd-main .hd-w{padding-top:14px;padding-bottom:14px;gap:12px}
+    .hd.sc .hd-main .hd-w{padding-top:10px;padding-bottom:10px}
+  }
+  @media (max-width:360px){.hd-r .btn{display:none}}
+  @media (prefers-reduced-motion:reduce){.hd,.hd-p,.hd-mm,.hd-mm li{transition:none}}
+  .hd-main .hd-w{position:relative}
+  .hd-dd.mega{position:static}
+  .hd-p.mega{left:32px;right:32px;width:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:18px}
+  .hd-g{display:flex;flex-direction:column;gap:2px;padding:6px}
+  .hd-g small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px 10px}
+  .hd-l{display:block;padding:9px 10px;border-radius:10px;color:var(--ink);text-decoration:none;font-size:14.5px;transition:background .2s}
+  .hd-l:hover{background:var(--paper)}
+  .hd-l[aria-current="page"]{background:var(--paper);font-weight:500}
+  .hd-l[aria-current="page"]::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:2px}
+  .hd-s a[aria-current="page"]{opacity:1;font-weight:500}
+
+</style>
+</head>
+<body>
+<header class="hd" id="hd">
+  <div class="hd-bar"><div class="hd-w"><span><b><i>✓</i>DSGVO-konform</b><b><i>✓</i>Server in der EU</b><b><i>✓</i>Antwort innerhalb eines Werktags</b></span><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></div></div>
+  <div class="hd-main"><div class="hd-w">
+    <a href="ailien-startseite.html" aria-label="ailien Startseite"><svg class="hd-lg" viewBox="0 8 160.8 64" aria-hidden="true"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#0E1013"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#0F7A55" fill-rule="evenodd"/></svg></a>
+    <nav class="hd-nv" aria-label="Hauptnavigation">
+      <div class="hd-dd">
+        <button class="hd-ni" aria-expanded="false"><sup>01</sup>Leistungen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+        <div class="hd-p wide">
+          <a class="hd-i" href="/leistungen/prozess-automation"><b>Prozess-Automationen</b><span>Belege, Angebote, Bestellungen – läuft von selbst.</span></a>
+          <a class="hd-i" href="/leistungen/wissenssysteme"><b>KI-Wissenssysteme</b><span>Firmenwissen, das jeder sofort findet.</span></a>
+          <a class="hd-i" href="/leistungen/voice"><b>Voice &amp; Kommunikation</b><span>Telefon-Assistent und E-Mail-Vorsortierung.</span></a>
+          <a class="hd-i" href="/leistungen/beratung"><b>KI-Strategie &amp; Beratung</b><span>Wo lohnt sich KI bei Ihnen wirklich?</span></a>
+          <a class="hd-feat" href="ailien-entlastungsrechner.html"><small>Rechner</small><strong>Wie viele Stunden <em>sparen Sie?</em></strong><span>Jetzt ausrechnen →</span></a>
+          <a class="hd-all" href="/leistungen">Alle Leistungen im Überblick <span>→</span></a>
+        </div>
+      </div>
+      <div class="hd-dd mega"><button class="hd-ni" aria-expanded="false"><sup>02</sup>Branchen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><div class="hd-p mega"><div class="hd-g"><small>Bau &amp; Handwerk</small><a class="hd-l" href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a class="hd-l" href="ailien-branchen-bad-kueche.html">Bad- &amp; Küchenstudios</a><a class="hd-l" href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a class="hd-l" href="ailien-branchen-gebaeudereinigung.html">Gebäudereinigung</a></div><div class="hd-g"><small>Industrie &amp; Technik</small><a class="hd-l" href="ailien-branchen-maschinenbau.html">Maschinen- &amp; Anlagenbau</a><a class="hd-l" href="ailien-branchen-cnc.html">CNC-Betriebe</a><a class="hd-l" href="ailien-branchen-dguv-v3.html">Elektroprüfung DGUV V3</a><a class="hd-l" href="ailien-branchen-brandschutz.html" aria-current="page">Brandschutz</a></div><div class="hd-g"><small>Immobilien &amp; Planung</small><a class="hd-l" href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a class="hd-l" href="ailien-branchen-immobilienmakler.html">Immobilienmakler</a><a class="hd-l" href="ailien-branchen-architekten.html">Architekten</a><a class="hd-l" href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a></div><div class="hd-g"><small>Dienstleistung</small><a class="hd-l" href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a class="hd-l" href="ailien-branchen-foerdermittelberatung.html">Fördermittelberatung</a><a class="hd-l" href="ailien-branchen-bestatter.html">Bestatter</a></div></div></div>
+      <a class="hd-ni" href="ailien-praxisbeispiele.html"><sup>03</sup>Praxisbeispiele</a>
+      <a class="hd-ni" href="ailien-ueber-uns.html"><sup>04</sup>Über uns</a>
+      <a class="hd-ni" href="/wissen"><sup>05</sup>Wissen</a>
+    </nav>
+    <div class="hd-r"><a class="btn s" href="ailien-entlastungsrechner.html?branche=brandschutz">Rechner</a><a class="btn p" href="/kontakt">Erstgespräch <span class="ar">→</span></a></div>
+    <button class="hd-burger" aria-label="Menü öffnen" aria-expanded="false"></button>
+  </div></div>
+</header>
+<div class="hd-sp" aria-hidden="true"></div>
+<div class="hd-mm" id="hdMenu">
+  <ol>
+    <li><button class="hd-t">Leistungen<i class="pl"></i></button><div class="hd-s"><div><a href="/leistungen/prozess-automation">Prozess-Automationen</a><a href="/leistungen/wissenssysteme">KI-Wissenssysteme</a><a href="/leistungen/voice">Voice &amp; Kommunikation</a><a href="/leistungen/beratung">KI-Strategie &amp; Beratung</a><a href="/leistungen">Alle Leistungen →</a></div></div></li>
+    <li><button class="hd-t">Branchen<i class="pl"></i></button><div class="hd-s"><div><a href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a href="ailien-branchen-bad-kueche.html">Bad- &amp; Küchenstudios</a><a href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a href="ailien-branchen-gebaeudereinigung.html">Gebäudereinigung</a><a href="ailien-branchen-maschinenbau.html">Maschinen- &amp; Anlagenbau</a><a href="ailien-branchen-cnc.html">CNC-Betriebe</a><a href="ailien-branchen-dguv-v3.html">Elektroprüfung DGUV V3</a><a href="ailien-branchen-brandschutz.html" aria-current="page">Brandschutz</a><a href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a href="ailien-branchen-immobilienmakler.html">Immobilienmakler</a><a href="ailien-branchen-architekten.html">Architekten</a><a href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a><a href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a href="ailien-branchen-foerdermittelberatung.html">Fördermittelberatung</a><a href="ailien-branchen-bestatter.html">Bestatter</a></div></div></li>
+    <li><a class="hd-t" href="ailien-praxisbeispiele.html">Praxisbeispiele</a></li>
+    <li><a class="hd-t" href="ailien-ueber-uns.html">Über uns</a></li>
+    <li><a class="hd-t" href="/wissen">Wissen</a></li>
+  </ol>
+  <div class="hd-mf"><a class="btn p" href="/kontakt">Erstgespräch vereinbaren <span class="ar">→</span></a><a class="btn s" href="ailien-entlastungsrechner.html?branche=brandschutz">Entlastungs-Rechner</a><small>DSGVO-konform · Server in der EU</small></div>
+</div>
+<script>
+(function(){
+  var h=document.getElementById('hd'), last=scrollY, root=document.documentElement, sp=document.querySelector('.hd-sp');
+  function fit(){if(!h.classList.contains('sc'))sp.style.height=h.offsetHeight+'px'}
+  fit();addEventListener('resize',fit);if(document.fonts)document.fonts.ready.then(fit);
+  var dds=[].slice.call(h.querySelectorAll('.hd-dd'));
+  function closeAll(ex){dds.forEach(function(d){if(d!==ex){d.classList.remove('on');d.querySelector('.hd-ni').setAttribute('aria-expanded','false')}})}
+  dds.forEach(function(d){
+    var t,b=d.querySelector('.hd-ni');
+    function open(){clearTimeout(t);closeAll(d);d.classList.add('on');b.setAttribute('aria-expanded','true')}
+    d.addEventListener('mouseenter',open);
+    d.addEventListener('mouseleave',function(){t=setTimeout(function(){d.classList.remove('on');b.setAttribute('aria-expanded','false')},140)});
+    b.addEventListener('click',function(){d.classList.contains('on')?closeAll():open()});
+  });
+  document.addEventListener('click',function(e){if(!h.contains(e.target))closeAll()});
+  var menu=document.getElementById('hdMenu'), burger=h.querySelector('.hd-burger');
+  function setMenu(o){root.classList.toggle('hd-open',o);document.body.classList.toggle('hd-lock',o);burger.setAttribute('aria-expanded',o?'true':'false');burger.setAttribute('aria-label',o?'Menü schließen':'Menü öffnen');if(o)h.classList.remove('hide')}
+  burger.addEventListener('click',function(){setMenu(!root.classList.contains('hd-open'))});
+  menu.querySelectorAll('button.hd-t').forEach(function(b){b.addEventListener('click',function(){b.parentNode.classList.toggle('ex')})});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeAll();setMenu(false)}});
+  var raf=0;
+  addEventListener('scroll',function(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;
+    var y=scrollY;
+    if(y>48)h.classList.add('sc');else if(y<8)h.classList.remove('sc');
+    if(!root.classList.contains('hd-open')){
+      if(y>240&&y>last+6){h.classList.add('hide');closeAll()}
+      else if(y<last-6||y<240)h.classList.remove('hide');
+    }
+    last=y;
+  })},{passive:true});
+})();
+</script>
+<style>
+  /* ================= Branche: Brandschutz (Präfix bs-) ================= */
+  .bs-w{max-width:1240px;margin:0 auto;padding-left:32px;padding-right:32px}
+  .bs-hand{font-family:"Caveat","Caveat Medium",cursive;font-weight:500}
+  .bs-h2{font-weight:500;font-size:clamp(28px,3.5vw,48px);line-height:1.06;letter-spacing:-.04em;margin:0 0 18px}
+  .bs-h2 span{display:block}
+  .bs-h2 em,.bs-hero h1 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--accent)}
+  .bs-sub{font-size:18px;line-height:28px;color:var(--muted);max-width:540px;margin:0}
+  .bs-rv{opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .bs-rv.in{opacity:1;transform:none}
+  .bs-red{--r:#D9534F}
+
+  /* ---------- Hero ---------- */
+  .bs-hero{position:relative;padding:40px 0 112px;background:linear-gradient(180deg,var(--paper) 0,var(--paper) 62%,#ECE9E2 62%,#ECE9E2 100%)}
+  .bs-top{display:grid;grid-template-columns:1.25fr 1fr;gap:56px;align-items:end;margin-bottom:56px}
+  .bs-top>*{min-width:0}
+  .bs-top>div:first-child{container-type:inline-size}
+  .bs-crumb{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted);margin:0 0 40px}
+  .bs-crumb a{color:inherit;text-decoration:none}.bs-crumb a:hover{color:var(--ink)}
+  .bs-crumb span{opacity:.5}
+  .bs-hero h1{font-weight:500;font-size:min(64px,calc(100cqi / 10.6));line-height:1.03;letter-spacing:-.045em;margin:0}
+  .bs-hero h1 span{display:block;white-space:nowrap}
+  .bs-lead{font-size:18px;line-height:29px;color:var(--muted);margin:0 0 28px}
+  .bs-lead b{color:var(--ink);font-weight:500}
+  .bs-ctas{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px}
+  .bs-link{font-size:15px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:3px}
+  .bs-link:hover{border-color:var(--ink)}
+
+  .bs-band{position:relative;background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px 26px 20px;box-shadow:0 30px 70px -40px rgba(14,16,19,.35)}
+  .bs-bh{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:16px;flex-wrap:wrap}
+  .bs-bh b{font-weight:500;font-size:16px;letter-spacing:-.01em}
+  .bs-bh small{display:block;font-size:12.5px;color:var(--muted);margin-top:3px}
+  .bs-stats{display:flex;gap:22px}
+  .bs-stats div{text-align:right}
+  .bs-stats small{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 2px}
+  .bs-stats b{font-size:24px;font-weight:500;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .bs-stats .g b{color:var(--accent)}
+  .bs-grid{position:relative;display:grid;grid-template-columns:170px repeat(12,minmax(0,1fr))}
+  .bs-mh{font-size:11.5px;color:var(--muted);padding:0 0 8px 6px;border-left:1px solid var(--line)}
+  .bs-mh:first-child{border-left:0;padding-left:0}
+  .bs-mh.y{color:var(--ink);font-weight:500}
+  .bs-rl{display:flex;flex-direction:column;justify-content:center;height:52px;border-top:1px solid var(--line);padding-right:10px}
+  .bs-rl b{font-weight:500;font-size:14px}
+  .bs-rl small{font-size:11.5px;color:var(--muted)}
+  .bs-row{grid-column:2/-1;position:relative;height:52px;border-top:1px solid var(--line);background:repeating-linear-gradient(90deg,transparent 0 calc(100%/12 - 1px),var(--line) calc(100%/12 - 1px) calc(100%/12))}
+  .bs-dot{position:absolute;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;border:1.5px solid #B9B5AC;background:#fff;transition:background .3s,border-color .3s,transform .3s}
+  .bs-dot.on{background:var(--accent);border-color:var(--accent)}
+  .bs-dot.hot{box-shadow:0 0 0 6px rgba(15,122,85,.15);transform:scale(1.25)}
+  .bs-sweep{position:absolute;top:-4px;bottom:0;width:2px;margin-left:-1px;background:var(--ink);left:0;opacity:0;pointer-events:none}
+  .bs-sweep::before{content:"heute";position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--ink);background:#fff;padding:0 4px}
+  .bs-sweep.run{opacity:1}
+  .bs-legend{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:16px;font-size:12px;color:var(--muted)}
+  .bs-legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px;border:1.5px solid #B9B5AC;background:#fff}
+  .bs-legend i.on{background:var(--accent);border-color:var(--accent)}
+  .bs-mail{position:absolute;width:330px;background:var(--night);color:var(--on-night);border-radius:16px;padding:16px 18px 14px;box-shadow:0 30px 60px -20px rgba(14,16,19,.6);opacity:0;transform:translate(0,14px) scale(.96);transform-origin:0 0;transition:opacity .45s,transform .6s cubic-bezier(.2,.7,.2,1);z-index:3;pointer-events:none}
+  .bs-mail.on{opacity:1;transform:none}
+  .bs-mail .mh{display:flex;justify-content:space-between;font-size:11px;color:var(--on-night-muted);margin-bottom:10px}
+  .bs-mail .mh b{color:var(--mint);font-weight:500}
+  .bs-mail .to{font-size:12px;color:var(--on-night-muted);margin:0 0 2px}
+  .bs-mail .sj{font-size:14px;font-weight:500;margin:0 0 8px}
+  .bs-mail p{font-size:13px;line-height:19px;color:#D5D7DA;margin:0}
+  .bs-mail .tour{display:flex;align-items:center;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--night-3);font-size:12px;color:var(--on-night-muted)}
+  .bs-mail .tour b{color:var(--on-night);font-weight:500}
+  .bs-mail .tour::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--mint)}
+  .bs-mail-ln{position:absolute;pointer-events:none;z-index:2;overflow:visible}
+  .bs-mail-ln path{fill:none;stroke:var(--ink);stroke-width:1.2;stroke-dasharray:3 4;opacity:0;transition:opacity .4s}
+  .bs-mail-ln.on path{opacity:.6}
+  .bs-cap{margin:14px 0 0;font-size:12px;color:var(--muted);text-align:right}
+
+  /* ---------- Ablauf einer Frist ---------- */
+  .bs-flow{padding:120px 0 112px;background:#ECE9E2}
+  .bs-flow .head{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:end;margin-bottom:64px}
+  .bs-ruler{position:relative;padding-top:8px}
+  .bs-track{position:relative;height:2px;background:#D2CEC4}
+  .bs-track i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent)}
+  .bs-ticks{position:absolute;left:0;right:0;top:0;height:30px;display:flex;justify-content:space-between}
+  .bs-ticks span{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;width:0;display:flex;justify-content:center;white-space:nowrap}
+  .bs-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:0}
+  .bs-step{position:relative;padding-top:30px;opacity:.35;transition:opacity .5s}
+  .bs-step.on{opacity:1}
+  .bs-step::before{content:"";position:absolute;top:-8px;left:0;width:14px;height:14px;border-radius:50%;background:#ECE9E2;border:2px solid #B9B5AC;transition:all .4s}
+  .bs-step.on::before{background:var(--accent);border-color:var(--accent)}
+  .bs-step small{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;font-variant-numeric:tabular-nums}
+  .bs-step b{display:block;font-weight:500;font-size:19px;letter-spacing:-.02em;margin-bottom:6px}
+  .bs-step p{margin:0;font-size:15px;line-height:23px;color:var(--muted)}
+  .bs-flow .note{margin-top:44px;font-size:26px;line-height:1.1;color:var(--accent);transform:rotate(-1.5deg);display:inline-block}
+
+  /* ---------- Sprache vor Ort ---------- */
+  .bs-voice{background:var(--night);color:var(--on-night);padding:128px 0 120px}
+  .bs-voice .eyebrow{color:var(--mint)}.bs-voice .eyebrow::before{background:var(--mint)}
+  .bs-voice .bs-h2 em{color:var(--mint)}
+  .bs-voice .bs-sub{color:var(--on-night-muted)}
+  .bs-vg{display:grid;grid-template-columns:1fr 1.1fr;gap:48px;margin-top:56px;align-items:start}
+  .bs-vg>*{min-width:0}
+  .bs-tr{position:relative;padding-left:28px}
+  .bs-tr::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:1px;background:var(--night-3)}
+  .bs-tl{position:relative;padding:0 0 22px;opacity:.3;transition:opacity .4s}
+  .bs-tl.on{opacity:1}
+  .bs-tl::before{content:"";position:absolute;left:-26px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--night);border:1.5px solid var(--on-night-muted);transition:all .3s}
+  .bs-tl.on::before{background:var(--mint);border-color:var(--mint)}
+  .bs-tl time{display:block;font-size:12px;color:var(--on-night-muted);margin-bottom:4px;font-variant-numeric:tabular-nums}
+  .bs-tl q{display:block;font-size:17px;line-height:26px;color:var(--on-night);quotes:"„" "“"}
+  .bs-rep{background:var(--paper);color:var(--ink);border-radius:8px;padding:28px 28px 20px;box-shadow:0 40px 80px -40px rgba(0,0,0,.8);position:sticky;top:110px}
+  .bs-rep header{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding-bottom:14px;border-bottom:1px solid var(--ink)}
+  .bs-rep header b{display:block;font-weight:500;font-size:18px;letter-spacing:-.02em}
+  .bs-rep header small{display:block;font-size:12.5px;color:var(--muted);margin-top:4px}
+  .bs-rep header span{flex:none;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);background:rgba(15,122,85,.1);padding:4px 8px;border-radius:999px}
+  .bs-it{display:grid;grid-template-columns:1fr auto;gap:4px 14px;padding:13px 0;border-bottom:1px dashed #D5D1C7;opacity:0;transform:translateY(6px);transition:opacity .4s,transform .4s}
+  .bs-it.on{opacity:1;transform:none}
+  .bs-it .loc{grid-column:1/-1;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .bs-it b{font-weight:500;font-size:15px}
+  .bs-it p{grid-column:1;margin:0;font-size:13.5px;line-height:20px;color:var(--muted)}
+  .bs-st{grid-column:2;grid-row:2/4;align-self:center;font-size:12px;font-weight:500;padding:5px 10px;border-radius:999px;white-space:nowrap}
+  .bs-st.ok{background:rgba(15,122,85,.1);color:var(--accent)}
+  .bs-st.m{background:#FBE3E2;color:#B5302C}
+  .bs-rep footer{display:flex;justify-content:space-between;gap:12px;margin-top:14px;font-size:12px;color:var(--muted)}
+
+  /* ---------- Signatur: Tourenkarte ---------- */
+  .bs-tour{padding:120px 0;background:#fff;border-bottom:1px solid var(--line)}
+  .bs-tour .head{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:end;margin-bottom:48px}
+  .bs-tg{display:grid;grid-template-columns:360px 1fr;gap:28px;align-items:stretch}
+  .bs-tg>*{min-width:0}
+  .bs-days{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:4px;background:var(--paper);border-radius:999px;margin-bottom:22px}
+  .bs-days button{font:500 14px/20px var(--sans);padding:10px 0;border:0;border-radius:999px;background:none;color:var(--muted);cursor:pointer;transition:all .2s}
+  .bs-days button:hover{color:var(--ink)}
+  .bs-days button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+  .bs-days button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .bs-sum{display:grid;grid-template-columns:.75fr 1fr 1.45fr;border-top:1px solid var(--ink);border-bottom:1px solid var(--line);margin-bottom:6px}
+  .bs-sum div{padding:12px 0}
+  .bs-sum div+div{padding-left:14px;border-left:1px solid var(--line)}
+  .bs-sum small{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .bs-sum b{white-space:nowrap;font-size:21px;font-weight:500;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .bs-stops{list-style:none;margin:0;padding:0}
+  .bs-stops li{display:grid;grid-template-columns:26px 48px minmax(0,1fr);gap:8px;align-items:start;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px;line-height:20px;animation:bsIn .4s both}
+  .bs-stops .n{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:600;color:#fff;margin-top:-1px}
+  .bs-stops time{color:var(--muted);font-variant-numeric:tabular-nums}
+  .bs-stops small{display:block;color:var(--muted);font-size:12.5px;line-height:18px}
+  .bs-stops em{font-style:normal;font-size:12px}
+  @keyframes bsIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .bs-map{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:20px;overflow:hidden;min-height:440px}
+  .bs-map svg{display:block;width:100%;height:auto}
+  .bs-map .rd{fill:none;stroke:#D6D2C8;stroke-width:6;stroke-linecap:round}
+  .bs-map .rd2{fill:none;stroke:#E2DED5;stroke-width:3;stroke-linecap:round}
+  .bs-map .rv2{fill:none;stroke:#D9E6E0;stroke-width:16;stroke-linecap:round}
+  .bs-map .blk{fill:#EAE7E0}
+  .bs-map .route{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+  .bs-map .o{transition:r .3s,opacity .3s}
+  .bs-map .lbl{font:600 10px var(--sans);fill:#fff;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+  .bs-map .dep{fill:var(--ink)}
+  .bs-map .deplbl{font:500 11px var(--sans);fill:var(--ink)}
+  .bs-map .area{font:400 11px var(--sans);fill:#A8A49B;letter-spacing:.08em;text-transform:uppercase}
+  .bs-key{position:absolute;left:14px;bottom:14px;display:flex;flex-wrap:wrap;gap:6px 14px;background:rgba(255,255,255,.88);border-radius:12px;padding:9px 12px;font-size:12px;color:var(--muted)}
+  .bs-key i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:0}
+  .bs-tnote{margin:16px 0 0;font-size:12px;color:var(--muted)}
+
+  /* ---------- Mängel nachverkaufen ---------- */
+  .bs-def{padding:120px 0 112px}
+  .bs-chain{display:grid;grid-template-columns:1fr 40px 1fr 40px 1fr;align-items:stretch;margin-top:52px}
+  .bs-chain>*{min-width:0}
+  .bs-tk{position:relative;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 22px 20px;opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s cubic-bezier(.2,.7,.2,1)}
+  .bs-tk.on{opacity:1;transform:none}
+  .bs-tk::after{content:"";position:absolute;left:18px;right:18px;top:58px;border-top:1.5px dashed var(--line)}
+  .bs-tk small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 30px}
+  .bs-tk b{display:block;font-weight:500;font-size:17px;letter-spacing:-.01em;margin-bottom:6px;line-height:1.3}
+  .bs-tk p{margin:0;font-size:14.5px;line-height:22px;color:var(--muted)}
+  .bs-tk .tag{display:inline-block;margin-top:14px;font-size:12px;padding:5px 10px;border-radius:999px}
+  .bs-tk .tag.m{background:#FBE3E2;color:#B5302C}
+  .bs-tk .tag.e{background:rgba(15,122,85,.1);color:var(--accent)}
+  .bs-tk .tag.t{background:var(--night);color:var(--mint)}
+  .bs-tk.dk{background:var(--night);color:var(--on-night);border-color:var(--night)}
+  .bs-tk.dk small{color:var(--on-night-muted)}.bs-tk.dk p{color:var(--on-night-muted)}
+  .bs-tk.dk::after{border-color:var(--night-3)}
+  .bs-ch-a{display:grid;place-items:center;color:var(--ink)}
+  .bs-ch-a svg{width:26px;height:14px}
+  .bs-def .note{margin:32px 0 0;font-size:24px;color:var(--accent);transform:rotate(-1.5deg);display:inline-block}
+
+  /* ---------- FAQ ---------- */
+  .bs-faq{padding:0 0 112px}
+  .bs-faq .bs-w{display:grid;grid-template-columns:1fr 1.45fr;gap:72px}
+  .bs-q{border-top:1px solid var(--ink)}
+  .bs-q details{border-bottom:1px solid var(--line)}
+  .bs-q summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:21px 0;font-size:18px;letter-spacing:-.01em}
+  .bs-q summary::-webkit-details-marker{display:none}
+  .bs-q summary::after{content:"+";flex:none;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:17px;transition:transform .3s,background .2s,color .2s}
+  .bs-q details[open] summary::after{transform:rotate(45deg);background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .bs-q p{margin:0 0 24px;font-size:16px;line-height:26px;color:var(--muted);max-width:640px}
+
+  /* ---------- Weitere Branchen ---------- */
+  .bs-more{padding:0 0 120px}
+  .bs-more h2{font-size:22px;font-weight:500;letter-spacing:-.02em;margin:0 0 20px}
+  .bs-mo{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff}
+  .bs-mo a{position:relative;display:block;padding:24px 24px 26px;text-decoration:none;color:var(--ink);transition:background .2s}
+  .bs-mo a+a{border-left:1px solid var(--line)}
+  .bs-mo a:hover{background:var(--paper)}
+  .bs-mo small{display:block;font-size:12px;color:var(--muted);margin-bottom:28px}
+  .bs-mo b{display:block;font-weight:500;font-size:20px;letter-spacing:-.02em;margin-bottom:6px}
+  .bs-mo span{font-size:14px;color:var(--muted);line-height:21px}
+  .bs-mo i{position:absolute;right:22px;top:20px;font-style:normal;font-size:18px;transition:transform .2s}
+  .bs-mo a:hover i{transform:translateX(3px)}
+
+  @media (max-width:1100px){
+    .bs-top{grid-template-columns:1fr;gap:28px}
+    .bs-top>div:last-child{max-width:600px}
+    .bs-tg{grid-template-columns:300px 1fr}
+  }
+  @media (max-width:980px){
+    .bs-grid{grid-template-columns:130px repeat(12,minmax(0,1fr))}
+    .bs-flow .head,.bs-tour .head{grid-template-columns:1fr;gap:16px}
+    .bs-vg{grid-template-columns:1fr;gap:40px}
+    .bs-rep{position:relative;top:auto}
+    .bs-tg{grid-template-columns:1fr}
+    .bs-tg>div:first-child{display:contents}
+    .bs-days{order:1;margin-bottom:0}.bs-map{order:2;min-height:0}.bs-sum{order:3}.bs-stops{order:4;margin-top:-28px}
+    .bs-tg{gap:16px}
+    .bs-chain{grid-template-columns:1fr;gap:0}
+    .bs-ch-a{height:40px}.bs-ch-a svg{transform:rotate(90deg)}
+    .bs-faq .bs-w{grid-template-columns:1fr;gap:28px}
+    .bs-mo{grid-template-columns:1fr}
+    .bs-mo a+a{border-left:0;border-top:1px solid var(--line)}
+    .bs-mo small{margin-bottom:12px}
+  }
+  @media (max-width:760px){
+    .bs-steps{grid-template-columns:1fr 1fr;row-gap:36px}
+    .bs-ticks span:nth-child(2),.bs-ticks span:nth-child(3){color:transparent}
+    .bs-mh{font-size:0;padding-left:0;text-align:center}
+    .bs-mh::first-letter{font-size:11px}
+    .bs-mh:first-child{font-size:11px}
+  }
+  @media (max-width:560px){
+    .bs-w{padding-left:16px;padding-right:16px}
+    .bs-hero{padding-bottom:88px;background:var(--paper)}
+    .bs-crumb{margin-bottom:28px}
+    .bs-lead{font-size:17px;line-height:27px}
+    .bs-top{margin-bottom:40px}
+    .bs-band{padding:16px 12px 14px;border-radius:18px;margin:0 -4px}
+    .bs-bh{margin-bottom:14px}
+    .bs-stats{width:100%;justify-content:flex-start;gap:18px}
+    .bs-stats div{text-align:left}
+    .bs-stats b{font-size:20px}
+    .bs-grid{grid-template-columns:repeat(12,minmax(0,1fr))}
+    .bs-mh:first-child{display:none}
+    .bs-rl{grid-column:1/-1;height:auto;padding:10px 0 2px;flex-direction:row;align-items:baseline;justify-content:space-between}
+    .bs-rl b{font-size:13px}
+    .bs-row{grid-column:1/-1;height:34px;border-top:0}
+    .bs-dot{width:11px;height:11px;margin:-5.5px 0 0 -5.5px}
+    .bs-mail,.bs-mail-ln{position:relative;left:auto!important;top:auto!important}
+    .bs-mail{width:auto;margin:14px 0 0;transform:translateY(10px)}
+    .bs-mail-ln{display:none}
+    .bs-cap{text-align:left}
+    .bs-flow,.bs-voice,.bs-tour,.bs-def{padding:88px 0}
+    .bs-steps{grid-template-columns:1fr;row-gap:28px}
+    .bs-ruler{display:flex;gap:18px;padding-top:0}
+    .bs-ruler .bs-track{width:2px;height:auto;flex:none;margin-left:6px}
+    .bs-ruler .bs-track i{width:100%;height:0}
+    .bs-ticks{display:none}
+    .bs-step{padding-top:0;padding-left:8px}
+    .bs-step::before{left:-33px;top:2px}
+    .bs-flow .note{font-size:22px}
+    .bs-tl q{font-size:16px;line-height:24px}
+    .bs-rep{padding:20px 16px 16px}
+    .bs-days button{font-size:13px;padding:9px 0}
+    .bs-sum b{font-size:19px}
+    .bs-key{position:static;border-radius:0;background:#fff;border-top:1px solid var(--line)}
+    .bs-faq{padding-bottom:88px}
+    .bs-q summary{font-size:16.5px}
+    .bs-more{padding-bottom:88px}
+  }
+  @media (prefers-reduced-motion:reduce){.bs-rv{opacity:1;transform:none;transition:none}.bs-stops li{animation:none}}
+</style>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="bs-hero" aria-labelledby="bs-h">
+  <div class="bs-w">
+    <div class="bs-top">
+      <div>
+        <nav class="bs-crumb" aria-label="Brotkrumen"><a href="ailien-startseite.html">Start</a><span>/</span><a href="#">Branchen</a><span>/</span>Brandschutz</nav>
+        <p class="eyebrow">KI für Brandschutz-Dienstleister</p>
+        <h1 id="bs-h"><span>Keine Frist <em>verpasst.</em></span><span>Kein Bericht am Abend.</span></h1>
+      </div>
+      <div>
+        <p class="bs-lead">Feuerlöscher, Wandhydranten, RWA, Feuerschutztüren – bei Dutzenden Kunden. <b>Die KI behält jede Prüffrist im Blick</b>, erinnert Ihre Kunden mit Terminvorschlag und legt den Termin in die passende Tour. Den Bericht sprechen Sie vor Ort ein.</p>
+        <div class="bs-ctas">
+          <a class="btn p" href="/kontakt">Kurz telefonieren <span aria-hidden="true">→</span></a>
+          <a class="bs-link" href="#bs-touren">Tourenplanung ansehen ↓</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="bs-band" id="bsBand" aria-label="Beispiel: Fristenband über zwölf Monate, Fristen werden eingeplant, eine Erinnerung an den Kunden wird vorbereitet">
+      <div class="bs-bh">
+        <div><b>Fristenband · alle Kunden</b><small>November 2026 bis Oktober 2027 · jeder Punkt ist ein Objekt</small></div>
+        <div class="bs-stats"><div><small>Fristen</small><b id="bsF">0</b></div><div class="g"><small>eingeplant</small><b id="bsE">0</b></div><div><small>offen</small><b id="bsO">0</b></div></div>
+      </div>
+      <div class="bs-grid" id="bsGrid"></div>
+      <div class="bs-legend"><span><i></i>Frist erkannt</span><span><i class="on"></i>Kunde erinnert, Termin in Tour</span><span>Intervalle als Beispiel – maßgeblich sind Norm, Hersteller und Ihr Wartungsvertrag</span></div>
+      <svg class="bs-mail-ln" id="bsLn" aria-hidden="true"><path d=""/></svg>
+      <div class="bs-mail" id="bsMail">
+        <div class="mh"><span>Erinnerung · Entwurf</span><b>an Kunde</b></div>
+        <p class="to">An: Kita Sonnenblume, Frau Albers</p>
+        <p class="sj">Prüfung Ihrer Feuerlöscher im März</p>
+        <p>Guten Tag Frau Albers, die Prüfung Ihrer 14 Feuerlöscher steht im März an. Wir sind am Dienstag, 9. März, ohnehin in Ihrer Nähe – passt Ihnen 8:30 Uhr?</p>
+        <div class="tour">Passt in <b>Tour Nord · Di 09.03.</b></div>
+      </div>
+    </div>
+    <p class="bs-cap">Beispieldaten zur Veranschaulichung</p>
+  </div>
+</section>
+
+<!-- ============ ABLAUF EINER FRIST ============ -->
+<section class="bs-flow" aria-labelledby="bs-fl-h">
+  <div class="bs-w">
+    <div class="head bs-rv">
+      <div><p class="eyebrow">Fristen-Radar</p><h2 class="bs-h2" id="bs-fl-h"><span>Vier Schritte.</span><span>Keine Frist <em>vergessen.</em></span></h2></div>
+      <p class="bs-sub">Heute stehen Fristen in Wartungsverträgen, Excel-Listen und Köpfen. Die KI liest sie zusammen und arbeitet sie ab – Kunde für Kunde, Objekt für Objekt.</p>
+    </div>
+    <div class="bs-ruler" id="bsRuler">
+      <div class="bs-track"><i id="bsTrack"></i></div>
+      <div class="bs-steps">
+        <div class="bs-step"><small>− 90 Tage</small><b>Frist erkannt</b><p>Aus Wartungsvertrag, letztem Prüfbericht oder Ihrer Liste. Neue Objekte werden automatisch aufgenommen.</p></div>
+        <div class="bs-step"><small>− 60 Tage</small><b>Kunde erinnert</b><p>Freundliche Mail mit konkretem Terminvorschlag – passend zu Ihrer Tour in der Gegend.</p></div>
+        <div class="bs-step"><small>− 30 Tage</small><b>Nachgefasst</b><p>Keine Antwort? Die KI fragt nach oder ruft Ihnen den Kunden auf die Rückrufliste.</p></div>
+        <div class="bs-step"><small>Tag X</small><b>Geprüft, Bericht fertig</b><p>Sie prüfen vor Ort, sprechen ein – der Bericht geht am selben Tag raus.</p></div>
+      </div>
+    </div>
+    <p class="note bs-hand">Keine Frist hängt mehr an einem Zettel.</p>
+  </div>
+</section>
+
+<!-- ============ SPRACHE VOR ORT ============ -->
+<section class="bs-voice" aria-labelledby="bs-vo-h">
+  <div class="bs-w">
+    <div class="bs-rv">
+      <p class="eyebrow">Prüfprotokoll per Sprache</p>
+      <h2 class="bs-h2" id="bs-vo-h"><span>Im Flur gesprochen.</span><span>Als Bericht <em>verschickt.</em></span></h2>
+      <p class="bs-sub">Handy in die Brusttasche, Gerät für Gerät einsprechen. Die KI ordnet Standort, Gerät, Befund und Maßnahme zu – und schreibt daraus den Prüfbericht in Ihrem Layout.</p>
+    </div>
+    <div class="bs-vg" id="bsVoice">
+      <div class="bs-tr" id="bsTr">
+        <div class="bs-tl"><time>08:41</time><q>EG, Flur am Treppenhaus. Pulverlöscher sechs Kilo, ABC. Plombe intakt, Prüfplakette neu.</q></div>
+        <div class="bs-tl"><time>08:44</time><q>EG Küche. Fettbrandlöscher, sechs Liter. Halterung war locker – festgezogen.</q></div>
+        <div class="bs-tl"><time>08:52</time><q>Erstes OG, Büro zwölf. Schaumlöscher sechs Liter, Behälter außen korrodiert. Austausch empfehlen.</q></div>
+        <div class="bs-tl"><time>08:57</time><q>Erstes OG, Feuerschutztür zum Treppenhaus. Schließt nicht selbstständig, Türschließer nachstellen oder tauschen.</q></div>
+        <div class="bs-tl"><time>09:06</time><q>Keller, Serverraum. CO2-Löscher fünf Kilo. Alles in Ordnung.</q></div>
+      </div>
+      <div class="bs-rep" aria-live="polite">
+        <header><div><b>Prüfbericht · Kita Sonnenblume</b><small>Prüfung tragbarer Feuerlöscher und Feuerschutzabschlüsse · 09.03.2027</small></div><span>Entwurf</span></header>
+        <div class="bs-it"><span class="loc">EG · Flur Treppenhaus</span><b>Pulverlöscher PG 6, ABC</b><p>Plombe intakt, Prüfplakette erneuert</p><span class="bs-st ok">i. O.</span></div>
+        <div class="bs-it"><span class="loc">EG · Küche</span><b>Fettbrandlöscher 6 l</b><p>Halterung befestigt</p><span class="bs-st ok">i. O.</span></div>
+        <div class="bs-it"><span class="loc">1. OG · Büro 12</span><b>Schaumlöscher 6 l</b><p>Behälter außen korrodiert – Austausch empfohlen</p><span class="bs-st m">Mangel</span></div>
+        <div class="bs-it"><span class="loc">1. OG · Treppenhaus</span><b>Feuerschutztür</b><p>Schließt nicht selbsttätig – Türschließer nachstellen/tauschen</p><span class="bs-st m">Mangel</span></div>
+        <div class="bs-it"><span class="loc">KG · Serverraum</span><b>CO₂-Löscher K 5</b><p>ohne Befund</p><span class="bs-st ok">i. O.</span></div>
+        <footer><span>Prüfer: T. Brandt · Unterschrift durch Sie</span><span>Beispieldaten</span></footer>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SIGNATUR: TOURENKARTE ============ -->
+<section class="bs-tour" id="bs-touren" aria-labelledby="bs-to-h">
+  <div class="bs-w">
+    <div class="head bs-rv">
+      <div><p class="eyebrow">Tourenplanung</p><h2 class="bs-h2" id="bs-to-h"><span>Die Woche plant sich</span><span>nach <em>Fristen.</em></span></h2></div>
+      <p class="bs-sub">Erst kommt, was dringend ist. Dann, was auf dem Weg liegt. Wählen Sie einen Tag – die Route zeichnet sich, die Farben zeigen, wie eilig jede Prüfung ist.</p>
+    </div>
+    <div class="bs-tg bs-rv">
+      <div>
+        <div class="bs-days" id="bsDays" role="group" aria-label="Wochentag wählen"></div>
+        <div class="bs-sum"><div><small>Objekte</small><b id="bsS1">–</b></div><div><small>Strecke</small><b id="bsS2">–</b></div><div><small>Zeit</small><b id="bsS3">–</b></div></div>
+        <ol class="bs-stops" id="bsStops" aria-live="polite"></ol>
+      </div>
+      <div class="bs-map">
+        <svg viewBox="0 0 640 460" id="bsMap" role="img" aria-label="Abstrakte Karte mit Objekten und Tagesroute">
+          <rect class="blk" x="250" y="170" width="70" height="44" rx="6"/><rect class="blk" x="335" y="160" width="56" height="60" rx="6"/><rect class="blk" x="262" y="232" width="48" height="40" rx="6"/><rect class="blk" x="330" y="240" width="72" height="36" rx="6"/>
+          <path class="rv2" d="M-10 330 C 90 300, 160 360, 260 330 S 430 280, 520 330 S 610 380, 660 360"/>
+          <path class="rd" d="M320 -10 C 316 100, 330 160, 322 230 S 300 360, 316 470"/>
+          <path class="rd" d="M-10 220 C 120 214, 220 236, 322 226 S 520 200, 660 214"/>
+          <ellipse class="rd2" cx="322" cy="226" rx="150" ry="110"/>
+          <path class="rd2" d="M60 40 C 140 90, 220 120, 290 180"/><path class="rd2" d="M600 60 C 520 110, 430 150, 360 190"/>
+          <path class="rd2" d="M80 430 C 160 380, 230 320, 290 270"/><path class="rd2" d="M590 420 C 520 370, 440 320, 370 270"/>
+          <path class="rd2" d="M160 120 C 150 200, 170 300, 140 400"/><path class="rd2" d="M500 110 C 520 200, 490 300, 520 400"/>
+          <text class="area" x="300" y="34">Nord</text><text class="area" x="584" y="300">Ost</text><text class="area" x="560" y="446">Süd</text><text class="area" x="22" y="200">West</text>
+          <g id="bsBg"></g>
+          <path class="route" id="bsRoute" d=""/>
+          <g id="bsPts"></g>
+          <rect class="dep" x="313" y="217" width="18" height="18" rx="3"/><text class="deplbl" x="306" y="256" text-anchor="end">Ihr Betrieb</text>
+        </svg>
+        <div class="bs-key"><span><i style="background:#D9534F"></i>fällig in 14 Tagen</span><span><i style="background:#E8B04B"></i>in 30 Tagen</span><span><i style="background:var(--accent)"></i>vorgezogen, liegt auf dem Weg</span></div>
+      </div>
+    </div>
+    <p class="bs-tnote">Beispieldaten zur Veranschaulichung. Vorgezogene Prüfungen nur nach Absprache mit dem Kunden – das regeln Sie, die KI schlägt vor.</p>
+  </div>
+</section>
+
+<!-- ============ MÄNGEL ============ -->
+<section class="bs-def" aria-labelledby="bs-df-h">
+  <div class="bs-w">
+    <div class="bs-rv">
+      <p class="eyebrow">Mängel</p>
+      <h2 class="bs-h2" id="bs-df-h"><span>Mangel gefunden.</span><span>Angebot <em>gleich dabei.</em></span></h2>
+      <p class="bs-sub">Was im Bericht als Mangel steht, ist ein Auftrag, der auf Sie wartet. Die KI bereitet das Angebot vor und schlägt den Termin in der nächsten passenden Tour vor.</p>
+    </div>
+    <div class="bs-chain" id="bsChain">
+      <div class="bs-tk"><small>1 · Im Prüfbericht</small><b>Feuerschutztür 1. OG schließt nicht selbsttätig</b><p>Kita Sonnenblume · eingesprochen am 09.03. um 08:57</p><span class="tag m">Mangel</span></div>
+      <div class="bs-ch-a" aria-hidden="true"><svg viewBox="0 0 26 14"><path d="M1 7h22M17 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="bs-tk"><small>2 · Angebot vorbereitet</small><b>Türschließer tauschen und einstellen, inkl. Funktionsprüfung</b><p>Positionen und Preise aus Ihrer Kalkulation. Sie prüfen und geben frei.</p><span class="tag e">Entwurf</span></div>
+      <div class="bs-ch-a" aria-hidden="true"><svg viewBox="0 0 26 14"><path d="M1 7h22M17 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="bs-tk dk"><small>3 · In der Tour</small><b>Kunde hat zugesagt – Termin Do 18.03., Tour Nord</b><p>Ersatz-Schaumlöscher wird gleich mitgenommen.</p><span class="tag t">eingeplant</span></div>
+    </div>
+    <p class="note bs-hand">Mängel, die sonst nur im Bericht stehen bleiben.</p>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="bs-faq" aria-labelledby="bs-fq-h">
+  <div class="bs-w">
+    <div class="bs-rv"><p class="eyebrow">Häufige Fragen</p><h2 class="bs-h2" id="bs-fq-h"><span>Fragen aus dem</span><span><em>Brandschutz.</em></span></h2></div>
+    <div class="bs-q bs-rv">
+      <details open><summary>Wir haben schon eine Software für Wartungsverträge.</summary><p>Die bleibt. Wir binden die KI an Ihre bestehende Software an – wo es keine Schnittstelle gibt, über Export und Import. Viele Betriebe haben Fristen zusätzlich in Excel oder im Kalender; die führen wir zusammen.</p></details>
+      <details><summary>Funktioniert das Einsprechen auch im Keller ohne Netz?</summary><p>Die Aufnahme läuft auf dem Handy und wird verarbeitet, sobald wieder Netz da ist. Was nicht eindeutig verstanden wurde – etwa eine Raumnummer – wird als Rückfrage markiert, nicht geraten.</p></details>
+      <details><summary>Wer ist für die Prüfung verantwortlich?</summary><p>Immer Sie bzw. die prüfende sachkundige Person. Die KI schreibt den Bericht aus Ihren Angaben, bewertet aber nichts selbst. Sie lesen gegen und unterschreiben.</p></details>
+      <details><summary>Schreibt die KI unseren Kunden ohne Freigabe?</summary><p>Nur wenn Sie das wollen. Üblich ist: Erinnerungen gehen als Entwurf an Sie, oder Sie legen fest, welche Standard-Erinnerungen automatisch rausgehen dürfen.</p></details>
+      <details><summary>Wo liegen die Daten unserer Kunden?</summary><p>Auf Servern in der EU, nur für Ihren Betrieb verarbeitet. Sie bekommen einen Auftragsverarbeitungsvertrag, und jeder Schritt wird protokolliert.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WEITERE BRANCHEN ============ -->
+<section class="bs-more" aria-labelledby="bs-mo-h">
+  <div class="bs-w">
+    <h2 id="bs-mo-h">Weitere Branchen</h2>
+    <nav class="bs-mo">
+      <a href="ailien-branchen-dguv-v3.html"><small>Prüfdienstleister</small><b>Elektroprüfung DGUV V3</b><span>Messwerte, Geräteliste, Prüfbericht</span><i aria-hidden="true">→</i></a>
+      <a href="ailien-branchen-hausverwaltung.html"><small>Ihre Auftraggeber</small><b>Hausverwaltungen</b><span>Schadensmeldungen, Telefon, ETV-Protokolle</span><i aria-hidden="true">→</i></a>
+      <a href="ailien-branchen-gebaeudereinigung.html"><small>Objektdienste</small><b>Gebäudereinigung</b><span>Vertretung, Kalkulation, Leistungsnachweis</span><i aria-hidden="true">→</i></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function $(id){return document.getElementById(id)}
+  var clamp=function(v){return v<0?0:v>1?1:v};
+
+  /* Reveal */
+  var rv=[].slice.call(document.querySelectorAll('.bs-rv'));
+  if(reduce||!('IntersectionObserver' in window)) rv.forEach(function(e){e.classList.add('in')});
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.12});rv.forEach(function(e){io.observe(e)})}
+
+  /* ---- Hero: Fristenband ---- */
+  var MON=['Nov','Dez','Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt'];
+  var ROWS=[['Feuerlöscher','alle 2 Jahre',[.3,.9,1.6,2.2,3.1,4.45,4.9,6.2,7.4,8.1,9.6,10.7,11.4]],['Wandhydranten','jährlich',[.6,2.7,4.2,6.8,8.7,10.2]],['RWA','jährlich',[1.2,2.4,3.6,5.4,7.1,8.4,9.3,11.1]],['Feuerschutztüren','jährlich',[.4,1.9,3.3,4.7,5.8,7.7,9.1,10.4,11.6]],['Sicherheitsbeleuchtung','jährlich',[.9,2.9,5.1,6.5,8.9,10.9]]];
+  var grid=$('bsGrid'), dots=[], hot=null;
+  var h='<div class="bs-mh" aria-hidden="true"></div>'+MON.map(function(m,i){return '<div class="bs-mh'+(i===2?' y':'')+'" aria-hidden="true">'+(i===2?'Jan ’27':m)+'</div>'}).join('');
+  grid.innerHTML=h;
+  var sweep=document.createElement('div');
+  ROWS.forEach(function(r,ri){
+    var l=document.createElement('div');l.className='bs-rl';l.innerHTML='<b>'+r[0]+'</b><small>'+r[1]+'</small>';grid.appendChild(l);
+    var row=document.createElement('div');row.className='bs-row';grid.appendChild(row);
+    r[2].forEach(function(m){var d=document.createElement('i');d.className='bs-dot';d.style.left=(m/12*100)+'%';d.dataset.m=m;row.appendChild(d);dots.push(d);if(ri===0&&m===4.45)hot=d});
+    if(ri===0){sweep.className='bs-sweep';row.appendChild(sweep)}
+  });
+  var total=dots.length, F=$('bsF'),E=$('bsE'),O=$('bsO'), mail=$('bsMail'), ln=$('bsLn'), band=$('bsBand'), tm=[], raf=0;
+  function placeMail(){
+    var b=band.getBoundingClientRect(), d=hot.getBoundingClientRect();
+    if(innerWidth<=560){mail.style.left='';mail.style.top='';return}
+    var x=d.left-b.left+40, y=d.top-b.top+30;
+    if(x+330>b.width-12)x=b.width-342;
+    mail.style.left=x+'px';mail.style.top=y+'px';
+    var sx=d.left-b.left+7, sy=d.top-b.top+7;
+    ln.setAttribute('style','left:0;top:0;width:'+b.width+'px;height:'+b.height+'px');
+    ln.firstChild.setAttribute('d','M'+sx+' '+sy+' C '+(sx+10)+' '+(sy+20)+', '+(x-10)+' '+(y+10)+', '+x+' '+(y+24));
+  }
+  function setCount(e){F.textContent=total;E.textContent=e;O.textContent=total-e}
+  function play(){
+    tm.forEach(clearTimeout);tm=[];cancelAnimationFrame(raf);
+    dots.forEach(function(d){d.classList.remove('on','hot')});mail.classList.remove('on');ln.classList.remove('on');sweep.classList.remove('run');setCount(0);
+    placeMail();
+    if(reduce){dots.forEach(function(d){d.classList.add('on')});hot.classList.add('hot');setCount(total);mail.classList.add('on');ln.classList.add('on');return}
+    var t0=performance.now(),D=2400;sweep.classList.add('run');
+    (function step(t){var p=Math.min(1,(t-t0)/D), m=p*12, e=0;
+      sweep.style.left=(p*100)+'%';
+      dots.forEach(function(d){if(+d.dataset.m<=m){d.classList.add('on');e++}});setCount(e);
+      if(m>=4.45&&!hot.classList.contains('hot')){hot.classList.add('hot');mail.classList.add('on');ln.classList.add('on')}
+      if(p<1)raf=requestAnimationFrame(step);else sweep.classList.remove('run')})(t0);
+    tm.push(setTimeout(play,12000));
+  }
+  play();
+  addEventListener('resize',placeMail);
+
+  /* ---- Ablauf einer Frist (scrollgesteuert) ---- */
+  var ruler=$('bsRuler'), track=$('bsTrack'), steps=[].slice.call(ruler.querySelectorAll('.bs-step'));
+  function rulerTick(){
+    var r=ruler.getBoundingClientRect(), vh=innerHeight;
+    var p=reduce?1:clamp((vh*.85-r.top)/(vh*.5));
+    if(innerWidth<=560){track.style.height=(p*100)+'%';track.style.width=''}else{track.style.width=(p*100)+'%';track.style.height=''}
+    steps.forEach(function(s,i){s.classList.toggle('on',p>=i/4)});
+  }
+
+  /* ---- Sprache -> Bericht (scrollgesteuert) ---- */
+  var vEl=$('bsVoice'), tl=[].slice.call(document.querySelectorAll('.bs-tl')), its=[].slice.call(document.querySelectorAll('.bs-it'));
+  function voiceTick(){
+    var r=vEl.getBoundingClientRect(), vh=innerHeight;
+    var p=reduce?1:clamp((vh*.8-r.top)/(Math.max(r.height,400)*.75));
+    var n=Math.round(p*tl.length+.2);
+    tl.forEach(function(t,i){t.classList.toggle('on',i<n)});its.forEach(function(t,i){t.classList.toggle('on',i<n)});
+  }
+
+  /* ---- Mängel-Kette ---- */
+  var tks=[].slice.call(document.querySelectorAll('.bs-tk'));
+  if(reduce||!('IntersectionObserver' in window))tks.forEach(function(t){t.classList.add('on')});
+  else{var cio=new IntersectionObserver(function(es){if(es[0].isIntersecting){tks.forEach(function(t,i){setTimeout(function(){t.classList.add('on')},i*350)});cio.disconnect()}},{threshold:.3});cio.observe($('bsChain'))}
+
+  /* ---- Tourenkarte ---- */
+  var COL={r:'#D9534F',y:'#E8B04B',g:'#0F7A55'};
+  var DAYS=[
+    ['Mo','Nord',[[300,70,'Kita Sonnenblume','14 Feuerlöscher','r','in 6 Tagen'],[236,92,'Seniorenwohnen Lindenhof','RWA, 6 Feuerschutztüren','r','in 9 Tagen'],[182,138,'Autohaus am Ring','9 Feuerlöscher, 2 Wandhydranten','y','in 21 Tagen'],[372,100,'Bäckerei Krume','3 Feuerlöscher','g','in 2 Monaten'],[420,140,'Grundschule Nord','RWA, Sicherheitsbeleuchtung','y','in 26 Tagen']],'64 km','7:30–15:20'],
+    ['Di','Ost',[[430,186,'Praxis Dr. Ostermann','4 Feuerlöscher','y','in 18 Tagen'],[512,150,'Lagerhalle Weber','RWA, 12 Feuerlöscher','r','in 5 Tagen'],[588,196,'Hotel Am Park','8 Feuerschutztüren','r','in 11 Tagen'],[560,262,'Fitnessstudio Kraftwerk','6 Feuerlöscher','g','in 7 Wochen'],[468,250,'Bürohaus Ost','2 Wandhydranten, RWA','y','in 24 Tagen'],[600,120,'Spedition Fern','16 Feuerlöscher','g','in 2 Monaten']],'78 km','7:15–16:05'],
+    ['Mi','Süd',[[350,380,'Gemeindehalle Süd','RWA, 2 Wandhydranten','r','in 4 Tagen'],[270,400,'Schreinerei Holzmann','7 Feuerlöscher','y','in 19 Tagen'],[210,356,'Pflegedienst Sonnig','3 Feuerlöscher','g','in 6 Wochen'],[420,410,'Supermarkt Süd','Sicherheitsbeleuchtung, 5 Feuerlöscher','r','in 12 Tagen']],'52 km','7:45–13:30'],
+    ['Do','West',[[150,196,'Kanzlei Weststadt','4 Feuerlöscher','y','in 22 Tagen'],[80,250,'Metallbau Kern','11 Feuerlöscher, RWA','r','in 8 Tagen'],[60,150,'Tagungshotel Westend','9 Feuerschutztüren','r','in 13 Tagen'],[118,320,'Kindergarten Wiese','6 Feuerlöscher','y','in 27 Tagen'],[200,270,'Wohnanlage West','2 Wandhydranten','g','in 5 Wochen']],'71 km','7:30–15:45'],
+    ['Fr','Innenstadt',[[282,190,'Rathaus-Passage','RWA, 10 Feuerschutztüren','r','in 3 Tagen'],[360,180,'Buchhandlung Seite','2 Feuerlöscher','g','in 2 Monaten'],[380,262,'Restaurant Alte Post','Fettbrandlöscher, 3 Feuerlöscher','y','in 16 Tagen'],[288,270,'Arztpraxen am Markt','5 Feuerlöscher','y','in 29 Tagen']],'23 km','7:45–12:40']
+  ];
+  var BG=[[110,60],[200,40],[460,60],[540,80],[620,40],[30,100],[250,140],[410,220],[620,300],[490,360],[580,420],[40,380],[150,430],[230,310],[30,300],[540,330],[100,110],[440,300],[620,250],[180,240],[470,420],[330,140],[250,250]];
+  $('bsBg').innerHTML=BG.map(function(p){return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="4" fill="#C9C5BB"/>'}).join('');
+  var dayEl=$('bsDays'), pts=$('bsPts'), route=$('bsRoute'), stops=$('bsStops'), cur=0;
+  var DEP=[322,226];
+  DAYS.forEach(function(d,i){var b=document.createElement('button');b.type='button';b.textContent=d[0];b.setAttribute('aria-label',['Montag','Dienstag','Mittwoch','Donnerstag','Freitag'][i]+', Tour '+d[1]);b.addEventListener('click',function(){showDay(i)});dayEl.appendChild(b)});
+  function showDay(i){
+    cur=i;var d=DAYS[i];
+    [].forEach.call(dayEl.children,function(b,j){b.setAttribute('aria-pressed',i===j?'true':'false')});
+    var all='';DAYS.forEach(function(dd,j){if(j!==i)dd[2].forEach(function(s){all+='<circle cx="'+s[0]+'" cy="'+s[1]+'" r="5" fill="'+COL[s[4]]+'" opacity=".28"/>'})});
+    var cx=0,cy=0;d[2].forEach(function(s){cx+=s[0]/d[2].length;cy+=s[1]/d[2].length});
+    var S=d[2].slice().sort(function(a,b){return Math.atan2(a[1]-cy,a[0]-cx)-Math.atan2(b[1]-cy,b[0]-cx)});
+    var dist=function(s){return Math.hypot(s[0]-DEP[0],s[1]-DEP[1])},k0=0;S.forEach(function(s,k){if(dist(s)<dist(S[k0]))k0=k});
+    S=S.slice(k0).concat(S.slice(0,k0));var n=S.length;if(dist(S[n-1])>dist(S[1]))S=[S[0]].concat(S.slice(1).reverse());d[2]=S;
+    var mine=S.map(function(s,k){return '<circle cx="'+s[0]+'" cy="'+s[1]+'" r="11" fill="'+COL[s[4]]+'" stroke="#fff" stroke-width="2"/><text class="lbl" x="'+s[0]+'" y="'+s[1]+'">'+(k+1)+'</text>'}).join('');
+    pts.innerHTML=all+mine;
+    if(innerWidth<=560){var xs=S.map(function(s){return s[0]}).concat(DEP[0]),ys=S.map(function(s){return s[1]}).concat(DEP[1]);var x0=Math.min.apply(0,xs)-40,x1=Math.max.apply(0,xs)+40,y0=Math.min.apply(0,ys)-40,y1=Math.max.apply(0,ys)+40;var w=Math.max(x1-x0,(y1-y0)*1.25),hh=w/1.25;var cx=(x0+x1)/2,cy=(y0+y1)/2;$('bsMap').setAttribute('viewBox',(cx-w/2)+' '+(cy-hh/2)+' '+w+' '+hh)}else $('bsMap').setAttribute('viewBox','0 0 640 460');
+    var p='M'+DEP[0]+' '+DEP[1];d[2].forEach(function(s){p+=' L'+s[0]+' '+s[1]});p+=' L'+DEP[0]+' '+DEP[1];
+    route.setAttribute('d',p);
+    var L=route.getTotalLength();route.style.transition='none';route.style.strokeDasharray=L;route.style.strokeDashoffset=reduce?0:L;
+    route.getBoundingClientRect();
+    if(!reduce){route.style.transition='stroke-dashoffset 1.1s cubic-bezier(.4,.1,.2,1)';route.style.strokeDashoffset=0}
+    var t=['07:30','08:30','09:45','11:00','12:45','14:00'];if(i===1)t=['07:15','08:15','09:30','10:50','13:00','14:40'];if(i===2||i===4)t=['07:45','09:00','10:15','11:45'];
+    stops.innerHTML=d[2].map(function(s,k){return '<li style="animation-delay:'+(k*.07)+'s"><span class="n" style="background:'+COL[s[4]]+'">'+(k+1)+'</span><time>'+t[k]+'</time><span>'+s[2]+'<small>'+s[3]+' · <em style="color:'+(s[4]==='g'?'var(--accent)':s[4]==='r'?'#B5302C':'#9A6B10')+'">fällig '+s[5]+'</em></small></span></li>'}).join('');
+    $('bsS1').textContent=d[2].length;$('bsS2').textContent=d[3];$('bsS3').textContent=d[4];
+  }
+  showDay(0);
+
+  var r2=0;function on(){if(!r2)r2=requestAnimationFrame(function(){r2=0;rulerTick();voiceTick()})}
+  addEventListener('scroll',on,{passive:true});addEventListener('resize',on);rulerTick();voiceTick();
+})();
+</script>
+
+<style>
+  /* ---------- CTA + Footer ---------- */
+  .ct{background:var(--night);color:var(--on-night);position:relative;overflow:hidden}
+  .ct-in{max-width:1240px;margin:0 auto;padding:112px 32px 96px;position:relative}
+  .ct .eyebrow{color:var(--mint)}.ct .eyebrow::before{background:var(--mint)}
+
+  .ct-tl{position:relative;height:64px;margin:0 0 56px}
+  .ct-tl svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .ct-tl .base{stroke:var(--night-3);stroke-width:1;stroke-dasharray:3 5}
+  .ct-tl .ink{stroke:var(--on-night-muted);stroke-width:1.25}
+  .ct-tl ol{list-style:none;margin:0;padding:0;position:absolute;inset:0}
+  .ct-tl li{white-space:nowrap;position:absolute;top:22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;font-size:12px;letter-spacing:.06em;color:var(--on-night-muted);opacity:.25;transition:opacity .4s,color .4s}
+  .ct-tl li::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--night);border:1px solid currentColor;margin-top:-4px}
+  .ct-tl li.on{opacity:1}
+  .ct-tl li.now{color:var(--mint);font-weight:500}
+  .ct-tl li.now::before{width:13px;height:13px;margin-top:-6px;background:var(--mint);border-color:var(--mint);box-shadow:0 0 0 0 rgba(140,245,194,.5)}
+  .ct-tl li.now.on::before{animation:ctPulse 2.2s ease-out infinite}
+  @keyframes ctPulse{0%{box-shadow:0 0 0 0 rgba(140,245,194,.45)}100%{box-shadow:0 0 0 16px rgba(140,245,194,0)}}
+
+  .ct-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:72px;align-items:start}
+  .ct-grid>div:first-child{container-type:inline-size}
+  .ct h2 span{display:block;white-space:nowrap}
+  .ct h2{font-weight:500;font-size:min(64px,calc(100cqi / 10.6));line-height:1.02;letter-spacing:-.04em;margin:0 0 24px}
+  .ct h2 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--mint)}
+  .ct-lead{font-size:18px;line-height:28px;color:var(--on-night-muted);max-width:480px;margin:0 0 36px}
+  .ct-list{list-style:none;margin:0 0 40px;padding:0;display:grid;gap:14px;max-width:480px}
+  .ct-list li{display:grid;grid-template-columns:28px 1fr;gap:12px;font-size:15px;line-height:23px}
+  .ct-list li span{width:28px;height:28px;border-radius:50%;border:1px solid var(--night-3);display:grid;place-items:center;font-size:11px;color:var(--mint)}
+  .ct-list b{font-weight:500}
+  .ct-list small{display:block;color:var(--on-night-muted);font-size:14px}
+  .ct-person{display:flex;align-items:center;gap:14px;padding-top:28px;border-top:1px solid var(--night-3);max-width:480px}
+  .ct-ava{width:52px;height:52px;border-radius:50%;background:var(--night-3);display:grid;place-items:center;font-weight:500;font-size:16px;color:var(--mint);flex:none}
+  .ct-person p{margin:0;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-person b{display:block;color:var(--on-night);font-weight:500;font-size:15px}
+  .ct-person a{color:var(--mint);text-decoration:none}
+
+  .ct-form{background:var(--night-2);border:1px solid var(--night-3);border-radius:20px;padding:28px;position:relative}
+  .ct-form h3{margin:0 0 6px;font-size:20px;font-weight:500;letter-spacing:-.02em}
+  .ct-form>p{margin:0 0 22px;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:var(--night);border-radius:999px;margin:0 0 22px}
+  .ct-seg button{font:500 13px/18px var(--sans);color:var(--on-night-muted);background:none;border:0;border-radius:999px;padding:9px 10px;cursor:pointer}
+  .ct-seg button[aria-pressed="true"]{background:var(--on-night);color:var(--night)}
+  .ct-f{display:grid;gap:14px}
+  .ct-f label{display:grid;gap:6px;font-size:12px;letter-spacing:.04em;color:var(--on-night-muted)}
+  .ct-f input,.ct-f select,.ct-f textarea{font:400 15px/22px var(--sans);color:var(--on-night);background:var(--night);border:1px solid var(--night-3);border-radius:10px;padding:11px 13px;width:100%;transition:border-color .2s}
+  .ct-f textarea{resize:vertical;min-height:84px}
+  .ct-f input:focus,.ct-f select:focus,.ct-f textarea:focus{outline:none;border-color:var(--mint)}
+  .ct-f .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .ct-f .ok{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;line-height:19px;letter-spacing:0}
+  .ct-f .ok input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--mint);flex:none}
+  .ct-f .ok a{color:var(--on-night)}
+  .ct-f .btn{justify-content:center;width:100%;margin-top:4px;padding:15px 20px}
+  .ct-f [data-only="call"]{display:none}
+  .ct-form.call [data-only="call"]{display:grid}
+  .ct-form.call [data-only="mail"]{display:none}
+  .ct-done{display:none;text-align:center;padding:48px 8px}
+  .ct-done svg{width:56px;height:56px;margin:0 auto 18px;display:block}
+  .ct-done h3{margin-bottom:8px}
+  .ct-done p{margin:0;color:var(--on-night-muted);font-size:15px;line-height:23px}
+  .ct-form.sent .ct-f,.ct-form.sent .ct-seg,.ct-form.sent>h3,.ct-form.sent>p{display:none}
+  .ct-form.sent .ct-done{display:block}
+  .ct-done path{stroke-dasharray:1;stroke-dashoffset:1}
+  .ct-form.sent .ct-done path{animation:ctDraw .7s .15s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes ctDraw{to{stroke-dashoffset:0}}
+
+  .crv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .crv.in{opacity:1;transform:none}
+
+  /* Footer */
+  .ft{background:var(--night);color:var(--on-night);border-top:1px solid var(--night-3);overflow:hidden}
+  .ft-in{max-width:1240px;margin:0 auto;padding:64px 32px 0}
+  .ft-top{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px;padding-bottom:56px}
+  .ft-brand svg{height:30px;width:auto;display:block;margin-bottom:18px}
+  .ft-brand p{margin:0 0 20px;font-size:14px;line-height:22px;color:var(--on-night-muted);max-width:300px}
+  .ft-badges{display:flex;flex-wrap:wrap;gap:8px}
+  .ft-badges span{font-size:12px;color:var(--on-night-muted);border:1px solid var(--night-3);border-radius:999px;padding:5px 11px}
+  .ft h4{margin:0 0 16px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--on-night-muted)}
+  .ft ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .ft ul a{color:var(--on-night);text-decoration:none;font-size:15px;opacity:.86}
+  .ft ul a:hover{opacity:1;color:var(--mint)}
+  .ft-mark{position:relative;margin:0 -2px;line-height:0}
+  .ft-mark svg{width:100%;height:auto;display:block}
+  .ft-mark .o{fill:#15181C}
+  .ft-mark .f{fill:var(--night-3)}
+  .ft-bot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;padding:22px 0 28px;border-top:1px solid var(--night-3);font-size:13px;color:var(--on-night-muted)}
+  .ft-bot nav{display:flex;gap:20px}
+  .ft-bot a{color:inherit;text-decoration:none}.ft-bot a:hover{color:var(--on-night)}
+
+  @media (max-width:980px){
+    .ct-grid{grid-template-columns:1fr;gap:48px}
+    .ft-top{grid-template-columns:1fr 1fr}
+    .ft-brand{grid-column:1/-1}
+    .ft-top>div:last-child{grid-column:1/-1}
+  }
+  @media (max-width:640px){
+    .ct-in{padding:80px 16px 72px}
+    .ct-tl{margin-bottom:40px}
+    .ct-tl li{font-size:10.5px;letter-spacing:.02em}
+    .ct-tl li:nth-child(2),.ct-tl li:nth-child(4){display:none}
+    .ct-form{padding:22px 18px}
+    .ct-f .two{grid-template-columns:1fr}
+    .ft-in{padding:56px 16px 0}
+    .ft-top{gap:32px 20px}
+    .ft-bot{flex-direction:column}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .crv{opacity:1;transform:none;transition:none}
+    .ct-tl li.now.on::before{animation:none}
+  }
+</style>
+
+<section class="ct" id="kontakt">
+  <div class="ct-in">
+    <div class="ct-tl" aria-hidden="true">
+      <svg viewBox="0 0 1000 64" preserveAspectRatio="none"><line class="base" x1="0" y1="22" x2="1000" y2="22"/><line class="ink" x1="0" y1="22" x2="1000" y2="22" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+      <ol>
+        <li style="left:4%">1850</li><li style="left:24%">1920</li><li style="left:44%">1965</li><li style="left:64%">1995</li><li style="left:96%" class="now">Ihr Betrieb</li>
+      </ol>
+    </div>
+
+    <div class="ct-grid">
+      <div class="crv">
+        <p class="eyebrow">Erstgespräch</p>
+        <h2><span>Die nächste Epoche</span><span>beginnt in <em>Ihrem Betrieb.</em></span></h2>
+        <p class="ct-lead">In 30 Minuten wissen Sie, wo KI bei Ihnen Zeit spart – und wo nicht. Ohne Verkaufsgespräch, ohne Fachchinesisch.</p>
+        <ol class="ct-list">
+          <li><span>01</span><div><b>Sie erzählen, wo es hakt.</b><small>Per Video oder bei Ihnen vor Ort.</small></div></li>
+          <li><span>02</span><div><b>Wir zeigen, was möglich ist.</b><small>An Beispielen aus Ihrer Branche.</small></div></li>
+          <li><span>03</span><div><b>Sie entscheiden in Ruhe.</b><small>Auf Wunsch mit schriftlicher Einschätzung.</small></div></li>
+        </ol>
+        <div class="ct-person">
+          <div class="ct-ava" aria-hidden="true">NK</div>
+          <p><b>Nic Karban</b>Gründer · Ihr Ansprechpartner<br><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></p>
+        </div>
+      </div>
+
+      <div class="ct-form crv" id="ctForm">
+        <h3>Erstgespräch anfragen</h3>
+        <p>Wir melden uns innerhalb eines Werktags.</p>
+        <div class="ct-seg" role="group" aria-label="Kontaktweg">
+          <button type="button" aria-pressed="true" data-mode="mail">Termin per E-Mail</button>
+          <button type="button" aria-pressed="false" data-mode="call">Rückruf</button>
+        </div>
+        <!-- TODO: action auf echtes Formular-Backend / Buchungstool setzen -->
+        <form class="ct-f" action="#" method="post" novalidate>
+          <div class="two">
+            <label>Name<input name="name" autocomplete="name" required></label>
+            <label>Betrieb<input name="firma" autocomplete="organization"></label>
+          </div>
+          <label data-only="mail">E-Mail<input type="email" name="email" autocomplete="email"></label>
+          <div class="two" data-only="call">
+            <label>Telefon<input type="tel" name="tel" autocomplete="tel"></label>
+            <label>Am besten erreichbar<select name="zeit"><option>Vormittags</option><option>Mittags</option><option>Nachmittags</option></select></label>
+          </div>
+          <label>Wo kostet Sie Routine am meisten Zeit? <span style="opacity:.6">(optional)</span><textarea name="nachricht" placeholder="z. B. Angebote schreiben, Telefon, Rechnungen prüfen …"></textarea></label>
+          <label class="ok"><input type="checkbox" name="dsgvo" required><span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden. <a href="#">Datenschutz</a></span></label>
+          <button class="btn m" type="submit">Anfrage senden <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="ct-done" role="status">
+          <svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="27" fill="none" stroke="#22262B"/><path d="M17 29 25 37 40 20" fill="none" stroke="#8CF5C2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
+          <h3>Danke – ist angekommen.</h3>
+          <p>Wir melden uns innerhalb eines Werktags bei Ihnen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="ft">
+  <div class="ft-in">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <svg viewBox="0 8 160.8 64" aria-label="Ailien"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#F3F1EC"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#8CF5C2" fill-rule="evenodd"/></svg>
+        <p>KI-Automatisierung für Mittelstand und Handwerk. Wir bauen Systeme, die Routine abnehmen – und betreuen sie dauerhaft.</p>
+        <div class="ft-badges"><span>DSGVO-konform</span><span>Server in der EU</span><span>Made in Germany</span></div>
+      </div>
+      <div>
+        <h4>Leistungen</h4>
+        <ul><li><a href="#leistungen">Prozess-Automationen</a></li><li><a href="#leistungen">KI-Wissenssysteme</a></li><li><a href="#leistungen">Voice &amp; Kommunikation</a></li><li><a href="#leistungen">KI-Strategie &amp; Beratung</a></li></ul>
+      </div>
+      <div>
+        <h4>Ailien</h4>
+        <ul><li><a href="#praxis">Praxisbeispiele</a></li><li><a href="#vorgehen">Vorgehen</a></li><li><a href="#faq">Häufige Fragen</a></li><li><a href="#rechner">Entlastungs-Rechner</a></li></ul>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul><li><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></li><li><a href="#kontakt">Erstgespräch anfragen</a></li><li><a href="#">LinkedIn</a></li></ul>
+      </div>
+    </div>
+
+    <div class="ft-mark" aria-hidden="true">
+      <svg viewBox="7 11.5 143.5 51.6"><defs><g id="ftWord"><path d=""/><path fill-rule="evenodd" d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z"/></g><clipPath id="ftClip"><rect id="ftRise" x="0" y="64" width="161" height="70"/></clipPath></defs>
+        <g class="o"><use href="#ftWord"/></g>
+        <g clip-path="url(#ftClip)"><g class="f"><use href="#ftWord"/></g></g>
+      </svg>
+    </div>
+
+    <div class="ft-bot">
+      <span>© 2026 Ailien · ailien-automation.de</span>
+      <nav><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">AGB</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var clamp=function(v){return v<0?0:v>1?1:v};
+  /* Reveals */
+  var els=[].slice.call(document.querySelectorAll('.crv'));
+  if(reduce||!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')})}
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.15});
+    els.forEach(function(e,i){e.style.transitionDelay=(i%2?.12:0)+'s';io.observe(e)})}
+
+  /* Zeitstrahl + Wortmarke scroll-gesteuert */
+  var tl=document.querySelector('.ct-tl'), ink=tl&&tl.querySelector('.ink'), lis=tl?[].slice.call(tl.querySelectorAll('li')):[];
+  var pos=lis.map(function(l){return parseFloat(l.style.left)/100});
+  var mark=document.querySelector('.ft-mark'), rise=document.getElementById('ftRise');
+  function tick(){
+    var vh=innerHeight;
+    if(tl){
+      var r=tl.getBoundingClientRect();
+      var p=reduce?1:clamp((vh*.92-r.top)/(vh*.55));
+      ink.style.strokeDashoffset=1-p;
+      lis.forEach(function(l,i){l.classList.toggle('on',p>=pos[i]-.02)});
+    }
+    if(mark){
+      var m=mark.getBoundingClientRect();
+      var q=reduce?1:clamp((vh-m.top-m.height*.1)/(m.height*.9));
+      rise.setAttribute('y',(63-q*51).toFixed(2));
+    }
+  }
+  var raf=0;function on(){if(!raf)raf=requestAnimationFrame(function(){raf=0;tick()})}
+  addEventListener('scroll',on,{passive:true});addEventListener('resize',on);tick();
+
+  /* Formular */
+  var f=document.getElementById('ctForm'); if(!f) return;
+  var btns=[].slice.call(f.querySelectorAll('.ct-seg button'));
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    f.classList.toggle('call',b.dataset.mode==='call');
+  })});
+  f.querySelector('form').addEventListener('submit',function(e){
+    e.preventDefault(); /* Demo: hier später an Backend senden */
+    var form=e.target, E=form.elements, call=f.classList.contains('call');
+    var nm=E.namedItem('name'), ct=E.namedItem(call?'tel':'email'), cb=E.namedItem('dsgvo');
+    var name=nm.value.trim(), contact=ct.value.trim(), ok=cb.checked;
+    [nm,ct].forEach(function(i){i.style.borderColor=i.value.trim()?'':'#F2C46B'});
+    cb.parentNode.style.color=ok?'':'#F2C46B';
+    if(!name||!contact||!ok) return;
+    f.classList.add('sent');
+  });
+})();
+</script>
+
+</body>
+</html>

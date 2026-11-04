@@ -1,0 +1,1118 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KI für Gebäudereinigung – Vertretung, Kalkulation, Leistungsnachweis | ailien</title>
+<meta name="description" content="KI-Helfer für Gebäudereinigungen: Vertretung bei Krankmeldung in Minuten, Ausschreibungen kalkulieren, Leistungsnachweise und Reklamationen. Daten in der EU.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F3F1EC; --ink:#0E1013; --muted:#5F636A; --line:#DEDBD3; --accent:#0F7A55;
+    --night:#0E1013; --night-2:#171A1E; --night-3:#22262B; --on-night:#F3F1EC; --on-night-muted:#A3A7AD; --mint:#8CF5C2;
+    --warn:#F2C46B;
+    --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+    --serif:"Instrument Serif",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);overflow-x:clip}
+  .btn{display:inline-flex;align-items:center;gap:10px;font:500 14px/20px var(--sans);padding:13px 20px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer}
+  .btn.p{background:var(--night);color:var(--on-night)}.btn.p:hover{background:#23262b}
+  .btn.s{color:var(--ink);border-color:var(--line)}.btn.s:hover{border-color:var(--ink)}
+  .btn:focus-visible,.dot:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--accent);margin:0 0 18px;display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--accent)}
+  .btn.m{background:var(--mint);color:var(--night)}.btn.m:hover{background:#a6f8d0}
+</style>
+<style>
+  /* ---------- Header (Variante C) ---------- */
+  .hd-sp{height:117px}
+  .hd{position:fixed;top:0;left:0;right:0;z-index:100;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+  .hd-w{max-width:1240px;margin:0 auto;padding:0 32px}
+  .hd-bar{background:var(--night);color:var(--on-night-muted);font-size:12px;height:36px;overflow:hidden;transition:height .35s,opacity .35s}
+  .hd-bar .hd-w{height:100%;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .hd-bar span{display:flex;gap:18px}
+  .hd-bar b{font-weight:500}
+  .hd-bar i{font-style:normal;color:var(--mint);margin-right:6px}
+  .hd-bar a{color:var(--on-night);text-decoration:none}.hd-bar a:hover{color:var(--mint)}
+  .hd-main{background:var(--paper);border-bottom:1px solid transparent;transition:border-color .3s}
+  .hd-main .hd-w{display:flex;align-items:center;gap:28px;padding-top:18px;padding-bottom:18px;transition:padding .35s}
+  .hd-lg{display:block;height:38px;width:auto;color:var(--ink);transition:height .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-nv{display:flex;align-items:center;gap:2px;margin-right:auto}
+  .hd-ni{font:400 14px/20px var(--sans);color:var(--ink);background:none;border:0;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;white-space:nowrap}
+  .hd-ni sup{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--accent);margin-right:2px;line-height:0}
+  .hd-ni:hover,.hd-dd.on .hd-ni{color:var(--accent)}
+  .hd-ni svg{width:9px;height:9px;opacity:.6;transition:transform .25s}
+  .hd-dd{position:relative}
+  .hd-dd.on .hd-ni svg{transform:rotate(180deg)}
+  .hd-p{position:absolute;top:calc(100% + 14px);left:0;z-index:5;transform:translateY(8px);opacity:0;visibility:hidden;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:0 30px 60px -20px rgba(14,16,19,.28);transition:opacity .25s,transform .25s cubic-bezier(.2,.7,.2,1),visibility .25s}
+  .hd-p::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px}
+  .hd-dd.on .hd-p{opacity:1;visibility:visible;transform:none}
+  .hd-p.wide{width:640px;display:grid;grid-template-columns:1fr 1fr 210px;gap:4px}
+  .hd-p.list{width:330px;display:grid;gap:2px}
+  .hd-i{position:relative;display:block;padding:14px;border-radius:12px;text-decoration:none;color:inherit;transition:background .2s}
+  .hd-i:hover{background:var(--paper)}
+  .hd-i b{display:block;font-weight:500;font-size:14.5px;letter-spacing:-.01em;margin-bottom:3px}
+  .hd-i b::before{content:"";position:absolute;left:5px;top:21px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity .2s}
+  .hd-i:hover b::before{opacity:1}
+  .hd-i span{display:block;font-size:13px;line-height:19px;color:var(--muted)}
+  .hd-feat{grid-row:1/3;grid-column:3;background:var(--night);color:var(--on-night);border-radius:12px;padding:18px;display:flex;flex-direction:column;text-decoration:none}
+  .hd-feat small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint)}
+  .hd-feat strong{font-weight:500;font-size:17px;line-height:23px;letter-spacing:-.02em;margin-top:10px}
+  .hd-feat strong em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;color:var(--mint)}
+  .hd-feat span{margin-top:auto;font-size:13px;color:var(--on-night-muted)}
+  .hd-all{grid-column:1/3;display:flex;justify-content:space-between;padding:12px 14px;margin-top:4px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);text-decoration:none}
+  .hd-all:hover{color:var(--accent)}
+  .hd-r{display:flex;gap:8px}
+  .hd .btn{padding:12px 20px;white-space:nowrap}
+  .hd .btn .ar{transition:transform .2s}.hd .btn:hover .ar{transform:translateX(3px)}
+  .hd-burger{display:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:none;cursor:pointer;position:relative;flex:none;color:var(--ink)}
+  .hd-burger::before,.hd-burger::after{content:"";position:absolute;left:14px;right:14px;height:1.5px;background:currentColor;transition:transform .3s,top .3s}
+  .hd-burger::before{top:17px}.hd-burger::after{top:25px}
+  .hd-open .hd-burger::before{top:21px;transform:rotate(45deg)}.hd-open .hd-burger::after{top:21px;transform:rotate(-45deg)}
+  .hd.sc .hd-bar{height:0;opacity:0}
+  .hd.sc .hd-main{border-color:var(--line)}
+  .hd.sc .hd-main .hd-w{padding-top:12px;padding-bottom:12px}
+  .hd.sc .hd-lg{height:32px}
+  .hd-lg.old{height:32px}.hd.sc .hd-lg.old{height:28px}
+  .hd.hide{transform:translateY(-100%)}
+
+  /* Handy-Menü */
+  .hd-mm{position:fixed;inset:0;z-index:99;background:var(--paper);display:flex;flex-direction:column;padding:120px 22px 24px;overflow:auto;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+  .hd-open .hd-mm{opacity:1;visibility:visible}
+  .hd-mm>ol{list-style:none;margin:0;padding:0;counter-reset:n}
+  .hd-mm>ol>li{counter-increment:n;border-bottom:1px solid var(--line);opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s}
+  .hd-open .hd-mm>ol>li{opacity:1;transform:none}
+  .hd-open .hd-mm>ol>li:nth-child(2){transition-delay:.04s}.hd-open .hd-mm>ol>li:nth-child(3){transition-delay:.08s}.hd-open .hd-mm>ol>li:nth-child(4){transition-delay:.12s}.hd-open .hd-mm>ol>li:nth-child(5){transition-delay:.16s}
+  .hd-t{display:flex;align-items:center;width:100%;padding:15px 0;font:500 26px/1.15 var(--sans);letter-spacing:-.03em;color:var(--ink);text-decoration:none;background:none;border:0;cursor:pointer;text-align:left}
+  .hd-t::after{content:"0" counter(n);margin-left:auto;font-family:var(--serif);font-style:italic;font-weight:400;font-size:17px;color:var(--accent)}
+  .hd-t .pl{order:3;margin-left:14px;width:12px;height:12px;position:relative;opacity:.6}
+  .hd-t .pl::before,.hd-t .pl::after{content:"";position:absolute;left:0;right:0;top:5.5px;height:1.5px;background:currentColor;transition:transform .3s}
+  .hd-t .pl::after{transform:rotate(90deg)}
+  .hd-mm li.ex .pl::after{transform:rotate(0)}
+  .hd-s{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-mm li.ex .hd-s{grid-template-rows:1fr}
+  .hd-s>div{overflow:hidden}
+  .hd-s a{display:block;padding:8px 0 8px 2px;font-size:16px;color:var(--ink);opacity:.75;text-decoration:none}
+  .hd-s a:last-child{margin-bottom:14px}
+  .hd-mf{margin-top:auto;padding-top:28px;display:grid;gap:14px}
+  .hd-mf .btn{justify-content:center;padding:15px}
+  .hd-mf small{font-size:12px;color:var(--muted);text-align:center}
+  body.hd-lock{overflow:hidden}
+
+  @media (max-width:1180px){.hd-r .btn.s{display:none}.hd-main .hd-w{gap:16px}}
+  @media (max-width:980px){
+    .hd-nv{display:none}.hd-burger{display:block}
+    .hd-r{margin-left:auto}.hd-bar a{display:none}
+    .hd-lg{height:34px}.hd.sc .hd-lg{height:30px}
+    .hd .btn{padding:10px 16px;font-size:13px}
+  }
+  @media (max-width:980px){.hd-sp{height:113px}}
+  @media (max-width:520px){
+    .hd-sp{height:109px}
+    .hd-w{padding:0 16px}.hd-bar{font-size:11px}
+    .hd-bar span b:nth-child(n+3){display:none}
+    .hd-main .hd-w{padding-top:14px;padding-bottom:14px;gap:12px}
+    .hd.sc .hd-main .hd-w{padding-top:10px;padding-bottom:10px}
+  }
+  @media (max-width:360px){.hd-r .btn{display:none}}
+  @media (prefers-reduced-motion:reduce){.hd,.hd-p,.hd-mm,.hd-mm li{transition:none}}
+  .hd-main .hd-w{position:relative}
+  .hd-dd.mega{position:static}
+  .hd-p.mega{left:32px;right:32px;width:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:18px}
+  .hd-g{display:flex;flex-direction:column;gap:2px;padding:6px}
+  .hd-g small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px 10px}
+  .hd-l{display:block;padding:9px 10px;border-radius:10px;color:var(--ink);text-decoration:none;font-size:14.5px;transition:background .2s}
+  .hd-l:hover{background:var(--paper)}
+  .hd-l[aria-current="page"]{background:var(--paper);font-weight:500}
+  .hd-l[aria-current="page"]::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:2px}
+  .hd-s a[aria-current="page"]{opacity:1;font-weight:500}
+
+</style>
+</head>
+<body>
+<header class="hd" id="hd">
+  <div class="hd-bar"><div class="hd-w"><span><b><i>✓</i>DSGVO-konform</b><b><i>✓</i>Server in der EU</b><b><i>✓</i>Antwort innerhalb eines Werktags</b></span><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></div></div>
+  <div class="hd-main"><div class="hd-w">
+    <a href="ailien-startseite.html" aria-label="ailien Startseite"><svg class="hd-lg" viewBox="0 8 160.8 64" aria-hidden="true"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#0E1013"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#0F7A55" fill-rule="evenodd"/></svg></a>
+    <nav class="hd-nv" aria-label="Hauptnavigation">
+      <div class="hd-dd">
+        <button class="hd-ni" aria-expanded="false"><sup>01</sup>Leistungen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+        <div class="hd-p wide">
+          <a class="hd-i" href="/leistungen/prozess-automation"><b>Prozess-Automationen</b><span>Belege, Angebote, Bestellungen – läuft von selbst.</span></a>
+          <a class="hd-i" href="/leistungen/wissenssysteme"><b>KI-Wissenssysteme</b><span>Firmenwissen, das jeder sofort findet.</span></a>
+          <a class="hd-i" href="/leistungen/voice"><b>Voice &amp; Kommunikation</b><span>Telefon-Assistent und E-Mail-Vorsortierung.</span></a>
+          <a class="hd-i" href="/leistungen/beratung"><b>KI-Strategie &amp; Beratung</b><span>Wo lohnt sich KI bei Ihnen wirklich?</span></a>
+          <a class="hd-feat" href="ailien-entlastungsrechner.html"><small>Rechner</small><strong>Wie viele Stunden <em>sparen Sie?</em></strong><span>Jetzt ausrechnen →</span></a>
+          <a class="hd-all" href="/leistungen">Alle Leistungen im Überblick <span>→</span></a>
+        </div>
+      </div>
+      <div class="hd-dd mega"><button class="hd-ni" aria-expanded="false"><sup>02</sup>Branchen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><div class="hd-p mega"><div class="hd-g"><small>Bau &amp; Handwerk</small><a class="hd-l" href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a class="hd-l" href="ailien-branchen-bad-kueche.html">Bad- &amp; Küchenstudios</a><a class="hd-l" href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a class="hd-l" href="ailien-branchen-gebaeudereinigung.html" aria-current="page">Gebäudereinigung</a></div><div class="hd-g"><small>Industrie &amp; Technik</small><a class="hd-l" href="ailien-branchen-maschinenbau.html">Maschinen- &amp; Anlagenbau</a><a class="hd-l" href="ailien-branchen-cnc.html">CNC-Betriebe</a><a class="hd-l" href="ailien-branchen-dguv-v3.html">Elektroprüfung DGUV V3</a><a class="hd-l" href="ailien-branchen-brandschutz.html">Brandschutz</a></div><div class="hd-g"><small>Immobilien &amp; Planung</small><a class="hd-l" href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a class="hd-l" href="ailien-branchen-immobilienmakler.html">Immobilienmakler</a><a class="hd-l" href="ailien-branchen-architekten.html">Architekten</a><a class="hd-l" href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a></div><div class="hd-g"><small>Dienstleistung</small><a class="hd-l" href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a class="hd-l" href="ailien-branchen-foerdermittelberatung.html">Fördermittelberatung</a><a class="hd-l" href="ailien-branchen-bestatter.html">Bestatter</a></div></div></div>
+      <a class="hd-ni" href="ailien-praxisbeispiele.html"><sup>03</sup>Praxisbeispiele</a>
+      <a class="hd-ni" href="ailien-ueber-uns.html"><sup>04</sup>Über uns</a>
+      <a class="hd-ni" href="/wissen"><sup>05</sup>Wissen</a>
+    </nav>
+    <div class="hd-r"><a class="btn s" href="ailien-entlastungsrechner.html?branche=gebaeudereinigung">Rechner</a><a class="btn p" href="/kontakt">Erstgespräch <span class="ar">→</span></a></div>
+    <button class="hd-burger" aria-label="Menü öffnen" aria-expanded="false"></button>
+  </div></div>
+</header>
+<div class="hd-sp" aria-hidden="true"></div>
+<div class="hd-mm" id="hdMenu">
+  <ol>
+    <li><button class="hd-t">Leistungen<i class="pl"></i></button><div class="hd-s"><div><a href="/leistungen/prozess-automation">Prozess-Automationen</a><a href="/leistungen/wissenssysteme">KI-Wissenssysteme</a><a href="/leistungen/voice">Voice &amp; Kommunikation</a><a href="/leistungen/beratung">KI-Strategie &amp; Beratung</a><a href="/leistungen">Alle Leistungen →</a></div></div></li>
+    <li><button class="hd-t">Branchen<i class="pl"></i></button><div class="hd-s"><div><a href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a href="ailien-branchen-bad-kueche.html">Bad- &amp; Küchenstudios</a><a href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a href="ailien-branchen-gebaeudereinigung.html" aria-current="page">Gebäudereinigung</a><a href="ailien-branchen-maschinenbau.html">Maschinen- &amp; Anlagenbau</a><a href="ailien-branchen-cnc.html">CNC-Betriebe</a><a href="ailien-branchen-dguv-v3.html">Elektroprüfung DGUV V3</a><a href="ailien-branchen-brandschutz.html">Brandschutz</a><a href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a href="ailien-branchen-immobilienmakler.html">Immobilienmakler</a><a href="ailien-branchen-architekten.html">Architekten</a><a href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a><a href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a href="ailien-branchen-foerdermittelberatung.html">Fördermittelberatung</a><a href="ailien-branchen-bestatter.html">Bestatter</a></div></div></li>
+    <li><a class="hd-t" href="ailien-praxisbeispiele.html">Praxisbeispiele</a></li>
+    <li><a class="hd-t" href="ailien-ueber-uns.html">Über uns</a></li>
+    <li><a class="hd-t" href="/wissen">Wissen</a></li>
+  </ol>
+  <div class="hd-mf"><a class="btn p" href="/kontakt">Erstgespräch vereinbaren <span class="ar">→</span></a><a class="btn s" href="ailien-entlastungsrechner.html?branche=gebaeudereinigung">Entlastungs-Rechner</a><small>DSGVO-konform · Server in der EU</small></div>
+</div>
+<script>
+(function(){
+  var h=document.getElementById('hd'), last=scrollY, root=document.documentElement, sp=document.querySelector('.hd-sp');
+  function fit(){if(!h.classList.contains('sc'))sp.style.height=h.offsetHeight+'px'}
+  fit();addEventListener('resize',fit);if(document.fonts)document.fonts.ready.then(fit);
+  var dds=[].slice.call(h.querySelectorAll('.hd-dd'));
+  function closeAll(ex){dds.forEach(function(d){if(d!==ex){d.classList.remove('on');d.querySelector('.hd-ni').setAttribute('aria-expanded','false')}})}
+  dds.forEach(function(d){
+    var t,b=d.querySelector('.hd-ni');
+    function open(){clearTimeout(t);closeAll(d);d.classList.add('on');b.setAttribute('aria-expanded','true')}
+    d.addEventListener('mouseenter',open);
+    d.addEventListener('mouseleave',function(){t=setTimeout(function(){d.classList.remove('on');b.setAttribute('aria-expanded','false')},140)});
+    b.addEventListener('click',function(){d.classList.contains('on')?closeAll():open()});
+  });
+  document.addEventListener('click',function(e){if(!h.contains(e.target))closeAll()});
+  var menu=document.getElementById('hdMenu'), burger=h.querySelector('.hd-burger');
+  function setMenu(o){root.classList.toggle('hd-open',o);document.body.classList.toggle('hd-lock',o);burger.setAttribute('aria-expanded',o?'true':'false');burger.setAttribute('aria-label',o?'Menü schließen':'Menü öffnen');if(o)h.classList.remove('hide')}
+  burger.addEventListener('click',function(){setMenu(!root.classList.contains('hd-open'))});
+  menu.querySelectorAll('button.hd-t').forEach(function(b){b.addEventListener('click',function(){b.parentNode.classList.toggle('ex')})});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeAll();setMenu(false)}});
+  var raf=0;
+  addEventListener('scroll',function(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;
+    var y=scrollY;
+    if(y>48)h.classList.add('sc');else if(y<8)h.classList.remove('sc');
+    if(!root.classList.contains('hd-open')){
+      if(y>240&&y>last+6){h.classList.add('hide');closeAll()}
+      else if(y<last-6||y<240)h.classList.remove('hide');
+    }
+    last=y;
+  })},{passive:true});
+})();
+</script>
+<style>
+  /* ================= Branche: Gebäudereinigung (gr-) ================= */
+  .gr-w{max-width:1240px;margin:0 auto;padding-left:32px;padding-right:32px}
+  .gr-h2{font-weight:500;font-size:clamp(30px,3.6vw,50px);line-height:1.05;letter-spacing:-.04em;margin:0 0 18px}
+  .gr-h2 em,.gr-hero h1 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--accent)}
+  .gr-dark .gr-h2 em{color:var(--mint)}
+  .gr-sub{font-size:18px;line-height:28px;color:var(--muted);max-width:560px;margin:0}
+  .gr-rv{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .gr-rv.in{opacity:1;transform:none}
+  .gr-num{font-variant-numeric:tabular-nums}
+  .gr-cap{font-size:12px;color:var(--muted)}
+
+  /* ---------- Hero ---------- */
+  .gr-hero{position:relative;overflow:hidden;background:linear-gradient(180deg,#E9ECEB 0%,var(--paper) 46%)}
+  .gr-hero::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0 47px,rgba(14,16,19,.05) 47px 48px);pointer-events:none;-webkit-mask-image:linear-gradient(180deg,#000,transparent 70%);mask-image:linear-gradient(180deg,#000,transparent 70%)}
+  .gr-hero .gr-w{position:relative;padding-top:36px;padding-bottom:96px}
+  .gr-crumb{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted);margin:0 0 40px}
+  .gr-crumb a{color:inherit;text-decoration:none}.gr-crumb a:hover{color:var(--ink)}
+  .gr-crumb span{opacity:.5}
+  .gr-top{display:grid;grid-template-columns:1.25fr .75fr;gap:56px;align-items:end;margin-bottom:56px}
+  .gr-top>*{min-width:0}
+  .gr-top>div:first-child{container-type:inline-size}
+  .gr-hero h1{font-weight:500;font-size:min(64px,calc(100cqi / 11.3));line-height:1.04;letter-spacing:-.045em;margin:0;font-variant-numeric:tabular-nums}
+  .gr-hero h1>span{display:block;white-space:nowrap}
+  .gr-hero h1 .t{color:var(--muted);font-weight:400}
+  .gr-lead{font-size:18px;line-height:28px;color:var(--muted);margin:0 0 28px}
+  .gr-lead b{color:var(--ink);font-weight:500}
+  .gr-ctas{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px}
+  .gr-link{font-size:15px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:3px}
+  .gr-link:hover{border-color:var(--ink)}
+
+  /* Morgen-Konsole */
+  .gr-con{background:var(--surface,#fff);border:1px solid var(--line);border-radius:24px;box-shadow:0 40px 80px -40px rgba(14,16,19,.28);overflow:hidden}
+  .gr-con-hd{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 22px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+  .gr-con-hd b{font-weight:500;color:var(--ink)}
+  .gr-con-hd .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:1px}
+  .gr-con-bd{display:grid;grid-template-columns:260px 1fr 1.12fr}
+  .gr-con-bd>*{min-width:0;padding:24px 22px}
+  .gr-con-bd>*+*{border-left:1px solid var(--line)}
+  .gr-clock{display:flex;flex-direction:column;background:#FAF9F6}
+  .gr-clock .big{font-size:84px;line-height:.95;font-weight:500;letter-spacing:-.06em;font-variant-numeric:tabular-nums;margin:2px 0 6px}
+  .gr-clock .big i{font-style:normal;transition:color .3s}
+  .gr-clock .day{font-size:13px;color:var(--muted);margin:0 0 26px}
+  .gr-ph{list-style:none;margin:0;padding:0;display:grid;gap:0;border-top:1px solid var(--line)}
+  .gr-ph li{display:grid;grid-template-columns:44px 1fr;gap:8px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px;line-height:18px;color:var(--muted);opacity:.35;transition:opacity .4s,color .4s}
+  .gr-ph li b{font-weight:500;font-variant-numeric:tabular-nums;color:var(--ink)}
+  .gr-ph li.on{opacity:1;color:var(--ink)}
+  .gr-ph li.ok b{color:var(--accent)}
+  .gr-clock .gr-cap{margin-top:auto;padding-top:18px}
+
+  .gr-lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;font-weight:500}
+  .gr-thread{display:flex;flex-direction:column;gap:10px;min-height:390px}
+  .gr-msg{max-width:88%;padding:10px 13px;border-radius:16px;font-size:14px;line-height:20px;opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s}
+  .gr-msg.on{opacity:1;transform:none}
+  .gr-msg small{display:block;font-size:11px;color:var(--muted);margin-bottom:3px}
+  .gr-msg.in{background:var(--paper);border-bottom-left-radius:5px}
+  .gr-msg.out{align-self:flex-end;background:var(--night);color:var(--on-night);border-bottom-right-radius:5px}
+  .gr-msg.out small{color:var(--on-night-muted)}
+  .gr-sys{align-self:center;font-size:12px;color:var(--accent);background:rgba(15,122,85,.08);border-radius:999px;padding:5px 11px;opacity:0;transition:opacity .4s;text-align:center}
+  .gr-sys.on{opacity:1}
+  .gr-ok{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 12px 12px 14px;border:1px solid var(--line);border-radius:14px;font-size:13.5px;line-height:19px;opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s,border-color .4s,background .4s}
+  .gr-ok.on{opacity:1;transform:none}
+  .gr-ok span b{font-weight:500}
+  .gr-ok button{flex:none;font:500 13px/18px var(--sans);border:0;border-radius:999px;padding:9px 14px;background:var(--night);color:var(--on-night);cursor:default;transition:background .3s,color .3s,transform .15s}
+  .gr-ok.done{border-color:rgba(15,122,85,.4);background:rgba(15,122,85,.05)}
+  .gr-ok.done button{background:var(--accent);color:#fff}
+  .gr-ok.press button{transform:scale(.94)}
+
+  .gr-plan table{width:100%;border-collapse:collapse;font-size:13.5px}
+  .gr-plan th{font-weight:500;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:left;padding:0 0 8px;border-bottom:1px solid var(--line)}
+  .gr-plan td{padding:11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  .gr-plan td:nth-child(2){color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;padding-right:10px}
+  .gr-plan td:first-child{padding-right:10px}
+  .gr-plan td:last-child{width:118px}
+  .gr-who{position:relative;display:block;height:24px;overflow:hidden}
+  .gr-who span{position:absolute;left:0;top:0;display:inline-flex;align-items:center;height:24px;padding:0 9px;border-radius:999px;background:var(--paper);font-size:12.5px;white-space:nowrap;transition:transform .5s cubic-bezier(.2,.7,.2,1),opacity .4s,background .3s,color .3s}
+  .gr-who .b{transform:translateX(110%);opacity:0;background:rgba(15,122,85,.12);color:var(--accent);font-weight:500}
+  .gr-who.x .a{background:#F8E1DC;color:#9B3A2A;text-decoration:line-through}
+  .gr-who.sw .a{transform:translateX(-110%);opacity:0}
+  .gr-who.sw .b{transform:none;opacity:1}
+  .gr-cand{margin-top:16px;border:1px solid var(--line);border-radius:14px;padding:14px 14px 6px;opacity:0;transition:opacity .4s}
+  .gr-cand.on{opacity:1}
+  .gr-cand>p{margin:0 0 10px;font-size:12px;color:var(--muted)}
+  .gr-cand>p b{color:var(--ink);font-weight:500}
+  .gr-cr{display:grid;grid-template-columns:86px 1fr;gap:10px;padding:8px 0;border-top:1px dashed var(--line);font-size:12.5px;line-height:18px;opacity:0;transition:opacity .35s}
+  .gr-cr.on{opacity:1}
+  .gr-cr b{font-weight:500}
+  .gr-cr.best b{color:var(--accent)}
+  .gr-cr ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:3px 10px;color:var(--muted)}
+  .gr-cr.best ul{color:var(--ink)}
+  .gr-cr li::before{content:"✓ ";color:var(--accent)}
+  .gr-cr li.n::before{content:"– ";color:#B0533F}
+
+  /* ---------- Übersicht ---------- */
+  .gr-idx{padding:120px 0 112px}
+  .gr-idx .head{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:end;margin-bottom:56px}
+  .gr-idx ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--ink)}
+  .gr-idx li{padding:26px 24px 8px 0}
+  .gr-idx li+li{padding-left:24px;border-left:1px solid var(--line)}
+  .gr-idx li i{display:block;font-family:var(--serif);font-size:40px;line-height:1;color:var(--accent);margin-bottom:22px}
+  .gr-idx h3{margin:0 0 10px;font-size:20px;font-weight:500;letter-spacing:-.02em;line-height:1.2}
+  .gr-idx p{margin:0 0 18px;font-size:15px;line-height:23px;color:var(--muted)}
+  .gr-idx a{font-size:14px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px}
+  .gr-idx a:hover{border-color:var(--ink)}
+
+  /* ---------- Kalkulator (dunkel) ---------- */
+  .gr-dark{background:var(--night);color:var(--on-night)}
+  .gr-dark .eyebrow{color:var(--mint)}.gr-dark .eyebrow::before{background:var(--mint)}
+  .gr-dark .gr-sub{color:var(--on-night-muted)}
+  .gr-calc{padding:120px 0}
+  .gr-calc .head{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:end;margin-bottom:56px}
+  .gr-cg{display:grid;grid-template-columns:340px 1fr;gap:28px;align-items:start}
+  .gr-cg>*{min-width:0}
+  .gr-ten .gr-lbl{color:var(--on-night-muted)}
+  .gr-ten button{display:block;width:100%;text-align:left;background:var(--night-2);border:1px solid var(--night-3);border-radius:16px;padding:16px 18px;margin:0 0 10px;color:var(--on-night);font:400 15px/21px var(--sans);cursor:pointer;transition:border-color .2s,background .2s}
+  .gr-ten button:hover{border-color:#3A3F45}
+  .gr-ten button[aria-pressed="true"]{border-color:var(--mint);background:rgba(140,245,194,.06)}
+  .gr-ten button b{display:block;font-weight:500;margin-bottom:6px}
+  .gr-ten button small{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--on-night-muted)}
+  .gr-ten button[aria-pressed="true"] small span:first-child{color:var(--mint)}
+  .gr-ten p.note{font-size:13px;line-height:20px;color:var(--on-night-muted);margin:16px 0 0}
+  .gr-cc{background:var(--night-2);border:1px solid var(--night-3);border-radius:22px;padding:28px}
+  .gr-rows{display:grid;gap:0}
+  .gr-row{display:grid;grid-template-columns:180px 1fr 210px;gap:22px;align-items:center;padding:18px 0;border-bottom:1px solid var(--night-3)}
+  .gr-row:first-child{padding-top:0}
+  .gr-row .nm b{display:block;font-weight:500;font-size:15px}
+  .gr-row .nm small{font-size:12.5px;color:var(--on-night-muted)}
+  .gr-sl label{display:flex;justify-content:space-between;font-size:12.5px;color:var(--on-night-muted);margin-bottom:8px}
+  .gr-sl label output{color:var(--on-night);font-variant-numeric:tabular-nums;font-weight:500;font-size:14px}
+  .gr-sl input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--mint) var(--p,40%),var(--night-3) var(--p,40%));outline:none;margin:6px 0}
+  .gr-sl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--on-night);border:4px solid var(--night);box-shadow:0 0 0 1px var(--mint);cursor:pointer}
+  .gr-sl input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--on-night);border:3px solid var(--night);box-shadow:0 0 0 1px var(--mint);cursor:pointer}
+  .gr-sl input[type=range]:focus-visible{box-shadow:0 0 0 3px rgba(140,245,194,.3)}
+  .gr-tn{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;padding:3px;background:var(--night);border-radius:999px}
+  .gr-tn button{font:500 12.5px/16px var(--sans);color:var(--on-night-muted);background:none;border:0;border-radius:999px;padding:7px 0;cursor:pointer;font-variant-numeric:tabular-nums}
+  .gr-tn button[aria-pressed="true"]{background:var(--on-night);color:var(--night)}
+  .gr-tnl{font-size:11px;color:var(--on-night-muted);margin:0 0 6px;display:block}
+  .gr-res{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;padding-top:24px}
+  .gr-bars{display:grid;gap:8px}
+  .gr-bar{display:grid;grid-template-columns:110px 1fr 70px;gap:12px;align-items:center;font-size:12.5px;color:var(--on-night-muted)}
+  .gr-bar i{display:block;height:8px;border-radius:4px;background:var(--night-3);overflow:hidden}
+  .gr-bar i s{display:block;height:100%;background:var(--mint);border-radius:4px;transition:width .4s cubic-bezier(.2,.7,.2,1)}
+  .gr-bar span:last-child{text-align:right;color:var(--on-night);font-variant-numeric:tabular-nums}
+  .gr-tot{text-align:right}
+  .gr-tot small{display:block;font-size:12px;color:var(--on-night-muted);margin-bottom:4px}
+  .gr-tot b{display:block;font-size:52px;line-height:1;font-weight:500;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+  .gr-tot b em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:.5em;color:var(--mint);letter-spacing:0;margin-left:4px}
+  .gr-tot p{margin:8px 0 0;font-size:13.5px;color:var(--on-night-muted)}
+  .gr-tot p span{color:var(--on-night);font-variant-numeric:tabular-nums}
+  .gr-form{margin-top:22px;padding-top:16px;border-top:1px solid var(--night-3);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 20px;font-size:12px;color:var(--on-night-muted)}
+  .gr-form code{font-family:var(--sans);color:var(--on-night)}
+
+  /* ---------- Leistungsnachweis ---------- */
+  .gr-proof{padding:120px 0}
+  .gr-proof .head{max-width:640px;margin-bottom:64px}
+  .gr-pg{display:grid;grid-template-columns:330px 120px 1fr;align-items:center}
+  .gr-pg>*{min-width:0}
+  .gr-phone{background:var(--night);border-radius:34px;padding:10px;box-shadow:0 40px 70px -36px rgba(14,16,19,.5)}
+  .gr-phone .scr{background:#fff;border-radius:26px;padding:20px 16px 18px}
+  .gr-phone .bar{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:16px}
+  .gr-phone h4{margin:0 0 2px;font-size:17px;font-weight:500;letter-spacing:-.02em}
+  .gr-phone .sub{margin:0 0 14px;font-size:12px;color:var(--muted)}
+  .gr-chk{list-style:none;margin:0;padding:0}
+  .gr-chk li{display:grid;grid-template-columns:24px 1fr 44px;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line);font-size:13.5px;line-height:18px}
+  .gr-chk li small{display:block;color:var(--muted);font-size:11.5px}
+  .gr-chk .bx{width:22px;height:22px;border-radius:7px;border:1.5px solid var(--line);display:grid;place-items:center;color:#fff;font-size:12px;transition:background .3s,border-color .3s}
+  .gr-chk .ph{width:44px;height:34px;border-radius:7px;background:repeating-linear-gradient(135deg,#ECE9E2 0 6px,#F4F2ED 6px 12px);position:relative;opacity:.4;transition:opacity .3s}
+  .gr-chk .ph::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:9px;margin:-5px 0 0 -6px;border:1.5px solid #B9B4A8;border-radius:2px}
+  .gr-chk li.on .bx{background:var(--accent);border-color:var(--accent)}
+  .gr-chk li.on .ph{opacity:1}
+  .gr-chk li.warn .bx{background:var(--warn);border-color:var(--warn);color:var(--ink)}
+  .gr-phone .send{margin-top:14px;width:100%;text-align:center;font-size:13px;padding:11px;border-radius:999px;background:var(--paper);color:var(--muted);transition:background .3s,color .3s}
+  .gr-phone.done .send{background:var(--night);color:var(--on-night)}
+  .gr-flow{position:relative;height:2px;margin:0 10px;background:repeating-linear-gradient(90deg,var(--line) 0 6px,transparent 6px 11px)}
+  .gr-flow s{position:absolute;left:0;top:0;height:2px;background:var(--accent);width:0}
+  .gr-flow span{position:absolute;left:50%;top:-30px;transform:translateX(-50%);font-size:12px;color:var(--muted);white-space:nowrap}
+  .gr-rep{background:#fff;border:1px solid var(--line);border-radius:8px;padding:30px 30px 24px;box-shadow:0 30px 60px -36px rgba(14,16,19,.3)}
+  .gr-rep header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--ink);margin-bottom:18px}
+  .gr-rep header b{display:block;font-size:19px;font-weight:500;letter-spacing:-.02em}
+  .gr-rep header small{font-size:12.5px;color:var(--muted)}
+  .gr-rep header span{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);background:rgba(15,122,85,.08);padding:4px 8px;border-radius:999px;white-space:nowrap}
+  .gr-kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+  .gr-kpi div{background:var(--paper);border-radius:12px;padding:14px}
+  .gr-kpi b{display:block;font-size:28px;font-weight:500;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+  .gr-kpi small{font-size:12px;color:var(--muted)}
+  .gr-wk{display:grid;grid-template-columns:repeat(22,1fr);gap:3px;margin-bottom:20px}
+  .gr-wk i{height:22px;border-radius:3px;background:var(--line);transition:background .3s}
+  .gr-wk i.on{background:var(--accent)}
+  .gr-wk i.h{background:var(--warn)}
+  .gr-hint{display:grid;gap:8px;margin:0 0 6px;padding:0;list-style:none}
+  .gr-hint li{display:grid;grid-template-columns:auto 1fr;gap:10px;font-size:13.5px;line-height:20px;padding:10px 12px;border-radius:10px;background:#FBF3DE}
+  .gr-hint li b{font-weight:500}
+  .gr-hint li::before{content:"Hinweis";font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:#8A6411;padding-top:2px}
+  .gr-rep .gr-cap{margin:14px 0 0}
+
+  /* ---------- Reklamation ---------- */
+  .gr-rk{padding:120px 0;background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .gr-rk .head{max-width:760px;margin-bottom:56px}
+  .gr-rk .head .gr-sub{margin-top:4px}
+  .gr-steps{list-style:none;margin:0 0 40px;padding:0;display:grid;grid-template-columns:repeat(5,1fr);position:relative}
+  .gr-steps::before{content:"";position:absolute;left:0;right:0;top:13px;height:1px;background:var(--line)}
+  .gr-steps .ln{position:absolute;left:0;top:13px;height:1px;background:var(--accent);width:var(--rk,0%);transition:width .2s}
+  .gr-steps li{position:relative;padding-right:16px}
+  .gr-steps li::before{content:"";display:block;width:27px;height:27px;border-radius:50%;border:1px solid var(--line);background:#fff;margin-bottom:16px;transition:background .3s,border-color .3s;box-sizing:border-box}
+  .gr-steps li.on::before{background:var(--accent);border-color:var(--accent);box-shadow:inset 0 0 0 6px #fff}
+  .gr-steps b{display:block;font-weight:500;font-size:15px;margin-bottom:4px}
+  .gr-steps span{font-size:13.5px;line-height:20px;color:var(--muted)}
+  .gr-rkg{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .gr-mail{border:1px solid var(--line);border-radius:16px;padding:22px;background:var(--paper)}
+  .gr-mail .m-hd{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:var(--muted);margin-bottom:12px}
+  .gr-mail .m-hd b{color:var(--ink);font-weight:500}
+  .gr-mail p{margin:0;font-size:15px;line-height:24px}
+  .gr-mail mark{background:rgba(15,122,85,.12);color:inherit;border-radius:3px;padding:0 2px}
+  .gr-mail .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+  .gr-mail .tags span{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:4px 10px;background:#fff}
+  .gr-mail.draft{background:#fff}
+  .gr-mail.draft .m-hd span{color:var(--accent)}
+
+  /* ---------- FAQ ---------- */
+  .gr-faq{padding:120px 0}
+  .gr-faq .gr-w{display:grid;grid-template-columns:1fr 1.4fr;gap:72px}
+  .gr-q{border-top:1px solid var(--ink)}
+  .gr-q details{border-bottom:1px solid var(--line)}
+  .gr-q summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;font-size:18px;letter-spacing:-.01em}
+  .gr-q summary::-webkit-details-marker{display:none}
+  .gr-q summary::after{content:"+";flex:none;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:17px;transition:transform .3s,background .2s,color .2s}
+  .gr-q details[open] summary::after{transform:rotate(45deg);background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .gr-q p{margin:0 0 24px;font-size:16px;line-height:26px;color:var(--muted);max-width:620px}
+
+  /* ---------- Weitere Branchen ---------- */
+  .gr-more{padding:0 0 120px}
+  .gr-more .gr-lbl{margin-bottom:6px}
+  .gr-more h2{font-size:22px;font-weight:500;letter-spacing:-.02em;margin:0 0 18px}
+  .gr-more ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+  .gr-more a{display:grid;grid-template-columns:1fr 1.4fr 40px;gap:24px;align-items:center;padding:22px 0;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;transition:padding .25s}
+  .gr-more a:hover{padding-left:10px}
+  .gr-more b{font-weight:500;font-size:20px;letter-spacing:-.02em}
+  .gr-more span{font-size:14.5px;color:var(--muted)}
+  .gr-more i{font-style:normal;justify-self:end;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;transition:background .2s,color .2s}
+  .gr-more a:hover i{background:var(--ink);color:var(--paper)}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:1180px){
+    .gr-con-bd{grid-template-columns:200px 1fr 1.1fr}
+    .gr-clock .big{font-size:64px}
+    .gr-row{grid-template-columns:150px 1fr 180px;gap:16px}
+    .gr-pg{grid-template-columns:300px 70px 1fr}
+  }
+  @media (max-width:1024px){
+    .gr-top{grid-template-columns:1fr;gap:28px}
+    .gr-lead{max-width:600px}
+    .gr-con-bd{grid-template-columns:1fr 1fr}
+    .gr-clock{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr;gap:6px 32px;align-items:center}
+    .gr-clock .big{grid-row:1/3}
+    .gr-clock .day{margin:0}
+    .gr-clock .gr-lbl{margin:0}
+    .gr-ph{grid-column:1/-1;grid-template-columns:repeat(4,1fr);border-top:0;margin-top:14px;gap:10px}
+    .gr-ph li{grid-template-columns:1fr;gap:2px;border-bottom:0;border-top:2px solid var(--line);padding-top:8px}
+    .gr-ph li.on{border-top-color:var(--ink)}
+    .gr-ph li.ok{border-top-color:var(--accent)}
+    .gr-clock .gr-cap{display:none}
+    .gr-con-bd>.gr-plan{border-left:1px solid var(--line)}
+    .gr-con-bd>.gr-thread{border-left:0;border-top:1px solid var(--line)}
+    .gr-con-bd>.gr-plan{border-top:1px solid var(--line)}
+    .gr-idx ol{grid-template-columns:1fr 1fr}
+    .gr-idx li:nth-child(3){padding-left:0;border-left:0}
+    .gr-idx li:nth-child(n+3){border-top:1px solid var(--line);margin-top:8px}
+    .gr-cg{grid-template-columns:1fr}
+    .gr-ten{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .gr-ten .gr-lbl,.gr-ten p.note{grid-column:1/-1}
+    .gr-ten p.note{margin:0}
+    .gr-ten button{margin:0}
+    .gr-pg{grid-template-columns:270px 64px 1fr}
+    .gr-flow span{display:none}
+  }
+  @media (max-width:860px){
+    .gr-pg{grid-template-columns:1fr;gap:0;max-width:620px}
+    .gr-phone{max-width:340px}
+    .gr-flow{height:64px;width:2px;margin:10px 0 10px 60px;background:repeating-linear-gradient(180deg,var(--line) 0 6px,transparent 6px 11px)}
+    .gr-flow s{width:2px!important;height:var(--fh,0%)}
+    .gr-flow span{display:block;left:18px;top:50%;transform:translateY(-50%)}
+    .gr-idx .head,.gr-calc .head,.gr-rk .head{grid-template-columns:1fr;gap:16px}
+    .gr-row{grid-template-columns:1fr 1fr;gap:12px 18px}
+    .gr-row .nm{grid-column:1/-1}
+    .gr-res{grid-template-columns:1fr;gap:22px}
+    .gr-tot{text-align:left;order:-1}
+    .gr-steps{grid-template-columns:1fr;gap:0}
+    .gr-steps::before{left:13px;right:auto;top:0;bottom:0;width:1px;height:auto}
+    .gr-steps .ln{left:13px;top:0;width:1px;height:var(--rk,0%)}
+    .gr-steps li{display:grid;grid-template-columns:27px 1fr;gap:0 16px;padding:0 0 22px}
+    .gr-steps li::before{grid-row:1/3;margin:0}
+    .gr-rkg{grid-template-columns:1fr}
+    .gr-faq .gr-w{grid-template-columns:1fr;gap:28px}
+    .gr-more a{grid-template-columns:1fr 36px;gap:4px 16px}
+    .gr-more a span{grid-row:2;grid-column:1}
+    .gr-more i{grid-row:1/3;grid-column:2}
+  }
+  @media (max-width:700px){
+    .gr-con-bd{grid-template-columns:1fr}
+    .gr-con-bd>.gr-plan{border-left:0}
+    .gr-ph{grid-template-columns:1fr 1fr}
+    .gr-thread{min-height:0}
+    .gr-ten{grid-template-columns:1fr;gap:8px}
+    .gr-kpi{grid-template-columns:repeat(3,1fr);gap:8px}
+  }
+  @media (max-width:560px){
+    .gr-w{padding-left:16px;padding-right:16px}
+    .gr-crumb{margin-bottom:28px}
+    .gr-lead{font-size:17px;line-height:27px}
+    .gr-hero .gr-w{padding-bottom:72px}
+    .gr-top{margin-bottom:36px}
+    .gr-con{border-radius:18px}
+    .gr-con-hd{padding:12px 16px;font-size:12px}
+    .gr-con-hd>span:last-child{display:none}
+    .gr-con-bd>*{padding:18px 16px}
+    .gr-clock{gap:4px 18px}
+    .gr-clock .big{font-size:52px}
+    .gr-ph li{font-size:12px}
+    .gr-msg{font-size:13.5px;max-width:92%}
+    .gr-plan table{font-size:12.5px}
+    .gr-plan td:last-child{width:104px}
+    .gr-plan th:nth-child(2),.gr-plan td:nth-child(2){display:none}
+    
+    .gr-cr{grid-template-columns:1fr;gap:2px}
+    .gr-idx,.gr-calc,.gr-proof,.gr-rk,.gr-faq{padding:88px 0}
+    .gr-idx ol{grid-template-columns:1fr}
+    .gr-idx li,.gr-idx li+li{padding:22px 0 18px;border-left:0}
+    .gr-idx li+li{border-top:1px solid var(--line);margin-top:0}
+    .gr-idx li i{font-size:32px;margin-bottom:12px}
+    .gr-cc{padding:20px 16px;border-radius:18px}
+    .gr-tot b{font-size:44px}
+    .gr-bar{grid-template-columns:84px 1fr 62px;gap:8px}
+    .gr-phone{max-width:none}
+    .gr-phone .scr{min-height:0}
+    .gr-rep{padding:20px 16px 18px}
+    .gr-rep header{flex-direction:column;gap:8px}
+    .gr-kpi b{font-size:22px}
+    .gr-kpi div{padding:10px}
+    .gr-wk{gap:2px}
+    .gr-wk i{height:18px}
+    .gr-flow{margin-left:40px}
+    .gr-mail{padding:18px 16px}
+    .gr-more{padding-bottom:88px}
+  }
+  @media (prefers-reduced-motion:reduce){.gr-rv{opacity:1;transform:none;transition:none}}
+</style>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="gr-hero" aria-labelledby="gr-h">
+  <div class="gr-w">
+    <nav class="gr-crumb" aria-label="Brotkrumen"><a href="ailien-startseite.html">Start</a><span>/</span><a href="#">Branchen</a><span>/</span>Gebäudereinigung</nav>
+    <div class="gr-top">
+      <div>
+        <p class="eyebrow">KI für Gebäudereinigung</p>
+        <h1 id="gr-h"><span><span class="t">5:42 Uhr:</span> Krankmeldung.</span><span><span class="t">5:45 Uhr:</span> <em>Vertretung steht.</em></span></h1>
+      </div>
+      <div>
+        <p class="gr-lead">Vertretung organisieren, bevor das erste Objekt aufschließt. Ausschreibungen durchrechnen, Leistungsnachweise an Kunden, Reklamationen nachhalten. <b>Die KI bereitet vor – Ihre Objektleitung bestätigt.</b></p>
+        <div class="gr-ctas">
+          <a class="btn p" href="/kontakt">Kurz telefonieren <span aria-hidden="true">→</span></a>
+          <a class="gr-link" href="#kalkulation">Zum Ausschreibungs-Rechner ↓</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="gr-con" id="grCon" aria-label="Beispiel: Krankmeldung am frühen Morgen, Vertretung wird in drei Minuten organisiert">
+      <div class="gr-con-hd"><span><span class="dot"></span><b>Einsatzleitung</b> · Frühtour Dienstag</span><span>Beispieldaten zur Veranschaulichung</span></div>
+      <div class="gr-con-bd">
+        <div class="gr-clock">
+          <p class="gr-lbl">Uhrzeit</p>
+          <div class="big" id="grClock" aria-live="off">05:<i>42</i></div>
+          <p class="day">Dienstag · Frühtour Nord</p>
+          <ol class="gr-ph" id="grPh">
+            <li><b>05:42</b><span>Krankmeldung kommt rein</span></li>
+            <li><b>05:43</b><span>Passende Vertretung gesucht</span></li>
+            <li><b>05:44</b><span>Zusage per Nachricht</span></li>
+            <li><b>05:45</b><span>Objektleitung bestätigt</span></li>
+          </ol>
+          <p class="gr-cap">Beispieldaten zur Veranschaulichung</p>
+        </div>
+        <div class="gr-thread" id="grThread">
+          <p class="gr-lbl">Nachrichten</p>
+          <div class="gr-msg in"><small>Marta S. · 05:42</small>Guten Morgen, ich bin krank und kann heute nicht kommen. Tut mir leid.</div>
+          <div class="gr-sys">Erkannt: Kanzlei am Markt, 06:00–08:00</div>
+          <div class="gr-msg out"><small>an Jana N. · 05:43</small>Hallo Jana, kannst du heute 6:00–8:00 die Kanzlei am Markt übernehmen? Schlüssel wie immer beim Hausmeister.</div>
+          <div class="gr-msg in"><small>Jana N. · 05:44</small>Ja, mache ich. Bin um 6 da.</div>
+          <div class="gr-ok" id="grOk"><span><b>Vertretung steht.</b> Jana N. übernimmt die Kanzlei am Markt.</span><button type="button" tabindex="-1" aria-hidden="true">Bestätigen</button></div>
+        </div>
+        <div class="gr-plan">
+          <p class="gr-lbl">Einsatzplan heute</p>
+          <table>
+            <thead><tr><th>Objekt</th><th>Zeit</th><th>Kraft</th></tr></thead>
+            <tbody>
+              <tr><td>Kanzlei am Markt</td><td>06:00–08:00</td><td><span class="gr-who" id="grWho"><span class="a">Marta S.</span><span class="b">Jana N.</span></span></td></tr>
+              <tr><td>Arztpraxis Lindenweg</td><td>06:30–08:00</td><td><span class="gr-who"><span class="a">Olga P.</span></span></td></tr>
+              <tr><td>Bürohaus Nord</td><td>05:30–08:30</td><td><span class="gr-who"><span class="a">Kemal A. +1</span></span></td></tr>
+              <tr><td>Schule am Park</td><td>15:00–19:00</td><td><span class="gr-who"><span class="a">Jana N.</span></span></td></tr>
+            </tbody>
+          </table>
+          <div class="gr-cand" id="grCand">
+            <p><b>Vorschläge</b> für Kanzlei am Markt</p>
+            <div class="gr-cr best"><b>Jana N.</b><ul><li>kennt das Objekt</li><li>heute erst ab 15 Uhr</li><li>2,4 km entfernt</li></ul></div>
+            <div class="gr-cr"><b>Tomasz W.</b><ul><li>Zeit frei</li><li class="n">war noch nie im Objekt</li></ul></div>
+            <div class="gr-cr"><b>Svetlana R.</b><ul><li>kennt das Objekt</li><li class="n">Stunden&shy;kontingent voll</li></ul></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ÜBERSICHT ============ -->
+<section class="gr-idx" aria-labelledby="gr-idx-h">
+  <div class="gr-w">
+    <div class="head gr-rv">
+      <div><p class="eyebrow">Vier Helfer</p><h2 class="gr-h2" id="gr-idx-h">Wo Ihr Büro <em>Zeit</em> verliert.</h2></div>
+      <p class="gr-sub">Nicht in der Reinigung selbst – sondern drumherum: am Telefon um sechs, über Ausschreibungen am Wochenende, bei Nachweisen und Beschwerden.</p>
+    </div>
+    <ol class="gr-rv">
+      <li><i>01</i><h3>Vertretung bei Ausfall</h3><p>Krankmeldung rein, passende Kraft mit Objektkenntnis und freien Stunden wird gefragt. Die Objektleitung bestätigt nur noch.</p><a href="#gr-h">Oben im Beispiel</a></li>
+      <li><i>02</i><h3>Ausschreibungen kalkulieren</h3><p>Passende Ausschreibungen finden, Raumbuch auslesen, Stunden aus Fläche, Leistungswert und Turnus berechnen.</p><a href="#kalkulation">Zum Rechner</a></li>
+      <li><i>03</i><h3>Leistungsnachweise</h3><p>Abhaken und Foto per App – am Monatsende geht ein sauberer Bericht an den Kunden.</p><a href="#nachweis">Ansehen</a></li>
+      <li><i>04</i><h3>Reklamationen</h3><p>Jede Beschwerde wird erfasst, dem Objekt zugeordnet und bis zur Antwort an den Kunden nachgehalten.</p><a href="#reklamation">Ansehen</a></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ KALKULATOR ============ -->
+<section class="gr-calc gr-dark" id="kalkulation" aria-labelledby="gr-calc-h">
+  <div class="gr-w">
+    <div class="head gr-rv">
+      <div><p class="eyebrow">Ausschreibungen</p><h2 class="gr-h2" id="gr-calc-h">Jede Ausschreibung <em>durchgerechnet.</em></h2></div>
+      <p class="gr-sub">Die KI sucht passende Ausschreibungen, liest das Raumbuch aus und rechnet mit Ihren Leistungswerten. Probieren Sie es aus – wählen Sie eine Ausschreibung oder schieben Sie selbst.</p>
+    </div>
+    <div class="gr-cg gr-rv">
+      <div class="gr-ten" id="grTen">
+        <p class="gr-lbl">Gefunden diese Woche</p>
+        <button type="button" aria-pressed="true" data-i="0"><b>Unterhaltsreinigung Verwaltungsgebäude</b><small><span>2.680 m²</span><span>Abgabe in 12 Tagen</span></small></button>
+        <button type="button" aria-pressed="false" data-i="1"><b>Kindertagesstätte, zwei Gruppen</b><small><span>640 m²</span><span>Abgabe in 19 Tagen</span></small></button>
+        <button type="button" aria-pressed="false" data-i="2"><b>Ärztehaus, drei Praxen</b><small><span>910 m²</span><span>Abgabe in 8 Tagen</span></small></button>
+        <p class="note">Beispiel-Ausschreibungen. Gesucht wird nach Ihren Kriterien: Region, Objektart, Mindestgröße.</p>
+      </div>
+      <div class="gr-cc">
+        <div class="gr-rows" id="grRows"></div>
+        <div class="gr-res">
+          <div class="gr-bars" id="grBars"></div>
+          <div class="gr-tot">
+            <small>Stunden pro Monat</small>
+            <b><span id="grTot">0</span><em>Std.</em></b>
+            <p>Angebotsbasis ≈ <span id="grEur">0 €</span> / Monat</p>
+          </div>
+        </div>
+        <div class="gr-form"><span>Rechnung: <code>Fläche ÷ Leistungswert × Turnus × 4,33 Wochen</code></span><span>Beispielwerte, Satz 30 €/Std. – Ihre eigenen Leistungswerte hinterlegen wir.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LEISTUNGSNACHWEIS ============ -->
+<section class="gr-proof" id="nachweis" aria-labelledby="gr-proof-h">
+  <div class="gr-w">
+    <div class="head gr-rv">
+      <p class="eyebrow">Leistungsnachweis</p>
+      <h2 class="gr-h2" id="gr-proof-h">Leistung, die man <em>sieht.</em></h2>
+      <p class="gr-sub">Ihre Kräfte haken im Objekt ab und machen ein Foto – in ihrer eigenen Sprache. Am Monatsende baut die KI daraus den Nachweis für den Kunden, inklusive aller Hinweise.</p>
+    </div>
+    <div class="gr-pg" id="grPg">
+      <div class="gr-phone" id="grPhone">
+        <div class="scr">
+          <div class="bar"><span>Objekt-Check</span><span>Di · 07:52</span></div>
+          <h4>Kanzlei am Markt</h4>
+          <p class="sub">Unterhaltsreinigung · Jana N.</p>
+          <ul class="gr-chk">
+            <li><span class="bx">✓</span><span>Büros & Besprechung<small>Böden, Papierkörbe, Tische</small></span><span class="ph"></span></li>
+            <li><span class="bx">✓</span><span>Sanitärräume<small>Armaturen, WC, Spiegel</small></span><span class="ph"></span></li>
+            <li><span class="bx">✓</span><span>Teeküche<small>Spüle, Arbeitsflächen</small></span><span class="ph"></span></li>
+            <li class="w"><span class="bx">!</span><span>Verbrauchsmaterial<small>Seifenspender 2. OG leer</small></span><span class="ph"></span></li>
+            <li><span class="bx">✓</span><span>Eingang & Treppenhaus<small>Sauberlaufzone, Geländer</small></span><span class="ph"></span></li>
+          </ul>
+          <div class="send">Einsatz abgeschlossen</div>
+        </div>
+      </div>
+      <div class="gr-flow" aria-hidden="true"><s id="grFlow"></s><span>am Monatsende</span></div>
+      <div class="gr-rep">
+        <header><div><b>Leistungsnachweis Oktober</b><small>Kanzlei am Markt · Unterhaltsreinigung</small></div><span>Entwurf</span></header>
+        <div class="gr-kpi">
+          <div><b class="gr-num" id="grK1">0</b><small>von 22 Einsätzen</small></div>
+          <div><b class="gr-num" id="grK2">0</b><small>Fotos mit Zeitstempel</small></div>
+          <div><b class="gr-num" id="grK3">0</b><small>Hinweise</small></div>
+        </div>
+        <div class="gr-wk" id="grWk" aria-hidden="true"></div>
+        <ul class="gr-hint">
+          <li><span><b>Seifenspender 2. OG</b> leer vorgefunden, am selben Tag nachgefüllt.</span></li>
+          <li><span><b>Teppich Eingang:</b> Fleck, nicht mit Unterhaltsreinigung lösbar. Angebot Sonderreinigung beiliegend.</span></li>
+        </ul>
+        <p class="gr-cap">Beispieldaten zur Veranschaulichung · Sie prüfen und versenden.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REKLAMATION ============ -->
+<section class="gr-rk" id="reklamation" aria-labelledby="gr-rk-h">
+  <div class="gr-w">
+    <div class="head gr-rv">
+      <div><p class="eyebrow">Reklamationen</p><h2 class="gr-h2" id="gr-rk-h">Keine Beschwerde <em>geht unter.</em></h2></div>
+      <p class="gr-sub">Beschwerden kommen per Mail, Anruf oder als Zuruf an die Reinigungskraft. Die KI macht aus jeder einen Vorgang – und erinnert, bis er erledigt ist.</p>
+    </div>
+    <div id="grRk">
+      <ol class="gr-steps"><i class="ln" aria-hidden="true"></i>
+        <li><b>Eingang</b><span>Mail vom Kunden wird gelesen</span></li>
+        <li><b>Zugeordnet</b><span>Objekt, Bereich, zuständige Kraft</span></li>
+        <li><b>Weitergegeben</b><span>Objektleitung bekommt die Aufgabe</span></li>
+        <li><b>Nachkontrolle</b><span>Foto vom erledigten Bereich</span></li>
+        <li><b>Antwort</b><span>Entwurf an den Kunden zur Freigabe</span></li>
+      </ol>
+      <div class="gr-rkg">
+        <div class="gr-mail gr-rv">
+          <div class="m-hd"><span><b>Eingang</b> · Hausverwaltung Kanzlei am Markt</span><span>Mo 09:14</span></div>
+          <p>Guten Tag, im <mark>2. OG</mark> wurden am Freitag die <mark>Papierkörbe nicht geleert</mark>, und in der <mark>Teeküche</mark> stand noch Geschirr in der Spüle. Bitte um Klärung.</p>
+          <div class="tags"><span>Objekt: Kanzlei am Markt</span><span>Bereich: 2. OG, Teeküche</span><span>Freitag: Olga P.</span></div>
+        </div>
+        <div class="gr-mail draft gr-rv">
+          <div class="m-hd"><span><b>Antwort</b> · Entwurf zur Freigabe</span><span>Mo 16:40</span></div>
+          <p>Guten Tag, danke für Ihren Hinweis. Wir haben den Bereich heute nachgereinigt (Fotos anbei) und die Papierkörbe im 2. OG in die Checkliste aufgenommen. Geschirr spülen gehört laut Vertrag nicht dazu – gern machen wir Ihnen dafür ein Angebot.</p>
+          <div class="tags"><span>2 Fotos</span><span>Checkliste angepasst</span><span>Wiedervorlage in 14 Tagen</span></div>
+        </div>
+      </div>
+      <p class="gr-cap" style="margin-top:16px">Beispieldaten zur Veranschaulichung</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="gr-faq" aria-labelledby="gr-faq-h">
+  <div class="gr-w">
+    <div class="gr-rv"><p class="eyebrow">Häufige Fragen</p><h2 class="gr-h2" id="gr-faq-h">Was Betriebe <em>oft</em> fragen.</h2></div>
+    <div class="gr-q gr-rv">
+      <details open><summary>Unsere Kräfte sprechen nicht alle gut Deutsch – geht das trotzdem?</summary><p>Ja. Nachrichten und Checklisten können in der Sprache der jeweiligen Kraft laufen. Der Bericht an den Kunden kommt trotzdem auf Deutsch und einheitlich formuliert.</p></details>
+      <details><summary>Wer entscheidet, wer die Vertretung macht?</summary><p>Ihre Objektleitung. Die KI schlägt vor – nach Objektkenntnis, freien Stunden, Entfernung und den Regeln, die Sie hinterlegen, etwa Stundenkontingente bei Minijobs. Gefragt wird erst, wenn Sie das so freigeben, bestätigt wird immer von einem Menschen.</p></details>
+      <details><summary>Was passiert mit Krankmeldungen und Personaldaten?</summary><p>Für die Planung reicht die Info „fällt heute aus“. Gründe oder Diagnosen werden weder abgefragt noch gespeichert. Alle Daten bleiben in der EU, Sie bekommen einen Auftragsverarbeitungsvertrag, jeder Schritt wird protokolliert.</p></details>
+      <details><summary>Funktioniert das mit unserer Software für Zeiterfassung und Einsatzplanung?</summary><p>Wir binden an, was Sie schon nutzen. Wo es keine Schnittstelle gibt, arbeiten wir über Export und Import – zum Beispiel mit einer Tabelle, die jeden Morgen aktualisiert wird. Das klären wir im ersten Gespräch.</p></details>
+      <details><summary>Woher kommen die Leistungswerte für die Kalkulation?</summary><p>Von Ihnen. Wir hinterlegen Ihre eigenen Werte je Raumart und Reinigungsart. Die KI rechnet damit und markiert Positionen, bei denen das Raumbuch unklar ist – die Kalkulation geben Sie frei.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WEITERE BRANCHEN ============ -->
+<section class="gr-more" aria-labelledby="gr-more-h">
+  <div class="gr-w">
+    <h2 id="gr-more-h">Weitere Branchen</h2>
+    <ul>
+      <li><a href="ailien-branchen-sicherheitsdienste.html"><b>Sicherheitsdienste</b><span>Wachberichte, Nachweise, Dienstplanung</span><i aria-hidden="true">→</i></a></li>
+      <li><a href="ailien-branchen-hausverwaltung.html"><b>Hausverwaltungen</b><span>Schadensmeldungen, Mieterfragen, Protokolle</span><i aria-hidden="true">→</i></a></li>
+      <li><a href="ailien-branchen-brandschutz.html"><b>Brandschutz</b><span>Prüffristen, Berichte, Touren</span><i aria-hidden="true">→</i></a></li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var clamp=function(v){return v<0?0:v>1?1:v};
+  function $(id){return document.getElementById(id)}
+
+  /* Reveal */
+  var rv=[].slice.call(document.querySelectorAll('.gr-rv'));
+  if(reduce||!('IntersectionObserver' in window)) rv.forEach(function(e){e.classList.add('in')});
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.12});rv.forEach(function(e){io.observe(e)})}
+
+  /* ---- Hero: Krankmeldung -> Vertretung ---- */
+  var clock=$('grClock'), ph=[].slice.call($('grPh').children), th=$('grThread');
+  var msgs=[].slice.call(th.querySelectorAll('.gr-msg,.gr-sys')), ok=$('grOk'), who=$('grWho'), cand=$('grCand');
+  var crs=[].slice.call(cand.querySelectorAll('.gr-cr')), tm=[];
+  function setMin(m,k){clock.innerHTML='05:<i>'+m+'</i>';ph.forEach(function(l,i){l.classList.toggle('on',i<=k);l.classList.toggle('ok',i<k||(k===3&&i===3))})}
+  function at(t,f){tm.push(setTimeout(f,t))}
+  function hero(){
+    tm.forEach(clearTimeout);tm=[];
+    msgs.forEach(function(m){m.classList.remove('on')});crs.forEach(function(c){c.classList.remove('on')});
+    ok.className='gr-ok';who.className='gr-who';cand.classList.remove('on');ok.querySelector('button').textContent='Bestätigen';
+    setMin('42',0);
+    if(reduce){msgs.forEach(function(m){m.classList.add('on')});crs.forEach(function(c){c.classList.add('on')});cand.classList.add('on');who.className='gr-who x sw';ok.className='gr-ok on done';ok.querySelector('button').textContent='✓ Bestätigt';setMin('45',3);return}
+    at(400,function(){msgs[0].classList.add('on')});
+    at(1300,function(){msgs[1].classList.add('on');who.classList.add('x')});
+    at(2100,function(){setMin('43',1);cand.classList.add('on')});
+    crs.forEach(function(c,i){at(2400+i*380,function(){c.classList.add('on')})});
+    at(3900,function(){msgs[2].classList.add('on')});
+    at(5200,function(){setMin('44',2);msgs[3].classList.add('on')});
+    at(5900,function(){who.classList.add('sw')});
+    at(6700,function(){ok.classList.add('on')});
+    at(7700,function(){ok.classList.add('press')});
+    at(7900,function(){ok.classList.remove('press');ok.classList.add('done');ok.querySelector('button').textContent='✓ Bestätigt';setMin('45',3)});
+    at(16500,hero);
+  }
+  hero();
+
+  /* ---- Kalkulator ---- */
+  var RA=[{n:'Büro- und Aufenthaltsräume',lw:180,max:4000,st:20},{n:'Sanitärräume',lw:60,max:600,st:10},{n:'Flure & Treppenhaus',lw:140,max:1500,st:10}];
+  var PRE=[[[1900,5],[220,5],[560,2]],[[470,5],[90,5],[80,5]],[[600,5],[110,5],[200,3]]];
+  var TN=[1,2,3,5], st=PRE[0].map(function(x){return x.slice()});
+  var rowsEl=$('grRows'), barsEl=$('grBars');
+  function fmt(n){return Math.round(n).toLocaleString('de-DE')}
+  RA.forEach(function(r,i){
+    var d=document.createElement('div');d.className='gr-row';
+    d.innerHTML='<div class="nm"><b>'+r.n+'</b><small>Leistungswert '+r.lw+' m²/Std.</small></div>'+
+      '<div class="gr-sl"><label for="grS'+i+'"><span>Fläche</span><output id="grO'+i+'"></output></label><input type="range" id="grS'+i+'" min="0" max="'+r.max+'" step="'+r.st+'"></div>'+
+      '<div><span class="gr-tnl">Turnus pro Woche</span><div class="gr-tn" role="group" aria-label="Turnus '+r.n+'">'+TN.map(function(t){return '<button type="button" data-t="'+t+'">'+t+'×</button>'}).join('')+'</div></div>';
+    rowsEl.appendChild(d);
+    d.querySelector('input').addEventListener('input',function(e){st[i][0]=+e.target.value;calc()});
+    [].forEach.call(d.querySelectorAll('.gr-tn button'),function(b){b.addEventListener('click',function(){st[i][1]=+b.dataset.t;calc()})});
+    var bar=document.createElement('div');bar.className='gr-bar';bar.innerHTML='<span>'+r.n.split(' ')[0].replace('-','')+'</span><i><s></s></i><span></span>';barsEl.appendChild(bar);
+  });
+  function calc(){
+    var tot=0,h=[];
+    RA.forEach(function(r,i){var v=st[i][0]/r.lw*st[i][1]*4.33;h.push(v);tot+=v;
+      var inp=$('grS'+i);inp.value=st[i][0];inp.style.setProperty('--p',(st[i][0]/r.max*100)+'%');
+      $('grO'+i).textContent=fmt(st[i][0])+' m²';
+      [].forEach.call(rowsEl.children[i].querySelectorAll('.gr-tn button'),function(b){b.setAttribute('aria-pressed',+b.dataset.t===st[i][1]?'true':'false')});
+    });
+    var mx=Math.max.apply(null,h.concat([1]));
+    h.forEach(function(v,i){var b=barsEl.children[i];b.querySelector('s').style.width=(v/mx*100)+'%';b.lastChild.textContent=fmt(v)+' Std.'});
+    $('grTot').textContent=fmt(tot);$('grEur').textContent=fmt(tot*30)+' €';
+  }
+  [].forEach.call($('grTen').querySelectorAll('button'),function(b){b.addEventListener('click',function(){
+    [].forEach.call($('grTen').querySelectorAll('button'),function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    st=PRE[+b.dataset.i].map(function(x){return x.slice()});calc();
+  })});
+  calc();
+
+  /* ---- Leistungsnachweis (scrollgesteuert) ---- */
+  var pg=$('grPg'), phone=$('grPhone'), chk=[].slice.call(phone.querySelectorAll('.gr-chk li')), flow=$('grFlow'), wk=$('grWk');
+  for(var i=0;i<22;i++){var c=document.createElement('i');wk.appendChild(c)}
+  var wks=[].slice.call(wk.children);
+  /* Fortschritt Leistungsnachweis */
+  function proofTick(){
+    var r=pg.getBoundingClientRect(),vh=innerHeight;
+    var p=reduce?1:clamp((vh*.85-r.top)/(vh*.75));
+    chk.forEach(function(l,i){var on=p>(i+1)*.09;l.classList.toggle('on',on&&!l.classList.contains('w'));l.classList.toggle('warn',on&&l.classList.contains('w'))});
+    phone.classList.toggle('done',p>.5);
+    var f=clamp((p-.5)/.15);flow.style.width=(f*100)+'%';flow.parentNode.style.setProperty('--fh',(f*100)+'%');
+    var q=clamp((p-.62)/.38);
+    var n=Math.round(q*22);wks.forEach(function(w,i){w.className=i<n?(i===6||i===15?'on h':'on'):''});
+    $('grK1').textContent=n;$('grK2').textContent=Math.round(q*66);$('grK3').textContent=q>.3?(q>.7?2:1):0;
+  }
+  /* Reklamations-Schritte */
+  var rk=$('grRk'), steps=[].slice.call(rk.querySelectorAll('.gr-steps li')), ln=rk.querySelector('.ln');
+  function rkTick(){
+    var r=rk.getBoundingClientRect(),vh=innerHeight;
+    var p=reduce?1:clamp((vh*.8-r.top)/(vh*.5));
+    var k=Math.floor(p*5.01);steps.forEach(function(s,i){s.classList.toggle('on',i<k)});
+    ln.style.setProperty('--rk',(Math.max(0,k-1)/4*100)+'%');rk.querySelector('.gr-steps').style.setProperty('--rk',(Math.max(0,k-1)/4*100)+'%');
+  }
+  var raf=0;function on(){if(!raf)raf=requestAnimationFrame(function(){raf=0;proofTick();rkTick()})}
+  addEventListener('scroll',on,{passive:true});addEventListener('resize',on);proofTick();rkTick();
+})();
+</script>
+
+<style>
+  /* ---------- CTA + Footer ---------- */
+  .ct{background:var(--night);color:var(--on-night);position:relative;overflow:hidden}
+  .ct-in{max-width:1240px;margin:0 auto;padding:112px 32px 96px;position:relative}
+  .ct .eyebrow{color:var(--mint)}.ct .eyebrow::before{background:var(--mint)}
+
+  .ct-tl{position:relative;height:64px;margin:0 0 56px}
+  .ct-tl svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .ct-tl .base{stroke:var(--night-3);stroke-width:1;stroke-dasharray:3 5}
+  .ct-tl .ink{stroke:var(--on-night-muted);stroke-width:1.25}
+  .ct-tl ol{list-style:none;margin:0;padding:0;position:absolute;inset:0}
+  .ct-tl li{white-space:nowrap;position:absolute;top:22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;font-size:12px;letter-spacing:.06em;color:var(--on-night-muted);opacity:.25;transition:opacity .4s,color .4s}
+  .ct-tl li::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--night);border:1px solid currentColor;margin-top:-4px}
+  .ct-tl li.on{opacity:1}
+  .ct-tl li.now{color:var(--mint);font-weight:500}
+  .ct-tl li.now::before{width:13px;height:13px;margin-top:-6px;background:var(--mint);border-color:var(--mint);box-shadow:0 0 0 0 rgba(140,245,194,.5)}
+  .ct-tl li.now.on::before{animation:ctPulse 2.2s ease-out infinite}
+  @keyframes ctPulse{0%{box-shadow:0 0 0 0 rgba(140,245,194,.45)}100%{box-shadow:0 0 0 16px rgba(140,245,194,0)}}
+
+  .ct-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:72px;align-items:start}
+  .ct-grid>div:first-child{container-type:inline-size}
+  .ct h2 span{display:block;white-space:nowrap}
+  .ct h2{font-weight:500;font-size:min(64px,calc(100cqi / 10.6));line-height:1.02;letter-spacing:-.04em;margin:0 0 24px}
+  .ct h2 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--mint)}
+  .ct-lead{font-size:18px;line-height:28px;color:var(--on-night-muted);max-width:480px;margin:0 0 36px}
+  .ct-list{list-style:none;margin:0 0 40px;padding:0;display:grid;gap:14px;max-width:480px}
+  .ct-list li{display:grid;grid-template-columns:28px 1fr;gap:12px;font-size:15px;line-height:23px}
+  .ct-list li span{width:28px;height:28px;border-radius:50%;border:1px solid var(--night-3);display:grid;place-items:center;font-size:11px;color:var(--mint)}
+  .ct-list b{font-weight:500}
+  .ct-list small{display:block;color:var(--on-night-muted);font-size:14px}
+  .ct-person{display:flex;align-items:center;gap:14px;padding-top:28px;border-top:1px solid var(--night-3);max-width:480px}
+  .ct-ava{width:52px;height:52px;border-radius:50%;background:var(--night-3);display:grid;place-items:center;font-weight:500;font-size:16px;color:var(--mint);flex:none}
+  .ct-person p{margin:0;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-person b{display:block;color:var(--on-night);font-weight:500;font-size:15px}
+  .ct-person a{color:var(--mint);text-decoration:none}
+
+  .ct-form{background:var(--night-2);border:1px solid var(--night-3);border-radius:20px;padding:28px;position:relative}
+  .ct-form h3{margin:0 0 6px;font-size:20px;font-weight:500;letter-spacing:-.02em}
+  .ct-form>p{margin:0 0 22px;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:var(--night);border-radius:999px;margin:0 0 22px}
+  .ct-seg button{font:500 13px/18px var(--sans);color:var(--on-night-muted);background:none;border:0;border-radius:999px;padding:9px 10px;cursor:pointer}
+  .ct-seg button[aria-pressed="true"]{background:var(--on-night);color:var(--night)}
+  .ct-f{display:grid;gap:14px}
+  .ct-f label{display:grid;gap:6px;font-size:12px;letter-spacing:.04em;color:var(--on-night-muted)}
+  .ct-f input,.ct-f select,.ct-f textarea{font:400 15px/22px var(--sans);color:var(--on-night);background:var(--night);border:1px solid var(--night-3);border-radius:10px;padding:11px 13px;width:100%;transition:border-color .2s}
+  .ct-f textarea{resize:vertical;min-height:84px}
+  .ct-f input:focus,.ct-f select:focus,.ct-f textarea:focus{outline:none;border-color:var(--mint)}
+  .ct-f .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .ct-f .ok{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;line-height:19px;letter-spacing:0}
+  .ct-f .ok input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--mint);flex:none}
+  .ct-f .ok a{color:var(--on-night)}
+  .ct-f .btn{justify-content:center;width:100%;margin-top:4px;padding:15px 20px}
+  .ct-f [data-only="call"]{display:none}
+  .ct-form.call [data-only="call"]{display:grid}
+  .ct-form.call [data-only="mail"]{display:none}
+  .ct-done{display:none;text-align:center;padding:48px 8px}
+  .ct-done svg{width:56px;height:56px;margin:0 auto 18px;display:block}
+  .ct-done h3{margin-bottom:8px}
+  .ct-done p{margin:0;color:var(--on-night-muted);font-size:15px;line-height:23px}
+  .ct-form.sent .ct-f,.ct-form.sent .ct-seg,.ct-form.sent>h3,.ct-form.sent>p{display:none}
+  .ct-form.sent .ct-done{display:block}
+  .ct-done path{stroke-dasharray:1;stroke-dashoffset:1}
+  .ct-form.sent .ct-done path{animation:ctDraw .7s .15s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes ctDraw{to{stroke-dashoffset:0}}
+
+  .crv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .crv.in{opacity:1;transform:none}
+
+  /* Footer */
+  .ft{background:var(--night);color:var(--on-night);border-top:1px solid var(--night-3);overflow:hidden}
+  .ft-in{max-width:1240px;margin:0 auto;padding:64px 32px 0}
+  .ft-top{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px;padding-bottom:56px}
+  .ft-brand svg{height:30px;width:auto;display:block;margin-bottom:18px}
+  .ft-brand p{margin:0 0 20px;font-size:14px;line-height:22px;color:var(--on-night-muted);max-width:300px}
+  .ft-badges{display:flex;flex-wrap:wrap;gap:8px}
+  .ft-badges span{font-size:12px;color:var(--on-night-muted);border:1px solid var(--night-3);border-radius:999px;padding:5px 11px}
+  .ft h4{margin:0 0 16px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--on-night-muted)}
+  .ft ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .ft ul a{color:var(--on-night);text-decoration:none;font-size:15px;opacity:.86}
+  .ft ul a:hover{opacity:1;color:var(--mint)}
+  .ft-mark{position:relative;margin:0 -2px;line-height:0}
+  .ft-mark svg{width:100%;height:auto;display:block}
+  .ft-mark .o{fill:#15181C}
+  .ft-mark .f{fill:var(--night-3)}
+  .ft-bot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;padding:22px 0 28px;border-top:1px solid var(--night-3);font-size:13px;color:var(--on-night-muted)}
+  .ft-bot nav{display:flex;gap:20px}
+  .ft-bot a{color:inherit;text-decoration:none}.ft-bot a:hover{color:var(--on-night)}
+
+  @media (max-width:980px){
+    .ct-grid{grid-template-columns:1fr;gap:48px}
+    .ft-top{grid-template-columns:1fr 1fr}
+    .ft-brand{grid-column:1/-1}
+    .ft-top>div:last-child{grid-column:1/-1}
+  }
+  @media (max-width:640px){
+    .ct-in{padding:80px 16px 72px}
+    .ct-tl{margin-bottom:40px}
+    .ct-tl li{font-size:10.5px;letter-spacing:.02em}
+    .ct-tl li:nth-child(2),.ct-tl li:nth-child(4){display:none}
+    .ct-form{padding:22px 18px}
+    .ct-f .two{grid-template-columns:1fr}
+    .ft-in{padding:56px 16px 0}
+    .ft-top{gap:32px 20px}
+    .ft-bot{flex-direction:column}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .crv{opacity:1;transform:none;transition:none}
+    .ct-tl li.now.on::before{animation:none}
+  }
+</style>
+
+<section class="ct" id="kontakt">
+  <div class="ct-in">
+    <div class="ct-tl" aria-hidden="true">
+      <svg viewBox="0 0 1000 64" preserveAspectRatio="none"><line class="base" x1="0" y1="22" x2="1000" y2="22"/><line class="ink" x1="0" y1="22" x2="1000" y2="22" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+      <ol>
+        <li style="left:4%">1850</li><li style="left:24%">1920</li><li style="left:44%">1965</li><li style="left:64%">1995</li><li style="left:96%" class="now">Ihr Betrieb</li>
+      </ol>
+    </div>
+
+    <div class="ct-grid">
+      <div class="crv">
+        <p class="eyebrow">Erstgespräch</p>
+        <h2><span>Die nächste Epoche</span><span>beginnt in <em>Ihrem Betrieb.</em></span></h2>
+        <p class="ct-lead">In 30 Minuten wissen Sie, wo KI bei Ihnen Zeit spart – und wo nicht. Ohne Verkaufsgespräch, ohne Fachchinesisch.</p>
+        <ol class="ct-list">
+          <li><span>01</span><div><b>Sie erzählen, wo es hakt.</b><small>Per Video oder bei Ihnen vor Ort.</small></div></li>
+          <li><span>02</span><div><b>Wir zeigen, was möglich ist.</b><small>An Beispielen aus Ihrer Branche.</small></div></li>
+          <li><span>03</span><div><b>Sie entscheiden in Ruhe.</b><small>Auf Wunsch mit schriftlicher Einschätzung.</small></div></li>
+        </ol>
+        <div class="ct-person">
+          <div class="ct-ava" aria-hidden="true">NK</div>
+          <p><b>Nic Karban</b>Gründer · Ihr Ansprechpartner<br><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></p>
+        </div>
+      </div>
+
+      <div class="ct-form crv" id="ctForm">
+        <h3>Erstgespräch anfragen</h3>
+        <p>Wir melden uns innerhalb eines Werktags.</p>
+        <div class="ct-seg" role="group" aria-label="Kontaktweg">
+          <button type="button" aria-pressed="true" data-mode="mail">Termin per E-Mail</button>
+          <button type="button" aria-pressed="false" data-mode="call">Rückruf</button>
+        </div>
+        <!-- TODO: action auf echtes Formular-Backend / Buchungstool setzen -->
+        <form class="ct-f" action="#" method="post" novalidate>
+          <div class="two">
+            <label>Name<input name="name" autocomplete="name" required></label>
+            <label>Betrieb<input name="firma" autocomplete="organization"></label>
+          </div>
+          <label data-only="mail">E-Mail<input type="email" name="email" autocomplete="email"></label>
+          <div class="two" data-only="call">
+            <label>Telefon<input type="tel" name="tel" autocomplete="tel"></label>
+            <label>Am besten erreichbar<select name="zeit"><option>Vormittags</option><option>Mittags</option><option>Nachmittags</option></select></label>
+          </div>
+          <label>Wo kostet Sie Routine am meisten Zeit? <span style="opacity:.6">(optional)</span><textarea name="nachricht" placeholder="z. B. Angebote schreiben, Telefon, Rechnungen prüfen …"></textarea></label>
+          <label class="ok"><input type="checkbox" name="dsgvo" required><span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden. <a href="#">Datenschutz</a></span></label>
+          <button class="btn m" type="submit">Anfrage senden <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="ct-done" role="status">
+          <svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="27" fill="none" stroke="#22262B"/><path d="M17 29 25 37 40 20" fill="none" stroke="#8CF5C2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
+          <h3>Danke – ist angekommen.</h3>
+          <p>Wir melden uns innerhalb eines Werktags bei Ihnen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="ft">
+  <div class="ft-in">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <svg viewBox="0 8 160.8 64" aria-label="Ailien"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#F3F1EC"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#8CF5C2" fill-rule="evenodd"/></svg>
+        <p>KI-Automatisierung für Mittelstand und Handwerk. Wir bauen Systeme, die Routine abnehmen – und betreuen sie dauerhaft.</p>
+        <div class="ft-badges"><span>DSGVO-konform</span><span>Server in der EU</span><span>Made in Germany</span></div>
+      </div>
+      <div>
+        <h4>Leistungen</h4>
+        <ul><li><a href="#leistungen">Prozess-Automationen</a></li><li><a href="#leistungen">KI-Wissenssysteme</a></li><li><a href="#leistungen">Voice &amp; Kommunikation</a></li><li><a href="#leistungen">KI-Strategie &amp; Beratung</a></li></ul>
+      </div>
+      <div>
+        <h4>Ailien</h4>
+        <ul><li><a href="#praxis">Praxisbeispiele</a></li><li><a href="#vorgehen">Vorgehen</a></li><li><a href="#faq">Häufige Fragen</a></li><li><a href="#rechner">Entlastungs-Rechner</a></li></ul>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul><li><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></li><li><a href="#kontakt">Erstgespräch anfragen</a></li><li><a href="#">LinkedIn</a></li></ul>
+      </div>
+    </div>
+
+    <div class="ft-mark" aria-hidden="true">
+      <svg viewBox="7 11.5 143.5 51.6"><defs><g id="ftWord"><path d=""/><path fill-rule="evenodd" d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z"/></g><clipPath id="ftClip"><rect id="ftRise" x="0" y="64" width="161" height="70"/></clipPath></defs>
+        <g class="o"><use href="#ftWord"/></g>
+        <g clip-path="url(#ftClip)"><g class="f"><use href="#ftWord"/></g></g>
+      </svg>
+    </div>
+
+    <div class="ft-bot">
+      <span>© 2026 Ailien · ailien-automation.de</span>
+      <nav><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">AGB</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var clamp=function(v){return v<0?0:v>1?1:v};
+  /* Reveals */
+  var els=[].slice.call(document.querySelectorAll('.crv'));
+  if(reduce||!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')})}
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.15});
+    els.forEach(function(e,i){e.style.transitionDelay=(i%2?.12:0)+'s';io.observe(e)})}
+
+  /* Zeitstrahl + Wortmarke scroll-gesteuert */
+  var tl=document.querySelector('.ct-tl'), ink=tl&&tl.querySelector('.ink'), lis=tl?[].slice.call(tl.querySelectorAll('li')):[];
+  var pos=lis.map(function(l){return parseFloat(l.style.left)/100});
+  var mark=document.querySelector('.ft-mark'), rise=document.getElementById('ftRise');
+  function tick(){
+    var vh=innerHeight;
+    if(tl){
+      var r=tl.getBoundingClientRect();
+      var p=reduce?1:clamp((vh*.92-r.top)/(vh*.55));
+      ink.style.strokeDashoffset=1-p;
+      lis.forEach(function(l,i){l.classList.toggle('on',p>=pos[i]-.02)});
+    }
+    if(mark){
+      var m=mark.getBoundingClientRect();
+      var q=reduce?1:clamp((vh-m.top-m.height*.1)/(m.height*.9));
+      rise.setAttribute('y',(63-q*51).toFixed(2));
+    }
+  }
+  var raf=0;function on(){if(!raf)raf=requestAnimationFrame(function(){raf=0;tick()})}
+  addEventListener('scroll',on,{passive:true});addEventListener('resize',on);tick();
+
+  /* Formular */
+  var f=document.getElementById('ctForm'); if(!f) return;
+  var btns=[].slice.call(f.querySelectorAll('.ct-seg button'));
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    f.classList.toggle('call',b.dataset.mode==='call');
+  })});
+  f.querySelector('form').addEventListener('submit',function(e){
+    e.preventDefault(); /* Demo: hier später an Backend senden */
+    var form=e.target, E=form.elements, call=f.classList.contains('call');
+    var nm=E.namedItem('name'), ct=E.namedItem(call?'tel':'email'), cb=E.namedItem('dsgvo');
+    var name=nm.value.trim(), contact=ct.value.trim(), ok=cb.checked;
+    [nm,ct].forEach(function(i){i.style.borderColor=i.value.trim()?'':'#F2C46B'});
+    cb.parentNode.style.color=ok?'':'#F2C46B';
+    if(!name||!contact||!ok) return;
+    f.classList.add('sent');
+  });
+})();
+</script>
+
+</body>
+</html>

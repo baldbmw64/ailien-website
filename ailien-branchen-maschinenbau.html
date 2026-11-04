@@ -1,0 +1,1169 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KI für Maschinen- & Anlagenbau – ailien</title>
+<meta name="description" content="KI-Helfer für den Maschinen- und Anlagenbau: Angebote aus Altaufträgen, Service-Wissen mit Quellenangabe, Ersatzteile per Foto, AB-Abgleich und Doku-Übersetzung. Daten in der EU.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F3F1EC; --ink:#0E1013; --muted:#5F636A; --line:#DEDBD3; --accent:#0F7A55;
+    --night:#0E1013; --night-2:#171A1E; --night-3:#22262B; --on-night:#F3F1EC; --on-night-muted:#A3A7AD; --mint:#8CF5C2;
+    --warn:#F2C46B;
+    --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+    --serif:"Instrument Serif",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);overflow-x:clip}
+  .btn{display:inline-flex;align-items:center;gap:10px;font:500 14px/20px var(--sans);padding:13px 20px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer}
+  .btn.p{background:var(--night);color:var(--on-night)}.btn.p:hover{background:#23262b}
+  .btn.s{color:var(--ink);border-color:var(--line)}.btn.s:hover{border-color:var(--ink)}
+  .btn:focus-visible,.dot:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--accent);margin:0 0 18px;display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--accent)}
+  .btn.m{background:var(--mint);color:var(--night)}.btn.m:hover{background:#a6f8d0}
+</style>
+<style>
+  /* ---------- Header (Variante C) ---------- */
+  .hd-sp{height:117px}
+  .hd{position:fixed;top:0;left:0;right:0;z-index:100;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+  .hd-w{max-width:1240px;margin:0 auto;padding:0 32px}
+  .hd-bar{background:var(--night);color:var(--on-night-muted);font-size:12px;height:36px;overflow:hidden;transition:height .35s,opacity .35s}
+  .hd-bar .hd-w{height:100%;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .hd-bar span{display:flex;gap:18px}
+  .hd-bar b{font-weight:500}
+  .hd-bar i{font-style:normal;color:var(--mint);margin-right:6px}
+  .hd-bar a{color:var(--on-night);text-decoration:none}.hd-bar a:hover{color:var(--mint)}
+  .hd-main{background:var(--paper);border-bottom:1px solid transparent;transition:border-color .3s}
+  .hd-main .hd-w{display:flex;align-items:center;gap:28px;padding-top:18px;padding-bottom:18px;transition:padding .35s}
+  .hd-lg{display:block;height:38px;width:auto;color:var(--ink);transition:height .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-nv{display:flex;align-items:center;gap:2px;margin-right:auto}
+  .hd-ni{font:400 14px/20px var(--sans);color:var(--ink);background:none;border:0;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;white-space:nowrap}
+  .hd-ni sup{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--accent);margin-right:2px;line-height:0}
+  .hd-ni:hover,.hd-dd.on .hd-ni{color:var(--accent)}
+  .hd-ni svg{width:9px;height:9px;opacity:.6;transition:transform .25s}
+  .hd-dd{position:relative}
+  .hd-dd.on .hd-ni svg{transform:rotate(180deg)}
+  .hd-p{position:absolute;top:calc(100% + 14px);left:0;z-index:5;transform:translateY(8px);opacity:0;visibility:hidden;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:0 30px 60px -20px rgba(14,16,19,.28);transition:opacity .25s,transform .25s cubic-bezier(.2,.7,.2,1),visibility .25s}
+  .hd-p::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px}
+  .hd-dd.on .hd-p{opacity:1;visibility:visible;transform:none}
+  .hd-p.wide{width:640px;display:grid;grid-template-columns:1fr 1fr 210px;gap:4px}
+  .hd-p.list{width:330px;display:grid;gap:2px}
+  .hd-i{position:relative;display:block;padding:14px;border-radius:12px;text-decoration:none;color:inherit;transition:background .2s}
+  .hd-i:hover{background:var(--paper)}
+  .hd-i b{display:block;font-weight:500;font-size:14.5px;letter-spacing:-.01em;margin-bottom:3px}
+  .hd-i b::before{content:"";position:absolute;left:5px;top:21px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity .2s}
+  .hd-i:hover b::before{opacity:1}
+  .hd-i span{display:block;font-size:13px;line-height:19px;color:var(--muted)}
+  .hd-feat{grid-row:1/3;grid-column:3;background:var(--night);color:var(--on-night);border-radius:12px;padding:18px;display:flex;flex-direction:column;text-decoration:none}
+  .hd-feat small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint)}
+  .hd-feat strong{font-weight:500;font-size:17px;line-height:23px;letter-spacing:-.02em;margin-top:10px}
+  .hd-feat strong em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;color:var(--mint)}
+  .hd-feat span{margin-top:auto;font-size:13px;color:var(--on-night-muted)}
+  .hd-all{grid-column:1/3;display:flex;justify-content:space-between;padding:12px 14px;margin-top:4px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);text-decoration:none}
+  .hd-all:hover{color:var(--accent)}
+  .hd-r{display:flex;gap:8px}
+  .hd .btn{padding:12px 20px;white-space:nowrap}
+  .hd .btn .ar{transition:transform .2s}.hd .btn:hover .ar{transform:translateX(3px)}
+  .hd-burger{display:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:none;cursor:pointer;position:relative;flex:none;color:var(--ink)}
+  .hd-burger::before,.hd-burger::after{content:"";position:absolute;left:14px;right:14px;height:1.5px;background:currentColor;transition:transform .3s,top .3s}
+  .hd-burger::before{top:17px}.hd-burger::after{top:25px}
+  .hd-open .hd-burger::before{top:21px;transform:rotate(45deg)}.hd-open .hd-burger::after{top:21px;transform:rotate(-45deg)}
+  .hd.sc .hd-bar{height:0;opacity:0}
+  .hd.sc .hd-main{border-color:var(--line)}
+  .hd.sc .hd-main .hd-w{padding-top:12px;padding-bottom:12px}
+  .hd.sc .hd-lg{height:32px}
+  .hd-lg.old{height:32px}.hd.sc .hd-lg.old{height:28px}
+  .hd.hide{transform:translateY(-100%)}
+
+  /* Handy-Menü */
+  .hd-mm{position:fixed;inset:0;z-index:99;background:var(--paper);display:flex;flex-direction:column;padding:120px 22px 24px;overflow:auto;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+  .hd-open .hd-mm{opacity:1;visibility:visible}
+  .hd-mm>ol{list-style:none;margin:0;padding:0;counter-reset:n}
+  .hd-mm>ol>li{counter-increment:n;border-bottom:1px solid var(--line);opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s}
+  .hd-open .hd-mm>ol>li{opacity:1;transform:none}
+  .hd-open .hd-mm>ol>li:nth-child(2){transition-delay:.04s}.hd-open .hd-mm>ol>li:nth-child(3){transition-delay:.08s}.hd-open .hd-mm>ol>li:nth-child(4){transition-delay:.12s}.hd-open .hd-mm>ol>li:nth-child(5){transition-delay:.16s}
+  .hd-t{display:flex;align-items:center;width:100%;padding:15px 0;font:500 26px/1.15 var(--sans);letter-spacing:-.03em;color:var(--ink);text-decoration:none;background:none;border:0;cursor:pointer;text-align:left}
+  .hd-t::after{content:"0" counter(n);margin-left:auto;font-family:var(--serif);font-style:italic;font-weight:400;font-size:17px;color:var(--accent)}
+  .hd-t .pl{order:3;margin-left:14px;width:12px;height:12px;position:relative;opacity:.6}
+  .hd-t .pl::before,.hd-t .pl::after{content:"";position:absolute;left:0;right:0;top:5.5px;height:1.5px;background:currentColor;transition:transform .3s}
+  .hd-t .pl::after{transform:rotate(90deg)}
+  .hd-mm li.ex .pl::after{transform:rotate(0)}
+  .hd-s{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-mm li.ex .hd-s{grid-template-rows:1fr}
+  .hd-s>div{overflow:hidden}
+  .hd-s a{display:block;padding:8px 0 8px 2px;font-size:16px;color:var(--ink);opacity:.75;text-decoration:none}
+  .hd-s a:last-child{margin-bottom:14px}
+  .hd-mf{margin-top:auto;padding-top:28px;display:grid;gap:14px}
+  .hd-mf .btn{justify-content:center;padding:15px}
+  .hd-mf small{font-size:12px;color:var(--muted);text-align:center}
+  body.hd-lock{overflow:hidden}
+
+  @media (max-width:1180px){.hd-r .btn.s{display:none}.hd-main .hd-w{gap:16px}}
+  @media (max-width:980px){
+    .hd-nv{display:none}.hd-burger{display:block}
+    .hd-r{margin-left:auto}.hd-bar a{display:none}
+    .hd-lg{height:34px}.hd.sc .hd-lg{height:30px}
+    .hd .btn{padding:10px 16px;font-size:13px}
+  }
+  @media (max-width:980px){.hd-sp{height:113px}}
+  @media (max-width:520px){
+    .hd-sp{height:109px}
+    .hd-w{padding:0 16px}.hd-bar{font-size:11px}
+    .hd-bar span b:nth-child(n+3){display:none}
+    .hd-main .hd-w{padding-top:14px;padding-bottom:14px;gap:12px}
+    .hd.sc .hd-main .hd-w{padding-top:10px;padding-bottom:10px}
+  }
+  @media (max-width:360px){.hd-r .btn{display:none}}
+  @media (prefers-reduced-motion:reduce){.hd,.hd-p,.hd-mm,.hd-mm li{transition:none}}
+  .hd-main .hd-w{position:relative}
+  .hd-dd.mega{position:static}
+  .hd-p.mega{left:32px;right:32px;width:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:18px}
+  .hd-g{display:flex;flex-direction:column;gap:2px;padding:6px}
+  .hd-g small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px 10px}
+  .hd-l{display:block;padding:9px 10px;border-radius:10px;color:var(--ink);text-decoration:none;font-size:14.5px;transition:background .2s}
+  .hd-l:hover{background:var(--paper)}
+  .hd-l[aria-current="page"]{background:var(--paper);font-weight:500}
+  .hd-l[aria-current="page"]::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:2px}
+  .hd-s a[aria-current="page"]{opacity:1;font-weight:500}
+
+</style>
+</head>
+<body>
+<header class="hd" id="hd">
+  <div class="hd-bar"><div class="hd-w"><span><b><i>✓</i>DSGVO-konform</b><b><i>✓</i>Server in der EU</b><b><i>✓</i>Antwort innerhalb eines Werktags</b></span><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></div></div>
+  <div class="hd-main"><div class="hd-w">
+    <a href="ailien-startseite.html" aria-label="ailien Startseite"><svg class="hd-lg" viewBox="0 8 160.8 64" aria-hidden="true"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#0E1013"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#0F7A55" fill-rule="evenodd"/></svg></a>
+    <nav class="hd-nv" aria-label="Hauptnavigation">
+      <div class="hd-dd">
+        <button class="hd-ni" aria-expanded="false"><sup>01</sup>Leistungen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+        <div class="hd-p wide">
+          <a class="hd-i" href="/leistungen/prozess-automation"><b>Prozess-Automationen</b><span>Belege, Angebote, Bestellungen – läuft von selbst.</span></a>
+          <a class="hd-i" href="/leistungen/wissenssysteme"><b>KI-Wissenssysteme</b><span>Firmenwissen, das jeder sofort findet.</span></a>
+          <a class="hd-i" href="/leistungen/voice"><b>Voice &amp; Kommunikation</b><span>Telefon-Assistent und E-Mail-Vorsortierung.</span></a>
+          <a class="hd-i" href="/leistungen/beratung"><b>KI-Strategie &amp; Beratung</b><span>Wo lohnt sich KI bei Ihnen wirklich?</span></a>
+          <a class="hd-feat" href="ailien-entlastungsrechner.html"><small>Rechner</small><strong>Wie viele Stunden <em>sparen Sie?</em></strong><span>Jetzt ausrechnen →</span></a>
+          <a class="hd-all" href="/leistungen">Alle Leistungen im Überblick <span>→</span></a>
+        </div>
+      </div>
+      <div class="hd-dd mega"><button class="hd-ni" aria-expanded="false"><sup>02</sup>Branchen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><div class="hd-p mega"><div class="hd-g"><small>Bau &amp; Handwerk</small><a class="hd-l" href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a class="hd-l" href="ailien-branchen-bad-kueche.html">Bad- &amp; Küchenstudios</a><a class="hd-l" href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a class="hd-l" href="ailien-branchen-gebaeudereinigung.html">Gebäudereinigung</a></div><div class="hd-g"><small>Industrie &amp; Technik</small><a class="hd-l" href="ailien-branchen-maschinenbau.html" aria-current="page">Maschinen- &amp; Anlagenbau</a><a class="hd-l" href="ailien-branchen-cnc.html">CNC-Betriebe</a><a class="hd-l" href="ailien-branchen-dguv-v3.html">Elektroprüfung DGUV V3</a><a class="hd-l" href="ailien-branchen-brandschutz.html">Brandschutz</a></div><div class="hd-g"><small>Immobilien &amp; Planung</small><a class="hd-l" href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a class="hd-l" href="ailien-branchen-immobilienmakler.html">Immobilienmakler</a><a class="hd-l" href="ailien-branchen-architekten.html">Architekten</a><a class="hd-l" href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a></div><div class="hd-g"><small>Dienstleistung</small><a class="hd-l" href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a class="hd-l" href="ailien-branchen-foerdermittelberatung.html">Fördermittelberatung</a><a class="hd-l" href="ailien-branchen-bestatter.html">Bestatter</a></div></div></div>
+      <a class="hd-ni" href="ailien-praxisbeispiele.html"><sup>03</sup>Praxisbeispiele</a>
+      <a class="hd-ni" href="ailien-ueber-uns.html"><sup>04</sup>Über uns</a>
+      <a class="hd-ni" href="/wissen"><sup>05</sup>Wissen</a>
+    </nav>
+    <div class="hd-r"><a class="btn s" href="ailien-entlastungsrechner.html?branche=maschinenbau">Rechner</a><a class="btn p" href="/kontakt">Erstgespräch <span class="ar">→</span></a></div>
+    <button class="hd-burger" aria-label="Menü öffnen" aria-expanded="false"></button>
+  </div></div>
+</header>
+<div class="hd-sp" aria-hidden="true"></div>
+<div class="hd-mm" id="hdMenu">
+  <ol>
+    <li><button class="hd-t">Leistungen<i class="pl"></i></button><div class="hd-s"><div><a href="/leistungen/prozess-automation">Prozess-Automationen</a><a href="/leistungen/wissenssysteme">KI-Wissenssysteme</a><a href="/leistungen/voice">Voice &amp; Kommunikation</a><a href="/leistungen/beratung">KI-Strategie &amp; Beratung</a><a href="/leistungen">Alle Leistungen →</a></div></div></li>
+    <li><button class="hd-t">Branchen<i class="pl"></i></button><div class="hd-s"><div><a href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a href="ailien-branchen-bad-kueche.html">Bad- &amp; Küchenstudios</a><a href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a href="ailien-branchen-gebaeudereinigung.html">Gebäudereinigung</a><a href="ailien-branchen-maschinenbau.html" aria-current="page">Maschinen- &amp; Anlagenbau</a><a href="ailien-branchen-cnc.html">CNC-Betriebe</a><a href="ailien-branchen-dguv-v3.html">Elektroprüfung DGUV V3</a><a href="ailien-branchen-brandschutz.html">Brandschutz</a><a href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a href="ailien-branchen-immobilienmakler.html">Immobilienmakler</a><a href="ailien-branchen-architekten.html">Architekten</a><a href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a><a href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a href="ailien-branchen-foerdermittelberatung.html">Fördermittelberatung</a><a href="ailien-branchen-bestatter.html">Bestatter</a></div></div></li>
+    <li><a class="hd-t" href="ailien-praxisbeispiele.html">Praxisbeispiele</a></li>
+    <li><a class="hd-t" href="ailien-ueber-uns.html">Über uns</a></li>
+    <li><a class="hd-t" href="/wissen">Wissen</a></li>
+  </ol>
+  <div class="hd-mf"><a class="btn p" href="/kontakt">Erstgespräch vereinbaren <span class="ar">→</span></a><a class="btn s" href="ailien-entlastungsrechner.html?branche=maschinenbau">Entlastungs-Rechner</a><small>DSGVO-konform · Server in der EU</small></div>
+</div>
+<script>
+(function(){
+  var h=document.getElementById('hd'), last=scrollY, root=document.documentElement, sp=document.querySelector('.hd-sp');
+  function fit(){if(!h.classList.contains('sc'))sp.style.height=h.offsetHeight+'px'}
+  fit();addEventListener('resize',fit);if(document.fonts)document.fonts.ready.then(fit);
+  var dds=[].slice.call(h.querySelectorAll('.hd-dd'));
+  function closeAll(ex){dds.forEach(function(d){if(d!==ex){d.classList.remove('on');d.querySelector('.hd-ni').setAttribute('aria-expanded','false')}})}
+  dds.forEach(function(d){
+    var t,b=d.querySelector('.hd-ni');
+    function open(){clearTimeout(t);closeAll(d);d.classList.add('on');b.setAttribute('aria-expanded','true')}
+    d.addEventListener('mouseenter',open);
+    d.addEventListener('mouseleave',function(){t=setTimeout(function(){d.classList.remove('on');b.setAttribute('aria-expanded','false')},140)});
+    b.addEventListener('click',function(){d.classList.contains('on')?closeAll():open()});
+  });
+  document.addEventListener('click',function(e){if(!h.contains(e.target))closeAll()});
+  var menu=document.getElementById('hdMenu'), burger=h.querySelector('.hd-burger');
+  function setMenu(o){root.classList.toggle('hd-open',o);document.body.classList.toggle('hd-lock',o);burger.setAttribute('aria-expanded',o?'true':'false');burger.setAttribute('aria-label',o?'Menü schließen':'Menü öffnen');if(o)h.classList.remove('hide')}
+  burger.addEventListener('click',function(){setMenu(!root.classList.contains('hd-open'))});
+  menu.querySelectorAll('button.hd-t').forEach(function(b){b.addEventListener('click',function(){b.parentNode.classList.toggle('ex')})});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeAll();setMenu(false)}});
+  var raf=0;
+  addEventListener('scroll',function(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;
+    var y=scrollY;
+    if(y>48)h.classList.add('sc');else if(y<8)h.classList.remove('sc');
+    if(!root.classList.contains('hd-open')){
+      if(y>240&&y>last+6){h.classList.add('hide');closeAll()}
+      else if(y<last-6||y<240)h.classList.remove('hide');
+    }
+    last=y;
+  })},{passive:true});
+})();
+</script>
+<style>
+  /* ================= Branche: Maschinen- & Anlagenbau (mb-) ================= */
+  .mb-w{max-width:1240px;margin:0 auto;padding-left:32px;padding-right:32px}
+  .mb-h2{font-weight:500;font-size:clamp(30px,3.6vw,50px);line-height:1.05;letter-spacing:-.04em;margin:0 0 18px}
+  .mb-h2 em,.mb-hero h1 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--accent)}
+  .mb-dark .mb-h2 em,.mb-hero h1 em{color:var(--mint)}
+  .mb-dark .eyebrow,.mb-hero .eyebrow{color:var(--mint)}.mb-dark .eyebrow::before,.mb-hero .eyebrow::before{background:var(--mint)}
+  .mb-sub{font-size:18px;line-height:28px;color:var(--muted);max-width:560px;margin:0}
+  .mb-dark .mb-sub{color:var(--on-night-muted)}
+  .mb-hand{font-family:"Caveat","Caveat Medium",cursive;font-weight:500}
+  .mb-num{font-variant-numeric:tabular-nums}
+  .mb-rv{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .mb-rv.in{opacity:1;transform:none}
+  .mb-ex{font-size:12px;color:var(--muted)}
+  .mb-dark .mb-ex,.mb-hero .mb-ex{color:var(--on-night-muted)}
+
+  /* ---------- Hero (dunkel, Blueprint) ---------- */
+  .mb-hero{position:relative;overflow:hidden;color:var(--on-night);
+    background:
+      linear-gradient(rgba(140,245,194,.075) 1px,transparent 1px) 0 0/120px 120px,
+      linear-gradient(90deg,rgba(140,245,194,.075) 1px,transparent 1px) 0 0/120px 120px,
+      linear-gradient(rgba(140,245,194,.03) 1px,transparent 1px) 0 0/24px 24px,
+      linear-gradient(90deg,rgba(140,245,194,.03) 1px,transparent 1px) 0 0/24px 24px,
+      var(--night)}
+  .mb-hero .mb-w{position:relative;padding-top:32px;padding-bottom:88px}
+  .mb-deco{position:absolute;right:-60px;top:-30px;width:520px;height:520px;color:rgba(140,245,194,.16);pointer-events:none}
+  .mb-deco *{fill:none;stroke:currentColor;stroke-width:1}
+  .mb-crumb{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--on-night-muted);margin:0 0 36px;position:relative}
+  .mb-crumb a{color:inherit;text-decoration:none}.mb-crumb a:hover{color:var(--on-night)}
+  .mb-crumb span{opacity:.5}
+  .mb-top{display:grid;grid-template-columns:1.2fr .8fr;gap:56px;align-items:end;position:relative}
+  .mb-top>*{min-width:0}
+  .mb-tl{container-type:inline-size}
+  .mb-hero h1{font-weight:500;font-size:min(64px,calc(100cqi / 10.9));line-height:1.02;letter-spacing:-.045em;margin:0}
+  .mb-hero h1 span{display:block;white-space:nowrap}
+  .mb-lead{font-size:18px;line-height:28px;color:var(--on-night-muted);margin:0 0 28px}
+  .mb-lead b{color:var(--on-night);font-weight:500}
+  .mb-ctas{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px}
+  .mb-link{font-size:15px;color:var(--on-night);text-decoration:none;border-bottom:1px solid var(--night-3);padding-bottom:3px}
+  .mb-link:hover{border-color:var(--mint)}
+
+  /* Maßlinie über dem Ablauf */
+  .mb-dim{position:relative;margin:52px 0 18px;height:22px;color:var(--on-night-muted);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+  .mb-dim::before{content:"";position:absolute;left:0;right:0;top:10px;border-top:1px solid rgba(163,167,173,.45)}
+  .mb-dim i{position:absolute;top:2px;width:1px;height:17px;background:rgba(163,167,173,.6)}
+  .mb-dim i:first-child{left:0}.mb-dim i:last-child{right:0}
+  .mb-dim span{position:absolute;left:50%;top:0;transform:translateX(-50%);background:var(--night);padding:2px 14px;white-space:nowrap}
+
+  /* Ablauf: Anfrage -> Altaufträge -> Angebot */
+  .mb-flow{display:grid;grid-template-columns:1fr 48px 1.08fr 48px 1fr;align-items:stretch}
+  .mb-flow>*{min-width:0}
+  .mb-st{background:var(--night-2);border:1px solid var(--night-3);border-radius:16px;padding:18px 18px 16px;position:relative}
+  .mb-st .k{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--on-night-muted);margin:0 0 12px}
+  .mb-st .k b{font-weight:500;color:var(--mint)}
+  .mb-st .k em{font-style:normal;font-family:var(--serif);font-size:16px;letter-spacing:0;text-transform:none;color:var(--night-3)}
+  .mb-mail{font-size:13.5px;line-height:21px;color:#D5D7DA;margin:0 0 14px}
+  .mb-mail small{display:block;font-size:12px;color:var(--on-night-muted);margin-bottom:8px}
+  .mb-kw{border-radius:4px;transition:background .3s,color .3s,box-shadow .3s}
+  .mb-kw.on{background:rgba(140,245,194,.14);color:var(--on-night);box-shadow:0 0 0 2px rgba(140,245,194,.14)}
+  .mb-chips{display:flex;flex-wrap:wrap;gap:6px;padding-top:12px;border-top:1px dashed var(--night-3)}
+  .mb-chips span{font-size:12px;border:1px solid rgba(140,245,194,.3);color:var(--mint);border-radius:999px;padding:4px 9px;opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s}
+  .mb-chips span.on{opacity:1;transform:none}
+  .mb-att{display:flex;gap:6px;margin:0 0 12px}
+  .mb-att span{font-size:11.5px;color:var(--on-night-muted);background:var(--night);border:1px solid var(--night-3);border-radius:6px;padding:4px 8px}
+
+  .mb-con{position:relative;display:flex;align-items:center;justify-content:center}
+  .mb-con svg{width:48px;height:20px;overflow:visible}
+  .mb-con path{fill:none;stroke:var(--mint);stroke-width:1.4;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .6s cubic-bezier(.4,.1,.2,1)}
+  .mb-con.on path{stroke-dashoffset:0}
+
+  .mb-old{display:grid;gap:8px}
+  .mb-o{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:11px 12px;border-radius:10px;background:var(--night);border:1px solid var(--night-3);opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s,border-color .4s,background .4s}
+  .mb-o.on{opacity:1;transform:none}
+  .mb-o.best{border-color:rgba(140,245,194,.5);background:rgba(140,245,194,.06)}
+  .mb-o b{font-weight:500;font-size:13.5px}
+  .mb-o b small{font-weight:400;color:var(--on-night-muted);font-size:12px;margin-left:6px}
+  .mb-o .pc{font-size:13.5px;color:var(--mint);text-align:right}
+  .mb-o .d{grid-column:1/-1;font-size:12.5px;line-height:18px;color:var(--on-night-muted)}
+  .mb-o .bar{grid-column:1/-1;height:4px;border-radius:2px;background:var(--night-3);overflow:hidden}
+  .mb-o .bar i{display:block;height:100%;width:0;background:var(--mint);transition:width .9s cubic-bezier(.2,.7,.2,1)}
+  .mb-o .m{grid-column:1/-1;display:flex;gap:14px;font-size:12px;color:#D5D7DA}
+  .mb-o .tag{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--night);background:var(--mint);border-radius:999px;padding:2px 7px;margin-left:auto;opacity:0;transition:opacity .3s}
+  .mb-o.best .tag{opacity:1}
+
+  .mb-doc{background:var(--paper);color:var(--ink);border-color:#fff}
+  .mb-doc .k{color:var(--muted)}
+  .mb-doc .k b{color:var(--accent);background:rgba(15,122,85,.1);padding:3px 8px;border-radius:999px}
+  .mb-doc h3{margin:0 0 4px;font-weight:500;font-size:16px;letter-spacing:-.01em}
+  .mb-doc .meta{font-size:12px;line-height:17px;color:var(--muted);margin:0 0 8px}
+  .mb-pos{display:grid;grid-template-columns:18px 1fr auto;gap:8px;padding:7px 0;border-bottom:1px dashed #DCD8CE;font-size:13px;line-height:18px;opacity:0;transform:translateY(5px);transition:opacity .3s,transform .3s}
+  .mb-pos.on{opacity:1;transform:none}
+  .mb-pos i{font-style:normal;color:var(--muted);font-size:12px}
+  .mb-pos em{font-style:normal;color:var(--muted);font-size:12px;white-space:nowrap}
+  .mb-ask{margin-top:10px;padding:9px 11px;border-radius:10px;background:#FBF3DE;font-size:12.5px;line-height:18px;opacity:0;transition:opacity .4s}
+  .mb-ask b{font-weight:500}
+  .mb-dfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;opacity:0;transition:opacity .4s}
+  .mb-dfoot small{font-size:11.5px;line-height:16px;color:var(--muted)}
+  .mb-dfoot span{flex:none;font-size:12.5px;background:var(--night);color:var(--on-night);border-radius:999px;padding:7px 12px}
+  .mb-flow.s6 .mb-ask,.mb-flow.s6 .mb-dfoot{opacity:1}
+  .mb-hcap{display:flex;justify-content:space-between;gap:16px;margin-top:16px}
+
+  /* ---------- Stückliste ---------- */
+  .mb-bom-s{padding:120px 0 112px}
+  .mb-bom-g{display:grid;grid-template-columns:.85fr 1.15fr;gap:64px;align-items:start}
+  .mb-bom-g>*{min-width:0}
+  .mb-pain{list-style:none;margin:36px 0 0;padding:0;display:grid;gap:0;border-top:1px solid var(--line)}
+  .mb-pain li{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:16px 0;border-bottom:1px solid var(--line);font-size:16px;line-height:24px;color:var(--muted)}
+  .mb-pain li b{color:var(--ink);font-weight:500}
+  .mb-pain li i{font-style:italic;font-family:var(--serif);font-size:18px;color:var(--accent)}
+  .mb-bom{background:#fff;border:1px solid var(--ink);border-radius:4px;font-size:14px}
+  .mb-bom .mb-bomhd{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid var(--ink);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+  .mb-bom .mb-bomhd span{color:var(--muted)}
+  .mb-bom .row{display:grid;grid-template-columns:52px 1.25fr 1fr 1fr 28px;align-items:center;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);transition:background .2s}
+  .mb-bom .row>*{padding:14px 12px;min-width:0}
+  .mb-bom .row>*+*{border-left:1px solid var(--line)}
+  .mb-bom .th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .mb-bom .th>*{padding-top:10px;padding-bottom:10px}
+  .mb-bom a.row:hover{background:var(--paper)}
+  .mb-bom a.row:hover .ar{color:var(--accent);transform:translateX(3px)}
+  .mb-bom .p{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--accent);text-align:center}
+  .mb-bom .n{font-weight:500;letter-spacing:-.01em}
+  .mb-bom .e,.mb-bom .r{font-size:13px;line-height:19px;color:var(--muted)}
+  .mb-bom .ar{transition:transform .2s,color .2s;color:var(--muted);text-align:center;padding-left:0!important;padding-right:0!important}
+  .mb-tb{display:grid;grid-template-columns:1fr 1fr 1fr;font-size:12px}
+  .mb-tb>div{padding:10px 12px;min-width:0}
+  .mb-tb>div+div{border-left:1px solid var(--line)}
+  .mb-tb small{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+  .mb-tb b{font-weight:500}
+  .mb-tb .acc{color:var(--accent)}
+
+  /* ---------- Signatur: Fragen Sie Ihre Maschine ---------- */
+  .mb-ask-s{padding:112px 0 120px;background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .mb-ask-g{display:grid;grid-template-columns:.78fr 1.22fr;gap:56px;align-items:start}
+  .mb-ask-g>*{min-width:0}
+  .mb-q-l{list-style:none;margin:34px 0 0;padding:0;display:grid;gap:10px}
+  .mb-q-l button{width:100%;text-align:left;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:center;padding:14px 16px;border-radius:14px;border:1px solid var(--line);background:var(--paper);font:400 15px/21px var(--sans);color:var(--ink);cursor:pointer;transition:border-color .2s,background .2s,box-shadow .2s}
+  .mb-q-l button:hover{border-color:var(--ink)}
+  .mb-q-l button[aria-pressed="true"]{background:var(--night);color:var(--on-night);border-color:var(--night);box-shadow:0 16px 32px -18px rgba(14,16,19,.6)}
+  .mb-q-l code{font-family:var(--sans);font-size:11.5px;font-weight:500;letter-spacing:.04em;padding:3px 8px;border-radius:6px;background:#fff;border:1px solid var(--line);color:var(--muted);grid-row:1/3}
+  .mb-q-l button[aria-pressed="true"] code{background:var(--night-3);border-color:var(--night-3);color:var(--mint)}
+  .mb-q-l small{font-size:12.5px;color:var(--muted)}
+  .mb-q-l button[aria-pressed="true"] small{color:var(--on-night-muted)}
+  .mb-rule{margin:26px 0 0;padding:16px 18px;border-left:2px solid var(--accent);background:var(--paper);font-size:14.5px;line-height:22px;color:var(--muted);border-radius:0 12px 12px 0}
+  .mb-rule b{color:var(--ink);font-weight:500}
+
+  .mb-dev{background:var(--night);color:var(--on-night);border-radius:26px;padding:12px;box-shadow:0 40px 80px -36px rgba(14,16,19,.55)}
+  .mb-dev-in{background:var(--night-2);border-radius:18px;border:1px solid var(--night-3);overflow:hidden}
+  .mb-dev-top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--night-3);font-size:12.5px;color:var(--on-night-muted)}
+  .mb-dev-top b{color:var(--on-night);font-weight:500}
+  .mb-dev-top span:last-child{color:var(--mint)}
+  .mb-chat{padding:20px 18px 18px;min-height:430px;display:flex;flex-direction:column;gap:14px}
+  .mb-bq{align-self:flex-end;max-width:82%;background:var(--night-3);border-radius:16px 16px 4px 16px;padding:11px 14px;font-size:14px;line-height:20px}
+  .mb-bq small{display:block;font-size:11px;color:var(--on-night-muted);margin-bottom:3px}
+  .mb-ba{max-width:94%;font-size:14.5px;line-height:23px;color:#DADCDF;min-height:120px}
+  .mb-ba sup{font-size:10px;font-weight:600;color:var(--night);background:var(--mint);border-radius:4px;padding:1px 4px;margin-left:2px;vertical-align:2px;line-height:1}
+  .mb-ba .cur{display:inline-block;width:6px;height:14px;background:var(--mint);vertical-align:-2px;margin-left:2px;animation:mbBlink 1s steps(2) infinite}
+  @keyframes mbBlink{50%{opacity:0}}
+  .mb-src{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:auto}
+  .mb-sc{display:grid;grid-template-columns:30px 1fr;gap:4px 10px;align-items:start;background:var(--night);border:1px solid var(--night-3);border-radius:12px;padding:11px;opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}
+  .mb-sc.on{opacity:1;transform:none}
+  .mb-sc svg{width:30px;height:30px;grid-row:1/3;color:var(--mint)}
+  .mb-sc svg *{fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+  .mb-sc b{font-size:12.5px;line-height:17px;font-weight:500}
+  .mb-sc b sup{font-size:9.5px;color:var(--night);background:var(--mint);border-radius:3px;padding:0 3px;margin-right:4px;vertical-align:1px}
+  .mb-sc small{font-size:11.5px;line-height:16px;color:var(--on-night-muted)}
+  .mb-dev-cap{display:flex;justify-content:space-between;gap:10px;padding:12px 6px 2px;font-size:12px;color:var(--on-night-muted)}
+
+  /* ---------- Ersatzteil + AB (dunkel) ---------- */
+  .mb-dark{background:var(--night);color:var(--on-night)}
+  .mb-parts{padding:120px 0}
+  .mb-parts-g{display:grid;grid-template-columns:.92fr 1.08fr;gap:20px;margin-top:56px}
+  .mb-parts-g>*{min-width:0}
+  .mb-card{background:var(--night-2);border:1px solid var(--night-3);border-radius:22px;padding:26px}
+  .mb-card>.k{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint);margin:0 0 8px}
+  .mb-card h3{margin:0 0 6px;font-weight:500;font-size:22px;letter-spacing:-.03em}
+  .mb-card>p{margin:0 0 20px;font-size:15px;line-height:23px;color:var(--on-night-muted)}
+  .mb-scan{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+  .mb-photo{position:relative;aspect-ratio:4/5;border-radius:14px;overflow:hidden;background:radial-gradient(120% 90% at 30% 20%,#2C3137,#16191C)}
+  .mb-photo svg{position:absolute;inset:0;width:100%;height:100%}
+  .mb-photo .bx{position:absolute;left:14%;top:20%;width:72%;height:60%;border:1.5px solid var(--mint);border-radius:6px;opacity:0;transform:scale(1.06);transition:opacity .3s,transform .4s}
+  .mb-photo .bx::before,.mb-photo .bx::after{content:"";position:absolute;width:12px;height:12px;border:2px solid var(--mint)}
+  .mb-photo .bx::before{left:-4px;top:-4px;border-right:0;border-bottom:0}
+  .mb-photo .bx::after{right:-4px;bottom:-4px;border-left:0;border-top:0}
+  .mb-photo .ln{position:absolute;left:0;right:0;top:0;height:2px;background:var(--mint);box-shadow:0 0 18px 4px rgba(140,245,194,.45);opacity:0}
+  .mb-scan.run .ln{animation:mbScan 1.6s cubic-bezier(.45,.05,.55,.95) 2 alternate}
+  @keyframes mbScan{0%{top:6%;opacity:1}100%{top:92%;opacity:1}}
+  .mb-scan.done .bx{opacity:1;transform:none}
+  .mb-photo .pl{position:absolute;left:10px;bottom:10px;font-size:11px;color:var(--on-night-muted);background:rgba(14,16,19,.7);padding:3px 8px;border-radius:999px}
+  .mb-res{display:flex;flex-direction:column;gap:8px}
+  .mb-res>div{background:var(--night);border:1px solid var(--night-3);border-radius:12px;padding:10px 12px;opacity:.25;transition:opacity .4s,border-color .4s}
+  .mb-scan.done .mb-res>div{opacity:1}
+  .mb-scan.done .mb-res>div.hl{border-color:rgba(140,245,194,.5)}
+  .mb-res small{display:block;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--on-night-muted);margin-bottom:2px}
+  .mb-res b{font-weight:500;font-size:14px;line-height:19px}
+  .mb-res .hl b{color:var(--mint);font-size:16px;letter-spacing:.02em}
+  .mb-again{margin-top:auto;align-self:flex-start;background:none;border:1px solid var(--night-3);color:var(--on-night);border-radius:999px;padding:8px 14px;font:400 13px/18px var(--sans);cursor:pointer}
+  .mb-again:hover{border-color:var(--mint);color:var(--mint)}
+
+  .mb-diff{border:1px solid var(--night-3);border-radius:14px;overflow:hidden;font-size:13.5px}
+  .mb-dr{display:grid;grid-template-columns:1.1fr 1fr 1fr 34px;align-items:center;border-bottom:1px solid var(--night-3);transition:background .4s}
+  .mb-dr:last-child{border-bottom:0}
+  .mb-dr>*{padding:11px 12px;min-width:0}
+  .mb-dr.th{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--on-night-muted);background:var(--night)}
+  .mb-dr span:first-child{color:var(--on-night-muted)}
+  .mb-dr .st{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;font-size:12px;font-weight:600;padding:0;margin:0 6px;opacity:0;transform:scale(.6);transition:opacity .3s,transform .3s}
+  .mb-dr.ok .st{background:rgba(140,245,194,.15);color:var(--mint)}
+  .mb-dr.bad .st{background:var(--warn);color:var(--night)}
+  .mb-dr.chk .st{opacity:1;transform:none}
+  .mb-dr.bad.chk{background:rgba(242,196,107,.08)}
+  .mb-dr.bad.chk .ab{color:var(--warn)}
+  .mb-dsum{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px;padding:12px 14px;border-radius:12px;background:rgba(242,196,107,.1);border:1px solid rgba(242,196,107,.35);font-size:13.5px;line-height:19px;opacity:0;transition:opacity .4s}
+  .mb-dsum.on{opacity:1}
+  .mb-dsum b{font-weight:500;color:var(--warn)}
+  .mb-dsum span{flex:none;font-size:12.5px;color:var(--night);background:var(--warn);border-radius:999px;padding:6px 11px}
+  .mb-parts .mb-ex{margin-top:18px}
+
+  /* ---------- Doku & Übersetzung ---------- */
+  .mb-doc-s{padding:120px 0}
+  .mb-doc-g{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center}
+  .mb-doc-g>*{min-width:0}
+  .mb-lang{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:#fff;border:1px solid var(--line);margin-bottom:16px}
+  .mb-lang button{border:0;background:none;border-radius:999px;padding:8px 14px;font:500 13px/16px var(--sans);letter-spacing:.04em;color:var(--muted);cursor:pointer;transition:background .2s,color .2s}
+  .mb-lang button:hover{color:var(--ink)}
+  .mb-lang button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+  .mb-man{background:#fff;border:1px solid #E6E2D9;border-radius:6px;padding:28px 30px 22px;box-shadow:0 30px 60px -34px rgba(14,16,19,.35);position:relative}
+  .mb-man .rh{display:flex;justify-content:space-between;gap:10px;font-size:11px;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:18px}
+  .mb-man h3{margin:0 0 14px;font-weight:500;font-size:20px;letter-spacing:-.02em}
+  .mb-warn{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;border:1.5px solid var(--ink);border-radius:4px;padding:14px;margin-bottom:16px}
+  .mb-warn svg{width:44px;height:40px}
+  .mb-warn b{display:block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+  .mb-warn p{margin:0;font-size:14px;line-height:21px}
+  .mb-man ol{margin:0;padding:0 0 0 20px;font-size:14px;line-height:22px;display:grid;gap:6px}
+  .mb-g{background:rgba(15,122,85,.1);border-bottom:1.5px solid var(--accent);padding:0 2px;border-radius:2px}
+  .mb-man .mb-manft{display:flex;justify-content:space-between;gap:10px;margin-top:18px;padding-top:10px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}
+  .mb-man .mb-manft b{color:var(--accent);font-weight:500}
+  .mb-fade{transition:opacity .25s}
+  .mb-fade.out{opacity:0}
+  .mb-keep{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:12px}
+  .mb-keep li{display:grid;grid-template-columns:22px 1fr;gap:12px;font-size:15.5px;line-height:23px;color:var(--muted)}
+  .mb-keep li b{color:var(--ink);font-weight:500}
+  .mb-keep li::before{content:"";width:12px;height:12px;margin-top:6px;border:1.5px solid var(--accent);border-radius:2px;transform:rotate(45deg)}
+
+  /* ---------- Know-how / FAQ ---------- */
+  .mb-faq{padding:0 0 120px}
+  .mb-faq-top{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:end;margin-bottom:44px}
+  .mb-guard{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
+  .mb-guard div{border-top:2px solid var(--ink);padding:16px 2px 0}
+  .mb-guard b{display:block;font-weight:500;font-size:17px;letter-spacing:-.02em;margin-bottom:6px}
+  .mb-guard span{font-size:14.5px;line-height:22px;color:var(--muted)}
+  .mb-fq{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}
+  .mb-fq details{background:#fff;border:1px solid var(--line);border-radius:14px;transition:border-color .2s}
+  .mb-fq details[open]{border-color:var(--ink)}
+  .mb-fq summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:44px 1fr 18px;gap:10px;align-items:center;padding:18px 18px;font-size:16px;line-height:22px;letter-spacing:-.01em}
+  .mb-fq summary::-webkit-details-marker{display:none}
+  .mb-fq summary i{font-style:normal;font-size:11px;letter-spacing:.06em;color:var(--accent);border:1px solid rgba(15,122,85,.35);border-radius:6px;padding:3px 0;text-align:center}
+  .mb-fq summary::after{content:"+";font-size:18px;color:var(--muted);transition:transform .3s;text-align:center}
+  .mb-fq details[open] summary::after{transform:rotate(45deg)}
+  .mb-fq p{margin:0;padding:0 18px 20px 72px;font-size:15px;line-height:24px;color:var(--muted)}
+
+  /* ---------- Weitere Branchen (Schriftfeld) ---------- */
+  .mb-more{padding:0 0 120px}
+  .mb-more-t{border:1px solid var(--ink);border-radius:4px;background:#fff}
+  .mb-more-hd{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid var(--ink);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+  .mb-more-hd h2{margin:0;font-size:11px;line-height:16px;font-weight:500;letter-spacing:.08em}
+  .mb-more-hd span{color:var(--muted)}
+  .mb-more-r{display:grid;grid-template-columns:repeat(3,1fr)}
+  .mb-more-r a{display:grid;grid-template-columns:auto 1fr auto;gap:6px 14px;align-items:baseline;padding:20px 18px;text-decoration:none;color:var(--ink);transition:background .2s}
+  .mb-more-r a+a{border-left:1px solid var(--line)}
+  .mb-more-r a:hover{background:var(--paper)}
+  .mb-more-r i{font-family:var(--serif);font-size:18px;color:var(--accent)}
+  .mb-more-r b{font-weight:500;font-size:18px;letter-spacing:-.02em}
+  .mb-more-r small{grid-column:2/3;font-size:13.5px;line-height:19px;color:var(--muted)}
+  .mb-more-r em{font-style:normal;grid-row:1/2;grid-column:3}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:1100px){
+    .mb-top{grid-template-columns:1fr;gap:28px}
+    .mb-lead{max-width:620px}
+    .mb-flow{grid-template-columns:1fr 30px 1.08fr 30px 1fr}
+    .mb-con svg{width:28px}
+    .mb-bom-g,.mb-ask-g,.mb-doc-g{grid-template-columns:1fr;gap:44px}
+    .mb-parts-g{grid-template-columns:1fr}
+    .mb-deco{opacity:.6}
+    .mb-doc-g>div:last-child{order:-1}
+  }
+  @media (max-width:820px){
+    .mb-flow{grid-template-columns:1fr;max-width:620px}
+    .mb-con{height:40px}
+    .mb-con svg{transform:rotate(90deg);width:40px}
+    .mb-dim,.mb-hcap{max-width:620px}
+  }
+  @media (max-width:980px){
+    .mb-faq-top{grid-template-columns:1fr;gap:16px}
+    .mb-fq{grid-template-columns:1fr}
+    .mb-more-r{grid-template-columns:1fr}
+    .mb-more-r a+a{border-left:0;border-top:1px solid var(--line)}
+  }
+  @media (max-width:720px){
+    .mb-bom .th{display:none}
+    .mb-bom .row{grid-template-columns:44px 1fr 24px;grid-template-areas:"p n ar" "p r ar"}
+    .mb-bom .row>*+*{border-left:0}
+    .mb-bom .p{grid-area:p;align-self:start;padding-top:14px}
+    .mb-bom .n{grid-area:n;padding:14px 8px 2px 4px}
+    .mb-bom .e{display:none}
+    .mb-bom .r{grid-area:r;padding:0 8px 14px 4px}
+    .mb-bom .ar{grid-area:ar}
+    .mb-src{grid-template-columns:1fr}
+    .mb-bom .mb-bomhd span{display:none}
+    .mb-chat{min-height:0}
+    .mb-guard{grid-template-columns:1fr}
+  }
+  @media (max-width:560px){
+    .mb-w{padding-left:16px;padding-right:16px}
+    .mb-crumb{margin-bottom:30px}
+    .mb-lead{font-size:17px;line-height:26px}
+    .mb-hero .mb-w{padding-bottom:64px}
+    .mb-dim{margin-top:44px}
+    .mb-dim span{font-size:11px;padding:2px 8px}
+    .mb-st{padding:16px 14px 14px}
+    .mb-bom-s,.mb-parts,.mb-doc-s{padding:88px 0}
+    .mb-ask-s{padding:88px 0}
+    .mb-faq,.mb-more{padding-bottom:88px}
+    .mb-tb{grid-template-columns:1fr 1fr}
+    .mb-tb>div:last-child{grid-column:1/-1;border-left:0;border-top:1px solid var(--line)}
+    .mb-dev{padding:6px;border-radius:20px}
+    .mb-chat{padding:16px 12px 14px}
+    .mb-dev-top{padding:12px 12px;font-size:12px}
+    .mb-dev-top span:last-child{display:none}
+    .mb-ba{font-size:14px;line-height:22px}
+    .mb-card{padding:20px 16px}
+    .mb-scan{grid-template-columns:1fr}
+    .mb-photo{aspect-ratio:4/3}
+    .mb-photo .bx{left:22%;width:56%;top:14%;height:72%}
+    .mb-dr{grid-template-columns:1fr 1fr 30px;font-size:13px}
+    .mb-dr>span:first-child{grid-column:1/-1;padding-bottom:0;font-size:11.5px}
+    .mb-dr.th>span:first-child{display:none}
+    .mb-dr .st{margin:0 4px}
+    .mb-dsum{flex-direction:column;align-items:flex-start}
+    .mb-man{padding:20px 16px 16px}
+    .mb-warn{grid-template-columns:34px 1fr;gap:10px;padding:12px}
+    .mb-warn svg{width:34px;height:31px}
+    .mb-lang{display:flex;width:100%}
+    .mb-lang button{flex:1;padding:8px 6px}
+    .mb-fq p{padding-left:18px}
+    .mb-hcap{flex-direction:column;gap:4px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .mb-rv{opacity:1;transform:none;transition:none}
+    .mb-scan.run .ln{animation:none}
+  }
+</style>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="mb-hero" aria-labelledby="mb-h">
+  <svg class="mb-deco" viewBox="0 0 520 520" aria-hidden="true">
+    <circle cx="300" cy="230" r="170"/><circle cx="300" cy="230" r="120"/><circle cx="300" cy="230" r="46"/>
+    <circle cx="300" cy="80" r="11"/><circle cx="300" cy="380" r="11"/><circle cx="150" cy="230" r="11"/><circle cx="450" cy="230" r="11"/>
+    <path d="M300 30v400M100 230h400" stroke-dasharray="14 5 3 5"/>
+    <path d="M130 470h340M130 462v16M470 462v16"/><path d="M138 466l-8 4 8 4M462 466l8 4-8 4"/>
+    <path d="M86 60v340M78 60h16M78 400h16"/>
+  </svg>
+  <div class="mb-w">
+    <nav class="mb-crumb" aria-label="Brotkrumen"><a href="ailien-startseite.html">Start</a><span>/</span><a href="#">Branchen</a><span>/</span>Maschinen- &amp; Anlagenbau</nav>
+    <div class="mb-top">
+      <div class="mb-tl">
+        <p class="eyebrow">KI für Maschinen- &amp; Anlagenbau</p>
+        <h1 id="mb-h"><span>Vierzig Jahre Erfahrung.</span><span><em>Sofort</em> abrufbar.</span></h1>
+      </div>
+      <div class="mb-tr">
+        <p class="mb-lead">Altaufträge, Handbücher, Schaltpläne, Techniker-Notizen: <b>Wir machen das Wissen Ihres Hauses durchsuchbar</b> – für schnellere Angebote, Service ohne Rückruf ins Werk und Doku, die nicht die Konstruktion aufhält.</p>
+        <div class="mb-ctas">
+          <a class="btn m" href="/kontakt">Kurz telefonieren <span aria-hidden="true">→</span></a>
+          <a class="mb-link" href="#mb-frage">Fragen Sie Ihre Maschine ↓</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-dim" aria-hidden="true"><i></i><span>Sonderanfrage → Angebotsentwurf</span><i></i></div>
+    <div class="mb-flow" id="mbFlow" aria-label="Beispiel: Aus einer technischen Anfrage wird mit Hilfe ähnlicher Altaufträge ein Angebotsentwurf">
+      <div class="mb-st">
+        <p class="k"><span>Eingang · Anfrage</span><em>01</em></p>
+        <div class="mb-att"><span>Lastenheft.pdf</span><span>Skizze_Halle2.dwg</span></div>
+        <p class="mb-mail"><small>Von: Einkauf, Beispiel Lebensmittel GmbH</small>Wir benötigen eine <span class="mb-kw">angetriebene Rollenbahn</span> für Kartonagen, Länge ca. <span class="mb-kw">7,5 m</span>, Bahnbreite <span class="mb-kw">600 mm</span>, Last bis <span class="mb-kw">50 kg/m</span>, Ausführung <span class="mb-kw">Edelstahl</span>, Einsatz im <span class="mb-kw">Lebensmittelbereich</span>.</p>
+        <div class="mb-chips" id="mbChips"><span>Rollenbahn angetr.</span><span>L 7.500</span><span>B 600</span><span>50 kg/m</span><span>1.4301</span><span>Lebensmittel</span></div>
+      </div>
+      <div class="mb-con" aria-hidden="true"><svg viewBox="0 0 48 20"><path pathLength="1" d="M2 10H44M38 4l7 6-7 6"/></svg></div>
+      <div class="mb-st">
+        <p class="k"><span>Ähnlichste Altaufträge</span><em>02</em></p>
+        <div class="mb-old" id="mbOld">
+          <div class="mb-o"><b>A-2021-0388<small>2021</small></b><span class="pc mb-num" data-v="94">0 %</span><span class="d">Rollenbahn angetr., L 6.000, B 600, 1.4301</span><span class="bar"><i></i></span><span class="m mb-num"><span>142 Std.</span><span>38.400 €</span><span class="tag">Basis</span></span></div>
+          <div class="mb-o"><b>A-2018-0127<small>2018</small></b><span class="pc mb-num" data-v="81">0 %</span><span class="d">Rollenbahn angetr., L 8.000, B 500, verzinkt</span><span class="bar"><i></i></span><span class="m mb-num"><span>168 Std.</span><span>41.900 €</span></span></div>
+          <div class="mb-o"><b>A-2015-0904<small>2015</small></b><span class="pc mb-num" data-v="73">0 %</span><span class="d">Gurtförderer, L 7.200, B 600, 1.4301</span><span class="bar"><i></i></span><span class="m mb-num"><span>155 Std.</span><span>44.200 €</span></span></div>
+        </div>
+      </div>
+      <div class="mb-con" aria-hidden="true"><svg viewBox="0 0 48 20"><path pathLength="1" d="M2 10H44M38 4l7 6-7 6"/></svg></div>
+      <div class="mb-st mb-doc">
+        <p class="k"><span>Angebot 26-0193</span><b>Entwurf</b></p>
+        <h3>Rollenbahn angetrieben, 7,5 m</h3>
+        <p class="meta">Basis A-2021-0388, auf 7,5 m skaliert · Materialpreise neu angefragt</p>
+        <div id="mbPos">
+          <div class="mb-pos"><i>1</i><span>Konstruktion &amp; Zeichnungen</span><em class="mb-num">24 Std.</em></div>
+          <div class="mb-pos"><i>2</i><span>Rahmen 1.4301, geschweißt</span><em class="mb-num">68 Std.</em></div>
+          <div class="mb-pos"><i>3</i><span>Tragrollen Ø 50, angetrieben</span><em class="mb-num">94 Stk.</em></div>
+          <div class="mb-pos"><i>4</i><span>Montage &amp; Inbetriebnahme</span><em class="mb-num">20 Std.</em></div>
+        </div>
+        <div class="mb-ask"><b>Rückfrage an Sie:</b> Antrieb mit Frequenzumrichter? Bei A-2021-0388 war einer verbaut.</div>
+        <div class="mb-dfoot"><small>Prüfen, anpassen, freigeben.</small><span>Freigeben</span></div>
+      </div>
+    </div>
+    <div class="mb-hcap"><span class="mb-ex">Beispieldaten zur Veranschaulichung</span><span class="mb-ex">Durchsucht werden Ihre eigenen Aufträge, Kalkulationen und Zeichnungen.</span></div>
+  </div>
+</section>
+
+<!-- ============ STÜCKLISTE ============ -->
+<section class="mb-bom-s" aria-labelledby="mb-bom-h">
+  <div class="mb-w mb-bom-g">
+    <div class="mb-rv">
+      <p class="eyebrow">Wo die Zeit hängt</p>
+      <h2 class="mb-h2" id="mb-bom-h">Ihr Wissen steckt in <em>Köpfen</em> und Ordnern.</h2>
+      <p class="mb-sub">Wer die Anlage von 2009 kennt, sitzt im Urlaub. Die Zeichnung liegt im Archiv. Und die Lösung für genau diesen Fehler hat ein Kollege vor Jahren auf einen Servicebericht geschrieben.</p>
+      <ul class="mb-pain">
+        <li><i>a</i><span><b>Sonderanfragen</b> dauern Tage, weil jemand nach einem ähnlichen Auftrag sucht.</span></li>
+        <li><i>b</i><span><b>Servicetechniker</b> stehen beim Kunden und rufen ins Werk an.</span></li>
+        <li><i>c</i><span><b>Doku und Übersetzungen</b> binden Ingenieure, die in der Konstruktion fehlen.</span></li>
+      </ul>
+    </div>
+    <div class="mb-bom mb-rv" role="list" aria-label="Stückliste der KI-Helfer">
+      <div class="mb-bomhd"><b>Stückliste · KI-Helfer</b><span>Baugruppe Büro &amp; Service</span></div>
+      <div class="row th" aria-hidden="true"><span>Pos.</span><span>Benennung</span><span>Eingang</span><span>Ergebnis</span><span></span></div>
+      <a class="row" role="listitem" href="#mb-h"><span class="p">01</span><span class="n">Angebot aus Altaufträgen</span><span class="e">Anfrage, Zeichnung, Lastenheft</span><span class="r">Entwurf mit ähnlichen Aufträgen</span><span class="ar">→</span></a>
+      <a class="row" role="listitem" href="#mb-frage"><span class="p">02</span><span class="n">Service-Wissen</span><span class="e">Handbücher, Schaltpläne, Berichte</span><span class="r">Antwort mit Quellenangabe</span><span class="ar">→</span></a>
+      <a class="row" role="listitem" href="#mb-teile"><span class="p">03</span><span class="n">Ersatzteil per Foto</span><span class="e">Handyfoto vom Teil</span><span class="r">Artikelnummer, Bestand</span><span class="ar">→</span></a>
+      <a class="row" role="listitem" href="#mb-teile"><span class="p">04</span><span class="n">AB-Abgleich</span><span class="e">Bestellung, Lieferanten-AB</span><span class="r">Abweichungen markiert</span><span class="ar">→</span></a>
+      <a class="row" role="listitem" href="#mb-doku"><span class="p">05</span><span class="n">Doku &amp; Übersetzung</span><span class="e">Stückliste, Textbausteine</span><span class="r">Anleitung in Ihren Sprachen</span><span class="ar">→</span></a>
+      <div class="mb-tb"><div><small>Gezeichnet</small><b>KI-Helfer</b></div><div><small>Geprüft</small><b>Ihr Fachmann</b></div><div><small>Freigabe</small><b class="acc">Immer ein Mensch</b></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SIGNATUR: FRAGEN SIE IHRE MASCHINE ============ -->
+<section class="mb-ask-s" id="mb-frage" aria-labelledby="mb-ask-h">
+  <div class="mb-w mb-ask-g">
+    <div class="mb-rv">
+      <p class="eyebrow">Service-Wissen</p>
+      <h2 class="mb-h2" id="mb-ask-h">Fragen Sie <em>Ihre Maschine.</em></h2>
+      <p class="mb-sub">Der Techniker beschreibt die Störung – am Handy, beim Kunden. Der Assistent kennt Betriebsanleitung, Schaltpläne, Ersatzteillisten und jeden früheren Einsatz an dieser Anlage.</p>
+      <ul class="mb-q-l" id="mbQ" aria-label="Störung auswählen">
+        <li><button type="button" aria-pressed="true" data-i="0"><code>F-217</code><span>Hydraulikdruck zu niedrig</span><small>Meldung am Bedienpanel</small></button></li>
+        <li><button type="button" aria-pressed="false" data-i="1"><code>-B12</code><span>Lichtschranke löst sporadisch aus</span><small>Band stoppt ohne Grund</small></button></li>
+        <li><button type="button" aria-pressed="false" data-i="2"><code>M1</code><span>Antrieb läuft unruhig</span><small>Geräusch an der Antriebstrommel</small></button></li>
+      </ul>
+      <p class="mb-rule"><b>Ohne Quelle keine Antwort.</b> Findet der Assistent nichts Belastbares, sagt er das – und nennt den Kollegen, der die Anlage zuletzt betreut hat.</p>
+    </div>
+    <div class="mb-rv">
+      <div class="mb-dev">
+        <div class="mb-dev-in" aria-live="polite">
+          <div class="mb-dev-top"><span><b>Service-Assistent</b> · Anlage RB-600 · SN 19-114</span><span>● verbunden</span></div>
+          <div class="mb-chat">
+            <div class="mb-bq" id="mbBq"><small>Techniker vor Ort</small><span></span></div>
+            <div class="mb-ba" id="mbBa"></div>
+            <div class="mb-src" id="mbSrc"></div>
+          </div>
+        </div>
+        <div class="mb-dev-cap"><span>Beispieldaten zur Veranschaulichung</span><span>Antwort aus Ihren Unterlagen</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ERSATZTEIL + AB-ABGLEICH ============ -->
+<section class="mb-dark mb-parts" id="mb-teile" aria-labelledby="mb-parts-h">
+  <div class="mb-w">
+    <div class="mb-rv">
+      <p class="eyebrow">Ersatzteile &amp; Einkauf</p>
+      <h2 class="mb-h2" id="mb-parts-h">Teil fotografiert. <em>Nummer</em> gefunden.</h2>
+      <p class="mb-sub">Zwei Helfer, die täglich Suchzeit sparen: Ersatzteile ohne Katalogblättern erkennen – und Auftragsbestätigungen prüfen, bevor eine Abweichung in die Montage geht.</p>
+    </div>
+    <div class="mb-parts-g">
+      <article class="mb-card mb-rv">
+        <p class="k">Pos. 03 · Ersatzteil per Foto</p>
+        <h3>Vom Handyfoto zur Artikelnummer</h3>
+        <p>Der Kunde schickt ein Foto, der Assistent gleicht es mit Ihren Stücklisten und Ersatzteilzeichnungen ab.</p>
+        <div class="mb-scan" id="mbScan">
+          <div class="mb-photo" aria-hidden="true">
+            <svg viewBox="0 0 200 250">
+              <g fill="none" stroke="#C9CDD2" stroke-width="1.6" stroke-linejoin="round">
+                <path d="M100 52 L146 98 L146 152 L100 198 L54 152 L54 98 Z" fill="#3A4047"/>
+                <path d="M100 60 L139 99 L139 151 L100 190 L61 151 L61 99 Z" stroke="#5A626B"/>
+                <circle cx="100" cy="125" r="34" fill="#2A2F35"/>
+                <circle cx="100" cy="125" r="26" stroke="#8C949D"/>
+                <circle cx="100" cy="125" r="13" fill="#15181B"/>
+                <circle cx="100" cy="72" r="6" fill="#15181B"/><circle cx="100" cy="178" r="6" fill="#15181B"/>
+                <circle cx="70" cy="125" r="0"/>
+                <path d="M120 120 l6 -3 M121 128 l6 2" stroke="#8C949D"/>
+              </g>
+              <path d="M0 215 Q60 205 120 214 T200 210 V250 H0 Z" fill="#1E2226"/>
+            </svg>
+            <span class="bx"></span><span class="ln"></span>
+            <span class="pl">IMG_4471.jpg</span>
+          </div>
+          <div class="mb-res">
+            <div><small>Erkannt</small><b>Flanschlager, 2-Loch, Welle Ø 25</b></div>
+            <div class="hl"><small>Artikelnummer</small><b class="mb-num">40-1187-025</b></div>
+            <div><small>Bestand</small><b>6 Stk. · Lager C-14</b></div>
+            <div><small>Verbaut in</small><b>RB-600, RB-800 (Antriebsseite)</b></div>
+            <button class="mb-again" type="button" id="mbAgain">Erneut erkennen ↻</button>
+          </div>
+        </div>
+      </article>
+      <article class="mb-card mb-rv">
+        <p class="k">Pos. 04 · AB-Abgleich</p>
+        <h3>Bestellung gegen Auftragsbestätigung</h3>
+        <p>Jede eingehende AB wird Zeile für Zeile mit Ihrer Bestellung verglichen – Menge, Ausführung, Preis, Termin.</p>
+        <div class="mb-diff" id="mbDiff">
+          <div class="mb-dr th"><span>Merkmal</span><span>Bestellt</span><span>Laut AB</span><span></span></div>
+          <div class="mb-dr ok"><span>Getriebemotor</span><span>0,75 kW, i = 40</span><span class="ab">0,75 kW, i = 40</span><span class="st">✓</span></div>
+          <div class="mb-dr bad"><span>Schutzart</span><span>IP65</span><span class="ab">IP55</span><span class="st">!</span></div>
+          <div class="mb-dr ok"><span>Menge</span><span class="mb-num">4 Stk.</span><span class="ab mb-num">4 Stk.</span><span class="st">✓</span></div>
+          <div class="mb-dr ok"><span>Einzelpreis</span><span class="mb-num">1.240,00 €</span><span class="ab mb-num">1.240,00 €</span><span class="st">✓</span></div>
+          <div class="mb-dr bad"><span>Liefertermin</span><span>KW 18</span><span class="ab">KW 21</span><span class="st">!</span></div>
+        </div>
+        <div class="mb-dsum" id="mbDsum"><span style="background:none;color:inherit;padding:0;font-size:13.5px"><b>2 Abweichungen.</b> Montage Projekt 25-0412 ist ab KW 20 geplant.</span><span>Rückfrage vorbereitet</span></div>
+      </article>
+    </div>
+    <p class="mb-ex">Beispieldaten zur Veranschaulichung. Angebunden an Ihr ERP – wo es keine Schnittstelle gibt, über Export und Import.</p>
+  </div>
+</section>
+
+<!-- ============ DOKU & ÜBERSETZUNG ============ -->
+<section class="mb-doc-s" id="mb-doku" aria-labelledby="mb-doc-h">
+  <div class="mb-w mb-doc-g">
+    <div class="mb-rv">
+      <div class="mb-lang" role="group" aria-label="Sprache der Anleitung" id="mbLang">
+        <button type="button" aria-pressed="true" data-l="de">DE</button><button type="button" aria-pressed="false" data-l="en">EN</button><button type="button" aria-pressed="false" data-l="fr">FR</button><button type="button" aria-pressed="false" data-l="pl">PL</button>
+      </div>
+      <div class="mb-man">
+        <div class="rh"><span>Betriebsanleitung RB-600 · Rev. 04</span><span>S. 84</span></div>
+        <div class="mb-fade" id="mbMan"></div>
+        <div class="mb-manft"><span>Beispieltext zur Veranschaulichung</span><span><b>Markiert:</b> Begriffe aus Ihrem Glossar</span></div>
+      </div>
+    </div>
+    <div class="mb-rv">
+      <p class="eyebrow">Dokumentation</p>
+      <h2 class="mb-h2" id="mb-doc-h">Anleitung schreiben. <em>Vier Sprachen.</em></h2>
+      <p class="mb-sub">Aus Stücklisten, Konstruktionsdaten und Ihren Textbausteinen entsteht der Entwurf für Betriebsanleitung und technische Unterlagen – übersetzt mit Ihrem eigenen Glossar, damit „Hauptschalter“ in jeder Anleitung gleich heißt.</p>
+      <ul class="mb-keep">
+        <li><span><b>Entwurf statt leeres Blatt:</b> Kapitelstruktur, Sicherheitshinweise und Wartungstabellen aus vorhandenen Daten.</span></li>
+        <li><span><b>Unsichere Stellen markiert:</b> Wo die Übersetzung nicht eindeutig ist, steht eine Rückfrage.</span></li>
+        <li><span><b>Verantwortung bleibt bei Ihnen:</b> Risikobeurteilung, Konformitätserklärung und Unterschrift macht kein KI-Helfer. Übersetzungen lassen Sie vor Auslieferung fachlich prüfen.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KNOW-HOW / FAQ ============ -->
+<section class="mb-faq" aria-labelledby="mb-faq-h">
+  <div class="mb-w">
+    <div class="mb-faq-top mb-rv">
+      <div><p class="eyebrow">Know-how-Schutz</p><h2 class="mb-h2" id="mb-faq-h">Ihre Zeichnungen bleiben <em>im Haus.</em></h2></div>
+      <p class="mb-sub">Konstruktionswissen ist Ihr Kapital. Deshalb gilt: Daten in der EU, Zugriff nur für Berechtigte, jeder Schritt protokolliert.</p>
+    </div>
+    <div class="mb-guard mb-rv">
+      <div><b>Rechte wie im Betrieb</b><span>Service sieht Handbücher, nicht die Kalkulation. Vertrieb sieht Preise, nicht die Personalakte.</span></div>
+      <div><b>EU oder eigene Server</b><span>Betrieb in einem EU-Rechenzentrum – oder auf Wunsch auf Ihrer eigenen Infrastruktur.</span></div>
+      <div><b>Auftragsverarbeitung</b><span>AVV, Protokoll jeder Abfrage, keine Weitergabe an Dritte.</span></div>
+    </div>
+    <div class="mb-fq mb-rv">
+      <details open><summary><i>F-01</i><span>Werden unsere Zeichnungen zum Training fremder KI genutzt?</span></summary><p>Nein. Ihre Unterlagen werden nur für Ihren Betrieb verarbeitet und nicht zum Training allgemeiner KI-Modelle verwendet. Das halten wir im Auftragsverarbeitungsvertrag fest.</p></details>
+      <details><summary><i>F-02</i><span>Geht das auch auf unseren eigenen Servern?</span></summary><p>Ja, das ist möglich. Ob ein EU-Rechenzentrum oder Ihre eigene Infrastruktur sinnvoller ist, hängt von Datenmenge, IT-Ausstattung und Anforderungen Ihrer Kunden ab. Das klären wir im ersten Gespräch.</p></details>
+      <details><summary><i>F-03</i><span>Viele alte Aufträge liegen nur auf Papier.</span></summary><p>Das ist normal. Papierakten werden gescannt und per Texterkennung lesbar gemacht. Wir beginnen mit dem, was schon digital vorliegt, und ergänzen das Archiv Schritt für Schritt – zuerst die Baureihen, die am häufigsten angefragt werden.</p></details>
+      <details><summary><i>F-04</i><span>Passt das zu unserem ERP und PDM?</span></summary><p>Wir binden an, was Sie nutzen – ERP, PDM, Dateiablage, E-Mail. Wo es keine Schnittstelle gibt, arbeiten wir mit Export und Import. Eine Umstellung Ihrer Systeme ist nicht nötig.</p></details>
+      <details><summary><i>F-05</i><span>Was, wenn der Assistent sich irrt?</span></summary><p>Jede Antwort nennt ihre Quelle, damit der Techniker sie prüfen kann. Angebote, AB-Rückfragen und Anleitungen sind Entwürfe – freigegeben wird immer von einem Menschen.</p></details>
+      <details><summary><i>F-06</i><span>Wie fangen wir an?</span></summary><p>Mit einem Helfer, meist dem Angebot aus Altaufträgen oder dem Service-Wissen für eine Baureihe. Nach einigen Wochen sehen Sie, was er bringt – und entscheiden über den nächsten.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WEITERE BRANCHEN ============ -->
+<section class="mb-more" aria-labelledby="mb-more-h">
+  <div class="mb-w">
+    <div class="mb-more-t">
+      <div class="mb-more-hd"><h2 id="mb-more-h">Weitere Branchen</h2><span>Blatt 1 / 3</span></div>
+      <div class="mb-more-r">
+        <a href="ailien-branchen-cnc.html"><i>A</i><b>CNC-Betriebe</b><em aria-hidden="true">→</em><small>Zeichnung rein, Kalkulation raus</small></a>
+        <a href="ailien-branchen-dguv-v3.html"><i>B</i><b>Elektroprüfung DGUV V3</b><em aria-hidden="true">→</em><small>Messwerte, Prüfberichte, Folgetermine</small></a>
+        <a href="ailien-branchen-gutachter.html"><i>C</i><b>Gutachter</b><em aria-hidden="true">→</em><small>Diktat und Fotos zum Gutachtenentwurf</small></a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* Reveal */
+  var rv=[].slice.call(document.querySelectorAll('.mb-rv'));
+  if(reduce||!('IntersectionObserver' in window)) rv.forEach(function(e){e.classList.add('in')});
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.12});
+    rv.forEach(function(e){io.observe(e)})}
+  function onView(el,fn,th){if(reduce||!('IntersectionObserver' in window)){fn();return}
+    var o=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){fn();o.disconnect()}})},{threshold:th||.35});o.observe(el)}
+
+  /* ---- Hero: Anfrage -> Altaufträge -> Angebot ---- */
+  var flow=document.getElementById('mbFlow');
+  var kws=[].slice.call(flow.querySelectorAll('.mb-kw')), chips=[].slice.call(document.querySelectorAll('#mbChips span'));
+  var cons=[].slice.call(flow.querySelectorAll('.mb-con')), olds=[].slice.call(flow.querySelectorAll('.mb-o')), pos=[].slice.call(flow.querySelectorAll('.mb-pos'));
+  var tm=[];
+  function T(f,t){tm.push(setTimeout(f,t))}
+  function count(el,to,dur){var s=performance.now();(function f(n){var p=Math.min(1,(n-s)/dur);el.textContent=Math.round(to*(1-Math.pow(1-p,3)))+' %';if(p<1)requestAnimationFrame(f)})(s)}
+  function reset(){tm.forEach(clearTimeout);tm=[];flow.className='mb-flow';
+    kws.concat(chips,cons,olds,pos).forEach(function(e){e.classList.remove('on','best')});
+    olds.forEach(function(o){o.querySelector('.bar i').style.width='0';o.querySelector('.pc').textContent='0 %'})}
+  function end(){kws.concat(chips,cons,olds,pos).forEach(function(e){e.classList.add('on')});olds[0].classList.add('best');
+    olds.forEach(function(o){var v=o.querySelector('.pc').getAttribute('data-v');o.querySelector('.bar i').style.width=v+'%';o.querySelector('.pc').textContent=v+' %'});flow.classList.add('s6')}
+  function play(){
+    reset(); if(reduce){end();return}
+    var t=500;
+    kws.forEach(function(k,i){T(function(){k.classList.add('on');chips[i].classList.add('on')},t+i*380)});
+    t+=kws.length*380+300; T(function(){cons[0].classList.add('on')},t);
+    t+=500;
+    olds.forEach(function(o,i){T(function(){o.classList.add('on');var v=+o.querySelector('.pc').getAttribute('data-v');o.querySelector('.bar i').style.width=v+'%';count(o.querySelector('.pc'),v,900)},t+i*420)});
+    t+=olds.length*420+900; T(function(){olds[0].classList.add('best')},t);
+    t+=500; T(function(){cons[1].classList.add('on')},t);
+    t+=450; pos.forEach(function(p,i){T(function(){p.classList.add('on')},t+i*330)});
+    t+=pos.length*330+250; T(function(){flow.classList.add('s6')},t);
+    T(play,t+7500);
+  }
+  play();
+
+  /* ---- Signatur: Fragen Sie Ihre Maschine ---- */
+  var ICON={
+    book:'<svg viewBox="0 0 30 30"><path d="M5 6h8a3 3 0 0 1 3 3v15a2 2 0 0 0-2-2H5zM25 6h-8a3 3 0 0 0-3 3"/><path d="M25 6v16h-9a2 2 0 0 0-2 2"/></svg>',
+    plan:'<svg viewBox="0 0 30 30"><rect x="4" y="5" width="22" height="20" rx="1.5"/><path d="M8 11h5v4h4v-6h5M8 19h14M13 15v4"/><circle cx="13" cy="11" r="1"/><circle cx="17" cy="15" r="1"/></svg>',
+    tool:'<svg viewBox="0 0 30 30"><path d="M18.5 5.5a5 5 0 0 0-5.6 6.6L5.5 19.5a2 2 0 0 0 2.8 2.8l7.4-7.4a5 5 0 0 0 6.6-5.6l-3 3-2.8-.8-.8-2.8z"/></svg>',
+    list:'<svg viewBox="0 0 30 30"><path d="M11 8h14M11 15h14M11 22h14"/><path d="M5 8h2M5 15h2M5 22h2"/></svg>',
+    box:'<svg viewBox="0 0 30 30"><path d="M5 10l10-5 10 5v11l-10 5-10-5z"/><path d="M5 10l10 5 10-5M15 15v11"/></svg>'
+  };
+  var QA=[
+    {q:'Anlage meldet F-217, Hydraulikdruck zu niedrig. Was zuerst prüfen?',
+     a:'Bei der RB-600 zuerst den Druckfilter: Zeigt die Verschmutzungsanzeige rot, Filterelement tauschen<sup>1</sup>. Danach Ölstand und Druckbegrenzungsventil 0V2 – Sollwert 160 bar<sup>2</sup>. An dieser Anlage wurde im März 2023 die Pumpe geprüft und für in Ordnung befunden; Ursache war damals ebenfalls der Filter<sup>3</sup>.',
+     s:[['book','Betriebsanleitung','Kap. 9.2, S. 112'],['plan','Hydraulikplan','Blatt 4, Pos. 0V2'],['tool','Serviceeinsatz 03/2023','Notiz Techniker']]},
+    {q:'Lichtschranke -B12 löst sporadisch aus, Band stoppt. Bekanntes Problem?',
+     a:'Ja, bei dieser Baureihe viermal gemeldet<sup>1</sup>. -B12 liegt auf Klemme -X3:14, Eingang E2.4<sup>2</sup>. In zwei Fällen hatte sich der Reflektorhalter durch Vibration verstellt: Halter neu ausrichten und mit Kontermutter sichern<sup>3</sup>. Ersatz-Reflektor ist am Lager.',
+     s:[['list','Fehlerhistorie','4 Meldungen seit 2021'],['plan','Schaltplan','Blatt 23, -B12'],['tool','Serviceeinsatz 11/2022','Notiz Techniker']]},
+    {q:'Antrieb M1 läuft unruhig, Geräusch an der Antriebstrommel.',
+     a:'Zuerst Gurtspannung prüfen, danach das Lager der Antriebstrommel – Pos. 14 der Ersatzteilliste<sup>1</sup>. Der Frequenzumrichter speichert die letzten Fehler; welche Parameter auszulesen sind, steht in Anhang C<sup>2</sup>. Passendes Lager 40-1187-025: 6 Stück vorrätig<sup>3</sup>.',
+     s:[['list','Ersatzteilliste','RB-600, Pos. 14'],['book','Betriebsanleitung','Anhang C, Parameter'],['box','Lagerbestand','Lager C-14']]}
+  ];
+  var qBtns=[].slice.call(document.querySelectorAll('#mbQ button')), bq=document.querySelector('#mbBq span'), ba=document.getElementById('mbBa'), src=document.getElementById('mbSrc');
+  var qt=[];
+  function ask(i){
+    qt.forEach(clearTimeout);qt=[];
+    qBtns.forEach(function(b,j){b.setAttribute('aria-pressed',i===j?'true':'false')});
+    var d=QA[i];bq.textContent=d.q;
+    src.innerHTML=d.s.map(function(s,k){return '<div class="mb-sc">'+ICON[s[0]]+'<b><sup>'+(k+1)+'</sup>'+s[1]+'</b><small>'+s[2]+'</small></div>'}).join('');
+    var cards=[].slice.call(src.children);
+    if(reduce){ba.innerHTML=d.a;cards.forEach(function(c){c.classList.add('on')});return}
+    /* Text tokenweise (Tags bleiben intakt) */
+    var parts=d.a.split(/(<sup>\d<\/sup>)/), toks=[];
+    parts.forEach(function(p){if(/^<sup>/.test(p))toks.push(p);else p.split(/(\s+)/).forEach(function(w){if(w)toks.push(w)})});
+    ba.innerHTML='<span class="cur"></span>';
+    var out='',n=0;
+    toks.forEach(function(tk,k){qt.push(setTimeout(function(){out+=tk;ba.innerHTML=out+(k<toks.length-1?'<span class="cur"></span>':'');
+      var m=tk.match(/^<sup>(\d)/);if(m&&cards[+m[1]-1])cards[+m[1]-1].classList.add('on')},300+k*28))});
+    qt.push(setTimeout(function(){cards.forEach(function(c){c.classList.add('on')})},300+toks.length*28+200));
+  }
+  qBtns.forEach(function(b,i){b.addEventListener('click',function(){ask(i)})});
+  bq.textContent=QA[0].q;
+  onView(document.getElementById('mb-frage'),function(){ask(0)},.3);
+
+  /* ---- Ersatzteil-Scan ---- */
+  var scan=document.getElementById('mbScan'), st=[];
+  function runScan(){st.forEach(clearTimeout);st=[];scan.classList.remove('run','done');
+    if(reduce){scan.classList.add('done');return}
+    void scan.offsetWidth;scan.classList.add('run');st.push(setTimeout(function(){scan.classList.remove('run');scan.classList.add('done')},3300))}
+  document.getElementById('mbAgain').addEventListener('click',runScan);
+  onView(scan,runScan,.45);
+
+  /* ---- AB-Abgleich ---- */
+  var drs=[].slice.call(document.querySelectorAll('#mbDiff .mb-dr:not(.th)')), dsum=document.getElementById('mbDsum');
+  onView(document.getElementById('mbDiff'),function(){
+    if(reduce){drs.forEach(function(r){r.classList.add('chk')});dsum.classList.add('on');return}
+    drs.forEach(function(r,i){setTimeout(function(){r.classList.add('chk')},300+i*420)});
+    setTimeout(function(){dsum.classList.add('on')},300+drs.length*420+200);
+  },.4);
+
+  /* ---- Sprachumschalter Anleitung ---- */
+  var L={
+    de:{h:'7.3 Wartung der Hydraulikeinheit',w:'Warnung',wt:'Vor allen Wartungsarbeiten die Maschine am <span class="mb-g">Hauptschalter</span> ausschalten und gegen Wiedereinschalten sichern. <span class="mb-g">Restdruck</span> im Hydrauliksystem ablassen.',
+        s:['<span class="mb-g">Hauptschalter</span> auf 0 stellen und mit Vorhängeschloss sichern.','Manometer prüfen: Anzeige muss 0 bar betragen.','<span class="mb-g">Druckfilter</span> öffnen und Filterelement tauschen.']},
+    en:{h:'7.3 Maintenance of the hydraulic unit',w:'Warning',wt:'Before any maintenance work, switch off the machine at the <span class="mb-g">main switch</span> and secure it against being switched on again. Release the <span class="mb-g">residual pressure</span> from the hydraulic system.',
+        s:['Set the <span class="mb-g">main switch</span> to 0 and lock it with a padlock.','Check the pressure gauge: it must read 0 bar.','Open the <span class="mb-g">pressure filter</span> and replace the filter element.']},
+    fr:{h:'7.3 Maintenance de l’unité hydraulique',w:'Avertissement',wt:'Avant toute opération de maintenance, mettre la machine hors tension à l’aide de l’<span class="mb-g">interrupteur principal</span> et la protéger contre toute remise en marche. Évacuer la <span class="mb-g">pression résiduelle</span> du système hydraulique.',
+        s:['Placer l’<span class="mb-g">interrupteur principal</span> sur 0 et le verrouiller avec un cadenas.','Contrôler le manomètre : il doit indiquer 0 bar.','Ouvrir le <span class="mb-g">filtre de pression</span> et remplacer l’élément filtrant.']},
+    pl:{h:'7.3 Konserwacja agregatu hydraulicznego',w:'Ostrzeżenie',wt:'Przed wszelkimi pracami konserwacyjnymi wyłączyć maszynę <span class="mb-g">wyłącznikiem głównym</span> i zabezpieczyć ją przed ponownym włączeniem. Spuścić <span class="mb-g">ciśnienie resztkowe</span> z układu hydraulicznego.',
+        s:['Ustawić <span class="mb-g">wyłącznik główny</span> w pozycji 0 i zabezpieczyć kłódką.','Sprawdzić manometr: musi wskazywać 0 bar.','Otworzyć <span class="mb-g">filtr ciśnieniowy</span> i wymienić wkład filtra.']}
+  };
+  var man=document.getElementById('mbMan'), lb=[].slice.call(document.querySelectorAll('#mbLang button'));
+  var tri='<svg viewBox="0 0 44 40" aria-hidden="true"><path d="M22 3 L41 37 H3 Z" fill="#F2C46B" stroke="#0E1013" stroke-width="2.4" stroke-linejoin="round"/><path d="M22 14v11" stroke="#0E1013" stroke-width="3.2" stroke-linecap="round"/><circle cx="22" cy="30.5" r="2" fill="#0E1013"/></svg>';
+  function render(l){var d=L[l];man.innerHTML='<h3>'+d.h+'</h3><div class="mb-warn">'+tri+'<div><b>'+d.w+'</b><p>'+d.wt+'</p></div></div><ol>'+d.s.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ol>';man.setAttribute('lang',l)}
+  lb.forEach(function(b){b.addEventListener('click',function(){
+    lb.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    if(reduce){render(b.dataset.l);return}
+    man.classList.add('out');setTimeout(function(){render(b.dataset.l);man.classList.remove('out')},220)})});
+  render('de');
+})();
+</script>
+
+<style>
+  /* ---------- CTA + Footer ---------- */
+  .ct{background:var(--night);color:var(--on-night);position:relative;overflow:hidden}
+  .ct-in{max-width:1240px;margin:0 auto;padding:112px 32px 96px;position:relative}
+  .ct .eyebrow{color:var(--mint)}.ct .eyebrow::before{background:var(--mint)}
+
+  .ct-tl{position:relative;height:64px;margin:0 0 56px}
+  .ct-tl svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .ct-tl .base{stroke:var(--night-3);stroke-width:1;stroke-dasharray:3 5}
+  .ct-tl .ink{stroke:var(--on-night-muted);stroke-width:1.25}
+  .ct-tl ol{list-style:none;margin:0;padding:0;position:absolute;inset:0}
+  .ct-tl li{white-space:nowrap;position:absolute;top:22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;font-size:12px;letter-spacing:.06em;color:var(--on-night-muted);opacity:.25;transition:opacity .4s,color .4s}
+  .ct-tl li::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--night);border:1px solid currentColor;margin-top:-4px}
+  .ct-tl li.on{opacity:1}
+  .ct-tl li.now{color:var(--mint);font-weight:500}
+  .ct-tl li.now::before{width:13px;height:13px;margin-top:-6px;background:var(--mint);border-color:var(--mint);box-shadow:0 0 0 0 rgba(140,245,194,.5)}
+  .ct-tl li.now.on::before{animation:ctPulse 2.2s ease-out infinite}
+  @keyframes ctPulse{0%{box-shadow:0 0 0 0 rgba(140,245,194,.45)}100%{box-shadow:0 0 0 16px rgba(140,245,194,0)}}
+
+  .ct-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:72px;align-items:start}
+  .ct-grid>div:first-child{container-type:inline-size}
+  .ct h2 span{display:block;white-space:nowrap}
+  .ct h2{font-weight:500;font-size:min(64px,calc(100cqi / 10.6));line-height:1.02;letter-spacing:-.04em;margin:0 0 24px}
+  .ct h2 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--mint)}
+  .ct-lead{font-size:18px;line-height:28px;color:var(--on-night-muted);max-width:480px;margin:0 0 36px}
+  .ct-list{list-style:none;margin:0 0 40px;padding:0;display:grid;gap:14px;max-width:480px}
+  .ct-list li{display:grid;grid-template-columns:28px 1fr;gap:12px;font-size:15px;line-height:23px}
+  .ct-list li span{width:28px;height:28px;border-radius:50%;border:1px solid var(--night-3);display:grid;place-items:center;font-size:11px;color:var(--mint)}
+  .ct-list b{font-weight:500}
+  .ct-list small{display:block;color:var(--on-night-muted);font-size:14px}
+  .ct-person{display:flex;align-items:center;gap:14px;padding-top:28px;border-top:1px solid var(--night-3);max-width:480px}
+  .ct-ava{width:52px;height:52px;border-radius:50%;background:var(--night-3);display:grid;place-items:center;font-weight:500;font-size:16px;color:var(--mint);flex:none}
+  .ct-person p{margin:0;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-person b{display:block;color:var(--on-night);font-weight:500;font-size:15px}
+  .ct-person a{color:var(--mint);text-decoration:none}
+
+  .ct-form{background:var(--night-2);border:1px solid var(--night-3);border-radius:20px;padding:28px;position:relative}
+  .ct-form h3{margin:0 0 6px;font-size:20px;font-weight:500;letter-spacing:-.02em}
+  .ct-form>p{margin:0 0 22px;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:var(--night);border-radius:999px;margin:0 0 22px}
+  .ct-seg button{font:500 13px/18px var(--sans);color:var(--on-night-muted);background:none;border:0;border-radius:999px;padding:9px 10px;cursor:pointer}
+  .ct-seg button[aria-pressed="true"]{background:var(--on-night);color:var(--night)}
+  .ct-f{display:grid;gap:14px}
+  .ct-f label{display:grid;gap:6px;font-size:12px;letter-spacing:.04em;color:var(--on-night-muted)}
+  .ct-f input,.ct-f select,.ct-f textarea{font:400 15px/22px var(--sans);color:var(--on-night);background:var(--night);border:1px solid var(--night-3);border-radius:10px;padding:11px 13px;width:100%;transition:border-color .2s}
+  .ct-f textarea{resize:vertical;min-height:84px}
+  .ct-f input:focus,.ct-f select:focus,.ct-f textarea:focus{outline:none;border-color:var(--mint)}
+  .ct-f .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .ct-f .ok{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;line-height:19px;letter-spacing:0}
+  .ct-f .ok input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--mint);flex:none}
+  .ct-f .ok a{color:var(--on-night)}
+  .ct-f .btn{justify-content:center;width:100%;margin-top:4px;padding:15px 20px}
+  .ct-f [data-only="call"]{display:none}
+  .ct-form.call [data-only="call"]{display:grid}
+  .ct-form.call [data-only="mail"]{display:none}
+  .ct-done{display:none;text-align:center;padding:48px 8px}
+  .ct-done svg{width:56px;height:56px;margin:0 auto 18px;display:block}
+  .ct-done h3{margin-bottom:8px}
+  .ct-done p{margin:0;color:var(--on-night-muted);font-size:15px;line-height:23px}
+  .ct-form.sent .ct-f,.ct-form.sent .ct-seg,.ct-form.sent>h3,.ct-form.sent>p{display:none}
+  .ct-form.sent .ct-done{display:block}
+  .ct-done path{stroke-dasharray:1;stroke-dashoffset:1}
+  .ct-form.sent .ct-done path{animation:ctDraw .7s .15s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes ctDraw{to{stroke-dashoffset:0}}
+
+  .crv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .crv.in{opacity:1;transform:none}
+
+  /* Footer */
+  .ft{background:var(--night);color:var(--on-night);border-top:1px solid var(--night-3);overflow:hidden}
+  .ft-in{max-width:1240px;margin:0 auto;padding:64px 32px 0}
+  .ft-top{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px;padding-bottom:56px}
+  .ft-brand svg{height:30px;width:auto;display:block;margin-bottom:18px}
+  .ft-brand p{margin:0 0 20px;font-size:14px;line-height:22px;color:var(--on-night-muted);max-width:300px}
+  .ft-badges{display:flex;flex-wrap:wrap;gap:8px}
+  .ft-badges span{font-size:12px;color:var(--on-night-muted);border:1px solid var(--night-3);border-radius:999px;padding:5px 11px}
+  .ft h4{margin:0 0 16px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--on-night-muted)}
+  .ft ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .ft ul a{color:var(--on-night);text-decoration:none;font-size:15px;opacity:.86}
+  .ft ul a:hover{opacity:1;color:var(--mint)}
+  .ft-mark{position:relative;margin:0 -2px;line-height:0}
+  .ft-mark svg{width:100%;height:auto;display:block}
+  .ft-mark .o{fill:#15181C}
+  .ft-mark .f{fill:var(--night-3)}
+  .ft-bot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;padding:22px 0 28px;border-top:1px solid var(--night-3);font-size:13px;color:var(--on-night-muted)}
+  .ft-bot nav{display:flex;gap:20px}
+  .ft-bot a{color:inherit;text-decoration:none}.ft-bot a:hover{color:var(--on-night)}
+
+  @media (max-width:980px){
+    .ct-grid{grid-template-columns:1fr;gap:48px}
+    .ft-top{grid-template-columns:1fr 1fr}
+    .ft-brand{grid-column:1/-1}
+    .ft-top>div:last-child{grid-column:1/-1}
+  }
+  @media (max-width:640px){
+    .ct-in{padding:80px 16px 72px}
+    .ct-tl{margin-bottom:40px}
+    .ct-tl li{font-size:10.5px;letter-spacing:.02em}
+    .ct-tl li:nth-child(2),.ct-tl li:nth-child(4){display:none}
+    .ct-form{padding:22px 18px}
+    .ct-f .two{grid-template-columns:1fr}
+    .ft-in{padding:56px 16px 0}
+    .ft-top{gap:32px 20px}
+    .ft-bot{flex-direction:column}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .crv{opacity:1;transform:none;transition:none}
+    .ct-tl li.now.on::before{animation:none}
+  }
+</style>
+
+<section class="ct" id="kontakt">
+  <div class="ct-in">
+    <div class="ct-tl" aria-hidden="true">
+      <svg viewBox="0 0 1000 64" preserveAspectRatio="none"><line class="base" x1="0" y1="22" x2="1000" y2="22"/><line class="ink" x1="0" y1="22" x2="1000" y2="22" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+      <ol>
+        <li style="left:4%">1850</li><li style="left:24%">1920</li><li style="left:44%">1965</li><li style="left:64%">1995</li><li style="left:96%" class="now">Ihr Betrieb</li>
+      </ol>
+    </div>
+
+    <div class="ct-grid">
+      <div class="crv">
+        <p class="eyebrow">Erstgespräch</p>
+        <h2><span>Die nächste Epoche</span><span>beginnt in <em>Ihrem Betrieb.</em></span></h2>
+        <p class="ct-lead">In 30 Minuten wissen Sie, wo KI bei Ihnen Zeit spart – und wo nicht. Ohne Verkaufsgespräch, ohne Fachchinesisch.</p>
+        <ol class="ct-list">
+          <li><span>01</span><div><b>Sie erzählen, wo es hakt.</b><small>Per Video oder bei Ihnen vor Ort.</small></div></li>
+          <li><span>02</span><div><b>Wir zeigen, was möglich ist.</b><small>An Beispielen aus Ihrer Branche.</small></div></li>
+          <li><span>03</span><div><b>Sie entscheiden in Ruhe.</b><small>Auf Wunsch mit schriftlicher Einschätzung.</small></div></li>
+        </ol>
+        <div class="ct-person">
+          <div class="ct-ava" aria-hidden="true">NK</div>
+          <p><b>Nic Karban</b>Gründer · Ihr Ansprechpartner<br><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></p>
+        </div>
+      </div>
+
+      <div class="ct-form crv" id="ctForm">
+        <h3>Erstgespräch anfragen</h3>
+        <p>Wir melden uns innerhalb eines Werktags.</p>
+        <div class="ct-seg" role="group" aria-label="Kontaktweg">
+          <button type="button" aria-pressed="true" data-mode="mail">Termin per E-Mail</button>
+          <button type="button" aria-pressed="false" data-mode="call">Rückruf</button>
+        </div>
+        <!-- TODO: action auf echtes Formular-Backend / Buchungstool setzen -->
+        <form class="ct-f" action="#" method="post" novalidate>
+          <div class="two">
+            <label>Name<input name="name" autocomplete="name" required></label>
+            <label>Betrieb<input name="firma" autocomplete="organization"></label>
+          </div>
+          <label data-only="mail">E-Mail<input type="email" name="email" autocomplete="email"></label>
+          <div class="two" data-only="call">
+            <label>Telefon<input type="tel" name="tel" autocomplete="tel"></label>
+            <label>Am besten erreichbar<select name="zeit"><option>Vormittags</option><option>Mittags</option><option>Nachmittags</option></select></label>
+          </div>
+          <label>Wo kostet Sie Routine am meisten Zeit? <span style="opacity:.6">(optional)</span><textarea name="nachricht" placeholder="z. B. Angebote schreiben, Telefon, Rechnungen prüfen …"></textarea></label>
+          <label class="ok"><input type="checkbox" name="dsgvo" required><span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden. <a href="#">Datenschutz</a></span></label>
+          <button class="btn m" type="submit">Anfrage senden <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="ct-done" role="status">
+          <svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="27" fill="none" stroke="#22262B"/><path d="M17 29 25 37 40 20" fill="none" stroke="#8CF5C2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
+          <h3>Danke – ist angekommen.</h3>
+          <p>Wir melden uns innerhalb eines Werktags bei Ihnen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="ft">
+  <div class="ft-in">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <svg viewBox="0 8 160.8 64" aria-label="Ailien"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#F3F1EC"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#8CF5C2" fill-rule="evenodd"/></svg>
+        <p>KI-Automatisierung für Mittelstand und Handwerk. Wir bauen Systeme, die Routine abnehmen – und betreuen sie dauerhaft.</p>
+        <div class="ft-badges"><span>DSGVO-konform</span><span>Server in der EU</span><span>Made in Germany</span></div>
+      </div>
+      <div>
+        <h4>Leistungen</h4>
+        <ul><li><a href="#leistungen">Prozess-Automationen</a></li><li><a href="#leistungen">KI-Wissenssysteme</a></li><li><a href="#leistungen">Voice &amp; Kommunikation</a></li><li><a href="#leistungen">KI-Strategie &amp; Beratung</a></li></ul>
+      </div>
+      <div>
+        <h4>Ailien</h4>
+        <ul><li><a href="#praxis">Praxisbeispiele</a></li><li><a href="#vorgehen">Vorgehen</a></li><li><a href="#faq">Häufige Fragen</a></li><li><a href="#rechner">Entlastungs-Rechner</a></li></ul>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul><li><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></li><li><a href="#kontakt">Erstgespräch anfragen</a></li><li><a href="#">LinkedIn</a></li></ul>
+      </div>
+    </div>
+
+    <div class="ft-mark" aria-hidden="true">
+      <svg viewBox="7 11.5 143.5 51.6"><defs><g id="ftWord"><path d=""/><path fill-rule="evenodd" d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z"/></g><clipPath id="ftClip"><rect id="ftRise" x="0" y="64" width="161" height="70"/></clipPath></defs>
+        <g class="o"><use href="#ftWord"/></g>
+        <g clip-path="url(#ftClip)"><g class="f"><use href="#ftWord"/></g></g>
+      </svg>
+    </div>
+
+    <div class="ft-bot">
+      <span>© 2026 Ailien · ailien-automation.de</span>
+      <nav><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">AGB</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var clamp=function(v){return v<0?0:v>1?1:v};
+  /* Reveals */
+  var els=[].slice.call(document.querySelectorAll('.crv'));
+  if(reduce||!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')})}
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.15});
+    els.forEach(function(e,i){e.style.transitionDelay=(i%2?.12:0)+'s';io.observe(e)})}
+
+  /* Zeitstrahl + Wortmarke scroll-gesteuert */
+  var tl=document.querySelector('.ct-tl'), ink=tl&&tl.querySelector('.ink'), lis=tl?[].slice.call(tl.querySelectorAll('li')):[];
+  var pos=lis.map(function(l){return parseFloat(l.style.left)/100});
+  var mark=document.querySelector('.ft-mark'), rise=document.getElementById('ftRise');
+  function tick(){
+    var vh=innerHeight;
+    if(tl){
+      var r=tl.getBoundingClientRect();
+      var p=reduce?1:clamp((vh*.92-r.top)/(vh*.55));
+      ink.style.strokeDashoffset=1-p;
+      lis.forEach(function(l,i){l.classList.toggle('on',p>=pos[i]-.02)});
+    }
+    if(mark){
+      var m=mark.getBoundingClientRect();
+      var q=reduce?1:clamp((vh-m.top-m.height*.1)/(m.height*.9));
+      rise.setAttribute('y',(63-q*51).toFixed(2));
+    }
+  }
+  var raf=0;function on(){if(!raf)raf=requestAnimationFrame(function(){raf=0;tick()})}
+  addEventListener('scroll',on,{passive:true});addEventListener('resize',on);tick();
+
+  /* Formular */
+  var f=document.getElementById('ctForm'); if(!f) return;
+  var btns=[].slice.call(f.querySelectorAll('.ct-seg button'));
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    f.classList.toggle('call',b.dataset.mode==='call');
+  })});
+  f.querySelector('form').addEventListener('submit',function(e){
+    e.preventDefault(); /* Demo: hier später an Backend senden */
+    var form=e.target, E=form.elements, call=f.classList.contains('call');
+    var nm=E.namedItem('name'), ct=E.namedItem(call?'tel':'email'), cb=E.namedItem('dsgvo');
+    var name=nm.value.trim(), contact=ct.value.trim(), ok=cb.checked;
+    [nm,ct].forEach(function(i){i.style.borderColor=i.value.trim()?'':'#F2C46B'});
+    cb.parentNode.style.color=ok?'':'#F2C46B';
+    if(!name||!contact||!ok) return;
+    f.classList.add('sent');
+  });
+})();
+</script>
+
+</body>
+</html>

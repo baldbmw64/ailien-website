@@ -1,0 +1,1040 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KI für Architekturbüros – ailien</title>
+<meta name="description" content="KI-Helfer für Architekturbüros: Protokolle aus Baubesprechungen, Baubeschreibung und LV-Texte, Bauantrag-Check und Vorbereitung der HOAI-Abrechnung. Daten in der EU.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F3F1EC; --ink:#0E1013; --muted:#5F636A; --line:#DEDBD3; --accent:#0F7A55;
+    --night:#0E1013; --night-2:#171A1E; --night-3:#22262B; --on-night:#F3F1EC; --on-night-muted:#A3A7AD; --mint:#8CF5C2;
+    --warn:#F2C46B;
+    --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+    --serif:"Instrument Serif",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);overflow-x:clip}
+  .btn{display:inline-flex;align-items:center;gap:10px;font:500 14px/20px var(--sans);padding:13px 20px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer}
+  .btn.p{background:var(--night);color:var(--on-night)}.btn.p:hover{background:#23262b}
+  .btn.s{color:var(--ink);border-color:var(--line)}.btn.s:hover{border-color:var(--ink)}
+  .btn:focus-visible,.dot:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--accent);margin:0 0 18px;display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--accent)}
+  .btn.m{background:var(--mint);color:var(--night)}.btn.m:hover{background:#a6f8d0}
+</style>
+<style>
+  /* ---------- Header (Variante C) ---------- */
+  .hd-sp{height:117px}
+  .hd{position:fixed;top:0;left:0;right:0;z-index:100;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+  .hd-w{max-width:1240px;margin:0 auto;padding:0 32px}
+  .hd-bar{background:var(--night);color:var(--on-night-muted);font-size:12px;height:36px;overflow:hidden;transition:height .35s,opacity .35s}
+  .hd-bar .hd-w{height:100%;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .hd-bar span{display:flex;gap:18px}
+  .hd-bar b{font-weight:500}
+  .hd-bar i{font-style:normal;color:var(--mint);margin-right:6px}
+  .hd-bar a{color:var(--on-night);text-decoration:none}.hd-bar a:hover{color:var(--mint)}
+  .hd-main{background:var(--paper);border-bottom:1px solid transparent;transition:border-color .3s}
+  .hd-main .hd-w{display:flex;align-items:center;gap:28px;padding-top:18px;padding-bottom:18px;transition:padding .35s}
+  .hd-lg{display:block;height:38px;width:auto;color:var(--ink);transition:height .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-nv{display:flex;align-items:center;gap:2px;margin-right:auto}
+  .hd-ni{font:400 14px/20px var(--sans);color:var(--ink);background:none;border:0;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;white-space:nowrap}
+  .hd-ni sup{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--accent);margin-right:2px;line-height:0}
+  .hd-ni:hover,.hd-dd.on .hd-ni{color:var(--accent)}
+  .hd-ni svg{width:9px;height:9px;opacity:.6;transition:transform .25s}
+  .hd-dd{position:relative}
+  .hd-dd.on .hd-ni svg{transform:rotate(180deg)}
+  .hd-p{position:absolute;top:calc(100% + 14px);left:0;z-index:5;transform:translateY(8px);opacity:0;visibility:hidden;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:0 30px 60px -20px rgba(14,16,19,.28);transition:opacity .25s,transform .25s cubic-bezier(.2,.7,.2,1),visibility .25s}
+  .hd-p::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px}
+  .hd-dd.on .hd-p{opacity:1;visibility:visible;transform:none}
+  .hd-p.wide{width:640px;display:grid;grid-template-columns:1fr 1fr 210px;gap:4px}
+  .hd-p.list{width:330px;display:grid;gap:2px}
+  .hd-i{position:relative;display:block;padding:14px;border-radius:12px;text-decoration:none;color:inherit;transition:background .2s}
+  .hd-i:hover{background:var(--paper)}
+  .hd-i b{display:block;font-weight:500;font-size:14.5px;letter-spacing:-.01em;margin-bottom:3px}
+  .hd-i b::before{content:"";position:absolute;left:5px;top:21px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity .2s}
+  .hd-i:hover b::before{opacity:1}
+  .hd-i span{display:block;font-size:13px;line-height:19px;color:var(--muted)}
+  .hd-feat{grid-row:1/3;grid-column:3;background:var(--night);color:var(--on-night);border-radius:12px;padding:18px;display:flex;flex-direction:column;text-decoration:none}
+  .hd-feat small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint)}
+  .hd-feat strong{font-weight:500;font-size:17px;line-height:23px;letter-spacing:-.02em;margin-top:10px}
+  .hd-feat strong em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;color:var(--mint)}
+  .hd-feat span{margin-top:auto;font-size:13px;color:var(--on-night-muted)}
+  .hd-all{grid-column:1/3;display:flex;justify-content:space-between;padding:12px 14px;margin-top:4px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);text-decoration:none}
+  .hd-all:hover{color:var(--accent)}
+  .hd-r{display:flex;gap:8px}
+  .hd .btn{padding:12px 20px;white-space:nowrap}
+  .hd .btn .ar{transition:transform .2s}.hd .btn:hover .ar{transform:translateX(3px)}
+  .hd-burger{display:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:none;cursor:pointer;position:relative;flex:none;color:var(--ink)}
+  .hd-burger::before,.hd-burger::after{content:"";position:absolute;left:14px;right:14px;height:1.5px;background:currentColor;transition:transform .3s,top .3s}
+  .hd-burger::before{top:17px}.hd-burger::after{top:25px}
+  .hd-open .hd-burger::before{top:21px;transform:rotate(45deg)}.hd-open .hd-burger::after{top:21px;transform:rotate(-45deg)}
+  .hd.sc .hd-bar{height:0;opacity:0}
+  .hd.sc .hd-main{border-color:var(--line)}
+  .hd.sc .hd-main .hd-w{padding-top:12px;padding-bottom:12px}
+  .hd.sc .hd-lg{height:32px}
+  .hd-lg.old{height:32px}.hd.sc .hd-lg.old{height:28px}
+  .hd.hide{transform:translateY(-100%)}
+
+  /* Handy-Menü */
+  .hd-mm{position:fixed;inset:0;z-index:99;background:var(--paper);display:flex;flex-direction:column;padding:120px 22px 24px;overflow:auto;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+  .hd-open .hd-mm{opacity:1;visibility:visible}
+  .hd-mm>ol{list-style:none;margin:0;padding:0;counter-reset:n}
+  .hd-mm>ol>li{counter-increment:n;border-bottom:1px solid var(--line);opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s}
+  .hd-open .hd-mm>ol>li{opacity:1;transform:none}
+  .hd-open .hd-mm>ol>li:nth-child(2){transition-delay:.04s}.hd-open .hd-mm>ol>li:nth-child(3){transition-delay:.08s}.hd-open .hd-mm>ol>li:nth-child(4){transition-delay:.12s}.hd-open .hd-mm>ol>li:nth-child(5){transition-delay:.16s}
+  .hd-t{display:flex;align-items:center;width:100%;padding:15px 0;font:500 26px/1.15 var(--sans);letter-spacing:-.03em;color:var(--ink);text-decoration:none;background:none;border:0;cursor:pointer;text-align:left}
+  .hd-t::after{content:"0" counter(n);margin-left:auto;font-family:var(--serif);font-style:italic;font-weight:400;font-size:17px;color:var(--accent)}
+  .hd-t .pl{order:3;margin-left:14px;width:12px;height:12px;position:relative;opacity:.6}
+  .hd-t .pl::before,.hd-t .pl::after{content:"";position:absolute;left:0;right:0;top:5.5px;height:1.5px;background:currentColor;transition:transform .3s}
+  .hd-t .pl::after{transform:rotate(90deg)}
+  .hd-mm li.ex .pl::after{transform:rotate(0)}
+  .hd-s{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-mm li.ex .hd-s{grid-template-rows:1fr}
+  .hd-s>div{overflow:hidden}
+  .hd-s a{display:block;padding:8px 0 8px 2px;font-size:16px;color:var(--ink);opacity:.75;text-decoration:none}
+  .hd-s a:last-child{margin-bottom:14px}
+  .hd-mf{margin-top:auto;padding-top:28px;display:grid;gap:14px}
+  .hd-mf .btn{justify-content:center;padding:15px}
+  .hd-mf small{font-size:12px;color:var(--muted);text-align:center}
+  body.hd-lock{overflow:hidden}
+
+  @media (max-width:1180px){.hd-r .btn.s{display:none}.hd-main .hd-w{gap:16px}}
+  @media (max-width:980px){
+    .hd-nv{display:none}.hd-burger{display:block}
+    .hd-r{margin-left:auto}.hd-bar a{display:none}
+    .hd-lg{height:34px}.hd.sc .hd-lg{height:30px}
+    .hd .btn{padding:10px 16px;font-size:13px}
+  }
+  @media (max-width:980px){.hd-sp{height:113px}}
+  @media (max-width:520px){
+    .hd-sp{height:109px}
+    .hd-w{padding:0 16px}.hd-bar{font-size:11px}
+    .hd-bar span b:nth-child(n+3){display:none}
+    .hd-main .hd-w{padding-top:14px;padding-bottom:14px;gap:12px}
+    .hd.sc .hd-main .hd-w{padding-top:10px;padding-bottom:10px}
+  }
+  @media (max-width:360px){.hd-r .btn{display:none}}
+  @media (prefers-reduced-motion:reduce){.hd,.hd-p,.hd-mm,.hd-mm li{transition:none}}
+  .hd-main .hd-w{position:relative}
+  .hd-dd.mega{position:static}
+  .hd-p.mega{left:32px;right:32px;width:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:18px}
+  .hd-g{display:flex;flex-direction:column;gap:2px;padding:6px}
+  .hd-g small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px 10px}
+  .hd-l{display:block;padding:9px 10px;border-radius:10px;color:var(--ink);text-decoration:none;font-size:14.5px;transition:background .2s}
+  .hd-l:hover{background:var(--paper)}
+  .hd-l[aria-current="page"]{background:var(--paper);font-weight:500}
+  .hd-l[aria-current="page"]::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:2px}
+  .hd-s a[aria-current="page"]{opacity:1;font-weight:500}
+
+</style>
+</head>
+<body>
+<header class="hd" id="hd">
+  <div class="hd-bar"><div class="hd-w"><span><b><i>✓</i>DSGVO-konform</b><b><i>✓</i>Server in der EU</b><b><i>✓</i>Antwort innerhalb eines Werktags</b></span><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></div></div>
+  <div class="hd-main"><div class="hd-w">
+    <a href="ailien-startseite.html" aria-label="ailien Startseite"><svg class="hd-lg" viewBox="0 8 160.8 64" aria-hidden="true"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#0E1013"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#0F7A55" fill-rule="evenodd"/></svg></a>
+    <nav class="hd-nv" aria-label="Hauptnavigation">
+      <div class="hd-dd">
+        <button class="hd-ni" aria-expanded="false"><sup>01</sup>Leistungen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+        <div class="hd-p wide">
+          <a class="hd-i" href="/leistungen/prozess-automation"><b>Prozess-Automationen</b><span>Belege, Angebote, Bestellungen – läuft von selbst.</span></a>
+          <a class="hd-i" href="/leistungen/wissenssysteme"><b>KI-Wissenssysteme</b><span>Firmenwissen, das jeder sofort findet.</span></a>
+          <a class="hd-i" href="/leistungen/voice"><b>Voice &amp; Kommunikation</b><span>Telefon-Assistent und E-Mail-Vorsortierung.</span></a>
+          <a class="hd-i" href="/leistungen/beratung"><b>KI-Strategie &amp; Beratung</b><span>Wo lohnt sich KI bei Ihnen wirklich?</span></a>
+          <a class="hd-feat" href="ailien-entlastungsrechner.html"><small>Rechner</small><strong>Wie viele Stunden <em>sparen Sie?</em></strong><span>Jetzt ausrechnen →</span></a>
+          <a class="hd-all" href="/leistungen">Alle Leistungen im Überblick <span>→</span></a>
+        </div>
+      </div>
+      <div class="hd-dd mega"><button class="hd-ni" aria-expanded="false"><sup>02</sup>Branchen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><div class="hd-p mega"><div class="hd-g"><small>Bau &amp; Handwerk</small><a class="hd-l" href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a class="hd-l" href="ailien-branchen-bad-kueche.html">Bad- &amp; Küchenstudios</a><a class="hd-l" href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a class="hd-l" href="ailien-branchen-gebaeudereinigung.html">Gebäudereinigung</a></div><div class="hd-g"><small>Industrie &amp; Technik</small><a class="hd-l" href="ailien-branchen-maschinenbau.html">Maschinen- &amp; Anlagenbau</a><a class="hd-l" href="ailien-branchen-cnc.html">CNC-Betriebe</a><a class="hd-l" href="ailien-branchen-dguv-v3.html">Elektroprüfung DGUV V3</a><a class="hd-l" href="ailien-branchen-brandschutz.html">Brandschutz</a></div><div class="hd-g"><small>Immobilien &amp; Planung</small><a class="hd-l" href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a class="hd-l" href="ailien-branchen-immobilienmakler.html">Immobilienmakler</a><a class="hd-l" href="ailien-branchen-architekten.html" aria-current="page">Architekten</a><a class="hd-l" href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a></div><div class="hd-g"><small>Dienstleistung</small><a class="hd-l" href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a class="hd-l" href="ailien-branchen-foerdermittelberatung.html">Fördermittelberatung</a><a class="hd-l" href="ailien-branchen-bestatter.html">Bestatter</a></div></div></div>
+      <a class="hd-ni" href="ailien-praxisbeispiele.html"><sup>03</sup>Praxisbeispiele</a>
+      <a class="hd-ni" href="ailien-ueber-uns.html"><sup>04</sup>Über uns</a>
+      <a class="hd-ni" href="/wissen"><sup>05</sup>Wissen</a>
+    </nav>
+    <div class="hd-r"><a class="btn s" href="ailien-entlastungsrechner.html?branche=architekten">Rechner</a><a class="btn p" href="/kontakt">Erstgespräch <span class="ar">→</span></a></div>
+    <button class="hd-burger" aria-label="Menü öffnen" aria-expanded="false"></button>
+  </div></div>
+</header>
+<div class="hd-sp" aria-hidden="true"></div>
+<div class="hd-mm" id="hdMenu">
+  <ol>
+    <li><button class="hd-t">Leistungen<i class="pl"></i></button><div class="hd-s"><div><a href="/leistungen/prozess-automation">Prozess-Automationen</a><a href="/leistungen/wissenssysteme">KI-Wissenssysteme</a><a href="/leistungen/voice">Voice &amp; Kommunikation</a><a href="/leistungen/beratung">KI-Strategie &amp; Beratung</a><a href="/leistungen">Alle Leistungen →</a></div></div></li>
+    <li><button class="hd-t">Branchen<i class="pl"></i></button><div class="hd-s"><div><a href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a href="ailien-branchen-bad-kueche.html">Bad- &amp; Küchenstudios</a><a href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a href="ailien-branchen-gebaeudereinigung.html">Gebäudereinigung</a><a href="ailien-branchen-maschinenbau.html">Maschinen- &amp; Anlagenbau</a><a href="ailien-branchen-cnc.html">CNC-Betriebe</a><a href="ailien-branchen-dguv-v3.html">Elektroprüfung DGUV V3</a><a href="ailien-branchen-brandschutz.html">Brandschutz</a><a href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a href="ailien-branchen-immobilienmakler.html">Immobilienmakler</a><a href="ailien-branchen-architekten.html" aria-current="page">Architekten</a><a href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a><a href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a href="ailien-branchen-foerdermittelberatung.html">Fördermittelberatung</a><a href="ailien-branchen-bestatter.html">Bestatter</a></div></div></li>
+    <li><a class="hd-t" href="ailien-praxisbeispiele.html">Praxisbeispiele</a></li>
+    <li><a class="hd-t" href="ailien-ueber-uns.html">Über uns</a></li>
+    <li><a class="hd-t" href="/wissen">Wissen</a></li>
+  </ol>
+  <div class="hd-mf"><a class="btn p" href="/kontakt">Erstgespräch vereinbaren <span class="ar">→</span></a><a class="btn s" href="ailien-entlastungsrechner.html?branche=architekten">Entlastungs-Rechner</a><small>DSGVO-konform · Server in der EU</small></div>
+</div>
+<script>
+(function(){
+  var h=document.getElementById('hd'), last=scrollY, root=document.documentElement, sp=document.querySelector('.hd-sp');
+  function fit(){if(!h.classList.contains('sc'))sp.style.height=h.offsetHeight+'px'}
+  fit();addEventListener('resize',fit);if(document.fonts)document.fonts.ready.then(fit);
+  var dds=[].slice.call(h.querySelectorAll('.hd-dd'));
+  function closeAll(ex){dds.forEach(function(d){if(d!==ex){d.classList.remove('on');d.querySelector('.hd-ni').setAttribute('aria-expanded','false')}})}
+  dds.forEach(function(d){
+    var t,b=d.querySelector('.hd-ni');
+    function open(){clearTimeout(t);closeAll(d);d.classList.add('on');b.setAttribute('aria-expanded','true')}
+    d.addEventListener('mouseenter',open);
+    d.addEventListener('mouseleave',function(){t=setTimeout(function(){d.classList.remove('on');b.setAttribute('aria-expanded','false')},140)});
+    b.addEventListener('click',function(){d.classList.contains('on')?closeAll():open()});
+  });
+  document.addEventListener('click',function(e){if(!h.contains(e.target))closeAll()});
+  var menu=document.getElementById('hdMenu'), burger=h.querySelector('.hd-burger');
+  function setMenu(o){root.classList.toggle('hd-open',o);document.body.classList.toggle('hd-lock',o);burger.setAttribute('aria-expanded',o?'true':'false');burger.setAttribute('aria-label',o?'Menü schließen':'Menü öffnen');if(o)h.classList.remove('hide')}
+  burger.addEventListener('click',function(){setMenu(!root.classList.contains('hd-open'))});
+  menu.querySelectorAll('button.hd-t').forEach(function(b){b.addEventListener('click',function(){b.parentNode.classList.toggle('ex')})});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeAll();setMenu(false)}});
+  var raf=0;
+  addEventListener('scroll',function(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;
+    var y=scrollY;
+    if(y>48)h.classList.add('sc');else if(y<8)h.classList.remove('sc');
+    if(!root.classList.contains('hd-open')){
+      if(y>240&&y>last+6){h.classList.add('hide');closeAll()}
+      else if(y<last-6||y<240)h.classList.remove('hide');
+    }
+    last=y;
+  })},{passive:true});
+})();
+</script>
+<style>
+  /* ================= Branche: Architekturbüros (ar-) ================= */
+  .ar-w{max-width:1240px;margin:0 auto;padding-left:32px;padding-right:32px}
+  .ar-h2{font-weight:500;font-size:clamp(30px,3.6vw,50px);line-height:1.05;letter-spacing:-.04em;margin:0 0 18px}
+  .ar-h2 em,.ar-hero h1 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--accent)}
+  .ar-dk{background:var(--night);color:var(--on-night)}
+  .ar-dk .ar-h2 em{color:var(--mint)}
+  .ar-dk .eyebrow{color:var(--mint)}.ar-dk .eyebrow::before{background:var(--mint)}
+  .ar-sub{font-size:18px;line-height:28px;color:var(--muted);max-width:560px;margin:0}
+  .ar-dk .ar-sub{color:var(--on-night-muted)}
+  .ar-ex{font-size:12px;color:var(--muted)}
+  .ar-dk .ar-ex{color:var(--on-night-muted)}
+  .ar-hand{font-family:"Caveat","Caveat Medium",cursive;font-weight:500}
+  .ar-rv{opacity:0;transform:translateY(22px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+  .ar-rv.in{opacity:1;transform:none}
+
+  /* ---------- Hero: Planblatt ---------- */
+  .ar-hero{background:var(--paper);padding:24px 0 96px}
+  .ar-sheet{position:relative;background:#fff;border:1px solid #D6D2C8;padding:36px 40px 28px}
+  .ar-sheet::before{content:"";position:absolute;inset:12px;border:1px solid rgba(14,16,19,.55);pointer-events:none}
+  .ar-ref{position:absolute;left:12px;right:12px;top:0;height:12px;display:flex;justify-content:space-around;font-size:9px;line-height:12px;color:var(--muted);letter-spacing:.1em}
+  .ar-ref.v{left:0;top:12px;bottom:12px;right:auto;width:12px;height:auto;flex-direction:column;align-items:center}
+  .ar-fold{position:absolute;bottom:0;width:1px;height:8px;background:var(--muted)}
+  .ar-hg{display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"plan text" "proto proto";gap:24px 56px;align-items:center}
+  .ar-hg>*{min-width:0}
+  .ar-txt{grid-area:text;container-type:inline-size}
+  .ar-crumb{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted);margin:0 0 28px}
+  .ar-crumb a{color:inherit;text-decoration:none}.ar-crumb a:hover{color:var(--ink)}
+  .ar-crumb span{opacity:.5}
+  .ar-hero h1{font-weight:500;font-size:min(64px,calc(100cqi / 10.25));line-height:1.03;letter-spacing:-.045em;margin:0 0 22px}
+  .ar-hero h1 span{display:block;white-space:nowrap}
+  .ar-lead{font-size:18px;line-height:28px;color:var(--muted);margin:0 0 28px;max-width:500px}
+  .ar-lead b{color:var(--ink);font-weight:500}
+  .ar-ctas{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px}
+  .ar-link{font-size:15px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:3px}
+  .ar-link:hover{border-color:var(--ink)}
+
+  .ar-plan{grid-area:plan;position:relative}
+  .ar-rec{position:relative;margin-bottom:10px;display:inline-flex;align-items:center;gap:10px;background:var(--night);color:var(--on-night);border-radius:999px;padding:7px 14px 7px 10px;font-size:12.5px;z-index:2;box-shadow:0 14px 30px -16px rgba(14,16,19,.6)}
+  .ar-rec i{width:8px;height:8px;border-radius:50%;background:#FF6B5B;animation:arPulse 1.2s ease-in-out infinite}
+  .ar-rec.done i{background:var(--mint);animation:none}
+  .ar-rec b{font-weight:500;font-variant-numeric:tabular-nums}
+  @keyframes arPulse{50%{opacity:.25}}
+  .ar-gr{display:block;width:100%;height:auto;max-height:430px}
+  .ar-gr .wo{fill:none;stroke:var(--ink);stroke-width:10;stroke-linecap:square}
+  .ar-gr .wi{fill:none;stroke:var(--ink);stroke-width:4.5;stroke-linecap:square}
+  .ar-gr .win{fill:none;stroke:var(--ink);stroke-width:.9}
+  .ar-gr .door{fill:none;stroke:var(--ink);stroke-width:.9}
+  .ar-gr .dim{fill:none;stroke:var(--muted);stroke-width:.8}
+  .ar-gr .tk{stroke:var(--ink);stroke-width:1.2}
+  .ar-gr text{font-family:var(--sans);fill:var(--ink)}
+  .ar-gr .rm{font-size:13px;font-weight:500;text-anchor:middle}
+  .ar-gr .ra{font-size:11px;fill:var(--muted);text-anchor:middle}
+  .ar-gr .dt{font-size:11px;fill:var(--muted);text-anchor:middle}
+  .ar-gr .dw{stroke-dasharray:1;stroke-dashoffset:1}
+  .ar-gr.drawn .dw{stroke-dashoffset:0;transition:stroke-dashoffset 1.1s cubic-bezier(.45,.05,.3,1)}
+  .ar-gr .lbl{opacity:0;transition:opacity .6s}
+  .ar-gr.drawn .lbl{opacity:1}
+  .ar-gr .cloud{fill:none;stroke:var(--accent);stroke-width:1.6;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .9s}
+  .ar-gr.cl .cloud{stroke-dashoffset:0}
+  .ar-gr .cn{opacity:0;transition:opacity .4s .5s}
+  .ar-gr.cl .cn{opacity:1}
+  .ar-gr .cn text{font-family:"Caveat","Caveat Medium",cursive;font-size:20px;fill:var(--accent)}
+  .ar-gr .cn circle{fill:var(--accent)}
+  .ar-gr .cn .n{font-family:var(--sans);font-size:10px;font-weight:600;fill:#fff;text-anchor:middle}
+
+  /* Protokoll als Plankopf */
+  .ar-proto{grid-area:proto;border:1px solid var(--ink);font-size:13.5px;background:#fff}
+  .ar-ph{display:grid;grid-template-columns:1.2fr 1.4fr 1fr 1fr;border-bottom:1px solid var(--ink)}
+  .ar-ph>div{padding:7px 12px;border-left:1px solid var(--ink);min-width:0}
+  .ar-ph>div:first-child{border-left:0}
+  .ar-ph small,.ar-pf small{display:block;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .ar-ph b{font-weight:500;font-size:13.5px}
+  .ar-ph .st{color:var(--accent)}
+  .ar-pr{display:grid;grid-template-columns:110px 1fr 90px 130px;border-bottom:1px solid var(--line);opacity:0;transform:translateX(-6px);transition:opacity .35s,transform .35s,background .6s}
+  .ar-pr.on{opacity:1;transform:none}
+  .ar-pr.hl{background:rgba(15,122,85,.07)}
+  .ar-pr>*{padding:7px 12px;min-width:0}
+  .ar-pr>*+*{border-left:1px solid var(--line)}
+  .ar-pr.th{opacity:1;transform:none;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--paper)}
+  .ar-pr.th>*{padding-top:6px;padding-bottom:6px}
+  .ar-pr .g{font-weight:500}
+  .ar-pr .d{font-variant-numeric:tabular-nums}
+  .ar-pr .w{color:var(--muted)}
+  .ar-pr sup{display:inline-grid;place-items:center;width:15px;height:15px;border-radius:50%;background:var(--accent);color:#fff;font-size:9px;font-weight:600;margin-left:6px;vertical-align:2px}
+  .ar-pf{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 12px;opacity:0;transition:opacity .5s}
+  .ar-pf.on{opacity:1}
+  .ar-pf span{font-size:12.5px;color:var(--muted)}
+  .ar-pf b{flex:none;font-weight:500;font-size:12.5px;background:var(--ink);color:var(--paper);border-radius:999px;padding:6px 12px}
+  .ar-hcap{display:flex;justify-content:space-between;gap:12px;margin-top:12px}
+
+  /* ---------- Signatur: Leistungsphasen ---------- */
+  .ar-lph{padding:120px 0}
+  .ar-lph-top{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:end;margin-bottom:56px}
+  .ar-bar{display:flex;gap:4px;margin-bottom:10px}
+  .ar-bar button{flex:var(--g) 1 0;min-width:34px;height:64px;border:1px solid var(--night-3);background:var(--night-2);color:var(--on-night-muted);border-radius:6px;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;padding:8px;font:500 15px/1 var(--sans);text-align:left;transition:background .25s,color .25s,border-color .25s}
+  .ar-bar button small{font-size:11px;font-weight:400;color:var(--on-night-muted);font-variant-numeric:tabular-nums}
+  .ar-bar button:hover{border-color:var(--on-night-muted);color:var(--on-night)}
+  .ar-bar button.done{background:rgba(140,245,194,.09);border-color:rgba(140,245,194,.25);color:var(--on-night)}
+  .ar-bar button[aria-pressed="true"]{background:var(--mint);border-color:var(--mint);color:var(--night)}
+  .ar-bar button[aria-pressed="true"] small{color:var(--night)}
+  .ar-bar button.nar small{display:none}
+  .ar-bar button:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+  .ar-scale{display:flex;justify-content:space-between;font-size:12px;color:var(--on-night-muted);margin-bottom:36px}
+  .ar-lp{display:grid;grid-template-columns:1.2fr 1fr .8fr;gap:16px;align-items:stretch}
+  .ar-lp>*{min-width:0}
+  .ar-lp>div{background:var(--night-2);border:1px solid var(--night-3);border-radius:18px;padding:24px}
+  .ar-lp .k{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint);margin:0 0 10px}
+  .ar-lp h3{margin:0 0 16px;font-weight:500;font-size:26px;letter-spacing:-.03em;line-height:1.15}
+  .ar-lp h3 i{font-style:italic;font-family:var(--serif);font-weight:400;color:var(--mint);font-size:1.1em;margin-right:6px}
+  .ar-lp ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .ar-lp li{position:relative;padding-left:22px;font-size:15px;line-height:22px;color:#D5D7DA}
+  .ar-lp li::before{content:"";position:absolute;left:0;top:8px;width:12px;height:1.5px;background:var(--mint)}
+  .ar-lp .you li{color:var(--on-night-muted)}
+  .ar-lp .you li::before{background:var(--on-night-muted)}
+  .ar-lp .k.m{color:var(--on-night-muted)}
+  .ar-fee b{display:block;font-weight:500;font-size:52px;line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums;margin:6px 0 4px}
+  .ar-fee p{margin:0 0 18px;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ar-fee .bill{border-top:1px solid var(--night-3);padding-top:14px;font-size:14px;line-height:21px;color:#D5D7DA}
+  .ar-fee .bill b{display:inline;font-size:14px;letter-spacing:0;color:var(--mint);margin:0}
+  .ar-anim{animation:arIn .4s cubic-bezier(.2,.7,.2,1)}
+  @keyframes arIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .ar-lph .ar-ex{margin-top:20px}
+
+  /* ---------- Bauantrag-Check ---------- */
+  .ar-ba{padding:120px 0;background:#fff;border-bottom:1px solid var(--line)}
+  .ar-ba-g{display:grid;grid-template-columns:.9fr 1.1fr;gap:72px;align-items:center}
+  .ar-ba-g>*{min-width:0}
+  .ar-note{margin:28px 0 0;padding-top:18px;border-top:1px solid var(--line);font-size:14.5px;line-height:22px;color:var(--muted)}
+  .ar-note b{color:var(--ink);font-weight:500}
+  .ar-map{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:4px 18px 18px 18px;padding:24px 24px 18px}
+  .ar-map::before{content:"Bauantrag";position:absolute;left:-1px;top:-30px;height:30px;padding:0 16px;display:flex;align-items:center;background:var(--paper);border:1px solid var(--line);border-bottom:0;border-radius:10px 10px 0 0;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .ar-map header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:12px}
+  .ar-map header b{font-weight:500;font-size:17px;letter-spacing:-.01em}
+  .ar-map header span{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .ar-cl{list-style:none;margin:0;padding:0}
+  .ar-cl li{display:grid;grid-template-columns:24px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:14.5px;line-height:20px}
+  .ar-cl li:last-child{border-bottom:0}
+  .ar-cl .ic{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:600;transition:all .35s;background:#fff}
+  .ar-cl em{font-style:normal;font-size:12.5px;color:var(--muted);text-align:right;opacity:0;transition:opacity .35s}
+  .ar-cl li.c .ic{background:var(--accent);border-color:var(--accent);color:#fff}
+  .ar-cl li.c em{opacity:1}
+  .ar-cl li.c.w .ic{background:var(--warn);border-color:var(--warn);color:var(--ink)}
+  .ar-cl li.c.x .ic{background:#fff;border-color:#C24A3B;color:#C24A3B}
+  .ar-cl li.c.x em{color:#B23C2E}
+  .ar-cl li.c.y .ic{background:#fff;border-color:var(--ink);color:var(--ink)}
+  .ar-cl li small{display:block;font-size:12.5px;color:var(--muted)}
+  .ar-res{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:14px;padding:12px 14px;border-radius:12px;background:#fff;border:1px solid var(--line);font-size:13.5px;line-height:19px;opacity:0;transition:opacity .5s}
+  .ar-res.on{opacity:1}
+  .ar-res b{font-weight:500}
+  .ar-res span{flex:none;font-size:12.5px;background:var(--ink);color:var(--paper);border-radius:999px;padding:6px 12px}
+
+  /* ---------- Texte aus Stichpunkten ---------- */
+  .ar-tx{padding:120px 0}
+  .ar-tx-g{display:grid;grid-template-columns:.8fr 1.2fr;gap:20px;margin-top:52px;align-items:stretch}
+  .ar-tx-g>*{min-width:0}
+  .ar-kw{border:1px solid var(--line);border-radius:18px;padding:22px;background:transparent}
+  .ar-kw>small,.ar-out>header small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+  .ar-kw ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+  .ar-kw li{font-size:14.5px;line-height:21px;padding:10px 12px;border-radius:10px;border:1px dashed var(--line);color:var(--muted);transition:all .3s}
+  .ar-kw li b{display:block;font-weight:500;color:var(--ink);font-size:12px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:2px}
+  .ar-kw li.u{border-style:solid;border-color:var(--accent);background:rgba(15,122,85,.05);color:var(--ink)}
+  .ar-kw p{margin:14px 0 0;font-size:12.5px;color:var(--muted)}
+  .ar-out{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 26px 20px;display:flex;flex-direction:column}
+  .ar-out>header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+  .ar-tabs{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--paper);border:1px solid var(--line)}
+  .ar-tabs button{border:0;background:none;border-radius:999px;padding:8px 14px;font:500 13px/16px var(--sans);color:var(--muted);cursor:pointer;transition:background .2s,color .2s;white-space:nowrap}
+  .ar-tabs button:hover{color:var(--ink)}
+  .ar-tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+  .ar-doc{flex:1;padding-top:14px}
+  .ar-doc h3{margin:0 0 10px;font-weight:500;font-size:19px;letter-spacing:-.02em}
+  .ar-doc p{margin:0 0 12px;font-size:15px;line-height:25px;color:#2B2E33}
+  .ar-doc .lv{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-size:14px;line-height:22px;margin-bottom:12px}
+  .ar-doc .lv b{font-weight:500;color:var(--muted);font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding-top:1px}
+  .ar-doc .lv span{color:#2B2E33}
+  .ar-doc .lv .q{display:flex;gap:16px;flex-wrap:wrap;font-variant-numeric:tabular-nums}
+  .ar-doc mark{background:#FBF3DE;color:inherit;padding:0 3px;border-radius:3px}
+  .ar-out footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+
+  /* ---------- Statement ---------- */
+  .ar-st{padding:40px 0 130px}
+  .ar-st-g{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;border-top:1px solid var(--ink);padding-top:72px}
+  .ar-st-g>*{min-width:0}
+  .ar-st-g>div{container-type:inline-size}
+  .ar-st h2{font-weight:500;font-size:min(76px,calc(100cqi / 8.35));line-height:1;letter-spacing:-.045em;margin:0}
+  .ar-st h2 span{display:block;white-space:nowrap}
+  .ar-st h2 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;color:var(--accent);letter-spacing:-.01em}
+  .ar-sk{width:100%;height:auto;display:block;max-height:260px}
+  .ar-sk path{fill:none;stroke:var(--ink);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
+  .ar-sk .a{stroke:var(--accent)}
+  .ar-st p{margin:26px 0 0;font-size:16px;line-height:25px;color:var(--muted);max-width:520px}
+  .ar-st p b{color:var(--ink);font-weight:500}
+
+  /* ---------- FAQ ---------- */
+  .ar-faq{padding:0 0 110px}
+  .ar-faq-g{display:grid;grid-template-columns:repeat(3,1fr);gap:44px 40px;margin-top:48px}
+  .ar-faq-g>div{border-top:1px solid var(--line);padding-top:18px}
+  .ar-faq-g i{display:block;font-family:var(--serif);font-size:20px;color:var(--accent);margin-bottom:10px}
+  .ar-faq-g h3{margin:0 0 10px;font-weight:500;font-size:18px;line-height:24px;letter-spacing:-.015em}
+  .ar-faq-g p{margin:0;font-size:15px;line-height:24px;color:var(--muted)}
+
+  /* ---------- Weitere Branchen ---------- */
+  .ar-more{padding:0 0 120px}
+  .ar-more h2{font-size:12px;line-height:16px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--muted);margin:0 0 6px}
+  .ar-more-g{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+  .ar-more-g a{display:block;padding:26px 24px 26px 0;text-decoration:none;color:var(--ink);position:relative}
+  .ar-more-g a+a{padding-left:24px;border-left:1px solid var(--line)}
+  .ar-more-g b{display:block;font-weight:500;font-size:clamp(22px,2.2vw,28px);letter-spacing:-.03em;margin-bottom:6px}
+  .ar-more-g b::after{content:" →";font-weight:400;transition:margin .2s}
+  .ar-more-g a:hover b{color:var(--accent)}
+  .ar-more-g span{font-size:14px;line-height:20px;color:var(--muted)}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:1100px){
+    .ar-hg{grid-template-columns:1fr;grid-template-areas:"text" "plan" "proto";gap:40px}
+    .ar-plan{max-width:620px}
+    .ar-lp{grid-template-columns:1fr 1fr}
+    .ar-lp .ar-fee{grid-column:1/-1}
+    .ar-ba-g{grid-template-columns:1fr;gap:64px}
+    .ar-tx-g{grid-template-columns:1fr}
+    .ar-st-g{grid-template-columns:1fr;gap:36px}
+    .ar-sk{max-width:520px}
+  }
+  @media (max-width:980px){
+    .ar-lph-top{grid-template-columns:1fr;gap:16px}
+    .ar-faq-g{grid-template-columns:1fr 1fr}
+    .ar-more-g{grid-template-columns:1fr}
+    .ar-more-g a,.ar-more-g a+a{padding:22px 0;border-left:0}
+    .ar-more-g a+a{border-top:1px solid var(--line)}
+  }
+  @media (max-width:760px){
+    .ar-ph{grid-template-columns:1fr 1fr}
+    .ar-ph>div:nth-child(3){border-left:0}
+    .ar-ph>div:nth-child(n+3){border-top:1px solid var(--ink)}
+    .ar-pr.th{display:none}
+    .ar-pr{grid-template-columns:1fr auto;grid-template-areas:"g d" "a a" "w w"}
+    .ar-pr>*+*{border-left:0}
+    .ar-pr .g{grid-area:g;padding-bottom:0}
+    .ar-pr .d{grid-area:d;padding-bottom:0}
+    .ar-pr .a{grid-area:a;padding-top:2px;padding-bottom:0}
+    .ar-pr .w{grid-area:w;padding-top:0;font-size:12.5px}
+    .ar-lp{grid-template-columns:1fr}
+    .ar-faq-g{grid-template-columns:1fr;gap:32px}
+  }
+  @media (max-width:560px){
+    .ar-w{padding-left:16px;padding-right:16px}
+    .ar-hero{padding:12px 0 72px}
+    .ar-sheet{padding:28px 20px 20px}
+    .ar-sheet::before{inset:8px}
+    .ar-ref{display:none}
+    .ar-crumb{margin-bottom:22px}
+    .ar-lead{font-size:17px;line-height:26px}
+    .ar-proto{margin:0 -8px}
+    .ar-gr .rm{font-size:16px}.ar-gr .ra,.ar-gr .dt{font-size:13px}
+    .ar-gr .cn text{font-size:21px}
+    .ar-hcap{flex-direction:column;gap:2px}
+    .ar-lph,.ar-ba,.ar-tx{padding:88px 0}
+    .ar-st{padding:24px 0 96px}.ar-st-g{padding-top:48px}
+    .ar-faq,.ar-more{padding-bottom:88px}
+    .ar-bar{gap:3px}
+    .ar-bar button{min-width:0;height:54px;padding:6px 4px;font-size:13px;align-items:center}
+    .ar-bar button small{display:none}
+    .ar-lp>div{padding:20px 18px}
+    .ar-lp h3{font-size:22px}
+    .ar-fee b{font-size:42px}
+    .ar-map{padding:20px 14px 14px}
+    .ar-cl li{grid-template-columns:22px 1fr;gap:10px}
+    .ar-cl em{grid-column:2;text-align:left;margin-top:-4px}
+    .ar-res{flex-direction:column;align-items:flex-start}
+    .ar-out{padding:18px 16px}
+    .ar-tabs{display:flex;width:100%}
+    .ar-tabs button{flex:1;padding:8px 4px;font-size:12.5px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .ar-rv{opacity:1;transform:none;transition:none}
+    .ar-rec i{animation:none}
+  }
+</style>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="ar-hero" aria-labelledby="ar-h">
+  <div class="ar-w">
+    <div class="ar-sheet">
+      <div class="ar-ref" aria-hidden="true"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span></div>
+      <div class="ar-ref v" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span></div>
+      <span class="ar-fold" style="left:33.3%" aria-hidden="true"></span><span class="ar-fold" style="left:66.6%" aria-hidden="true"></span>
+      <div class="ar-hg">
+        <div class="ar-txt">
+          <nav class="ar-crumb" aria-label="Brotkrumen"><a href="ailien-startseite.html">Start</a><span>/</span><a href="#">Branchen</a><span>/</span>Architekturbüros</nav>
+          <p class="eyebrow">KI für Architekturbüros</p>
+          <h1 id="ar-h"><span>Mehr Zeit für <em>Entwurf.</em></span><span>Weniger für Protokolle.</span></h1>
+          <p class="ar-lead">Baubesprechung aufnehmen, Protokoll mit Aufgaben pro Gewerk zurückbekommen. <b>Dazu Baubeschreibung, LV-Texte und Bauantrags-Check als Entwurf</b> – damit der Kopf frei bleibt für das, wofür Sie Architektin oder Architekt geworden sind.</p>
+          <div class="ar-ctas">
+            <a class="btn p" href="/kontakt">Kurz telefonieren <span aria-hidden="true">→</span></a>
+            <a class="ar-link" href="#ar-lph">Leistungsphasen 1–9 ansehen ↓</a>
+          </div>
+        </div>
+
+        <div class="ar-plan" aria-label="Beispiel: Grundriss mit Markierung aus der Baubesprechung">
+          <div class="ar-rec" id="arRec"><i></i><span>Baubesprechung 14 · Aufnahme</span><b id="arRecT">47:12</b></div>
+          <svg class="ar-gr" id="arGr" viewBox="0 0 520 430" role="img" aria-label="Grundriss Erdgeschoss, Maßstab 1:100">
+            <!-- Maßketten -->
+            <g class="lbl">
+              <path class="dim" d="M50 24H490M50 16V32M300 16V32M490 16V32"/>
+              <path class="tk" d="M46 28l8-8M296 28l8-8M486 28l8-8"/>
+              <text class="dt" x="175" y="18">6,25</text><text class="dt" x="395" y="18">4,75</text>
+              <path class="dim" d="M22 60V380M14 60H30M14 260H30M14 380H30"/>
+              <path class="tk" d="M18 64l8-8M18 264l8-8M18 384l8-8"/>
+              <text class="dt" transform="translate(16 160) rotate(-90)">5,00</text><text class="dt" transform="translate(16 320) rotate(-90)">3,00</text>
+            </g>
+            <!-- Außenwände -->
+            <path class="wo dw" pathLength="1" d="M45 60H90M170 60H360M440 60H495"/>
+            <path class="wo dw" pathLength="1" d="M50 55V120M50 200V300M50 350V385"/>
+            <path class="wo dw" pathLength="1" d="M45 380H120M220 380H320M375 380H495"/>
+            <path class="wo dw" pathLength="1" d="M490 55V100M490 160V230M490 270V385"/>
+            <!-- Innenwände -->
+            <path class="wi dw" pathLength="1" d="M300 60V110M300 170V215M300 250V300M300 340V380"/>
+            <path class="wi dw" pathLength="1" d="M300 200H320M355 200H490M50 260H300"/>
+            <path class="wi dw" pathLength="1" d="M400 200V230M400 265V320M400 350V380M400 300H490"/>
+            <!-- Fenster -->
+            <g class="lbl">
+              <path class="win" d="M90 55.5H170M90 60H170M90 64.5H170M360 55.5H440M360 60H440M360 64.5H440"/>
+              <path class="win" d="M45.5 120V200M50 120V200M54.5 120V200M45.5 300V350M50 300V350M54.5 300V350"/>
+              <path class="win" d="M120 375.5H220M120 380H220M120 384.5H220"/>
+              <path class="win" d="M485.5 100V160M490 100V160M494.5 100V160M485.5 230V270M490 230V270M494.5 230V270"/>
+              <!-- Türen -->
+              <path class="door" d="M320 380V325A55 55 0 0 1 375 380"/>
+              <path class="door" d="M300 300H260A40 40 0 0 0 300 340"/>
+              <path class="door" d="M400 230H435A35 35 0 0 1 400 265"/>
+              <path class="door" d="M300 215H335A35 35 0 0 1 300 250"/>
+              <!-- Räume -->
+              <text class="rm" x="175" y="160">Wohnen / Essen</text><text class="ra" x="175" y="177">31,25 m²</text>
+              <text class="rm" x="395" y="152">Küche</text><text class="ra" x="395" y="169">16,63 m²</text>
+              <text class="rm" x="175" y="318">Schlafen</text><text class="ra" x="175" y="335">18,75 m²</text>
+              <text class="rm" x="350" y="285">Flur</text>
+              <text class="rm" x="452" y="286" style="font-size:12px">Bad</text>
+              <text class="rm" x="445" y="345" style="font-size:12px">HWR</text>
+            </g>
+            <!-- Revisionswolke -->
+            <path class="cloud" id="arCloud" pathLength="1"/>
+            <g class="cn"><text x="440" y="104" text-anchor="end">Brüstung 90 cm?</text><circle cx="456" cy="98" r="8"/><text class="n" x="456" y="101.5">3</text></g>
+          </svg>
+        </div>
+
+        <div class="ar-proto" id="arProto" aria-label="Beispiel-Protokoll der Baubesprechung">
+          <div class="ar-ph"><div><small>Protokoll</small><b>Baubesprechung Nr. 14</b></div><div><small>Bauvorhaben</small><b>Wohnhaus K., Neubau</b></div><div><small>Datum</small><b>14.10.2026</b></div><div><small>Status</small><b class="st" id="arSt">wird erstellt …</b></div></div>
+          <div class="ar-pr th" aria-hidden="true"><span>Gewerk</span><span>Aufgabe</span><span>bis</span><span>wer</span></div>
+          <div class="ar-pr"><span class="g">Planung</span><span class="a">Detail Attika an Tragwerksplanung senden</span><span class="d">16.10.</span><span class="w">Büro</span></div>
+          <div class="ar-pr"><span class="g">Rohbau</span><span class="a">Aussparung Steigstrang Bad prüfen</span><span class="d">17.10.</span><span class="w">Rohbauer</span></div>
+          <div class="ar-pr" data-cloud="1"><span class="g">Fenster<sup>3</sup></span><span class="a">Brüstung Küche 90 statt 110 cm – Freigabe</span><span class="d">18.10.</span><span class="w">Bauherrschaft</span></div>
+          <div class="ar-pr"><span class="g">Sanitär</span><span class="a">Lage Bodenablauf Bad bestätigen</span><span class="d">20.10.</span><span class="w">Sanitär</span></div>
+          <div class="ar-pr"><span class="g">Elektro</span><span class="a">Leerrohre Küche nach Möblierungsplan</span><span class="d">21.10.</span><span class="w">Elektro</span></div>
+          <div class="ar-pf" id="arPf"><span>Verteiler: 6 Beteiligte · Aufgaben je Gewerk sortiert</span><b>Freigeben &amp; versenden</b></div>
+        </div>
+      </div>
+    </div>
+    <div class="ar-hcap"><span class="ar-ex">Beispieldaten zur Veranschaulichung</span><span class="ar-ex">Grundriss EG · M 1:100 · Index c</span></div>
+  </div>
+</section>
+
+<!-- ============ SIGNATUR: LEISTUNGSPHASEN ============ -->
+<section class="ar-dk ar-lph" id="ar-lph" aria-labelledby="ar-lph-h">
+  <div class="ar-w">
+    <div class="ar-lph-top ar-rv">
+      <div><p class="eyebrow">Leistungsphasen nach HOAI</p><h2 class="ar-h2" id="ar-lph-h">In jeder Phase <em>weniger Text.</em></h2></div>
+      <p class="ar-sub">Wählen Sie eine Leistungsphase. Sie sehen, welche Texte und Unterlagen die KI vorbereitet – und was selbstverständlich bei Ihnen bleibt.</p>
+    </div>
+    <div class="ar-rv">
+      <div class="ar-bar" id="arBar" role="group" aria-label="Leistungsphase wählen"></div>
+      <div class="ar-scale" aria-hidden="true"><span>Breite = Honoraranteil (Gebäude, § 34 HOAI)</span><span>100 %</span></div>
+      <div class="ar-lp" id="arLp" aria-live="polite"></div>
+    </div>
+    <p class="ar-ex">Honoraranteile nach § 34 HOAI für Gebäude und Innenräume. Ihre Honorarvereinbarung kann davon abweichen – hinterlegt wird Ihr Vertrag.</p>
+  </div>
+</section>
+
+<!-- ============ BAUANTRAG-CHECK ============ -->
+<section class="ar-ba" aria-labelledby="ar-ba-h">
+  <div class="ar-w ar-ba-g">
+    <div class="ar-rv">
+      <p class="eyebrow">Bauantrag</p>
+      <h2 class="ar-h2" id="ar-ba-h">Vollständig, bevor das <em>Bauamt</em> fragt.</h2>
+      <p class="ar-sub">Jede Nachforderung kostet Wochen. Der Helfer prüft Ihre Bauvorlagen gegen Ihre Checkliste und die Anforderungen Ihres Bundeslandes – und gleicht Zahlen zwischen den Dokumenten ab.</p>
+      <p class="ar-note"><b>Er ersetzt keine Prüfung.</b> Was fehlt oder nicht zusammenpasst, wird markiert. Bewertung, Bauvorlageberechtigung und Unterschrift bleiben bei Ihnen.</p>
+    </div>
+    <div class="ar-rv" style="padding-top:30px">
+      <div class="ar-map" id="arMap">
+        <header><b>Wohnhaus K. · Bauantrag</b><span id="arCnt">0 / 9 geprüft</span></header>
+        <ul class="ar-cl">
+          <li data-s="ok"><span class="ic">✓</span><span>Lageplan</span><em>vorhanden</em></li>
+          <li data-s="ok"><span class="ic">✓</span><span>Bauzeichnungen<small>Grundrisse, Schnitte, Ansichten</small></span><em>Index c</em></li>
+          <li data-s="ok"><span class="ic">✓</span><span>Baubeschreibung</span><em>vorhanden</em></li>
+          <li data-s="w"><span class="ic">!</span><span>Berechnung GRZ / GFZ<small>Wert weicht vom Plan Index c ab</small></span><em>prüfen</em></li>
+          <li data-s="ok"><span class="ic">✓</span><span>Wohnflächenberechnung</span><em>passt zum Plan</em></li>
+          <li data-s="y"><span class="ic">…</span><span>Standsicherheitsnachweis</span><em>folgt, Tragwerksplanung</em></li>
+          <li data-s="ok"><span class="ic">✓</span><span>Nachweis Wärmeschutz / Energie</span><em>vorhanden</em></li>
+          <li data-s="x"><span class="ic">×</span><span>Entwässerungsplan</span><em>fehlt</em></li>
+          <li data-s="x"><span class="ic">×</span><span>Stellplatznachweis</span><em>fehlt</em></li>
+        </ul>
+        <div class="ar-res" id="arRes"><span style="background:none;color:inherit;padding:0;font-size:13.5px"><b>2 fehlen, 1 Abweichung.</b> Anforderung an Fachplaner vorbereitet.</span><span>Entwürfe ansehen</span></div>
+      </div>
+      <p class="ar-ex" style="margin-top:12px">Beispiel. Welche Bauvorlagen nötig sind, regelt Ihr Bundesland – hinterlegt wird Ihre eigene Checkliste.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEXTE ============ -->
+<section class="ar-tx" aria-labelledby="ar-tx-h">
+  <div class="ar-w">
+    <div class="ar-rv">
+      <p class="eyebrow">Texte aus Stichpunkten</p>
+      <h2 class="ar-h2" id="ar-tx-h">Einmal notiert, <em>dreimal</em> geschrieben.</h2>
+      <p class="ar-sub">Aus denselben Stichpunkten entstehen Baubeschreibung, Erläuterungsbericht und Ausschreibungstext – jeweils im richtigen Ton und in Ihrer Struktur.</p>
+    </div>
+    <div class="ar-tx-g">
+      <div class="ar-kw ar-rv">
+        <small>Ihre Stichpunkte</small>
+        <ul id="arKw">
+          <li data-k="aw"><b>Außenwand</b>KS 17,5 · WDVS Mineralwolle 16 cm · mineralischer Oberputz</li>
+          <li data-k="da"><b>Dach</b>Flachdach, Gefälledämmung, extensive Begrünung</li>
+          <li data-k="fe"><b>Fenster</b>Holz-Alu, 3-fach-Verglasung</li>
+          <li data-k="hz"><b>Heizung</b>Luft-Wasser-Wärmepumpe, Fußbodenheizung</li>
+        </ul>
+        <p>Hervorgehoben: was in den gewählten Text einfließt.</p>
+      </div>
+      <div class="ar-out ar-rv">
+        <header>
+          <small>Entwurf</small>
+          <div class="ar-tabs" role="tablist" aria-label="Textart" id="arTabs">
+            <button role="tab" aria-selected="true" data-t="0">Baubeschreibung</button><button role="tab" aria-selected="false" data-t="1">Erläuterung</button><button role="tab" aria-selected="false" data-t="2">LV-Position</button>
+          </div>
+        </header>
+        <div class="ar-doc" id="arDoc" role="tabpanel"></div>
+        <footer><span>Beispieltext zur Veranschaulichung</span><span>Gelb markiert: bitte prüfen</span></footer>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATEMENT ============ -->
+<section class="ar-st" aria-labelledby="ar-st-h">
+  <div class="ar-w ar-st-g">
+    <div class="ar-rv">
+      <h2 id="ar-st-h"><span>Die KI schreibt mit.</span><span>Sie <em>entwerfen.</em></span></h2>
+      <p><b>Gestaltung, Abwägung und Verantwortung bleiben bei Ihnen.</b> Der Helfer übernimmt, was zwischen zwei Entwürfen liegt: Protokolle, Beschreibungen, Listen, Nachweise sortieren. Jeder Text ist ein Entwurf, den Sie freigeben.</p>
+    </div>
+    <svg class="ar-sk" id="arSk" viewBox="0 0 520 260" aria-hidden="true">
+      <path pathLength="1" d="M20 236C120 234 260 238 500 235"/>
+      <path pathLength="1" d="M70 236V120L190 52L310 120V236"/>
+      <path pathLength="1" d="M310 150H470V236"/>
+      <path pathLength="1" d="M110 236V170H150V236"/>
+      <path pathLength="1" d="M210 140H270V190H210Z"/>
+      <path pathLength="1" d="M350 180H430V205H350Z"/>
+      <path pathLength="1" d="M62 126L190 44L318 126"/>
+      <path class="a" pathLength="1" d="M300 52C330 30 372 34 392 58C404 74 396 92 380 96"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="ar-faq" aria-labelledby="ar-faq-h">
+  <div class="ar-w">
+    <div class="ar-rv"><p class="eyebrow">Häufige Fragen</p><h2 class="ar-h2" id="ar-faq-h">Was Büros uns <em>meistens</em> fragen.</h2></div>
+    <div class="ar-faq-g ar-rv">
+      <div><i>01</i><h3>Passt das zu unserer CAD- und AVA-Software?</h3><p>Wir binden an, was Sie nutzen. Texte kommen als Word, PDF oder im GAEB-Format für die Ausschreibung. Wo es keine Schnittstelle gibt, über Export und Import.</p></div>
+      <div><i>02</i><h3>Jedes Bundesland hat eigene Bauvorlagen.</h3><p>Deshalb prüft der Helfer gegen Ihre Checkliste und die Vorgaben Ihres Landes, nicht gegen eine Standardliste. Die fachliche Bewertung bleibt bei Ihnen.</p></div>
+      <div><i>03</i><h3>Unsere Entwürfe sind vertraulich.</h3><p>Daten bleiben in der EU, Sie erhalten einen Auftragsverarbeitungsvertrag, jeder Schritt wird protokolliert. Ihre Pläne trainieren keine fremden Modelle.</p></div>
+      <div><i>04</i><h3>Wer haftet, wenn im Text etwas falsch ist?</h3><p>Sie geben jeden Entwurf frei – wie bei einem Text aus dem eigenen Team. Unsichere Stellen markiert der Helfer, statt sie zu raten.</p></div>
+      <div><i>05</i><h3>Wir sind ein kleines Büro.</h3><p>Gerade dann: Wo Inhaberin oder Inhaber selbst protokolliert und Baubeschreibungen schreibt, bringt schon ein einzelner Helfer spürbar Zeit zurück.</p></div>
+      <div><i>06</i><h3>Was kostet der Einstieg?</h3><p>Eine einmalige Einrichtung und danach eine feste monatliche Pauschale. Den Betrag nennen wir nach dem Erstgespräch – vorher wäre er geraten.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WEITERE BRANCHEN ============ -->
+<section class="ar-more" aria-labelledby="ar-more-h">
+  <div class="ar-w">
+    <h2 id="ar-more-h">Weitere Branchen</h2>
+    <div class="ar-more-g">
+      <a href="ailien-branchen-gutachter.html"><b>Gutachter</b><span>Diktat und Fotos zum Gutachtenentwurf</span></a>
+      <a href="ailien-branchen-handwerk.html"><b>Handwerk &amp; Bau</b><span>Angebote, Rapporte, Baustellen-Doku</span></a>
+      <a href="ailien-branchen-foerdermittelberatung.html"><b>Fördermittelberatung</b><span>Programme finden, Anträge vorbereiten</span></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var clamp=function(v){return v<0?0:v>1?1:v};
+  var rv=[].slice.call(document.querySelectorAll('.ar-rv'));
+  if(reduce||!('IntersectionObserver' in window)) rv.forEach(function(e){e.classList.add('in')});
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.12});rv.forEach(function(e){io.observe(e)})}
+  function onView(el,fn,th){if(reduce||!('IntersectionObserver' in window)){fn();return}
+    var o=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){fn();o.disconnect()}})},{threshold:th||.35});o.observe(el)}
+
+  /* ---- Revisionswolke erzeugen ---- */
+  (function(){var x0=352,y0=44,x1=448,y1=80,r=7,d='M'+x0+' '+y0;
+    function edge(ax,ay,bx,by){var len=Math.hypot(bx-ax,by-ay),n=Math.max(1,Math.round(len/(r*2))),s='';for(var i=1;i<=n;i++){var px=ax+(bx-ax)*i/n,py=ay+(by-ay)*i/n;s+=' A'+r+' '+r+' 0 0 1 '+px.toFixed(1)+' '+py.toFixed(1)}return s}
+    d+=edge(x0,y0,x1,y0)+edge(x1,y0,x1,y1)+edge(x1,y1,x0,y1)+edge(x0,y1,x0,y0);
+    document.getElementById('arCloud').setAttribute('d',d)})();
+
+  /* ---- Hero ---- */
+  var gr=document.getElementById('arGr'), rec=document.getElementById('arRec'), recT=document.getElementById('arRecT');
+  var rows=[].slice.call(document.querySelectorAll('#arProto .ar-pr:not(.th)')), pf=document.getElementById('arPf'), st=document.getElementById('arSt');
+  var walls=[].slice.call(gr.querySelectorAll('.dw'));
+  var tm=[];function T(f,t){tm.push(setTimeout(f,t))}
+  function end(){gr.classList.add('drawn','cl');rows.forEach(function(r){r.classList.add('on')});rows[2].classList.add('hl');pf.classList.add('on');rec.classList.add('done');recT.textContent='47:12 ✓';st.textContent='Entwurf'}
+  function play(first){
+    tm.forEach(clearTimeout);tm=[];
+    if(reduce){end();return}
+    rows.forEach(function(r){r.classList.remove('on','hl')});pf.classList.remove('on');gr.classList.remove('cl');rec.classList.remove('done');st.textContent='wird erstellt …';
+    if(first){gr.classList.remove('drawn');walls.forEach(function(w,i){w.style.transitionDelay=(i*.14)+'s'});T(function(){gr.classList.add('drawn')},150)}
+    var t=first?1600:600, sec=0;
+    T(function(){var s=performance.now();(function f(n){var k=Math.min(1,(n-s)/1500);var v=Math.round(k*(47*60+12));recT.textContent=Math.floor(v/60)+':'+('0'+v%60).slice(-2);if(k<1)requestAnimationFrame(f)})(s)},t-1400>0?t-1400:0);
+    t+=200;T(function(){rec.classList.add('done');recT.textContent='47:12 ✓'},t);
+    rows.forEach(function(r,i){T(function(){r.classList.add('on');if(r.getAttribute('data-cloud')){r.classList.add('hl');gr.classList.add('cl')}},t+300+i*420)});
+    t+=300+rows.length*420+200;
+    T(function(){pf.classList.add('on');st.textContent='Entwurf'},t);
+    T(function(){play(false)},t+9000);
+  }
+  play(true);
+
+  /* ---- Leistungsphasen ---- */
+  var LPH=[
+    {n:'Grundlagenermittlung',p:2,ki:['Gesprächsnotiz mit der Bauherrschaft strukturieren','Raumprogramm als erster Entwurf','Liste fehlender Unterlagen, z. B. Bestandspläne'],you:['Beratung zum Leistungsbedarf','Aufgabenstellung klären']},
+    {n:'Vorplanung',p:7,ki:['Variantenvergleich in Textform','Gliederung der Kostenschätzung nach DIN 276','Protokolle der Vorabstimmungen'],you:['Entwurfsidee und Varianten','Abstimmung mit Behörden']},
+    {n:'Entwurfsplanung',p:15,ki:['Objektbeschreibung','Flächenaufstellung mit dem Planstand abgleichen','Gliederung der Kostenberechnung'],you:['Durcharbeiten des Entwurfs','Kostenberechnung verantworten']},
+    {n:'Genehmigungsplanung',p:3,ki:['Baubeschreibung und Erläuterungsbericht','Vollständigkeits-Check der Bauvorlagen','Antworten auf Nachforderungen des Bauamts'],you:['Bauvorlagen erstellen','Unterschrift als Entwurfsverfasser']},
+    {n:'Ausführungsplanung',p:25,ki:['Planlisten und Planversand protokollieren','Rückfragen der Fachplaner sortieren','Detailbeschreibungen vorformulieren'],you:['Ausführungs- und Detailplanung','Koordination der Fachplanung']},
+    {n:'Vorbereitung der Vergabe',p:10,ki:['LV-Texte aus Stichpunkten','Vorbemerkungen je Gewerk','Mengen mit Ihrer Mengenermittlung abgleichen'],you:['Leistungsbeschreibung verantworten','Vergabestrategie']},
+    {n:'Mitwirkung bei der Vergabe',p:4,ki:['Preisspiegel aus eingegangenen Angeboten','Vorbehalte und Nebenangebote markieren','Protokoll der Bietergespräche'],you:['Angebote werten','Vergabevorschlag']},
+    {n:'Objektüberwachung',p:32,ki:['Baubesprechungs-Protokolle mit Aufgaben','Bautagebuch aus Fotos und Sprachnotizen','Mängellisten und Rechnungsprüfung vorbereiten'],you:['Überwachung auf der Baustelle','Abnahme, Freigabe von Rechnungen']},
+    {n:'Objektbetreuung',p:2,ki:['Gewährleistungsfristen überwachen','Begehung vor Fristablauf vorbereiten','Mängelanzeigen formulieren'],you:['Objektbegehung','Bewertung von Mängeln']}
+  ];
+  var bar=document.getElementById('arBar'), lp=document.getElementById('arLp');
+  LPH.forEach(function(l,i){var b=document.createElement('button');b.type='button';b.style.setProperty('--g',l.p);b.setAttribute('aria-pressed','false');b.setAttribute('aria-label','Leistungsphase '+(i+1)+': '+l.n+', '+l.p+' Prozent');
+    if(l.p<5)b.classList.add('nar');b.innerHTML='<span>'+(i+1)+'</span><small>'+l.p+' %</small>';b.addEventListener('click',function(){sel(i)});bar.appendChild(b)});
+  var bb=[].slice.call(bar.children);
+  function sel(i){
+    var cum=0;LPH.forEach(function(l,j){if(j<=i)cum+=l.p});
+    bb.forEach(function(b,j){b.setAttribute('aria-pressed',i===j?'true':'false');b.classList.toggle('done',j<i)});
+    var l=LPH[i];
+    lp.innerHTML='<div class="ar-anim"><p class="k">LPH '+(i+1)+' · Die KI bereitet vor</p><h3><i>'+(i+1)+'</i>'+l.n+'</h3><ul>'+l.ki.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul></div>'+
+      '<div class="ar-anim you"><p class="k m">Bleibt bei Ihnen</p><ul>'+l.you.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul></div>'+
+      '<div class="ar-anim ar-fee"><p class="k">Abrechnung</p><b>'+cum+' %</b><p>Honoraranteil LPH 1–'+(i+1)+' kumuliert, Beispiel Gebäude</p><div class="bill">Abschlagsrechnung nach erbrachten Leistungsphasen: <b>als Entwurf vorbereitet</b></div></div>';
+  }
+  sel(3);
+
+  /* ---- Bauantrag-Check ---- */
+  var lis=[].slice.call(document.querySelectorAll('#arMap .ar-cl li')), cnt=document.getElementById('arCnt'), res=document.getElementById('arRes');
+  onView(document.getElementById('arMap'),function(){
+    lis.forEach(function(li,i){setTimeout(function(){var s=li.getAttribute('data-s');li.classList.add('c');if(s!=='ok')li.classList.add(s);cnt.textContent=(i+1)+' / '+lis.length+' geprüft'},reduce?0:300+i*330)});
+    setTimeout(function(){res.classList.add('on')},reduce?0:300+lis.length*330+200);
+  },.35);
+
+  /* ---- Texte ---- */
+  var TX=[
+    {k:['aw','da','fe','hz'],h:'Baubeschreibung · Konstruktion',b:'<p>Die Außenwände werden in Kalksandstein-Mauerwerk mit einer Dicke von 17,5 cm errichtet und erhalten ein Wärmedämmverbundsystem aus Mineralwolle (16 cm) mit mineralischem Oberputz.</p><p>Das Flachdach erhält eine Gefälledämmung und eine extensive Dachbegrünung. Die Fenster werden als Holz-Aluminium-Fenster mit Dreifachverglasung ausgeführt. Die Beheizung erfolgt über eine Luft-Wasser-Wärmepumpe mit <mark>Fußbodenheizung in allen Geschossen</mark>.</p>'},
+    {k:['aw','fe','hz','da'],h:'Erläuterungsbericht · Konstruktion und Energie',b:'<p>Der Baukörper wird in massiver Bauweise errichtet. Die gedämmte Gebäudehülle aus Kalksandstein und mineralischer Dämmung bildet zusammen mit dreifach verglasten Fenstern die Grundlage für einen geringen Heizwärmebedarf.</p><p>Die Wärmepumpe arbeitet mit Flächenheizung und damit bei niedrigen Vorlauftemperaturen. Die extensive Begrünung des Flachdachs hält Regenwasser zurück und verbessert das Kleinklima auf dem Grundstück.</p>'},
+    {k:['aw'],h:'LV-Position 03.02.0010',b:'<div class="lv"><b>Kurztext</b><span>WDVS Mineralwolle 160 mm, mineralischer Oberputz</span><b>Langtext</b><span>Wärmedämmverbundsystem mit allgemeiner bauaufsichtlicher Zulassung auf Kalksandstein-Mauerwerk liefern und herstellen. Dämmstoff Mineralwolle, <mark>WLS 035</mark>, Dicke 160 mm, verkleben und verdübeln nach Zulassung. Unterputz mit Gewebeeinlage, mineralischer Oberputz, Körnung <mark>2 mm</mark>.</span><b>Menge</b><span class="q"><span>412,00 m²</span><span>EP ______</span><span>GP ______</span></span></div><p style="font-size:13px;color:var(--muted)">Menge aus Ihrer Mengenermittlung übernommen. Ausgabe auch im GAEB-Format.</p>'}
+  ];
+  var tabs=[].slice.call(document.querySelectorAll('#arTabs button')), doc=document.getElementById('arDoc'), kws=[].slice.call(document.querySelectorAll('#arKw li'));
+  function tx(i){tabs.forEach(function(t,j){t.setAttribute('aria-selected',i===j?'true':'false')});
+    var d=TX[i];doc.innerHTML='<div class="ar-anim"><h3>'+d.h+'</h3>'+d.b+'</div>';
+    kws.forEach(function(k){k.classList.toggle('u',d.k.indexOf(k.getAttribute('data-k'))>-1)})}
+  tabs.forEach(function(t,i){t.addEventListener('click',function(){tx(i)});
+    t.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowLeft'){var n=(i+(e.key==='ArrowRight'?1:2))%3;tabs[n].focus();tx(n)}})});
+  tx(0);
+
+  /* ---- Skizze (scrollgesteuert) ---- */
+  var sk=document.getElementById('arSk'), skp=[].slice.call(sk.querySelectorAll('path'));
+  function tick(){var r=sk.getBoundingClientRect(),vh=innerHeight;var p=reduce?1:clamp((vh*.9-r.top)/(vh*.55));
+    skp.forEach(function(path,i){var a=i/skp.length*.7,q=clamp((p-a)/.3);path.style.strokeDashoffset=1-q})}
+  var raf=0;function on(){if(!raf)raf=requestAnimationFrame(function(){raf=0;tick()})}
+  addEventListener('scroll',on,{passive:true});addEventListener('resize',on);tick();
+})();
+</script>
+
+<style>
+  /* ---------- CTA + Footer ---------- */
+  .ct{background:var(--night);color:var(--on-night);position:relative;overflow:hidden}
+  .ct-in{max-width:1240px;margin:0 auto;padding:112px 32px 96px;position:relative}
+  .ct .eyebrow{color:var(--mint)}.ct .eyebrow::before{background:var(--mint)}
+
+  .ct-tl{position:relative;height:64px;margin:0 0 56px}
+  .ct-tl svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .ct-tl .base{stroke:var(--night-3);stroke-width:1;stroke-dasharray:3 5}
+  .ct-tl .ink{stroke:var(--on-night-muted);stroke-width:1.25}
+  .ct-tl ol{list-style:none;margin:0;padding:0;position:absolute;inset:0}
+  .ct-tl li{white-space:nowrap;position:absolute;top:22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;font-size:12px;letter-spacing:.06em;color:var(--on-night-muted);opacity:.25;transition:opacity .4s,color .4s}
+  .ct-tl li::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--night);border:1px solid currentColor;margin-top:-4px}
+  .ct-tl li.on{opacity:1}
+  .ct-tl li.now{color:var(--mint);font-weight:500}
+  .ct-tl li.now::before{width:13px;height:13px;margin-top:-6px;background:var(--mint);border-color:var(--mint);box-shadow:0 0 0 0 rgba(140,245,194,.5)}
+  .ct-tl li.now.on::before{animation:ctPulse 2.2s ease-out infinite}
+  @keyframes ctPulse{0%{box-shadow:0 0 0 0 rgba(140,245,194,.45)}100%{box-shadow:0 0 0 16px rgba(140,245,194,0)}}
+
+  .ct-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:72px;align-items:start}
+  .ct-grid>div:first-child{container-type:inline-size}
+  .ct h2 span{display:block;white-space:nowrap}
+  .ct h2{font-weight:500;font-size:min(64px,calc(100cqi / 10.6));line-height:1.02;letter-spacing:-.04em;margin:0 0 24px}
+  .ct h2 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--mint)}
+  .ct-lead{font-size:18px;line-height:28px;color:var(--on-night-muted);max-width:480px;margin:0 0 36px}
+  .ct-list{list-style:none;margin:0 0 40px;padding:0;display:grid;gap:14px;max-width:480px}
+  .ct-list li{display:grid;grid-template-columns:28px 1fr;gap:12px;font-size:15px;line-height:23px}
+  .ct-list li span{width:28px;height:28px;border-radius:50%;border:1px solid var(--night-3);display:grid;place-items:center;font-size:11px;color:var(--mint)}
+  .ct-list b{font-weight:500}
+  .ct-list small{display:block;color:var(--on-night-muted);font-size:14px}
+  .ct-person{display:flex;align-items:center;gap:14px;padding-top:28px;border-top:1px solid var(--night-3);max-width:480px}
+  .ct-ava{width:52px;height:52px;border-radius:50%;background:var(--night-3);display:grid;place-items:center;font-weight:500;font-size:16px;color:var(--mint);flex:none}
+  .ct-person p{margin:0;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-person b{display:block;color:var(--on-night);font-weight:500;font-size:15px}
+  .ct-person a{color:var(--mint);text-decoration:none}
+
+  .ct-form{background:var(--night-2);border:1px solid var(--night-3);border-radius:20px;padding:28px;position:relative}
+  .ct-form h3{margin:0 0 6px;font-size:20px;font-weight:500;letter-spacing:-.02em}
+  .ct-form>p{margin:0 0 22px;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:var(--night);border-radius:999px;margin:0 0 22px}
+  .ct-seg button{font:500 13px/18px var(--sans);color:var(--on-night-muted);background:none;border:0;border-radius:999px;padding:9px 10px;cursor:pointer}
+  .ct-seg button[aria-pressed="true"]{background:var(--on-night);color:var(--night)}
+  .ct-f{display:grid;gap:14px}
+  .ct-f label{display:grid;gap:6px;font-size:12px;letter-spacing:.04em;color:var(--on-night-muted)}
+  .ct-f input,.ct-f select,.ct-f textarea{font:400 15px/22px var(--sans);color:var(--on-night);background:var(--night);border:1px solid var(--night-3);border-radius:10px;padding:11px 13px;width:100%;transition:border-color .2s}
+  .ct-f textarea{resize:vertical;min-height:84px}
+  .ct-f input:focus,.ct-f select:focus,.ct-f textarea:focus{outline:none;border-color:var(--mint)}
+  .ct-f .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .ct-f .ok{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;line-height:19px;letter-spacing:0}
+  .ct-f .ok input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--mint);flex:none}
+  .ct-f .ok a{color:var(--on-night)}
+  .ct-f .btn{justify-content:center;width:100%;margin-top:4px;padding:15px 20px}
+  .ct-f [data-only="call"]{display:none}
+  .ct-form.call [data-only="call"]{display:grid}
+  .ct-form.call [data-only="mail"]{display:none}
+  .ct-done{display:none;text-align:center;padding:48px 8px}
+  .ct-done svg{width:56px;height:56px;margin:0 auto 18px;display:block}
+  .ct-done h3{margin-bottom:8px}
+  .ct-done p{margin:0;color:var(--on-night-muted);font-size:15px;line-height:23px}
+  .ct-form.sent .ct-f,.ct-form.sent .ct-seg,.ct-form.sent>h3,.ct-form.sent>p{display:none}
+  .ct-form.sent .ct-done{display:block}
+  .ct-done path{stroke-dasharray:1;stroke-dashoffset:1}
+  .ct-form.sent .ct-done path{animation:ctDraw .7s .15s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes ctDraw{to{stroke-dashoffset:0}}
+
+  .crv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .crv.in{opacity:1;transform:none}
+
+  /* Footer */
+  .ft{background:var(--night);color:var(--on-night);border-top:1px solid var(--night-3);overflow:hidden}
+  .ft-in{max-width:1240px;margin:0 auto;padding:64px 32px 0}
+  .ft-top{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px;padding-bottom:56px}
+  .ft-brand svg{height:30px;width:auto;display:block;margin-bottom:18px}
+  .ft-brand p{margin:0 0 20px;font-size:14px;line-height:22px;color:var(--on-night-muted);max-width:300px}
+  .ft-badges{display:flex;flex-wrap:wrap;gap:8px}
+  .ft-badges span{font-size:12px;color:var(--on-night-muted);border:1px solid var(--night-3);border-radius:999px;padding:5px 11px}
+  .ft h4{margin:0 0 16px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--on-night-muted)}
+  .ft ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .ft ul a{color:var(--on-night);text-decoration:none;font-size:15px;opacity:.86}
+  .ft ul a:hover{opacity:1;color:var(--mint)}
+  .ft-mark{position:relative;margin:0 -2px;line-height:0}
+  .ft-mark svg{width:100%;height:auto;display:block}
+  .ft-mark .o{fill:#15181C}
+  .ft-mark .f{fill:var(--night-3)}
+  .ft-bot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;padding:22px 0 28px;border-top:1px solid var(--night-3);font-size:13px;color:var(--on-night-muted)}
+  .ft-bot nav{display:flex;gap:20px}
+  .ft-bot a{color:inherit;text-decoration:none}.ft-bot a:hover{color:var(--on-night)}
+
+  @media (max-width:980px){
+    .ct-grid{grid-template-columns:1fr;gap:48px}
+    .ft-top{grid-template-columns:1fr 1fr}
+    .ft-brand{grid-column:1/-1}
+    .ft-top>div:last-child{grid-column:1/-1}
+  }
+  @media (max-width:640px){
+    .ct-in{padding:80px 16px 72px}
+    .ct-tl{margin-bottom:40px}
+    .ct-tl li{font-size:10.5px;letter-spacing:.02em}
+    .ct-tl li:nth-child(2),.ct-tl li:nth-child(4){display:none}
+    .ct-form{padding:22px 18px}
+    .ct-f .two{grid-template-columns:1fr}
+    .ft-in{padding:56px 16px 0}
+    .ft-top{gap:32px 20px}
+    .ft-bot{flex-direction:column}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .crv{opacity:1;transform:none;transition:none}
+    .ct-tl li.now.on::before{animation:none}
+  }
+</style>
+
+<section class="ct" id="kontakt">
+  <div class="ct-in">
+    <div class="ct-tl" aria-hidden="true">
+      <svg viewBox="0 0 1000 64" preserveAspectRatio="none"><line class="base" x1="0" y1="22" x2="1000" y2="22"/><line class="ink" x1="0" y1="22" x2="1000" y2="22" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+      <ol>
+        <li style="left:4%">1850</li><li style="left:24%">1920</li><li style="left:44%">1965</li><li style="left:64%">1995</li><li style="left:96%" class="now">Ihr Betrieb</li>
+      </ol>
+    </div>
+
+    <div class="ct-grid">
+      <div class="crv">
+        <p class="eyebrow">Erstgespräch</p>
+        <h2><span>Die nächste Epoche</span><span>beginnt in <em>Ihrem Betrieb.</em></span></h2>
+        <p class="ct-lead">In 30 Minuten wissen Sie, wo KI bei Ihnen Zeit spart – und wo nicht. Ohne Verkaufsgespräch, ohne Fachchinesisch.</p>
+        <ol class="ct-list">
+          <li><span>01</span><div><b>Sie erzählen, wo es hakt.</b><small>Per Video oder bei Ihnen vor Ort.</small></div></li>
+          <li><span>02</span><div><b>Wir zeigen, was möglich ist.</b><small>An Beispielen aus Ihrer Branche.</small></div></li>
+          <li><span>03</span><div><b>Sie entscheiden in Ruhe.</b><small>Auf Wunsch mit schriftlicher Einschätzung.</small></div></li>
+        </ol>
+        <div class="ct-person">
+          <div class="ct-ava" aria-hidden="true">NK</div>
+          <p><b>Nic Karban</b>Gründer · Ihr Ansprechpartner<br><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></p>
+        </div>
+      </div>
+
+      <div class="ct-form crv" id="ctForm">
+        <h3>Erstgespräch anfragen</h3>
+        <p>Wir melden uns innerhalb eines Werktags.</p>
+        <div class="ct-seg" role="group" aria-label="Kontaktweg">
+          <button type="button" aria-pressed="true" data-mode="mail">Termin per E-Mail</button>
+          <button type="button" aria-pressed="false" data-mode="call">Rückruf</button>
+        </div>
+        <!-- TODO: action auf echtes Formular-Backend / Buchungstool setzen -->
+        <form class="ct-f" action="#" method="post" novalidate>
+          <div class="two">
+            <label>Name<input name="name" autocomplete="name" required></label>
+            <label>Betrieb<input name="firma" autocomplete="organization"></label>
+          </div>
+          <label data-only="mail">E-Mail<input type="email" name="email" autocomplete="email"></label>
+          <div class="two" data-only="call">
+            <label>Telefon<input type="tel" name="tel" autocomplete="tel"></label>
+            <label>Am besten erreichbar<select name="zeit"><option>Vormittags</option><option>Mittags</option><option>Nachmittags</option></select></label>
+          </div>
+          <label>Wo kostet Sie Routine am meisten Zeit? <span style="opacity:.6">(optional)</span><textarea name="nachricht" placeholder="z. B. Angebote schreiben, Telefon, Rechnungen prüfen …"></textarea></label>
+          <label class="ok"><input type="checkbox" name="dsgvo" required><span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden. <a href="#">Datenschutz</a></span></label>
+          <button class="btn m" type="submit">Anfrage senden <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="ct-done" role="status">
+          <svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="27" fill="none" stroke="#22262B"/><path d="M17 29 25 37 40 20" fill="none" stroke="#8CF5C2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
+          <h3>Danke – ist angekommen.</h3>
+          <p>Wir melden uns innerhalb eines Werktags bei Ihnen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="ft">
+  <div class="ft-in">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <svg viewBox="0 8 160.8 64" aria-label="Ailien"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#F3F1EC"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#8CF5C2" fill-rule="evenodd"/></svg>
+        <p>KI-Automatisierung für Mittelstand und Handwerk. Wir bauen Systeme, die Routine abnehmen – und betreuen sie dauerhaft.</p>
+        <div class="ft-badges"><span>DSGVO-konform</span><span>Server in der EU</span><span>Made in Germany</span></div>
+      </div>
+      <div>
+        <h4>Leistungen</h4>
+        <ul><li><a href="#leistungen">Prozess-Automationen</a></li><li><a href="#leistungen">KI-Wissenssysteme</a></li><li><a href="#leistungen">Voice &amp; Kommunikation</a></li><li><a href="#leistungen">KI-Strategie &amp; Beratung</a></li></ul>
+      </div>
+      <div>
+        <h4>Ailien</h4>
+        <ul><li><a href="#praxis">Praxisbeispiele</a></li><li><a href="#vorgehen">Vorgehen</a></li><li><a href="#faq">Häufige Fragen</a></li><li><a href="#rechner">Entlastungs-Rechner</a></li></ul>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul><li><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></li><li><a href="#kontakt">Erstgespräch anfragen</a></li><li><a href="#">LinkedIn</a></li></ul>
+      </div>
+    </div>
+
+    <div class="ft-mark" aria-hidden="true">
+      <svg viewBox="7 11.5 143.5 51.6"><defs><g id="ftWord"><path d=""/><path fill-rule="evenodd" d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z"/></g><clipPath id="ftClip"><rect id="ftRise" x="0" y="64" width="161" height="70"/></clipPath></defs>
+        <g class="o"><use href="#ftWord"/></g>
+        <g clip-path="url(#ftClip)"><g class="f"><use href="#ftWord"/></g></g>
+      </svg>
+    </div>
+
+    <div class="ft-bot">
+      <span>© 2026 Ailien · ailien-automation.de</span>
+      <nav><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">AGB</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var clamp=function(v){return v<0?0:v>1?1:v};
+  /* Reveals */
+  var els=[].slice.call(document.querySelectorAll('.crv'));
+  if(reduce||!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')})}
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.15});
+    els.forEach(function(e,i){e.style.transitionDelay=(i%2?.12:0)+'s';io.observe(e)})}
+
+  /* Zeitstrahl + Wortmarke scroll-gesteuert */
+  var tl=document.querySelector('.ct-tl'), ink=tl&&tl.querySelector('.ink'), lis=tl?[].slice.call(tl.querySelectorAll('li')):[];
+  var pos=lis.map(function(l){return parseFloat(l.style.left)/100});
+  var mark=document.querySelector('.ft-mark'), rise=document.getElementById('ftRise');
+  function tick(){
+    var vh=innerHeight;
+    if(tl){
+      var r=tl.getBoundingClientRect();
+      var p=reduce?1:clamp((vh*.92-r.top)/(vh*.55));
+      ink.style.strokeDashoffset=1-p;
+      lis.forEach(function(l,i){l.classList.toggle('on',p>=pos[i]-.02)});
+    }
+    if(mark){
+      var m=mark.getBoundingClientRect();
+      var q=reduce?1:clamp((vh-m.top-m.height*.1)/(m.height*.9));
+      rise.setAttribute('y',(63-q*51).toFixed(2));
+    }
+  }
+  var raf=0;function on(){if(!raf)raf=requestAnimationFrame(function(){raf=0;tick()})}
+  addEventListener('scroll',on,{passive:true});addEventListener('resize',on);tick();
+
+  /* Formular */
+  var f=document.getElementById('ctForm'); if(!f) return;
+  var btns=[].slice.call(f.querySelectorAll('.ct-seg button'));
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    f.classList.toggle('call',b.dataset.mode==='call');
+  })});
+  f.querySelector('form').addEventListener('submit',function(e){
+    e.preventDefault(); /* Demo: hier später an Backend senden */
+    var form=e.target, E=form.elements, call=f.classList.contains('call');
+    var nm=E.namedItem('name'), ct=E.namedItem(call?'tel':'email'), cb=E.namedItem('dsgvo');
+    var name=nm.value.trim(), contact=ct.value.trim(), ok=cb.checked;
+    [nm,ct].forEach(function(i){i.style.borderColor=i.value.trim()?'':'#F2C46B'});
+    cb.parentNode.style.color=ok?'':'#F2C46B';
+    if(!name||!contact||!ok) return;
+    f.classList.add('sent');
+  });
+})();
+</script>
+
+</body>
+</html>

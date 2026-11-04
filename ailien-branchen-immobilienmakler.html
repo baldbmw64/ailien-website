@@ -1,0 +1,1043 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KI für Immobilienmakler – Exposé, Interessenten, Unterlagen | ailien</title>
+<meta name="description" content="Exposé aus Fotos und Eckdaten, Interessenten vorqualifiziert nach Budget und Finanzierung, Unterlagen vollständig: KI-Helfer für Immobilienmakler. Daten in der EU.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F3F1EC; --ink:#0E1013; --muted:#5F636A; --line:#DEDBD3; --accent:#0F7A55;
+    --night:#0E1013; --night-2:#171A1E; --night-3:#22262B; --on-night:#F3F1EC; --on-night-muted:#A3A7AD; --mint:#8CF5C2;
+    --warn:#F2C46B;
+    --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+    --serif:"Instrument Serif",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);overflow-x:clip}
+  .btn{display:inline-flex;align-items:center;gap:10px;font:500 14px/20px var(--sans);padding:13px 20px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer}
+  .btn.p{background:var(--night);color:var(--on-night)}.btn.p:hover{background:#23262b}
+  .btn.s{color:var(--ink);border-color:var(--line)}.btn.s:hover{border-color:var(--ink)}
+  .btn:focus-visible,.dot:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--accent);margin:0 0 18px;display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--accent)}
+  .btn.m{background:var(--mint);color:var(--night)}.btn.m:hover{background:#a6f8d0}
+</style>
+<style>
+  /* ---------- Header (Variante C) ---------- */
+  .hd-sp{height:117px}
+  .hd{position:fixed;top:0;left:0;right:0;z-index:100;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+  .hd-w{max-width:1240px;margin:0 auto;padding:0 32px}
+  .hd-bar{background:var(--night);color:var(--on-night-muted);font-size:12px;height:36px;overflow:hidden;transition:height .35s,opacity .35s}
+  .hd-bar .hd-w{height:100%;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .hd-bar span{display:flex;gap:18px}
+  .hd-bar b{font-weight:500}
+  .hd-bar i{font-style:normal;color:var(--mint);margin-right:6px}
+  .hd-bar a{color:var(--on-night);text-decoration:none}.hd-bar a:hover{color:var(--mint)}
+  .hd-main{background:var(--paper);border-bottom:1px solid transparent;transition:border-color .3s}
+  .hd-main .hd-w{display:flex;align-items:center;gap:28px;padding-top:18px;padding-bottom:18px;transition:padding .35s}
+  .hd-lg{display:block;height:38px;width:auto;color:var(--ink);transition:height .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-nv{display:flex;align-items:center;gap:2px;margin-right:auto}
+  .hd-ni{font:400 14px/20px var(--sans);color:var(--ink);background:none;border:0;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;white-space:nowrap}
+  .hd-ni sup{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--accent);margin-right:2px;line-height:0}
+  .hd-ni:hover,.hd-dd.on .hd-ni{color:var(--accent)}
+  .hd-ni svg{width:9px;height:9px;opacity:.6;transition:transform .25s}
+  .hd-dd{position:relative}
+  .hd-dd.on .hd-ni svg{transform:rotate(180deg)}
+  .hd-p{position:absolute;top:calc(100% + 14px);left:0;z-index:5;transform:translateY(8px);opacity:0;visibility:hidden;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:0 30px 60px -20px rgba(14,16,19,.28);transition:opacity .25s,transform .25s cubic-bezier(.2,.7,.2,1),visibility .25s}
+  .hd-p::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px}
+  .hd-dd.on .hd-p{opacity:1;visibility:visible;transform:none}
+  .hd-p.wide{width:640px;display:grid;grid-template-columns:1fr 1fr 210px;gap:4px}
+  .hd-p.list{width:330px;display:grid;gap:2px}
+  .hd-i{position:relative;display:block;padding:14px;border-radius:12px;text-decoration:none;color:inherit;transition:background .2s}
+  .hd-i:hover{background:var(--paper)}
+  .hd-i b{display:block;font-weight:500;font-size:14.5px;letter-spacing:-.01em;margin-bottom:3px}
+  .hd-i b::before{content:"";position:absolute;left:5px;top:21px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity .2s}
+  .hd-i:hover b::before{opacity:1}
+  .hd-i span{display:block;font-size:13px;line-height:19px;color:var(--muted)}
+  .hd-feat{grid-row:1/3;grid-column:3;background:var(--night);color:var(--on-night);border-radius:12px;padding:18px;display:flex;flex-direction:column;text-decoration:none}
+  .hd-feat small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint)}
+  .hd-feat strong{font-weight:500;font-size:17px;line-height:23px;letter-spacing:-.02em;margin-top:10px}
+  .hd-feat strong em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;color:var(--mint)}
+  .hd-feat span{margin-top:auto;font-size:13px;color:var(--on-night-muted)}
+  .hd-all{grid-column:1/3;display:flex;justify-content:space-between;padding:12px 14px;margin-top:4px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);text-decoration:none}
+  .hd-all:hover{color:var(--accent)}
+  .hd-r{display:flex;gap:8px}
+  .hd .btn{padding:12px 20px;white-space:nowrap}
+  .hd .btn .ar{transition:transform .2s}.hd .btn:hover .ar{transform:translateX(3px)}
+  .hd-burger{display:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:none;cursor:pointer;position:relative;flex:none;color:var(--ink)}
+  .hd-burger::before,.hd-burger::after{content:"";position:absolute;left:14px;right:14px;height:1.5px;background:currentColor;transition:transform .3s,top .3s}
+  .hd-burger::before{top:17px}.hd-burger::after{top:25px}
+  .hd-open .hd-burger::before{top:21px;transform:rotate(45deg)}.hd-open .hd-burger::after{top:21px;transform:rotate(-45deg)}
+  .hd.sc .hd-bar{height:0;opacity:0}
+  .hd.sc .hd-main{border-color:var(--line)}
+  .hd.sc .hd-main .hd-w{padding-top:12px;padding-bottom:12px}
+  .hd.sc .hd-lg{height:32px}
+  .hd-lg.old{height:32px}.hd.sc .hd-lg.old{height:28px}
+  .hd.hide{transform:translateY(-100%)}
+
+  /* Handy-Menü */
+  .hd-mm{position:fixed;inset:0;z-index:99;background:var(--paper);display:flex;flex-direction:column;padding:120px 22px 24px;overflow:auto;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+  .hd-open .hd-mm{opacity:1;visibility:visible}
+  .hd-mm>ol{list-style:none;margin:0;padding:0;counter-reset:n}
+  .hd-mm>ol>li{counter-increment:n;border-bottom:1px solid var(--line);opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s}
+  .hd-open .hd-mm>ol>li{opacity:1;transform:none}
+  .hd-open .hd-mm>ol>li:nth-child(2){transition-delay:.04s}.hd-open .hd-mm>ol>li:nth-child(3){transition-delay:.08s}.hd-open .hd-mm>ol>li:nth-child(4){transition-delay:.12s}.hd-open .hd-mm>ol>li:nth-child(5){transition-delay:.16s}
+  .hd-t{display:flex;align-items:center;width:100%;padding:15px 0;font:500 26px/1.15 var(--sans);letter-spacing:-.03em;color:var(--ink);text-decoration:none;background:none;border:0;cursor:pointer;text-align:left}
+  .hd-t::after{content:"0" counter(n);margin-left:auto;font-family:var(--serif);font-style:italic;font-weight:400;font-size:17px;color:var(--accent)}
+  .hd-t .pl{order:3;margin-left:14px;width:12px;height:12px;position:relative;opacity:.6}
+  .hd-t .pl::before,.hd-t .pl::after{content:"";position:absolute;left:0;right:0;top:5.5px;height:1.5px;background:currentColor;transition:transform .3s}
+  .hd-t .pl::after{transform:rotate(90deg)}
+  .hd-mm li.ex .pl::after{transform:rotate(0)}
+  .hd-s{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-mm li.ex .hd-s{grid-template-rows:1fr}
+  .hd-s>div{overflow:hidden}
+  .hd-s a{display:block;padding:8px 0 8px 2px;font-size:16px;color:var(--ink);opacity:.75;text-decoration:none}
+  .hd-s a:last-child{margin-bottom:14px}
+  .hd-mf{margin-top:auto;padding-top:28px;display:grid;gap:14px}
+  .hd-mf .btn{justify-content:center;padding:15px}
+  .hd-mf small{font-size:12px;color:var(--muted);text-align:center}
+  body.hd-lock{overflow:hidden}
+
+  @media (max-width:1180px){.hd-r .btn.s{display:none}.hd-main .hd-w{gap:16px}}
+  @media (max-width:980px){
+    .hd-nv{display:none}.hd-burger{display:block}
+    .hd-r{margin-left:auto}.hd-bar a{display:none}
+    .hd-lg{height:34px}.hd.sc .hd-lg{height:30px}
+    .hd .btn{padding:10px 16px;font-size:13px}
+  }
+  @media (max-width:980px){.hd-sp{height:113px}}
+  @media (max-width:520px){
+    .hd-sp{height:109px}
+    .hd-w{padding:0 16px}.hd-bar{font-size:11px}
+    .hd-bar span b:nth-child(n+3){display:none}
+    .hd-main .hd-w{padding-top:14px;padding-bottom:14px;gap:12px}
+    .hd.sc .hd-main .hd-w{padding-top:10px;padding-bottom:10px}
+  }
+  @media (max-width:360px){.hd-r .btn{display:none}}
+  @media (prefers-reduced-motion:reduce){.hd,.hd-p,.hd-mm,.hd-mm li{transition:none}}
+  .hd-main .hd-w{position:relative}
+  .hd-dd.mega{position:static}
+  .hd-p.mega{left:32px;right:32px;width:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:18px}
+  .hd-g{display:flex;flex-direction:column;gap:2px;padding:6px}
+  .hd-g small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px 10px}
+  .hd-l{display:block;padding:9px 10px;border-radius:10px;color:var(--ink);text-decoration:none;font-size:14.5px;transition:background .2s}
+  .hd-l:hover{background:var(--paper)}
+  .hd-l[aria-current="page"]{background:var(--paper);font-weight:500}
+  .hd-l[aria-current="page"]::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:2px}
+  .hd-s a[aria-current="page"]{opacity:1;font-weight:500}
+
+</style>
+</head>
+<body>
+<header class="hd" id="hd">
+  <div class="hd-bar"><div class="hd-w"><span><b><i>✓</i>DSGVO-konform</b><b><i>✓</i>Server in der EU</b><b><i>✓</i>Antwort innerhalb eines Werktags</b></span><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></div></div>
+  <div class="hd-main"><div class="hd-w">
+    <a href="ailien-startseite.html" aria-label="ailien Startseite"><svg class="hd-lg" viewBox="0 8 160.8 64" aria-hidden="true"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#0E1013"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#0F7A55" fill-rule="evenodd"/></svg></a>
+    <nav class="hd-nv" aria-label="Hauptnavigation">
+      <div class="hd-dd">
+        <button class="hd-ni" aria-expanded="false"><sup>01</sup>Leistungen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+        <div class="hd-p wide">
+          <a class="hd-i" href="/leistungen/prozess-automation"><b>Prozess-Automationen</b><span>Belege, Angebote, Bestellungen – läuft von selbst.</span></a>
+          <a class="hd-i" href="/leistungen/wissenssysteme"><b>KI-Wissenssysteme</b><span>Firmenwissen, das jeder sofort findet.</span></a>
+          <a class="hd-i" href="/leistungen/voice"><b>Voice &amp; Kommunikation</b><span>Telefon-Assistent und E-Mail-Vorsortierung.</span></a>
+          <a class="hd-i" href="/leistungen/beratung"><b>KI-Strategie &amp; Beratung</b><span>Wo lohnt sich KI bei Ihnen wirklich?</span></a>
+          <a class="hd-feat" href="ailien-entlastungsrechner.html"><small>Rechner</small><strong>Wie viele Stunden <em>sparen Sie?</em></strong><span>Jetzt ausrechnen →</span></a>
+          <a class="hd-all" href="/leistungen">Alle Leistungen im Überblick <span>→</span></a>
+        </div>
+      </div>
+      <div class="hd-dd mega"><button class="hd-ni" aria-expanded="false"><sup>02</sup>Branchen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><div class="hd-p mega"><div class="hd-g"><small>Bau &amp; Handwerk</small><a class="hd-l" href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a class="hd-l" href="ailien-branchen-bad-kueche.html">Bad- &amp; Küchenstudios</a><a class="hd-l" href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a class="hd-l" href="ailien-branchen-gebaeudereinigung.html">Gebäudereinigung</a></div><div class="hd-g"><small>Industrie &amp; Technik</small><a class="hd-l" href="ailien-branchen-maschinenbau.html">Maschinen- &amp; Anlagenbau</a><a class="hd-l" href="ailien-branchen-cnc.html">CNC-Betriebe</a><a class="hd-l" href="ailien-branchen-dguv-v3.html">Elektroprüfung DGUV V3</a><a class="hd-l" href="ailien-branchen-brandschutz.html">Brandschutz</a></div><div class="hd-g"><small>Immobilien &amp; Planung</small><a class="hd-l" href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a class="hd-l" href="ailien-branchen-immobilienmakler.html" aria-current="page">Immobilienmakler</a><a class="hd-l" href="ailien-branchen-architekten.html">Architekten</a><a class="hd-l" href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a></div><div class="hd-g"><small>Dienstleistung</small><a class="hd-l" href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a class="hd-l" href="ailien-branchen-foerdermittelberatung.html">Fördermittelberatung</a><a class="hd-l" href="ailien-branchen-bestatter.html">Bestatter</a></div></div></div>
+      <a class="hd-ni" href="ailien-praxisbeispiele.html"><sup>03</sup>Praxisbeispiele</a>
+      <a class="hd-ni" href="ailien-ueber-uns.html"><sup>04</sup>Über uns</a>
+      <a class="hd-ni" href="/wissen"><sup>05</sup>Wissen</a>
+    </nav>
+    <div class="hd-r"><a class="btn s" href="ailien-entlastungsrechner.html?branche=immobilienmakler">Rechner</a><a class="btn p" href="/kontakt">Erstgespräch <span class="ar">→</span></a></div>
+    <button class="hd-burger" aria-label="Menü öffnen" aria-expanded="false"></button>
+  </div></div>
+</header>
+<div class="hd-sp" aria-hidden="true"></div>
+<div class="hd-mm" id="hdMenu">
+  <ol>
+    <li><button class="hd-t">Leistungen<i class="pl"></i></button><div class="hd-s"><div><a href="/leistungen/prozess-automation">Prozess-Automationen</a><a href="/leistungen/wissenssysteme">KI-Wissenssysteme</a><a href="/leistungen/voice">Voice &amp; Kommunikation</a><a href="/leistungen/beratung">KI-Strategie &amp; Beratung</a><a href="/leistungen">Alle Leistungen →</a></div></div></li>
+    <li><button class="hd-t">Branchen<i class="pl"></i></button><div class="hd-s"><div><a href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a href="ailien-branchen-bad-kueche.html">Bad- &amp; Küchenstudios</a><a href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a href="ailien-branchen-gebaeudereinigung.html">Gebäudereinigung</a><a href="ailien-branchen-maschinenbau.html">Maschinen- &amp; Anlagenbau</a><a href="ailien-branchen-cnc.html">CNC-Betriebe</a><a href="ailien-branchen-dguv-v3.html">Elektroprüfung DGUV V3</a><a href="ailien-branchen-brandschutz.html">Brandschutz</a><a href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a href="ailien-branchen-immobilienmakler.html" aria-current="page">Immobilienmakler</a><a href="ailien-branchen-architekten.html">Architekten</a><a href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a><a href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a href="ailien-branchen-foerdermittelberatung.html">Fördermittelberatung</a><a href="ailien-branchen-bestatter.html">Bestatter</a></div></div></li>
+    <li><a class="hd-t" href="ailien-praxisbeispiele.html">Praxisbeispiele</a></li>
+    <li><a class="hd-t" href="ailien-ueber-uns.html">Über uns</a></li>
+    <li><a class="hd-t" href="/wissen">Wissen</a></li>
+  </ol>
+  <div class="hd-mf"><a class="btn p" href="/kontakt">Erstgespräch vereinbaren <span class="ar">→</span></a><a class="btn s" href="ailien-entlastungsrechner.html?branche=immobilienmakler">Entlastungs-Rechner</a><small>DSGVO-konform · Server in der EU</small></div>
+</div>
+<script>
+(function(){
+  var h=document.getElementById('hd'), last=scrollY, root=document.documentElement, sp=document.querySelector('.hd-sp');
+  function fit(){if(!h.classList.contains('sc'))sp.style.height=h.offsetHeight+'px'}
+  fit();addEventListener('resize',fit);if(document.fonts)document.fonts.ready.then(fit);
+  var dds=[].slice.call(h.querySelectorAll('.hd-dd'));
+  function closeAll(ex){dds.forEach(function(d){if(d!==ex){d.classList.remove('on');d.querySelector('.hd-ni').setAttribute('aria-expanded','false')}})}
+  dds.forEach(function(d){
+    var t,b=d.querySelector('.hd-ni');
+    function open(){clearTimeout(t);closeAll(d);d.classList.add('on');b.setAttribute('aria-expanded','true')}
+    d.addEventListener('mouseenter',open);
+    d.addEventListener('mouseleave',function(){t=setTimeout(function(){d.classList.remove('on');b.setAttribute('aria-expanded','false')},140)});
+    b.addEventListener('click',function(){d.classList.contains('on')?closeAll():open()});
+  });
+  document.addEventListener('click',function(e){if(!h.contains(e.target))closeAll()});
+  var menu=document.getElementById('hdMenu'), burger=h.querySelector('.hd-burger');
+  function setMenu(o){root.classList.toggle('hd-open',o);document.body.classList.toggle('hd-lock',o);burger.setAttribute('aria-expanded',o?'true':'false');burger.setAttribute('aria-label',o?'Menü schließen':'Menü öffnen');if(o)h.classList.remove('hide')}
+  burger.addEventListener('click',function(){setMenu(!root.classList.contains('hd-open'))});
+  menu.querySelectorAll('button.hd-t').forEach(function(b){b.addEventListener('click',function(){b.parentNode.classList.toggle('ex')})});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeAll();setMenu(false)}});
+  var raf=0;
+  addEventListener('scroll',function(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;
+    var y=scrollY;
+    if(y>48)h.classList.add('sc');else if(y<8)h.classList.remove('sc');
+    if(!root.classList.contains('hd-open')){
+      if(y>240&&y>last+6){h.classList.add('hide');closeAll()}
+      else if(y<last-6||y<240)h.classList.remove('hide');
+    }
+    last=y;
+  })},{passive:true});
+})();
+</script>
+<style>
+  /* ================= Branche: Immobilienmakler (im-) ================= */
+  .im-w{max-width:1240px;margin:0 auto;padding-left:32px;padding-right:32px}
+  .im-h2{font-weight:500;font-size:clamp(30px,3.6vw,50px);line-height:1.05;letter-spacing:-.04em;margin:0 0 18px}
+  .im-h2 span{display:block}
+  .im-h2 em,.im-hero h1 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--accent)}
+  .im-sub{font-size:18px;line-height:28px;color:var(--muted);max-width:540px;margin:0}
+  .im-rv{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .im-rv.in{opacity:1;transform:none}
+  .im-cap{font-size:12px;color:var(--muted)}
+  .im-no{font-family:var(--serif);font-style:italic;font-weight:400;font-size:20px;color:var(--accent);letter-spacing:0}
+  .im-kick{display:flex;align-items:baseline;gap:14px;border-top:1px solid var(--ink);padding-top:14px;margin-bottom:28px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+  .im-kick span:last-child{margin-left:auto;color:var(--muted);letter-spacing:.04em;text-transform:none;font-weight:400}
+
+  /* ---------- Hero ---------- */
+  .im-hero{position:relative;overflow:hidden;background:var(--paper)}
+  .im-hero .im-w{display:grid;grid-template-columns:1.08fr .92fr;gap:0 64px;align-items:center;padding-top:36px;padding-bottom:110px}
+  .im-hero .im-w>*{min-width:0}
+  .im-txt{container-type:inline-size;order:2}
+  .im-crumb{grid-column:1/-1;display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted);margin:0 0 40px}
+  .im-crumb a{color:inherit;text-decoration:none}.im-crumb a:hover{color:var(--ink)}
+  .im-crumb span{opacity:.5}
+  .im-hero h1{font-weight:500;font-size:min(66px,calc(100cqi / 8.6));line-height:1.02;letter-spacing:-.045em;margin:0 0 26px}
+  .im-hero h1 span{display:block;white-space:nowrap}
+  .im-lead{font-size:18px;line-height:29px;color:var(--muted);margin:0 0 32px;max-width:500px}
+  .im-lead b{color:var(--ink);font-weight:500}
+  .im-ctas{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px}
+  .im-link{font-size:15px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:3px}
+  .im-link:hover{border-color:var(--ink)}
+  .im-facts{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:0 28px;margin-top:44px;padding-top:20px;border-top:1px solid var(--line)}
+  .im-facts span{font-size:13px;color:var(--muted);line-height:19px}
+  .im-facts b{display:block;font-family:var(--serif);font-style:italic;font-weight:400;font-size:24px;color:var(--ink);line-height:28px}
+
+  /* Exposé-Doppelseite */
+  .im-ex{position:relative;order:1;padding-bottom:88px}
+  .im-spread{display:grid;grid-template-columns:1fr 1fr;background:#fff;border-radius:4px;box-shadow:0 1px 0 rgba(0,0,0,.04),0 40px 80px -40px rgba(14,16,19,.45);position:relative}
+  .im-spread::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:28px;margin-left:-14px;background:linear-gradient(90deg,transparent,rgba(14,16,19,.06) 45%,rgba(14,16,19,.09) 50%,rgba(14,16,19,.06) 55%,transparent);pointer-events:none}
+  .im-pg{padding:22px 22px 18px;min-width:0;display:flex;flex-direction:column}
+  .im-pg header{display:flex;justify-content:space-between;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+  .im-photo{background:#F7F5F0;border-radius:2px;aspect-ratio:4/3.3;position:relative;overflow:hidden}
+  .im-photo svg{position:absolute;inset:0;width:100%;height:100%}
+  .im-draw path,.im-draw rect,.im-draw line,.im-draw circle,.im-draw polyline{fill:none;stroke:var(--ink);stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s cubic-bezier(.4,.1,.2,1)}
+  .im-draw .th{stroke-width:.7;stroke:#8A8E94}
+  .im-ex.s1 .im-photo .im-draw *{stroke-dashoffset:0}
+  .im-photo .lab{position:absolute;left:10px;bottom:9px;font-size:10px;color:var(--muted);background:rgba(255,255,255,.85);padding:2px 7px;border-radius:999px;opacity:0;transition:opacity .5s .9s}
+  .im-ex.s1 .im-photo .lab{opacity:1}
+  .im-ttl{margin-top:14px;opacity:0;transform:translateY(6px);transition:opacity .6s .6s,transform .6s .6s}
+  .im-ex.s1 .im-ttl{opacity:1;transform:none}
+  .im-ttl small{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+  .im-ttl b{display:block;font-family:var(--serif);font-weight:400;font-size:25px;line-height:1.05;letter-spacing:-.01em;margin:4px 0 6px}
+  .im-ttl p{margin:0;font-size:11.5px;line-height:17px;color:var(--muted)}
+  .im-kv{display:grid;grid-template-columns:auto 1fr;gap:0 10px;font-size:11.5px;line-height:15px;margin:0 0 12px}
+  .im-kv dt,.im-kv dd{padding:5px 0;border-bottom:1px solid #EEEBE4;opacity:0;transition:opacity .35s}
+  .im-kv dt{color:var(--muted)}
+  .im-kv dd{margin:0;text-align:right;font-variant-numeric:tabular-nums}
+  .im-kv .on{opacity:1}
+  .im-energy{font-size:10.5px;line-height:15px;color:var(--muted);padding:7px 9px;border-radius:6px;background:var(--paper);margin-bottom:12px;opacity:0;transition:opacity .4s}
+  .im-energy b{color:var(--ink);font-weight:500}
+  .im-scale{display:flex;gap:2px;margin-top:5px}
+  .im-scale i{flex:1;height:5px;border-radius:1px;font-style:normal}
+  .im-scale i.me{outline:1.5px solid var(--ink);outline-offset:1px}
+  .im-ex.s2 .im-energy{opacity:1}
+  .im-lage small{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+  .im-lage p{margin:0;font-size:11.5px;line-height:17px;color:var(--ink);min-height:68px}
+  .im-lage .cur{display:inline-block;width:5px;height:11px;background:var(--accent);vertical-align:-1px;margin-left:1px;animation:imBl 1s steps(2) infinite}
+  @keyframes imBl{50%{opacity:0}}
+  .im-gr{margin-top:auto;padding-top:10px}
+  .im-gr svg{display:block;width:100%;height:auto}
+  .im-gr .im-draw *{transition-duration:1.8s}
+  .im-gr text{font:400 7px var(--sans);fill:var(--muted);opacity:0;transition:opacity .5s .8s}
+  .im-ex.s4 .im-gr .im-draw *{stroke-dashoffset:0}
+  .im-ex.s4 .im-gr text{opacity:1}
+  .im-tick{position:absolute;left:-22px;bottom:4px;width:250px;background:var(--night);color:var(--on-night);border-radius:16px;padding:14px 16px;box-shadow:0 30px 50px -24px rgba(14,16,19,.6);opacity:0;transform:translateY(10px);transition:opacity .5s,transform .5s}
+  .im-ex.s5 .im-tick{opacity:1;transform:none}
+  .im-tick small{display:block;font-size:11px;color:var(--on-night-muted);margin-bottom:8px}
+  .im-tick .row{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--on-night-muted);padding:3px 0}
+  .im-tick .row b{font-variant-numeric:tabular-nums;font-weight:500;color:var(--on-night);font-size:15px}
+  .im-tick .row.q b{color:var(--mint);font-family:var(--serif);font-style:italic;font-weight:400;font-size:24px}
+  .im-excap{position:absolute;right:0;bottom:0;font-size:12px;color:var(--muted)}
+
+  /* ---------- Interessenten-Filter ---------- */
+  .im-flt{background:#fff;padding:120px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .im-flt .im-head{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:end;margin-bottom:52px}
+  .im-fbox{display:grid;grid-template-columns:330px 1fr;gap:20px;align-items:start}
+  .im-fbox>*{min-width:0}
+  .im-ctl{background:var(--paper);border-radius:22px;padding:26px 24px}
+  .im-ctl>small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .im-obj{font-size:14px;line-height:20px;margin:0 0 22px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+  .im-obj b{font-weight:500}
+  .im-sl label{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;margin-bottom:12px}
+  .im-sl output{font-variant-numeric:tabular-nums;font-weight:500;font-size:17px}
+  .im-range{-webkit-appearance:none;appearance:none;width:100%;height:28px;background:transparent;margin:0;cursor:pointer}
+  .im-range::-webkit-slider-runnable-track{height:4px;border-radius:4px;background:linear-gradient(90deg,var(--accent) var(--p,50%),var(--line) var(--p,50%))}
+  .im-range::-moz-range-track{height:4px;border-radius:4px;background:linear-gradient(90deg,var(--accent) var(--p,50%),var(--line) var(--p,50%))}
+  .im-range::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;border:1.5px solid var(--ink);margin-top:-10px;box-shadow:0 4px 10px -4px rgba(14,16,19,.4)}
+  .im-range::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:1.5px solid var(--ink)}
+  .im-range:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:8px}
+  .im-scl{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:2px}
+  .im-sw{display:flex;justify-content:space-between;align-items:center;gap:14px;width:100%;margin-top:18px;padding:16px 0 0;border:0;border-top:1px solid var(--line);background:none;font:400 14px/20px var(--sans);color:var(--ink);text-align:left;cursor:pointer}
+  .im-sw small{display:block;color:var(--muted);font-size:12.5px;line-height:18px}
+  .im-sw i{flex:none;width:44px;height:26px;border-radius:999px;background:var(--line);position:relative;transition:background .25s}
+  .im-sw i::after{content:"";position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .25s cubic-bezier(.2,.7,.2,1)}
+  .im-sw[aria-checked="true"] i{background:var(--accent)}
+  .im-sw[aria-checked="true"] i::after{transform:translateX(18px)}
+  .im-sw:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:8px}
+  .im-res{min-width:0}
+  .im-fun{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:16px}
+  .im-fun div{border-radius:12px;padding:12px 12px 10px;background:var(--paper);position:relative;overflow:hidden}
+  .im-fun div::before{content:"";position:absolute;left:0;bottom:0;height:3px;width:var(--w,100%);background:var(--accent);transition:width .5s cubic-bezier(.2,.7,.2,1)}
+  .im-fun b{display:block;font-weight:500;font-size:24px;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.1}
+  .im-fun span{font-size:12px;line-height:16px;color:var(--muted);display:block}
+  .im-fun div.last{background:var(--ink);color:var(--on-night)}
+  .im-fun div.last b{color:var(--mint);font-family:var(--serif);font-style:italic;font-weight:400;font-size:30px;line-height:1}
+  .im-fun div.last span{color:var(--on-night-muted)}
+  .im-fun div.last::before{background:var(--mint)}
+  .im-list{border:1px solid var(--line);border-radius:18px;overflow:hidden}
+  .im-lh,.im-li{display:grid;grid-template-columns:1.1fr .8fr 1fr .8fr 1.3fr;gap:12px;align-items:center;padding:11px 18px;font-size:13.5px}
+  .im-lh{background:var(--paper);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .im-li{border-top:1px solid #EEEBE4;transition:opacity .35s,background .35s}
+  .im-li .nm{font-weight:500}
+  .im-li .bd{font-variant-numeric:tabular-nums}
+  .im-pill{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:999px;background:var(--paper);color:var(--muted);white-space:nowrap}
+  .im-pill.ok{background:rgba(15,122,85,.1);color:var(--accent)}
+  .im-li .rs{font-size:12.5px;color:var(--muted);text-align:right}
+  .im-li.q{background:linear-gradient(90deg,rgba(15,122,85,.05),transparent 60%)}
+  .im-li.q .rs{color:var(--accent);font-weight:500}
+  .im-li.x{opacity:.42}
+  .im-li.x .nm{font-weight:400}
+  .im-li .mb{display:none}
+  .im-fnote{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px 20px;margin-top:14px}
+
+  /* ---------- Unterlagen ---------- */
+  .im-docs{padding:120px 0}
+  .im-docs .im-w{display:grid;grid-template-columns:.85fr 1.15fr;gap:72px;align-items:start}
+  .im-docs .im-w>*{min-width:0}
+  .im-tg{display:inline-grid;grid-template-columns:1fr 1fr;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px;margin:30px 0 26px}
+  .im-tg button{font:400 14px/20px var(--sans);border:0;background:none;color:var(--muted);border-radius:999px;padding:9px 18px;cursor:pointer;white-space:nowrap}
+  .im-tg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+  .im-tg button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .im-prog{display:flex;align-items:center;gap:18px}
+  .im-ring{width:76px;height:76px;flex:none}
+  .im-ring circle{fill:none;stroke-width:5}
+  .im-ring .bg{stroke:var(--line)}
+  .im-ring .fg{stroke:var(--accent);stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset .7s cubic-bezier(.2,.7,.2,1)}
+  .im-prog p{margin:0;font-size:14px;line-height:21px;color:var(--muted)}
+  .im-prog p b{display:block;color:var(--ink);font-weight:500;font-size:18px}
+  .im-sheet{background:#fff;border:1px solid var(--line);border-radius:20px;padding:10px 26px 14px;box-shadow:0 30px 60px -40px rgba(14,16,19,.3)}
+  .im-dl{list-style:none;margin:0;padding:0}
+  .im-dl li{display:grid;grid-template-columns:1fr auto;gap:4px 16px;align-items:center;padding:15px 0;border-bottom:1px solid #EEEBE4;animation:imIn .45s cubic-bezier(.2,.7,.2,1) both}
+  .im-dl li:last-child{border-bottom:0}
+  .im-dl b{font-weight:500;font-size:15px;letter-spacing:-.01em}
+  .im-dl small{grid-column:1;font-size:12.5px;color:var(--muted)}
+  .im-st{grid-row:1/3;grid-column:2;font-size:12px;padding:5px 11px;border-radius:999px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+  .im-st::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+  .im-st.v{background:rgba(15,122,85,.1);color:var(--accent)}
+  .im-st.a{background:#FBF3DE;color:#8A6416}
+  .im-st.f{background:rgba(200,85,61,.1);color:#B04A33}
+  @keyframes imIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .im-next{margin-top:12px;padding:12px 14px;border-radius:12px;background:#fff;border:1px solid var(--line);font-size:13.5px;line-height:20px}
+  .im-next b{font-weight:500}
+
+  /* ---------- Besichtigung (dunkel) ---------- */
+  .im-view{background:var(--night);color:var(--on-night);padding:120px 0}
+  .im-view .eyebrow{color:var(--mint)}.im-view .eyebrow::before{background:var(--mint)}
+  .im-view .im-h2 em{color:var(--mint)}
+  .im-view .im-sub{color:var(--on-night-muted)}
+  .im-view .im-kick{border-color:var(--on-night)}
+  .im-view .im-kick span:last-child{color:var(--on-night-muted)}
+  .im-view .im-no{color:var(--mint)}
+  .im-view .im-cap{color:var(--on-night-muted)}
+  .im-vg{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;margin-top:8px}
+  .im-vg>*{min-width:0}
+  .im-day{border-top:1px solid var(--night-3)}
+  .im-slot{display:grid;grid-template-columns:70px 1fr auto;gap:14px;align-items:center;padding:16px 4px;border-bottom:1px solid var(--night-3);font-size:15px;transition:background .4s}
+  .im-slot time{font-variant-numeric:tabular-nums;color:var(--on-night-muted);font-size:14px}
+  .im-slot .who{color:#4A4F56;transition:color .4s}
+  .im-slot .tg{font-size:11.5px;padding:3px 9px;border-radius:999px;border:1px solid var(--night-3);color:var(--on-night-muted);white-space:nowrap;transition:all .4s}
+  .im-slot.b .who{color:var(--on-night)}
+  .im-slot.b .tg{border-color:rgba(140,245,194,.4);color:var(--mint)}
+  .im-slot.c{background:rgba(224,122,95,.08)}
+  .im-slot.c .who{color:var(--on-night-muted);text-decoration:line-through}
+  .im-slot.c .tg{border-color:rgba(224,122,95,.5);color:#E9967F}
+  .im-slot.n{background:rgba(140,245,194,.06)}
+  .im-msg{background:var(--night-2);border:1px solid var(--night-3);border-radius:22px;padding:24px}
+  .im-msg>small{display:flex;justify-content:space-between;font-size:12px;color:var(--on-night-muted);padding-bottom:14px;border-bottom:1px solid var(--night-3);margin-bottom:16px}
+  .im-msg>small b{color:var(--mint);font-weight:500}
+  .im-msg p{margin:0 0 12px;font-size:14.5px;line-height:23px;color:#D5D7DA}
+  .im-msg p mark{background:rgba(140,245,194,.12);color:var(--on-night);padding:1px 4px;border-radius:4px}
+  .im-log{list-style:none;margin:18px 0 0;padding:16px 0 0;border-top:1px solid var(--night-3);display:grid;gap:10px}
+  .im-log li{display:grid;grid-template-columns:62px 1fr;gap:10px;font-size:13.5px;line-height:20px;color:var(--on-night-muted);opacity:0;transform:translateY(6px);transition:opacity .4s,transform .4s}
+  .im-log li.on{opacity:1;transform:none}
+  .im-log li time{white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--on-night)}
+  .im-log li b{color:var(--on-night);font-weight:500}
+
+  /* ---------- FAQ (Magazin-Q&A) ---------- */
+  .im-faq{padding:120px 0}
+  .im-qa{display:grid;grid-template-columns:1fr 1fr;gap:0 56px;margin-top:36px}
+  .im-qa div{padding:26px 0;border-top:1px solid var(--line)}
+  .im-qa h3{margin:0 0 10px;font-family:var(--serif);font-style:italic;font-weight:400;font-size:25px;line-height:1.15;letter-spacing:-.01em}
+  .im-qa p{margin:0;font-size:15.5px;line-height:25px;color:var(--muted)}
+
+  /* ---------- Weitere Branchen ---------- */
+  .im-more{padding:0 0 120px}
+  .im-mo{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+  .im-mo a{display:block;text-decoration:none;color:var(--ink);border-top:1px solid var(--ink);padding-top:16px}
+  .im-mo a small{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--accent)}
+  .im-mo a b{display:block;font-weight:500;font-size:24px;letter-spacing:-.03em;margin:6px 0 8px;transition:color .2s}
+  .im-mo a span{font-size:14px;line-height:21px;color:var(--muted)}
+  .im-mo a:hover b{color:var(--accent)}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:1100px){
+    .im-hero .im-w{grid-template-columns:1fr;padding-bottom:96px}
+    .im-txt{order:0}
+    .im-ex{order:1;max-width:680px;width:100%}
+    .im-tick{left:-8px}
+    .im-hero .im-w{gap:0}
+    .im-ex{margin-top:56px}
+    .im-fbox{grid-template-columns:290px 1fr}
+    .im-lh,.im-li{grid-template-columns:1fr .8fr 1fr 1.2fr}
+    .im-lh span:nth-child(4),.im-li .zt{display:none}
+    .im-docs .im-w{gap:48px}
+  }
+  @media (max-width:900px){
+    .im-flt .im-head{grid-template-columns:1fr;gap:18px}
+    .im-fbox{grid-template-columns:1fr}
+    .im-docs .im-w{grid-template-columns:1fr;gap:36px}
+    .im-vg{grid-template-columns:1fr;gap:40px}
+    .im-qa{grid-template-columns:1fr}
+    .im-mo{grid-template-columns:1fr;gap:20px}
+  }
+  @media (max-width:640px){
+    .im-spread{grid-template-columns:1fr}
+    .im-spread::after{display:none}
+    .im-pg+.im-pg{border-top:1px dashed var(--line)}
+    .im-pg{padding:18px 16px 16px}
+    .im-ttl b{font-size:24px}
+    .im-kv,.im-lage p{font-size:12.5px;line-height:18px}
+    .im-energy{font-size:11.5px}
+    .im-gr{max-width:300px}
+    .im-ex{padding-bottom:0}
+    .im-tick{position:relative;right:auto;bottom:auto;width:auto;margin:12px 0 0}
+    .im-excap{position:static;display:block;margin-top:14px;text-align:right}
+    .im-fun{grid-template-columns:repeat(2,1fr)}
+    .im-lh{display:none}
+    .im-li{grid-template-columns:1fr auto;gap:6px 12px;padding:13px 14px}
+    .im-li .bd{text-align:right}
+    .im-li .fz,.im-li .zt{display:none}
+    .im-li .mb{display:flex;gap:6px;flex-wrap:wrap;grid-column:1}
+    .im-li .rs{grid-column:2;align-self:end}
+  }
+  @media (max-width:560px){
+    .im-w{padding-left:16px;padding-right:16px}
+    .im-crumb{margin-bottom:28px}
+    .im-lead{font-size:17px;line-height:27px}
+    .im-facts{grid-template-columns:repeat(3,1fr);gap:0 14px}
+    .im-facts b{font-size:21px}
+    .im-facts span{font-size:12px;line-height:17px}
+    .im-flt,.im-docs,.im-view,.im-faq{padding:88px 0}
+    .im-ctl{padding:22px 18px}
+    .im-sheet{padding:6px 16px 10px}
+    .im-dl b{font-size:14.5px}
+    .im-st{font-size:11.5px;padding:4px 9px}
+    .im-tg button{padding:9px 14px;font-size:13.5px}
+    .im-slot{grid-template-columns:52px 1fr auto;gap:10px;font-size:14px;padding:14px 2px}
+    .im-msg{padding:18px 16px}
+    .im-qa h3{font-size:22px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .im-rv{opacity:1;transform:none;transition:none}
+    .im-dl li{animation:none}
+  }
+</style>
+
+<main>
+<!-- ============ HERO: Exposé ============ -->
+<section class="im-hero" aria-labelledby="im-h">
+  <div class="im-w">
+    <nav class="im-crumb" aria-label="Brotkrumen"><a href="ailien-startseite.html">Start</a><span>/</span><a href="#">Branchen</a><span>/</span>Immobilienmakler</nav>
+    <div class="im-txt">
+      <p class="eyebrow">KI für Immobilienmakler</p>
+      <h1 id="im-h"><span>Weniger Touristen.</span><span>Mehr <em>echte Käufer.</em></span></h1>
+      <p class="im-lead">Schluss mit Besichtigungstourismus: Die KI schreibt das Exposé aus Fotos, Grundriss und Eckdaten, fragt jede Anfrage nach Budget, Finanzierung und Zeitrahmen vor – <b>und lädt nur ein, wer wirklich kaufen kann.</b></p>
+      <div class="im-ctas">
+        <a class="btn p" href="/kontakt">Kurz telefonieren <span aria-hidden="true">→</span></a>
+        <a class="im-link" href="#im-filter">Den Interessenten-Filter ausprobieren ↓</a>
+      </div>
+      <div class="im-facts" aria-label="Was vorbereitet wird">
+        <span><b>Exposé</b>als Entwurf</span>
+        <span><b>Anfragen</b>vorqualifiziert</span>
+        <span><b>Unterlagen</b>vollständig</span>
+      </div>
+    </div>
+
+    <div class="im-ex" id="imEx" aria-label="Beispiel: Ein Exposé entsteht aus Fotos, Grundriss und Eckdaten">
+      <div class="im-spread">
+        <div class="im-pg">
+          <header><span>Exposé · Entwurf</span><span>S. 1</span></header>
+          <div class="im-photo">
+            <svg viewBox="0 0 300 248" aria-hidden="true"><g class="im-draw">
+              <line pathLength="1" class="th" x1="8" y1="214" x2="292" y2="214"/>
+              <path pathLength="1" d="M52 214 V112 L132 52 L212 112 V214"/>
+              <path pathLength="1" d="M40 121 L132 47 L224 121"/>
+              <path pathLength="1" d="M212 214 V150 H262 V214"/>
+              <path pathLength="1" d="M208 150 H266"/>
+              <rect pathLength="1" x="72" y="128" width="34" height="38"/>
+              <rect pathLength="1" x="158" y="128" width="34" height="38"/>
+              <rect pathLength="1" x="116" y="86" width="32" height="26"/>
+              <rect pathLength="1" x="116" y="160" width="32" height="54"/>
+              <line pathLength="1" class="th" x1="89" y1="128" x2="89" y2="166"/>
+              <line pathLength="1" class="th" x1="175" y1="128" x2="175" y2="166"/>
+              <line pathLength="1" class="th" x1="132" y1="86" x2="132" y2="112"/>
+              <rect pathLength="1" x="222" y="164" width="30" height="50"/>
+              <path pathLength="1" class="th" d="M164 52 V34 H178 V62"/>
+              <path pathLength="1" d="M30 214 V178"/>
+              <circle pathLength="1" class="th" cx="30" cy="160" r="20"/>
+              <path pathLength="1" class="th" d="M18 158 C 24 150, 34 150, 40 156"/>
+              <path pathLength="1" class="th" d="M270 214 C 272 196, 280 190, 288 186"/>
+              <path pathLength="1" class="th" d="M60 222 H 290 M 80 230 H 270"/>
+            </g></svg>
+            <span class="lab">Titelbild · 1 von 24 Fotos</span>
+          </div>
+          <div class="im-ttl">
+            <small>Reihenendhaus · Kauf</small>
+            <b>Hell, ruhig, mit Garten nach Süden</b>
+            <p>Familienfreundliches Reihenendhaus in gewachsener Wohnlage, 2019 energetisch modernisiert.</p>
+          </div>
+        </div>
+        <div class="im-pg">
+          <header><span>Eckdaten</span><span>S. 2</span></header>
+          <dl class="im-kv" id="imKv">
+            <dt>Wohnfläche</dt><dd>138 m²</dd>
+            <dt>Grundstück</dt><dd>312 m²</dd>
+            <dt>Zimmer</dt><dd>5</dd>
+            <dt>Baujahr</dt><dd>1998</dd>
+            <dt>Kaufpreis</dt><dd>549.000 €</dd>
+          </dl>
+          <div class="im-energy"><b>Energieausweis:</b> Verbrauchsausweis · 112 kWh/(m²·a) · Klasse D · Gas · Bj. 1998
+            <div class="im-scale" aria-hidden="true"><i style="background:#2E9E5B"></i><i style="background:#57B05A"></i><i style="background:#8CC152"></i><i style="background:#C3D24B"></i><i style="background:#E8D743"></i><i class="me" style="background:#F2C043"></i><i style="background:#EE9A3A"></i><i style="background:#E46A33"></i><i style="background:#D33F2E"></i></div>
+          </div>
+          <div class="im-lage"><small>Lage</small><p id="imLage"></p></div>
+          <div class="im-gr">
+            <svg viewBox="0 0 220 112" aria-hidden="true"><g class="im-draw">
+              <rect pathLength="1" x="4" y="4" width="212" height="104"/>
+              <line pathLength="1" x1="118" y1="4" x2="118" y2="70"/>
+              <line pathLength="1" x1="4" y1="70" x2="96" y2="70"/>
+              <line pathLength="1" x1="118" y1="70" x2="216" y2="70"/>
+              <line pathLength="1" x1="160" y1="70" x2="160" y2="108"/>
+              <path pathLength="1" class="th" d="M96 70 A 22 22 0 0 1 118 48"/>
+              <path pathLength="1" class="th" d="M138 70 A 18 18 0 0 0 120 88"/>
+              <line pathLength="1" class="th" x1="40" y1="108" x2="80" y2="108"/>
+            </g>
+            <text x="34" y="40">Wohnen / Essen 38 m²</text><text x="140" y="40">Küche 12 m²</text><text x="22" y="92">Flur / Diele</text><text x="166" y="92">Gäste-WC</text></svg>
+          </div>
+        </div>
+      </div>
+      <div class="im-tick" aria-live="off">
+        <small>Anfragen zu diesem Objekt</small>
+        <div class="row"><span>Eingegangen</span><b id="imT1">0</b></div>
+        <div class="row"><span>Vorqualifiziert</span><b id="imT2">0</b></div>
+        <div class="row q"><span>Termin Samstag</span><b id="imT3">0</b></div>
+      </div>
+      <p class="im-excap">Beispieldaten zur Veranschaulichung</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INTERESSENTEN-FILTER ============ -->
+<section class="im-flt" id="im-filter" aria-labelledby="im-f-h">
+  <div class="im-w">
+    <div class="im-kick im-rv"><span class="im-no">01</span><span>Interessenten</span><span>Vorqualifizierung</span></div>
+    <div class="im-head im-rv">
+      <h2 class="im-h2" id="im-f-h"><span>Wer besichtigt,</span><span>kann auch <em>kaufen.</em></span></h2>
+      <p class="im-sub">Jede Anfrage bekommt eine freundliche Antwort mit drei Rückfragen. Was zurückkommt, wird nach Ihren Kriterien sortiert. Probieren Sie es aus.</p>
+    </div>
+    <div class="im-fbox">
+      <div class="im-ctl">
+        <small>Objekt</small>
+        <p class="im-obj"><b>Reihenendhaus, 138 m²</b><br>Kaufpreis 549.000 €</p>
+        <div class="im-sl">
+          <label for="imMin"><span>Mindestbudget</span><output id="imMinO">525.000 €</output></label>
+          <input class="im-range" type="range" id="imMin" min="400" max="650" step="25" value="525" aria-describedby="imMinO">
+          <div class="im-scl"><span>400.000 €</span><span>650.000 €</span></div>
+        </div>
+        <button class="im-sw" type="button" role="switch" aria-checked="true" id="imFin"><span>Finanzierung belegt<small>Bestätigung der Bank oder Eigenkapitalnachweis</small></span><i></i></button>
+        <button class="im-sw" type="button" role="switch" aria-checked="true" id="imZeit"><span>Kauf in den nächsten 6 Monaten<small>laut Angabe im Rückfrage-Formular</small></span><i></i></button>
+      </div>
+      <div class="im-res">
+        <div class="im-fun" id="imFun" aria-live="polite">
+          <div><b>12</b><span>Anfragen</span></div>
+          <div><b>0</b><span>Budget passt</span></div>
+          <div><b>0</b><span>Finanzierung belegt</span></div>
+          <div class="last"><b>0</b><span>zur Besichtigung</span></div>
+        </div>
+        <div class="im-list" id="imList">
+          <div class="im-lh"><span>Interessent</span><span>Budget</span><span>Finanzierung</span><span>Zeitrahmen</span><span style="text-align:right">Ergebnis</span></div>
+        </div>
+        <div class="im-fnote"><span class="im-cap">Beispieldaten zur Veranschaulichung · Namen erfunden</span><span class="im-cap">Gefiltert wird nur nach sachlichen Kriterien, die Sie festlegen.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ UNTERLAGEN ============ -->
+<section class="im-docs" aria-labelledby="im-d-h">
+  <div class="im-w">
+    <div>
+      <div class="im-kick im-rv"><span class="im-no">02</span><span>Unterlagen</span><span>Vollständigkeit</span></div>
+      <div class="im-rv">
+        <h2 class="im-h2" id="im-d-h"><span>Alles beisammen,</span><span>bevor die <em>Bank</em> fragt.</span></h2>
+        <p class="im-sub">Grundbuchauszug, Energieausweis, Teilungserklärung: Die KI weiß, was je Objektart gebraucht wird, fordert es beim Eigentümer, bei der Hausverwaltung oder beim Amt an und erinnert, bis es da ist.</p>
+      </div>
+      <div class="im-tg" role="group" aria-label="Objektart wählen">
+        <button type="button" aria-pressed="true" data-t="etw">Eigentumswohnung</button>
+        <button type="button" aria-pressed="false" data-t="efh">Einfamilienhaus</button>
+      </div>
+      <div class="im-prog">
+        <svg class="im-ring" viewBox="0 0 76 76" aria-hidden="true"><circle class="bg" cx="38" cy="38" r="32"/><circle class="fg" id="imRing" cx="38" cy="38" r="32" stroke-dasharray="201.06" stroke-dashoffset="201.06"/></svg>
+        <p id="imProg"><b>– von – vorhanden</b>Der Rest ist angefordert oder als fehlend markiert.</p>
+      </div>
+    </div>
+    <div>
+      <div class="im-sheet"><ul class="im-dl" id="imDl" aria-live="polite"></ul></div>
+      <p class="im-next" id="imNext"></p>
+      <p class="im-cap" style="margin-top:12px">Beispiel-Checkliste. Welche Unterlagen Sie anfordern, legen Sie fest – je nach Bundesland und Objekt unterschiedlich.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BESICHTIGUNG ============ -->
+<section class="im-view" aria-labelledby="im-v-h">
+  <div class="im-w">
+    <div class="im-kick im-rv"><span class="im-no">03</span><span>Besichtigung</span><span>Terminvergabe</span></div>
+    <div class="im-vg" id="imView">
+      <div>
+        <div class="im-rv">
+          <h2 class="im-h2" id="im-v-h"><span>Samstag, 10 bis 13 Uhr.</span><span>Nur <em>echte Käufer.</em></span></h2>
+          <p class="im-sub" style="margin-bottom:36px">Qualifizierte Interessenten buchen selbst einen Slot. Die genaue Adresse bekommt nur, wer bestätigt ist. Sagt jemand ab, rückt der Nächste nach.</p>
+        </div>
+        <div class="im-day" id="imDay"></div>
+      </div>
+      <div class="im-msg">
+        <small><span>Bestätigung · Entwurf</span><b>automatisch versendet</b></small>
+        <p>Guten Tag Frau Albers,</p>
+        <p>vielen Dank für Ihre Angaben. Ihr Besichtigungstermin: <mark>Samstag, 10:00 Uhr</mark>, Reihenendhaus, <mark>Lindenallee 8</mark>.</p>
+        <p>Bitte bringen Sie einen Ausweis mit. Das Exposé und die Unterlagenliste finden Sie im Anhang.</p>
+        <ul class="im-log" id="imLog">
+          <li><time>Fr 18:00</time><span>Erinnerung an alle sechs Termine verschickt</span></li>
+          <li><time>Sa 08:12</time><span><b>E. Krüger sagt ab</b> – Slot 11:30 wird frei</span></li>
+          <li><time>Sa 08:13</time><span>Nachrücker P. Roth eingeladen – bestätigt um 08:31</span></li>
+          <li><time>Sa 13:30</time><span>Besichtigungsnotizen per Sprachnachricht → Rückmeldungen an Eigentümer</span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="im-cap" style="margin-top:28px">Beispieldaten zur Veranschaulichung</p>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="im-faq" aria-labelledby="im-q-h">
+  <div class="im-w">
+    <div class="im-kick im-rv"><span class="im-no">04</span><span>Häufige Fragen</span><span>Kurz beantwortet</span></div>
+    <h2 class="im-h2 im-rv" id="im-q-h"><span>Was Makler uns</span><span><em>meistens</em> fragen.</span></h2>
+    <div class="im-qa">
+      <div class="im-rv"><h3>Funktioniert das mit unserer Maklersoftware und den Portalen?</h3><p>Anfragen kommen meist per Mail – egal ob über ein Portal oder Ihre Website. Daran setzen wir an. Wir binden Ihre Maklersoftware an, wo es eine Schnittstelle gibt, sonst über Export und Import.</p></div>
+      <div class="im-rv"><h3>Schreibt die KI im Exposé etwas, das nicht stimmt?</h3><p>Sie schreibt nur aus Ihren Angaben, Fotos und Unterlagen. Was fehlt, markiert sie als Rückfrage statt es zu erfinden. Pflichtangaben aus dem Energieausweis prüft sie auf Vollständigkeit. Veröffentlicht wird erst nach Ihrer Freigabe.</p></div>
+      <div class="im-rv"><h3>Sagt die KI Interessenten selbst ab?</h3><p>Nur wenn Sie das wollen. Sie legen die Kriterien fest – Budget, Finanzierungsnachweis, Zeitrahmen – und ob Absagen automatisch oder nach Ihrer Freigabe rausgehen. Persönliche Merkmale spielen bei der Auswahl keine Rolle.</p></div>
+      <div class="im-rv"><h3>Was passiert mit den Daten der Interessenten?</h3><p>Die Daten bleiben in der EU und werden nur für Ihr Büro verarbeitet. Sie bekommen einen Auftragsverarbeitungsvertrag, jeder Schritt wird protokolliert, Löschfristen hinterlegen wir mit Ihnen.</p></div>
+      <div class="im-rv"><h3>Wir sind ein kleines Büro – lohnt sich das?</h3><p>Gerade dann. Wenn zwei Leute Akquise, Besichtigungen und Notartermine stemmen, frisst die Anfragenflut die meiste Zeit. Oft reicht ein einzelner Helfer für den Anfang.</p></div>
+      <div class="im-rv"><h3>Was kostet der Einstieg?</h3><p>Eine einmalige Einrichtung und danach eine feste monatliche Pauschale, in der Betreuung und KI-Nutzung enthalten sind. Den genauen Betrag nennen wir nach dem Erstgespräch – vorher wäre er geraten.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WEITERE BRANCHEN ============ -->
+<section class="im-more" aria-labelledby="im-m-h">
+  <div class="im-w">
+    <div class="im-kick"><span class="im-no">05</span><span id="im-m-h">Weitere Branchen</span><span>Auch interessant</span></div>
+    <div class="im-mo">
+      <a href="ailien-branchen-hausverwaltung.html"><small>Nebenan</small><b>Hausverwaltungen</b><span>Schadensmeldungen sortiert, Telefon-Assistent, ETV-Protokoll.</span></a>
+      <a href="ailien-branchen-architekten.html"><small>Planung</small><b>Architekturbüros</b><span>Baubeschreibung, Protokolle, Bauantrag-Check.</span></a>
+      <a href="ailien-branchen-gutachter.html"><small>Bewertung</small><b>Gutachter</b><span>Vom Diktat zum Gutachtenentwurf, Fotos zugeordnet.</span></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var clamp=function(v){return v<0?0:v>1?1:v};
+
+  /* Reveal */
+  var rv=[].slice.call(document.querySelectorAll('.im-rv'));
+  if(reduce||!('IntersectionObserver' in window)) rv.forEach(function(e){e.classList.add('in')});
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.12});rv.forEach(function(e){io.observe(e)})}
+
+  /* ---- Hero: Exposé baut sich auf ---- */
+  var ex=document.getElementById('imEx'),kv=[].slice.call(document.querySelectorAll('#imKv dt,#imKv dd')),lage=document.getElementById('imLage');
+  var T=[document.getElementById('imT1'),document.getElementById('imT2'),document.getElementById('imT3')],TV=[186,11,6];
+  var txt='Ruhige Anliegerstraße, Grundschule und Bäcker in wenigen Gehminuten. Bus zum Bahnhof alle 15 Minuten, Supermarkt und Kita im Viertel.';
+  var tm=[];
+  function count(){var t0=performance.now();(function f(n){var p=clamp((n-t0)/1400),e=1-Math.pow(1-p,3);T.forEach(function(el,i){el.textContent=Math.round(TV[i]*e)});if(p<1)requestAnimationFrame(f)})(t0)}
+  function play(){
+    tm.forEach(clearTimeout);tm=[];ex.className='im-ex';kv.forEach(function(e){e.classList.remove('on')});lage.textContent='';T.forEach(function(e){e.textContent='0'});
+    if(reduce){ex.className='im-ex s1 s2 s4 s5';kv.forEach(function(e){e.classList.add('on')});lage.textContent=txt;T.forEach(function(e,i){e.textContent=TV[i]});return}
+    tm.push(setTimeout(function(){ex.classList.add('s1')},300));
+    var t=1700;
+    for(var i=0;i<kv.length;i+=2)(function(i,t){tm.push(setTimeout(function(){kv[i].classList.add('on');kv[i+1].classList.add('on')},t))})(i,t+i*110);
+    t+=kv.length*110+200;
+    tm.push(setTimeout(function(){ex.classList.add('s2')},t));t+=500;
+    for(var c=0;c<=txt.length;c+=2)(function(c){tm.push(setTimeout(function(){lage.innerHTML=txt.slice(0,c)+'<span class="cur"></span>'},t+c*18))})(c);
+    t+=txt.length*18+200;
+    tm.push(setTimeout(function(){lage.textContent=txt;ex.classList.add('s4')},t));t+=1600;
+    tm.push(setTimeout(function(){ex.classList.add('s5');count()},t));
+    tm.push(setTimeout(play,t+9000));
+  }
+  play();
+
+  /* ---- Interessenten-Filter ---- */
+  var P=[['S. Albers',580,'b',3],['M. Yilmaz',540,'b',1],['K. Brandt',450,'o',12],['J. Weber',600,'o',6],['L. Hoffmann',560,'e',2],['T. Nguyen',520,'b',6],['R. Klein',390,'o',0],['F. Schäfer',550,'b',9],['D. Wolf',700,'o',3],['A. Becker',480,'b',4],['C. Lang',530,'o',0],['E. Krüger',575,'b',2]];
+  var FN={b:'Bank bestätigt',e:'Eigenkapital',o:'offen'};
+  var list=document.getElementById('imList'),rng=document.getElementById('imMin'),out=document.getElementById('imMinO'),sF=document.getElementById('imFin'),sZ=document.getElementById('imZeit'),fun=[].slice.call(document.querySelectorAll('#imFun div'));
+  function eur(k){return (k>=1000?Math.floor(k/1000)+'.'+('00'+k%1000).slice(-3):k)+'.000 €'}
+  function zt(m){return m===0?'unklar':m===1?'sofort':m+' Monate'}
+  var rows=P.map(function(p){var d=document.createElement('div');d.className='im-li';
+    d.innerHTML='<span class="nm">'+p[0]+'</span><span class="bd">'+eur(p[1])+'</span><span class="fz"><span class="im-pill'+(p[2]!=='o'?' ok':'')+'">'+FN[p[2]]+'</span></span><span class="zt">'+zt(p[3])+'</span><span class="mb"><span class="im-pill'+(p[2]!=='o'?' ok':'')+'">'+FN[p[2]]+'</span><span class="im-pill">'+zt(p[3])+'</span></span><span class="rs"></span>';
+    list.appendChild(d);return d});
+  function filt(){
+    var min=+rng.value,f=sF.getAttribute('aria-checked')==='true',z=sZ.getAttribute('aria-checked')==='true';
+    out.textContent=eur(min);rng.style.setProperty('--p',((min-400)/250*100)+'%');
+    var c1=0,c2=0,c3=0;
+    P.forEach(function(p,i){
+      var okB=p[1]>=min,okF=!f||p[2]!=='o',okZ=!z||(p[3]>0&&p[3]<=6),r;
+      if(okB)c1++;if(okB&&okF)c2++;if(okB&&okF&&okZ)c3++;
+      r=!okB?'Budget zu niedrig':!okF?'Finanzierung offen':!okZ?(p[3]===0?'Zeitrahmen unklar':'Kauf erst später'):'Termin anbieten →';
+      rows[i].className='im-li '+(okB&&okF&&okZ?'q':'x');rows[i].querySelector('.rs').textContent=r;
+    });
+    var v=[12,c1,c2,c3];fun.forEach(function(d,i){d.querySelector('b').textContent=v[i];d.style.setProperty('--w',(v[i]/12*100)+'%')});
+  }
+  rng.addEventListener('input',filt);
+  [sF,sZ].forEach(function(s){s.addEventListener('click',function(){s.setAttribute('aria-checked',s.getAttribute('aria-checked')==='true'?'false':'true');filt()})});
+  filt();
+
+  /* ---- Unterlagen ---- */
+  var D={
+    etw:{l:[['Grundbuchauszug','Grundbuchamt · mit Vollmacht des Eigentümers','v'],['Teilungserklärung mit Aufteilungsplan','Grundbuchamt · Abschrift angefordert','a'],['Energieausweis','Hausverwaltung · gültig bis 2031','v'],['Wohnflächenberechnung','Eigentümer · liegt nicht vor','f'],['Protokolle der letzten drei Eigentümerversammlungen','Hausverwaltung','a'],['Wirtschaftsplan und Hausgeldabrechnung','Hausverwaltung','v'],['Stand der Erhaltungsrücklage','Hausverwaltung','v'],['Beschlusssammlung','Hausverwaltung','a']],
+         n:'<b>Nächster Schritt:</b> Erinnerung an die Hausverwaltung geht morgen raus – Protokolle, Beschlusssammlung und Teilungserklärung in einer Mail.'},
+    efh:{l:[['Grundbuchauszug','Grundbuchamt · mit Vollmacht des Eigentümers','v'],['Flurkarte','Kataster- bzw. Vermessungsamt','a'],['Energieausweis','Eigentümer · nicht vorhanden – Pflicht für die Anzeige','f'],['Wohnflächenberechnung','Eigentümer','v'],['Bauzeichnungen und Baugenehmigung','Bauamt · Akteneinsicht beantragt','a'],['Auskunft aus dem Baulastenverzeichnis','Bauaufsicht · wo geführt','a'],['Nachweise zu Modernisierungen','Eigentümer · Rechnungen 2019','f']],
+         n:'<b>Nächster Schritt:</b> Ohne Energieausweis keine Anzeige. Die KI bereitet die Beauftragung vor und erinnert den Eigentümer an die Rechnungen.'}
+  };
+  var SL={v:'vorhanden',a:'angefordert',f:'fehlt'};
+  var dl=document.getElementById('imDl'),ring=document.getElementById('imRing'),prog=document.getElementById('imProg'),nxt=document.getElementById('imNext'),tg=[].slice.call(document.querySelectorAll('.im-tg button'));
+  function docs(k){
+    tg.forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-t')===k?'true':'false')});
+    var d=D[k],v=0;
+    dl.innerHTML=d.l.map(function(x,i){if(x[2]==='v')v++;return '<li style="animation-delay:'+(i*.05)+'s"><b>'+x[0]+'</b><small>'+x[1]+'</small><span class="im-st '+x[2]+'">'+SL[x[2]]+'</span></li>'}).join('');
+    ring.style.strokeDashoffset=(201.06*(1-v/d.l.length)).toFixed(2);
+    prog.innerHTML='<b>'+v+' von '+d.l.length+' vorhanden</b>Der Rest ist angefordert oder als fehlend markiert.';
+    nxt.innerHTML=d.n;
+  }
+  tg.forEach(function(b){b.addEventListener('click',function(){docs(b.getAttribute('data-t'))})});
+  docs('etw');
+
+  /* ---- Besichtigung ---- */
+  var SLOTS=[['10:00','S. Albers'],['10:30','M. Yilmaz'],['11:00','L. Hoffmann'],['11:30','E. Krüger'],['12:00','Fam. Okafor'],['12:30','J. Petersen']];
+  var day=document.getElementById('imDay'),logLi=[].slice.call(document.querySelectorAll('#imLog li'));
+  var sEls=SLOTS.map(function(s){var d=document.createElement('div');d.className='im-slot';d.innerHTML='<time>'+s[0]+'</time><span class="who">frei</span><span class="tg">offen</span>';day.appendChild(d);return d});
+  function book(i,name,cls,tag){var e=sEls[i];e.className='im-slot '+cls;e.querySelector('.who').textContent=name;e.querySelector('.tg').textContent=tag}
+  function viewPlay(){
+    var fin=function(){SLOTS.forEach(function(s,i){book(i,s[1],'b','bestätigt')});book(3,'P. Roth','b n','Nachrücker');logLi.forEach(function(l){l.classList.add('on')})};
+    if(reduce){fin();return}
+    var t=200;
+    SLOTS.forEach(function(s,i){setTimeout(function(){book(i,s[1],'b','bestätigt')},t);t+=420});
+    setTimeout(function(){logLi[0].classList.add('on')},t);t+=900;
+    setTimeout(function(){book(3,'E. Krüger','c','abgesagt');logLi[1].classList.add('on')},t);t+=1300;
+    setTimeout(function(){book(3,'P. Roth','b n','Nachrücker');logLi[2].classList.add('on')},t);t+=900;
+    setTimeout(function(){logLi[3].classList.add('on')},t);
+  }
+  var vEl=document.getElementById('imView');
+  if('IntersectionObserver' in window&&!reduce){new IntersectionObserver(function(es,o){es.forEach(function(x){if(x.isIntersecting){viewPlay();o.disconnect()}})},{threshold:.3}).observe(vEl)}else viewPlay();
+})();
+</script>
+
+<style>
+  /* ---------- CTA + Footer ---------- */
+  .ct{background:var(--night);color:var(--on-night);position:relative;overflow:hidden}
+  .ct-in{max-width:1240px;margin:0 auto;padding:112px 32px 96px;position:relative}
+  .ct .eyebrow{color:var(--mint)}.ct .eyebrow::before{background:var(--mint)}
+
+  .ct-tl{position:relative;height:64px;margin:0 0 56px}
+  .ct-tl svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .ct-tl .base{stroke:var(--night-3);stroke-width:1;stroke-dasharray:3 5}
+  .ct-tl .ink{stroke:var(--on-night-muted);stroke-width:1.25}
+  .ct-tl ol{list-style:none;margin:0;padding:0;position:absolute;inset:0}
+  .ct-tl li{white-space:nowrap;position:absolute;top:22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;font-size:12px;letter-spacing:.06em;color:var(--on-night-muted);opacity:.25;transition:opacity .4s,color .4s}
+  .ct-tl li::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--night);border:1px solid currentColor;margin-top:-4px}
+  .ct-tl li.on{opacity:1}
+  .ct-tl li.now{color:var(--mint);font-weight:500}
+  .ct-tl li.now::before{width:13px;height:13px;margin-top:-6px;background:var(--mint);border-color:var(--mint);box-shadow:0 0 0 0 rgba(140,245,194,.5)}
+  .ct-tl li.now.on::before{animation:ctPulse 2.2s ease-out infinite}
+  @keyframes ctPulse{0%{box-shadow:0 0 0 0 rgba(140,245,194,.45)}100%{box-shadow:0 0 0 16px rgba(140,245,194,0)}}
+
+  .ct-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:72px;align-items:start}
+  .ct-grid>div:first-child{container-type:inline-size}
+  .ct h2 span{display:block;white-space:nowrap}
+  .ct h2{font-weight:500;font-size:min(64px,calc(100cqi / 10.6));line-height:1.02;letter-spacing:-.04em;margin:0 0 24px}
+  .ct h2 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--mint)}
+  .ct-lead{font-size:18px;line-height:28px;color:var(--on-night-muted);max-width:480px;margin:0 0 36px}
+  .ct-list{list-style:none;margin:0 0 40px;padding:0;display:grid;gap:14px;max-width:480px}
+  .ct-list li{display:grid;grid-template-columns:28px 1fr;gap:12px;font-size:15px;line-height:23px}
+  .ct-list li span{width:28px;height:28px;border-radius:50%;border:1px solid var(--night-3);display:grid;place-items:center;font-size:11px;color:var(--mint)}
+  .ct-list b{font-weight:500}
+  .ct-list small{display:block;color:var(--on-night-muted);font-size:14px}
+  .ct-person{display:flex;align-items:center;gap:14px;padding-top:28px;border-top:1px solid var(--night-3);max-width:480px}
+  .ct-ava{width:52px;height:52px;border-radius:50%;background:var(--night-3);display:grid;place-items:center;font-weight:500;font-size:16px;color:var(--mint);flex:none}
+  .ct-person p{margin:0;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-person b{display:block;color:var(--on-night);font-weight:500;font-size:15px}
+  .ct-person a{color:var(--mint);text-decoration:none}
+
+  .ct-form{background:var(--night-2);border:1px solid var(--night-3);border-radius:20px;padding:28px;position:relative}
+  .ct-form h3{margin:0 0 6px;font-size:20px;font-weight:500;letter-spacing:-.02em}
+  .ct-form>p{margin:0 0 22px;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:var(--night);border-radius:999px;margin:0 0 22px}
+  .ct-seg button{font:500 13px/18px var(--sans);color:var(--on-night-muted);background:none;border:0;border-radius:999px;padding:9px 10px;cursor:pointer}
+  .ct-seg button[aria-pressed="true"]{background:var(--on-night);color:var(--night)}
+  .ct-f{display:grid;gap:14px}
+  .ct-f label{display:grid;gap:6px;font-size:12px;letter-spacing:.04em;color:var(--on-night-muted)}
+  .ct-f input,.ct-f select,.ct-f textarea{font:400 15px/22px var(--sans);color:var(--on-night);background:var(--night);border:1px solid var(--night-3);border-radius:10px;padding:11px 13px;width:100%;transition:border-color .2s}
+  .ct-f textarea{resize:vertical;min-height:84px}
+  .ct-f input:focus,.ct-f select:focus,.ct-f textarea:focus{outline:none;border-color:var(--mint)}
+  .ct-f .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .ct-f .ok{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;line-height:19px;letter-spacing:0}
+  .ct-f .ok input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--mint);flex:none}
+  .ct-f .ok a{color:var(--on-night)}
+  .ct-f .btn{justify-content:center;width:100%;margin-top:4px;padding:15px 20px}
+  .ct-f [data-only="call"]{display:none}
+  .ct-form.call [data-only="call"]{display:grid}
+  .ct-form.call [data-only="mail"]{display:none}
+  .ct-done{display:none;text-align:center;padding:48px 8px}
+  .ct-done svg{width:56px;height:56px;margin:0 auto 18px;display:block}
+  .ct-done h3{margin-bottom:8px}
+  .ct-done p{margin:0;color:var(--on-night-muted);font-size:15px;line-height:23px}
+  .ct-form.sent .ct-f,.ct-form.sent .ct-seg,.ct-form.sent>h3,.ct-form.sent>p{display:none}
+  .ct-form.sent .ct-done{display:block}
+  .ct-done path{stroke-dasharray:1;stroke-dashoffset:1}
+  .ct-form.sent .ct-done path{animation:ctDraw .7s .15s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes ctDraw{to{stroke-dashoffset:0}}
+
+  .crv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .crv.in{opacity:1;transform:none}
+
+  /* Footer */
+  .ft{background:var(--night);color:var(--on-night);border-top:1px solid var(--night-3);overflow:hidden}
+  .ft-in{max-width:1240px;margin:0 auto;padding:64px 32px 0}
+  .ft-top{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px;padding-bottom:56px}
+  .ft-brand svg{height:30px;width:auto;display:block;margin-bottom:18px}
+  .ft-brand p{margin:0 0 20px;font-size:14px;line-height:22px;color:var(--on-night-muted);max-width:300px}
+  .ft-badges{display:flex;flex-wrap:wrap;gap:8px}
+  .ft-badges span{font-size:12px;color:var(--on-night-muted);border:1px solid var(--night-3);border-radius:999px;padding:5px 11px}
+  .ft h4{margin:0 0 16px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--on-night-muted)}
+  .ft ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .ft ul a{color:var(--on-night);text-decoration:none;font-size:15px;opacity:.86}
+  .ft ul a:hover{opacity:1;color:var(--mint)}
+  .ft-mark{position:relative;margin:0 -2px;line-height:0}
+  .ft-mark svg{width:100%;height:auto;display:block}
+  .ft-mark .o{fill:#15181C}
+  .ft-mark .f{fill:var(--night-3)}
+  .ft-bot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;padding:22px 0 28px;border-top:1px solid var(--night-3);font-size:13px;color:var(--on-night-muted)}
+  .ft-bot nav{display:flex;gap:20px}
+  .ft-bot a{color:inherit;text-decoration:none}.ft-bot a:hover{color:var(--on-night)}
+
+  @media (max-width:980px){
+    .ct-grid{grid-template-columns:1fr;gap:48px}
+    .ft-top{grid-template-columns:1fr 1fr}
+    .ft-brand{grid-column:1/-1}
+    .ft-top>div:last-child{grid-column:1/-1}
+  }
+  @media (max-width:640px){
+    .ct-in{padding:80px 16px 72px}
+    .ct-tl{margin-bottom:40px}
+    .ct-tl li{font-size:10.5px;letter-spacing:.02em}
+    .ct-tl li:nth-child(2),.ct-tl li:nth-child(4){display:none}
+    .ct-form{padding:22px 18px}
+    .ct-f .two{grid-template-columns:1fr}
+    .ft-in{padding:56px 16px 0}
+    .ft-top{gap:32px 20px}
+    .ft-bot{flex-direction:column}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .crv{opacity:1;transform:none;transition:none}
+    .ct-tl li.now.on::before{animation:none}
+  }
+</style>
+
+<section class="ct" id="kontakt">
+  <div class="ct-in">
+    <div class="ct-tl" aria-hidden="true">
+      <svg viewBox="0 0 1000 64" preserveAspectRatio="none"><line class="base" x1="0" y1="22" x2="1000" y2="22"/><line class="ink" x1="0" y1="22" x2="1000" y2="22" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+      <ol>
+        <li style="left:4%">1850</li><li style="left:24%">1920</li><li style="left:44%">1965</li><li style="left:64%">1995</li><li style="left:96%" class="now">Ihr Betrieb</li>
+      </ol>
+    </div>
+
+    <div class="ct-grid">
+      <div class="crv">
+        <p class="eyebrow">Erstgespräch</p>
+        <h2><span>Die nächste Epoche</span><span>beginnt in <em>Ihrem Betrieb.</em></span></h2>
+        <p class="ct-lead">In 30 Minuten wissen Sie, wo KI bei Ihnen Zeit spart – und wo nicht. Ohne Verkaufsgespräch, ohne Fachchinesisch.</p>
+        <ol class="ct-list">
+          <li><span>01</span><div><b>Sie erzählen, wo es hakt.</b><small>Per Video oder bei Ihnen vor Ort.</small></div></li>
+          <li><span>02</span><div><b>Wir zeigen, was möglich ist.</b><small>An Beispielen aus Ihrer Branche.</small></div></li>
+          <li><span>03</span><div><b>Sie entscheiden in Ruhe.</b><small>Auf Wunsch mit schriftlicher Einschätzung.</small></div></li>
+        </ol>
+        <div class="ct-person">
+          <div class="ct-ava" aria-hidden="true">NK</div>
+          <p><b>Nic Karban</b>Gründer · Ihr Ansprechpartner<br><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></p>
+        </div>
+      </div>
+
+      <div class="ct-form crv" id="ctForm">
+        <h3>Erstgespräch anfragen</h3>
+        <p>Wir melden uns innerhalb eines Werktags.</p>
+        <div class="ct-seg" role="group" aria-label="Kontaktweg">
+          <button type="button" aria-pressed="true" data-mode="mail">Termin per E-Mail</button>
+          <button type="button" aria-pressed="false" data-mode="call">Rückruf</button>
+        </div>
+        <!-- TODO: action auf echtes Formular-Backend / Buchungstool setzen -->
+        <form class="ct-f" action="#" method="post" novalidate>
+          <div class="two">
+            <label>Name<input name="name" autocomplete="name" required></label>
+            <label>Betrieb<input name="firma" autocomplete="organization"></label>
+          </div>
+          <label data-only="mail">E-Mail<input type="email" name="email" autocomplete="email"></label>
+          <div class="two" data-only="call">
+            <label>Telefon<input type="tel" name="tel" autocomplete="tel"></label>
+            <label>Am besten erreichbar<select name="zeit"><option>Vormittags</option><option>Mittags</option><option>Nachmittags</option></select></label>
+          </div>
+          <label>Wo kostet Sie Routine am meisten Zeit? <span style="opacity:.6">(optional)</span><textarea name="nachricht" placeholder="z. B. Angebote schreiben, Telefon, Rechnungen prüfen …"></textarea></label>
+          <label class="ok"><input type="checkbox" name="dsgvo" required><span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden. <a href="#">Datenschutz</a></span></label>
+          <button class="btn m" type="submit">Anfrage senden <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="ct-done" role="status">
+          <svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="27" fill="none" stroke="#22262B"/><path d="M17 29 25 37 40 20" fill="none" stroke="#8CF5C2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
+          <h3>Danke – ist angekommen.</h3>
+          <p>Wir melden uns innerhalb eines Werktags bei Ihnen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="ft">
+  <div class="ft-in">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <svg viewBox="0 8 160.8 64" aria-label="Ailien"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#F3F1EC"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#8CF5C2" fill-rule="evenodd"/></svg>
+        <p>KI-Automatisierung für Mittelstand und Handwerk. Wir bauen Systeme, die Routine abnehmen – und betreuen sie dauerhaft.</p>
+        <div class="ft-badges"><span>DSGVO-konform</span><span>Server in der EU</span><span>Made in Germany</span></div>
+      </div>
+      <div>
+        <h4>Leistungen</h4>
+        <ul><li><a href="#leistungen">Prozess-Automationen</a></li><li><a href="#leistungen">KI-Wissenssysteme</a></li><li><a href="#leistungen">Voice &amp; Kommunikation</a></li><li><a href="#leistungen">KI-Strategie &amp; Beratung</a></li></ul>
+      </div>
+      <div>
+        <h4>Ailien</h4>
+        <ul><li><a href="#praxis">Praxisbeispiele</a></li><li><a href="#vorgehen">Vorgehen</a></li><li><a href="#faq">Häufige Fragen</a></li><li><a href="#rechner">Entlastungs-Rechner</a></li></ul>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul><li><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></li><li><a href="#kontakt">Erstgespräch anfragen</a></li><li><a href="#">LinkedIn</a></li></ul>
+      </div>
+    </div>
+
+    <div class="ft-mark" aria-hidden="true">
+      <svg viewBox="7 11.5 143.5 51.6"><defs><g id="ftWord"><path d=""/><path fill-rule="evenodd" d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z"/></g><clipPath id="ftClip"><rect id="ftRise" x="0" y="64" width="161" height="70"/></clipPath></defs>
+        <g class="o"><use href="#ftWord"/></g>
+        <g clip-path="url(#ftClip)"><g class="f"><use href="#ftWord"/></g></g>
+      </svg>
+    </div>
+
+    <div class="ft-bot">
+      <span>© 2026 Ailien · ailien-automation.de</span>
+      <nav><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">AGB</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var clamp=function(v){return v<0?0:v>1?1:v};
+  /* Reveals */
+  var els=[].slice.call(document.querySelectorAll('.crv'));
+  if(reduce||!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')})}
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.15});
+    els.forEach(function(e,i){e.style.transitionDelay=(i%2?.12:0)+'s';io.observe(e)})}
+
+  /* Zeitstrahl + Wortmarke scroll-gesteuert */
+  var tl=document.querySelector('.ct-tl'), ink=tl&&tl.querySelector('.ink'), lis=tl?[].slice.call(tl.querySelectorAll('li')):[];
+  var pos=lis.map(function(l){return parseFloat(l.style.left)/100});
+  var mark=document.querySelector('.ft-mark'), rise=document.getElementById('ftRise');
+  function tick(){
+    var vh=innerHeight;
+    if(tl){
+      var r=tl.getBoundingClientRect();
+      var p=reduce?1:clamp((vh*.92-r.top)/(vh*.55));
+      ink.style.strokeDashoffset=1-p;
+      lis.forEach(function(l,i){l.classList.toggle('on',p>=pos[i]-.02)});
+    }
+    if(mark){
+      var m=mark.getBoundingClientRect();
+      var q=reduce?1:clamp((vh-m.top-m.height*.1)/(m.height*.9));
+      rise.setAttribute('y',(63-q*51).toFixed(2));
+    }
+  }
+  var raf=0;function on(){if(!raf)raf=requestAnimationFrame(function(){raf=0;tick()})}
+  addEventListener('scroll',on,{passive:true});addEventListener('resize',on);tick();
+
+  /* Formular */
+  var f=document.getElementById('ctForm'); if(!f) return;
+  var btns=[].slice.call(f.querySelectorAll('.ct-seg button'));
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    f.classList.toggle('call',b.dataset.mode==='call');
+  })});
+  f.querySelector('form').addEventListener('submit',function(e){
+    e.preventDefault(); /* Demo: hier später an Backend senden */
+    var form=e.target, E=form.elements, call=f.classList.contains('call');
+    var nm=E.namedItem('name'), ct=E.namedItem(call?'tel':'email'), cb=E.namedItem('dsgvo');
+    var name=nm.value.trim(), contact=ct.value.trim(), ok=cb.checked;
+    [nm,ct].forEach(function(i){i.style.borderColor=i.value.trim()?'':'#F2C46B'});
+    cb.parentNode.style.color=ok?'':'#F2C46B';
+    if(!name||!contact||!ok) return;
+    f.classList.add('sent');
+  });
+})();
+</script>
+
+</body>
+</html>

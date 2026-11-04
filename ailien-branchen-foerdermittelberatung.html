@@ -1,0 +1,996 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KI für Fördermittelberater | ailien</title>
+<meta name="description" content="Programm-Matching, Antragsentwürfe, Fristen und Verwendungsnachweise: KI-Helfer für Fördermittelberater. Die KI recherchiert und entwirft – Bewertung und Beratung bleiben bei Ihnen.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F3F1EC; --ink:#0E1013; --muted:#5F636A; --line:#DEDBD3; --accent:#0F7A55;
+    --night:#0E1013; --night-2:#171A1E; --night-3:#22262B; --on-night:#F3F1EC; --on-night-muted:#A3A7AD; --mint:#8CF5C2;
+    --warn:#F2C46B;
+    --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+    --serif:"Instrument Serif",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);overflow-x:clip}
+  .btn{display:inline-flex;align-items:center;gap:10px;font:500 14px/20px var(--sans);padding:13px 20px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer}
+  .btn.p{background:var(--night);color:var(--on-night)}.btn.p:hover{background:#23262b}
+  .btn.s{color:var(--ink);border-color:var(--line)}.btn.s:hover{border-color:var(--ink)}
+  .btn:focus-visible,.dot:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--accent);margin:0 0 18px;display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--accent)}
+  .btn.m{background:var(--mint);color:var(--night)}.btn.m:hover{background:#a6f8d0}
+</style>
+<style>
+  /* ---------- Header (Variante C) ---------- */
+  .hd-sp{height:117px}
+  .hd{position:fixed;top:0;left:0;right:0;z-index:100;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+  .hd-w{max-width:1240px;margin:0 auto;padding:0 32px}
+  .hd-bar{background:var(--night);color:var(--on-night-muted);font-size:12px;height:36px;overflow:hidden;transition:height .35s,opacity .35s}
+  .hd-bar .hd-w{height:100%;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .hd-bar span{display:flex;gap:18px}
+  .hd-bar b{font-weight:500}
+  .hd-bar i{font-style:normal;color:var(--mint);margin-right:6px}
+  .hd-bar a{color:var(--on-night);text-decoration:none}.hd-bar a:hover{color:var(--mint)}
+  .hd-main{background:var(--paper);border-bottom:1px solid transparent;transition:border-color .3s}
+  .hd-main .hd-w{display:flex;align-items:center;gap:28px;padding-top:18px;padding-bottom:18px;transition:padding .35s}
+  .hd-lg{display:block;height:38px;width:auto;color:var(--ink);transition:height .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-nv{display:flex;align-items:center;gap:2px;margin-right:auto}
+  .hd-ni{font:400 14px/20px var(--sans);color:var(--ink);background:none;border:0;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;white-space:nowrap}
+  .hd-ni sup{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--accent);margin-right:2px;line-height:0}
+  .hd-ni:hover,.hd-dd.on .hd-ni{color:var(--accent)}
+  .hd-ni svg{width:9px;height:9px;opacity:.6;transition:transform .25s}
+  .hd-dd{position:relative}
+  .hd-dd.on .hd-ni svg{transform:rotate(180deg)}
+  .hd-p{position:absolute;top:calc(100% + 14px);left:0;z-index:5;transform:translateY(8px);opacity:0;visibility:hidden;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:0 30px 60px -20px rgba(14,16,19,.28);transition:opacity .25s,transform .25s cubic-bezier(.2,.7,.2,1),visibility .25s}
+  .hd-p::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px}
+  .hd-dd.on .hd-p{opacity:1;visibility:visible;transform:none}
+  .hd-p.wide{width:640px;display:grid;grid-template-columns:1fr 1fr 210px;gap:4px}
+  .hd-p.list{width:330px;display:grid;gap:2px}
+  .hd-i{position:relative;display:block;padding:14px;border-radius:12px;text-decoration:none;color:inherit;transition:background .2s}
+  .hd-i:hover{background:var(--paper)}
+  .hd-i b{display:block;font-weight:500;font-size:14.5px;letter-spacing:-.01em;margin-bottom:3px}
+  .hd-i b::before{content:"";position:absolute;left:5px;top:21px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity .2s}
+  .hd-i:hover b::before{opacity:1}
+  .hd-i span{display:block;font-size:13px;line-height:19px;color:var(--muted)}
+  .hd-feat{grid-row:1/3;grid-column:3;background:var(--night);color:var(--on-night);border-radius:12px;padding:18px;display:flex;flex-direction:column;text-decoration:none}
+  .hd-feat small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint)}
+  .hd-feat strong{font-weight:500;font-size:17px;line-height:23px;letter-spacing:-.02em;margin-top:10px}
+  .hd-feat strong em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;color:var(--mint)}
+  .hd-feat span{margin-top:auto;font-size:13px;color:var(--on-night-muted)}
+  .hd-all{grid-column:1/3;display:flex;justify-content:space-between;padding:12px 14px;margin-top:4px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);text-decoration:none}
+  .hd-all:hover{color:var(--accent)}
+  .hd-r{display:flex;gap:8px}
+  .hd .btn{padding:12px 20px;white-space:nowrap}
+  .hd .btn .ar{transition:transform .2s}.hd .btn:hover .ar{transform:translateX(3px)}
+  .hd-burger{display:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:none;cursor:pointer;position:relative;flex:none;color:var(--ink)}
+  .hd-burger::before,.hd-burger::after{content:"";position:absolute;left:14px;right:14px;height:1.5px;background:currentColor;transition:transform .3s,top .3s}
+  .hd-burger::before{top:17px}.hd-burger::after{top:25px}
+  .hd-open .hd-burger::before{top:21px;transform:rotate(45deg)}.hd-open .hd-burger::after{top:21px;transform:rotate(-45deg)}
+  .hd.sc .hd-bar{height:0;opacity:0}
+  .hd.sc .hd-main{border-color:var(--line)}
+  .hd.sc .hd-main .hd-w{padding-top:12px;padding-bottom:12px}
+  .hd.sc .hd-lg{height:32px}
+  .hd-lg.old{height:32px}.hd.sc .hd-lg.old{height:28px}
+  .hd.hide{transform:translateY(-100%)}
+
+  /* Handy-Menü */
+  .hd-mm{position:fixed;inset:0;z-index:99;background:var(--paper);display:flex;flex-direction:column;padding:120px 22px 24px;overflow:auto;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+  .hd-open .hd-mm{opacity:1;visibility:visible}
+  .hd-mm>ol{list-style:none;margin:0;padding:0;counter-reset:n}
+  .hd-mm>ol>li{counter-increment:n;border-bottom:1px solid var(--line);opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s}
+  .hd-open .hd-mm>ol>li{opacity:1;transform:none}
+  .hd-open .hd-mm>ol>li:nth-child(2){transition-delay:.04s}.hd-open .hd-mm>ol>li:nth-child(3){transition-delay:.08s}.hd-open .hd-mm>ol>li:nth-child(4){transition-delay:.12s}.hd-open .hd-mm>ol>li:nth-child(5){transition-delay:.16s}
+  .hd-t{display:flex;align-items:center;width:100%;padding:15px 0;font:500 26px/1.15 var(--sans);letter-spacing:-.03em;color:var(--ink);text-decoration:none;background:none;border:0;cursor:pointer;text-align:left}
+  .hd-t::after{content:"0" counter(n);margin-left:auto;font-family:var(--serif);font-style:italic;font-weight:400;font-size:17px;color:var(--accent)}
+  .hd-t .pl{order:3;margin-left:14px;width:12px;height:12px;position:relative;opacity:.6}
+  .hd-t .pl::before,.hd-t .pl::after{content:"";position:absolute;left:0;right:0;top:5.5px;height:1.5px;background:currentColor;transition:transform .3s}
+  .hd-t .pl::after{transform:rotate(90deg)}
+  .hd-mm li.ex .pl::after{transform:rotate(0)}
+  .hd-s{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-mm li.ex .hd-s{grid-template-rows:1fr}
+  .hd-s>div{overflow:hidden}
+  .hd-s a{display:block;padding:8px 0 8px 2px;font-size:16px;color:var(--ink);opacity:.75;text-decoration:none}
+  .hd-s a:last-child{margin-bottom:14px}
+  .hd-mf{margin-top:auto;padding-top:28px;display:grid;gap:14px}
+  .hd-mf .btn{justify-content:center;padding:15px}
+  .hd-mf small{font-size:12px;color:var(--muted);text-align:center}
+  body.hd-lock{overflow:hidden}
+
+  @media (max-width:1180px){.hd-r .btn.s{display:none}.hd-main .hd-w{gap:16px}}
+  @media (max-width:980px){
+    .hd-nv{display:none}.hd-burger{display:block}
+    .hd-r{margin-left:auto}.hd-bar a{display:none}
+    .hd-lg{height:34px}.hd.sc .hd-lg{height:30px}
+    .hd .btn{padding:10px 16px;font-size:13px}
+  }
+  @media (max-width:980px){.hd-sp{height:113px}}
+  @media (max-width:520px){
+    .hd-sp{height:109px}
+    .hd-w{padding:0 16px}.hd-bar{font-size:11px}
+    .hd-bar span b:nth-child(n+3){display:none}
+    .hd-main .hd-w{padding-top:14px;padding-bottom:14px;gap:12px}
+    .hd.sc .hd-main .hd-w{padding-top:10px;padding-bottom:10px}
+  }
+  @media (max-width:360px){.hd-r .btn{display:none}}
+  @media (prefers-reduced-motion:reduce){.hd,.hd-p,.hd-mm,.hd-mm li{transition:none}}
+  .hd-main .hd-w{position:relative}
+  .hd-dd.mega{position:static}
+  .hd-p.mega{left:32px;right:32px;width:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:18px}
+  .hd-g{display:flex;flex-direction:column;gap:2px;padding:6px}
+  .hd-g small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px 10px}
+  .hd-l{display:block;padding:9px 10px;border-radius:10px;color:var(--ink);text-decoration:none;font-size:14.5px;transition:background .2s}
+  .hd-l:hover{background:var(--paper)}
+  .hd-l[aria-current="page"]{background:var(--paper);font-weight:500}
+  .hd-l[aria-current="page"]::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:2px}
+  .hd-s a[aria-current="page"]{opacity:1;font-weight:500}
+
+</style>
+</head>
+<body>
+<header class="hd" id="hd">
+  <div class="hd-bar"><div class="hd-w"><span><b><i>✓</i>DSGVO-konform</b><b><i>✓</i>Server in der EU</b><b><i>✓</i>Antwort innerhalb eines Werktags</b></span><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></div></div>
+  <div class="hd-main"><div class="hd-w">
+    <a href="ailien-startseite.html" aria-label="ailien Startseite"><svg class="hd-lg" viewBox="0 8 160.8 64" aria-hidden="true"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#0E1013"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#0F7A55" fill-rule="evenodd"/></svg></a>
+    <nav class="hd-nv" aria-label="Hauptnavigation">
+      <div class="hd-dd">
+        <button class="hd-ni" aria-expanded="false"><sup>01</sup>Leistungen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+        <div class="hd-p wide">
+          <a class="hd-i" href="/leistungen/prozess-automation"><b>Prozess-Automationen</b><span>Belege, Angebote, Bestellungen – läuft von selbst.</span></a>
+          <a class="hd-i" href="/leistungen/wissenssysteme"><b>KI-Wissenssysteme</b><span>Firmenwissen, das jeder sofort findet.</span></a>
+          <a class="hd-i" href="/leistungen/voice"><b>Voice &amp; Kommunikation</b><span>Telefon-Assistent und E-Mail-Vorsortierung.</span></a>
+          <a class="hd-i" href="/leistungen/beratung"><b>KI-Strategie &amp; Beratung</b><span>Wo lohnt sich KI bei Ihnen wirklich?</span></a>
+          <a class="hd-feat" href="ailien-entlastungsrechner.html"><small>Rechner</small><strong>Wie viele Stunden <em>sparen Sie?</em></strong><span>Jetzt ausrechnen →</span></a>
+          <a class="hd-all" href="/leistungen">Alle Leistungen im Überblick <span>→</span></a>
+        </div>
+      </div>
+      <div class="hd-dd mega"><button class="hd-ni" aria-expanded="false"><sup>02</sup>Branchen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><div class="hd-p mega"><div class="hd-g"><small>Bau &amp; Handwerk</small><a class="hd-l" href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a class="hd-l" href="ailien-branchen-bad-kueche.html">Bad- &amp; Küchenstudios</a><a class="hd-l" href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a class="hd-l" href="ailien-branchen-gebaeudereinigung.html">Gebäudereinigung</a></div><div class="hd-g"><small>Industrie &amp; Technik</small><a class="hd-l" href="ailien-branchen-maschinenbau.html">Maschinen- &amp; Anlagenbau</a><a class="hd-l" href="ailien-branchen-cnc.html">CNC-Betriebe</a><a class="hd-l" href="ailien-branchen-dguv-v3.html">Elektroprüfung DGUV V3</a><a class="hd-l" href="ailien-branchen-brandschutz.html">Brandschutz</a></div><div class="hd-g"><small>Immobilien &amp; Planung</small><a class="hd-l" href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a class="hd-l" href="ailien-branchen-immobilienmakler.html">Immobilienmakler</a><a class="hd-l" href="ailien-branchen-architekten.html">Architekten</a><a class="hd-l" href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a></div><div class="hd-g"><small>Dienstleistung</small><a class="hd-l" href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a class="hd-l" href="ailien-branchen-foerdermittelberatung.html" aria-current="page">Fördermittelberatung</a><a class="hd-l" href="ailien-branchen-bestatter.html">Bestatter</a></div></div></div>
+      <a class="hd-ni" href="ailien-praxisbeispiele.html"><sup>03</sup>Praxisbeispiele</a>
+      <a class="hd-ni" href="ailien-ueber-uns.html"><sup>04</sup>Über uns</a>
+      <a class="hd-ni" href="/wissen"><sup>05</sup>Wissen</a>
+    </nav>
+    <div class="hd-r"><a class="btn s" href="ailien-entlastungsrechner.html?branche=foerdermittelberatung">Rechner</a><a class="btn p" href="/kontakt">Erstgespräch <span class="ar">→</span></a></div>
+    <button class="hd-burger" aria-label="Menü öffnen" aria-expanded="false"></button>
+  </div></div>
+</header>
+<div class="hd-sp" aria-hidden="true"></div>
+<div class="hd-mm" id="hdMenu">
+  <ol>
+    <li><button class="hd-t">Leistungen<i class="pl"></i></button><div class="hd-s"><div><a href="/leistungen/prozess-automation">Prozess-Automationen</a><a href="/leistungen/wissenssysteme">KI-Wissenssysteme</a><a href="/leistungen/voice">Voice &amp; Kommunikation</a><a href="/leistungen/beratung">KI-Strategie &amp; Beratung</a><a href="/leistungen">Alle Leistungen →</a></div></div></li>
+    <li><button class="hd-t">Branchen<i class="pl"></i></button><div class="hd-s"><div><a href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a href="ailien-branchen-bad-kueche.html">Bad- &amp; Küchenstudios</a><a href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a href="ailien-branchen-gebaeudereinigung.html">Gebäudereinigung</a><a href="ailien-branchen-maschinenbau.html">Maschinen- &amp; Anlagenbau</a><a href="ailien-branchen-cnc.html">CNC-Betriebe</a><a href="ailien-branchen-dguv-v3.html">Elektroprüfung DGUV V3</a><a href="ailien-branchen-brandschutz.html">Brandschutz</a><a href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a href="ailien-branchen-immobilienmakler.html">Immobilienmakler</a><a href="ailien-branchen-architekten.html">Architekten</a><a href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a><a href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a href="ailien-branchen-foerdermittelberatung.html" aria-current="page">Fördermittelberatung</a><a href="ailien-branchen-bestatter.html">Bestatter</a></div></div></li>
+    <li><a class="hd-t" href="ailien-praxisbeispiele.html">Praxisbeispiele</a></li>
+    <li><a class="hd-t" href="ailien-ueber-uns.html">Über uns</a></li>
+    <li><a class="hd-t" href="/wissen">Wissen</a></li>
+  </ol>
+  <div class="hd-mf"><a class="btn p" href="/kontakt">Erstgespräch vereinbaren <span class="ar">→</span></a><a class="btn s" href="ailien-entlastungsrechner.html?branche=foerdermittelberatung">Entlastungs-Rechner</a><small>DSGVO-konform · Server in der EU</small></div>
+</div>
+<script>
+(function(){
+  var h=document.getElementById('hd'), last=scrollY, root=document.documentElement, sp=document.querySelector('.hd-sp');
+  function fit(){if(!h.classList.contains('sc'))sp.style.height=h.offsetHeight+'px'}
+  fit();addEventListener('resize',fit);if(document.fonts)document.fonts.ready.then(fit);
+  var dds=[].slice.call(h.querySelectorAll('.hd-dd'));
+  function closeAll(ex){dds.forEach(function(d){if(d!==ex){d.classList.remove('on');d.querySelector('.hd-ni').setAttribute('aria-expanded','false')}})}
+  dds.forEach(function(d){
+    var t,b=d.querySelector('.hd-ni');
+    function open(){clearTimeout(t);closeAll(d);d.classList.add('on');b.setAttribute('aria-expanded','true')}
+    d.addEventListener('mouseenter',open);
+    d.addEventListener('mouseleave',function(){t=setTimeout(function(){d.classList.remove('on');b.setAttribute('aria-expanded','false')},140)});
+    b.addEventListener('click',function(){d.classList.contains('on')?closeAll():open()});
+  });
+  document.addEventListener('click',function(e){if(!h.contains(e.target))closeAll()});
+  var menu=document.getElementById('hdMenu'), burger=h.querySelector('.hd-burger');
+  function setMenu(o){root.classList.toggle('hd-open',o);document.body.classList.toggle('hd-lock',o);burger.setAttribute('aria-expanded',o?'true':'false');burger.setAttribute('aria-label',o?'Menü schließen':'Menü öffnen');if(o)h.classList.remove('hide')}
+  burger.addEventListener('click',function(){setMenu(!root.classList.contains('hd-open'))});
+  menu.querySelectorAll('button.hd-t').forEach(function(b){b.addEventListener('click',function(){b.parentNode.classList.toggle('ex')})});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeAll();setMenu(false)}});
+  var raf=0;
+  addEventListener('scroll',function(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;
+    var y=scrollY;
+    if(y>48)h.classList.add('sc');else if(y<8)h.classList.remove('sc');
+    if(!root.classList.contains('hd-open')){
+      if(y>240&&y>last+6){h.classList.add('hide');closeAll()}
+      else if(y<last-6||y<240)h.classList.remove('hide');
+    }
+    last=y;
+  })},{passive:true});
+})();
+</script>
+<style>
+  /* ================= Branche: Fördermittelberatung (fm-) ================= */
+  .fm-w{max-width:1240px;margin:0 auto;padding-left:32px;padding-right:32px}
+  .fm-hand{font-family:"Caveat","Caveat Medium",cursive;font-weight:500}
+  .fm-h2{font-weight:500;font-size:clamp(30px,3.6vw,50px);line-height:1.05;letter-spacing:-.04em;margin:0 0 18px}
+  .fm-h2 em,.fm-hero h1 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--accent)}
+  .fm-sub{font-size:18px;line-height:28px;color:var(--muted);max-width:560px;margin:0}
+  .fm-rv{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .fm-rv.in{opacity:1;transform:none}
+  .fm-cap{font-size:12px;color:var(--muted)}
+  .fm-dk{background:var(--night);color:var(--on-night)}
+  .fm-dk .eyebrow{color:var(--mint)}.fm-dk .eyebrow::before{background:var(--mint)}
+  .fm-dk .fm-h2 em,.fm-dk h1 em{color:var(--mint)}
+  .fm-dk .fm-sub{color:var(--on-night-muted)}
+  .fm-dk .fm-cap{color:var(--on-night-muted)}
+  .fm-dots{display:inline-flex;gap:3px;vertical-align:middle}
+  .fm-dots i{width:9px;height:9px;border-radius:2px;background:currentColor;opacity:.18;transition:opacity .3s}
+  .fm-dots i.on{opacity:1}
+
+  /* ---------- Hero ---------- */
+  .fm-hero{position:relative;overflow:hidden;background:var(--night)}
+  .fm-hero::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0 31px,rgba(243,241,236,.035) 31px 32px);pointer-events:none}
+  .fm-hero>.fm-w{position:relative;padding-top:36px;padding-bottom:104px}
+  .fm-crumb{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--on-night-muted);margin:0 0 56px}
+  .fm-crumb a{color:inherit;text-decoration:none}.fm-crumb a:hover{color:var(--on-night)}
+  .fm-crumb span{opacity:.5}
+  .fm-ctr{max-width:860px;margin:0 auto 72px;text-align:center;container-type:inline-size}
+  .fm-ctr .eyebrow{justify-content:center}
+  .fm-ctr .eyebrow::after{content:"";width:22px;height:1px;background:var(--mint)}
+  .fm-hero h1{font-weight:500;font-size:min(64px,calc(100cqi / 11.6));line-height:1.02;letter-spacing:-.045em;margin:0 0 26px}
+  .fm-hero h1 span{display:block;white-space:nowrap}
+  .fm-lead{font-size:19px;line-height:30px;color:var(--on-night-muted);max-width:640px;margin:0 auto 34px}
+  .fm-lead b{color:var(--on-night);font-weight:500}
+  .fm-ctas{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:14px 26px}
+  .fm-link{font-size:15px;color:var(--on-night);text-decoration:none;border-bottom:1px solid var(--night-3);padding-bottom:3px}
+  .fm-link:hover{border-color:var(--mint)}
+
+  .fm-mx{display:grid;grid-template-columns:330px 56px 1fr;align-items:start}
+  .fm-mx>*{min-width:0}
+  .fm-prof{background:var(--paper);color:var(--ink);border-radius:6px;padding:22px 22px 18px;box-shadow:0 30px 60px -30px rgba(0,0,0,.8);position:relative}
+  .fm-prof::before{content:"";position:absolute;left:22px;right:22px;top:0;height:4px;background:var(--accent);border-radius:0 0 3px 3px}
+  .fm-prof h3{margin:6px 0 2px;font-size:16px;font-weight:500;letter-spacing:-.01em}
+  .fm-prof>p{margin:0 0 14px;font-size:12px;color:var(--muted)}
+  .fm-prof dl{margin:0}
+  .fm-prof dl div{display:grid;grid-template-columns:100px 1fr;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:13px;line-height:18px}
+  .fm-prof dt{color:var(--muted)}
+  .fm-prof dd{margin:0;min-height:18px}
+  .fm-prof .src{margin-top:12px;font-size:11.5px;color:var(--muted);display:flex;gap:6px;flex-wrap:wrap}
+  .fm-prof .src span{border:1px solid var(--line);border-radius:999px;padding:3px 8px}
+  .fm-arr{display:grid;place-items:center;height:100%;color:var(--mint);min-height:200px}
+  .fm-arr svg{width:40px;height:24px}
+  .fm-arr path{fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .6s}
+  .fm-mx.s2 .fm-arr path{stroke-dashoffset:0}
+  .fm-res{background:var(--night-2);border:1px solid var(--night-3);border-radius:20px;padding:8px 22px 18px}
+  .fm-res-h{display:grid;grid-template-columns:1fr 130px 130px;gap:16px;padding:12px 0;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--on-night-muted);border-bottom:1px solid var(--night-3)}
+  .fm-pr{display:grid;grid-template-columns:1fr 130px 130px;gap:6px 16px;padding:14px 0;border-bottom:1px solid var(--night-3);opacity:.28;transition:opacity .4s}
+  .fm-pr .why{opacity:0;transition:opacity .4s .15s}
+  .fm-pr.on{opacity:1}
+  .fm-pr.on .why{opacity:1}
+  .fm-pr b{font-weight:500;font-size:15px;letter-spacing:-.01em;display:block}
+  .fm-pr small{font-size:12px;color:var(--on-night-muted)}
+  .fm-pr .why{grid-column:1/-1;font-size:13px;line-height:19px;color:#C9CCD0;display:flex;gap:16px;flex-wrap:wrap}
+  .fm-pr .why span{display:inline-flex;gap:6px}
+  .fm-pr .why span::before{content:"✓";color:var(--mint)}
+  .fm-pr .why span.q::before{content:"?";color:var(--warn);font-weight:600}
+  .fm-pr .fit{color:var(--mint);display:flex;flex-direction:column;gap:4px;font-size:12px}
+  .fm-pr .fit em{font-style:normal;color:var(--on-night-muted)}
+  .fm-pr .typ{font-size:12px;color:var(--on-night-muted);border:1px solid var(--night-3);border-radius:999px;padding:3px 9px;justify-self:start;align-self:start;white-space:nowrap}
+  .fm-pr.top{position:relative}
+  .fm-pr.top::before{content:"";position:absolute;left:-22px;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--mint)}
+  .fm-pr.low .fit{color:var(--on-night-muted)}
+  .fm-mxf{display:flex;justify-content:space-between;align-items:center;gap:12px 24px;flex-wrap:wrap;margin-top:16px;opacity:0;transition:opacity .5s}
+  .fm-mx.s4 .fm-mxf{opacity:1}
+  .fm-mxf p{margin:0;font-size:22px;line-height:1.1;color:var(--mint);transform:rotate(-1.5deg)}
+  .fm-mxf .btn{padding:10px 16px;font-size:13px}
+  .fm-hero .fm-cap{text-align:right;margin:22px 0 0}
+
+  /* ---------- KI vs. Sie ---------- */
+  .fm-split{padding:120px 0 112px}
+  .fm-split-h{text-align:center;max-width:720px;margin:0 auto 56px}
+  .fm-split-h .eyebrow{justify-content:center}
+  .fm-split-h .fm-sub{margin:0 auto}
+  .fm-sp{display:grid;grid-template-columns:1fr 64px 1fr;border-top:1px solid var(--ink)}
+  .fm-sp-hd{display:contents}
+  .fm-sp-hd>*{padding:16px 0;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line)}
+  .fm-sp-hd>:last-child{text-align:left}
+  .fm-row{display:contents}
+  .fm-row>*{padding:22px 0;border-bottom:1px solid var(--line)}
+  .fm-row h3{margin:0 0 6px;font-size:19px;font-weight:500;letter-spacing:-.02em}
+  .fm-row p{margin:0;font-size:15px;line-height:23px;color:var(--muted)}
+  .fm-row .you h3{color:var(--accent)}
+  .fm-seam{display:grid;place-items:center;position:relative}
+  .fm-seam::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--line)}
+  .fm-seam span{position:relative;width:34px;height:34px;border-radius:50%;background:var(--paper);border:1px solid var(--accent);color:var(--accent);display:grid;place-items:center;font-size:14px}
+  .fm-sp-hd .fm-seam::before{display:none}
+
+  /* ---------- Profil-Builder (Signatur) ---------- */
+  .fm-pb{background:#fff;padding:120px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .fm-pb-g{display:grid;grid-template-columns:380px 1fr;gap:64px;align-items:start}
+  .fm-pb-g>*{min-width:0}
+  .fm-side{position:sticky;top:120px}
+  .fm-grp{margin-top:32px}
+  .fm-grp>small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+  .fm-chips{display:flex;flex-wrap:wrap;gap:8px}
+  .fm-chips button{display:inline-flex;align-items:center;gap:8px;font:400 15px/20px var(--sans);color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:9px 16px;cursor:pointer;transition:all .2s}
+  .fm-chips button:hover{border-color:var(--ink)}
+  .fm-chips button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .fm-chips button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .fm-sum{margin-top:32px;padding:18px 20px;border-radius:14px;background:var(--paper);display:flex;align-items:baseline;gap:12px}
+  .fm-sum b{font-size:44px;line-height:1;font-weight:500;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+  .fm-sum span{font-size:15px;line-height:21px;color:var(--muted)}
+  .fm-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .fm-it{display:grid;grid-template-columns:1fr auto;gap:8px 20px;align-items:start;padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:#fff;transition:opacity .35s,border-color .3s,background .3s}
+  .fm-it.hi{border-color:rgba(15,122,85,.45);background:rgba(15,122,85,.035)}
+  .fm-it.lo{opacity:.45}
+  .fm-it b{display:block;font-weight:500;font-size:17px;letter-spacing:-.015em}
+  .fm-it small{font-size:12.5px;color:var(--muted)}
+  .fm-it .fit{text-align:right;color:var(--accent);font-size:12px;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+  .fm-it.lo .fit{color:var(--muted)}
+  .fm-it p{grid-column:1/-1;margin:0;font-size:14.5px;line-height:22px;color:var(--ink)}
+  .fm-it p.q{color:#8A6412;font-size:13.5px}
+  .fm-it p.q::before{content:"Offen: ";font-weight:500}
+  .fm-pb .fm-cap{margin-top:16px}
+
+  /* ---------- Fristen (dunkel) ---------- */
+  .fm-fr{padding:120px 0}
+  .fm-fr-head{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:end;margin-bottom:48px}
+  .fm-gt{background:var(--night-2);border:1px solid var(--night-3);border-radius:22px;padding:22px 24px 18px;position:relative}
+  .fm-gt-ax,.fm-gt-row{display:grid;grid-template-columns:190px 1fr;gap:16px;align-items:center}
+  .fm-gt-ax{font-size:11.5px;color:var(--on-night-muted);padding-bottom:10px;border-bottom:1px solid var(--night-3)}
+  .fm-gt-ax ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(12,1fr)}
+  .fm-gt-ax li{padding-left:5px;border-left:1px solid var(--night-3)}
+  .fm-gt-row{padding:14px 0;border-bottom:1px solid var(--night-3)}
+  .fm-gt-row:last-of-type{border-bottom:0}
+  .fm-gt-row>div:first-child b{display:block;font-weight:500;font-size:14.5px}
+  .fm-gt-row>div:first-child small{font-size:12px;color:var(--on-night-muted)}
+  .fm-trk{position:relative;height:30px}
+  .fm-bar{position:absolute;top:3px;height:24px;border-radius:6px;font-size:11.5px;line-height:24px;padding:0 8px;white-space:nowrap;overflow:hidden;color:var(--ink);transform-origin:left;transform:scaleX(0);transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+  .fm-gt.in .fm-bar{transform:scaleX(1)}
+  .fm-bar.a{background:var(--on-night)}
+  .fm-bar.b{background:repeating-linear-gradient(-45deg,rgba(243,241,236,.16) 0 6px,rgba(243,241,236,.07) 6px 12px);color:var(--on-night-muted);border:1px solid var(--night-3)}
+  .fm-bar.u{background:rgba(140,245,194,.22);color:var(--mint);border:1px solid rgba(140,245,194,.35)}
+  .fm-bar.v{background:var(--mint)}
+  .fm-bar.w{background:var(--warn)}
+  .fm-now{position:absolute;top:56px;bottom:60px;width:0;border-left:1.5px dashed var(--warn);pointer-events:none}
+  .fm-now span{position:absolute;bottom:-20px;left:6px;font-size:11px;color:var(--warn);white-space:nowrap}
+  .fm-leg{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:40px;font-size:12px;color:var(--on-night-muted)}
+  .fm-leg span{display:inline-flex;align-items:center;gap:7px}
+  .fm-leg i{width:16px;height:10px;border-radius:3px}
+  .fm-al{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+  .fm-al div{border:1px solid var(--night-3);border-radius:14px;padding:16px 16px 14px;background:var(--night)}
+  .fm-al small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;color:var(--warn)}
+  .fm-al div.ok small{color:var(--mint)}
+  .fm-al p{margin:0;font-size:14px;line-height:21px;color:#D5D7DA}
+  .fm-al p b{color:var(--on-night);font-weight:500}
+  .fm-mb{display:none}
+
+  /* ---------- Antragsentwurf ---------- */
+  .fm-an{padding:120px 0}
+  .fm-an-g{display:grid;grid-template-columns:.85fr 1.15fr;gap:72px;align-items:start}
+  .fm-an-g>*{min-width:0}
+  .fm-keys{list-style:none;margin:32px 0 0;padding:0;display:grid;gap:10px}
+  .fm-keys li{display:flex;align-items:center;gap:12px;font-size:15px}
+  .fm-tag{display:inline-block;font-size:11px;letter-spacing:.02em;padding:3px 8px;border-radius:999px;white-space:nowrap}
+  .fm-tag.p{background:rgba(15,122,85,.1);color:var(--accent)}
+  .fm-tag.x{background:#E8EEF4;color:#34506B}
+  .fm-tag.g{background:#EFEAF5;color:#5B4A75}
+  .fm-tag.o{background:#FBF0D6;color:#8A6412}
+  .fm-page{background:#fff;border:1px solid #E7E3DA;border-radius:4px;padding:40px 44px 34px;box-shadow:0 40px 80px -50px rgba(14,16,19,.45);position:relative}
+  .fm-page::after{content:"";position:absolute;left:8px;right:8px;bottom:-8px;height:8px;background:#FAF9F6;border:1px solid #E7E3DA;border-top:0;border-radius:0 0 4px 4px;z-index:-1}
+  .fm-page header{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-bottom:14px;border-bottom:1px solid var(--ink);margin-bottom:8px}
+  .fm-page header b{font-weight:500;font-size:17px;letter-spacing:-.01em}
+  .fm-page header span{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+  .fm-sec{padding:14px 0 12px;border-bottom:1px solid #EFECE5;opacity:0;transform:translateY(8px);transition:opacity .5s,transform .5s}
+  .fm-sec.on{opacity:1;transform:none}
+  .fm-sec h4{margin:0 0 6px;font-size:13.5px;font-weight:500;display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+  .fm-sec p{margin:0;font-size:14px;line-height:22px;color:#33363B}
+  .fm-sec p mark{background:#FBF0D6;color:inherit;padding:0 3px;border-radius:3px}
+  .fm-sig{display:flex;justify-content:space-between;gap:24px;margin-top:26px;font-size:12px;color:var(--muted)}
+  .fm-sig span{flex:1;border-top:1px solid #CFCAC0;padding-top:6px}
+  .fm-an .fm-hand{font-size:23px;color:var(--accent);display:inline-block;transform:rotate(-2deg);margin-top:28px}
+
+  /* ---------- FAQ ---------- */
+  .fm-faq{padding:0 0 112px}
+  .fm-faq-g{display:grid;grid-template-columns:.75fr 1.25fr;gap:72px}
+  .fm-qa{counter-reset:q;border-top:1px solid var(--ink)}
+  .fm-qa details{counter-increment:q;border-bottom:1px solid var(--line)}
+  .fm-qa summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:44px 1fr 20px;gap:10px;align-items:baseline;padding:20px 0;font-size:17.5px;letter-spacing:-.01em}
+  .fm-qa summary::-webkit-details-marker{display:none}
+  .fm-qa summary::before{content:counter(q,decimal-leading-zero);font-family:var(--serif);font-style:italic;font-size:19px;color:var(--accent)}
+  .fm-qa summary::after{content:"+";font-size:20px;color:var(--muted);transition:transform .3s;text-align:right}
+  .fm-qa details[open] summary::after{transform:rotate(45deg)}
+  .fm-qa p{margin:0 0 22px 54px;font-size:15.5px;line-height:25px;color:var(--muted);max-width:640px}
+
+  /* ---------- Weitere Branchen ---------- */
+  .fm-more{padding:0 0 112px}
+  .fm-more h2{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--muted);margin:0 0 14px}
+  .fm-mo{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ink)}
+  .fm-mo a{display:block;padding:22px 22px 24px 0;text-decoration:none;color:var(--ink);border-bottom:1px solid var(--line)}
+  .fm-mo a+a{padding-left:22px;border-left:1px solid var(--line)}
+  .fm-mo small{font-family:var(--serif);font-style:italic;font-size:16px;color:var(--accent)}
+  .fm-mo b{display:block;font-weight:500;font-size:20px;letter-spacing:-.02em;margin:6px 0 4px;transition:color .2s}
+  .fm-mo span{font-size:13.5px;color:var(--muted)}
+  .fm-mo a:hover b{color:var(--accent)}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:1100px){
+    .fm-mx{grid-template-columns:1fr;gap:0}
+    .fm-prof{max-width:520px;width:100%;justify-self:center}
+    .fm-arr{min-height:0;height:64px}
+    .fm-arr svg{transform:rotate(90deg)}
+    .fm-pb-g{grid-template-columns:320px 1fr;gap:40px}
+    .fm-an-g{grid-template-columns:1fr;gap:48px}
+  }
+  @media (max-width:980px){
+    .fm-fr-head{grid-template-columns:1fr;gap:16px}
+    .fm-pb-g{grid-template-columns:1fr}
+    .fm-side{position:static}
+    .fm-faq-g{grid-template-columns:1fr;gap:28px}
+    .fm-al{grid-template-columns:1fr}
+  }
+  @media (max-width:760px){
+    .fm-res-h{display:none}
+    .fm-pr{grid-template-columns:1fr auto}
+    .fm-pr .typ{grid-column:1;grid-row:2}
+    .fm-pr .fit{grid-column:2;grid-row:1/3;align-items:flex-end;text-align:right}
+    .fm-sp{grid-template-columns:1fr 40px 1fr}
+    .fm-gt,.fm-al{display:none}
+    .fm-mb{display:grid;gap:12px}
+    .fm-mb article{border:1px solid var(--night-3);border-radius:16px;padding:16px;background:var(--night-2)}
+    .fm-mb header{display:flex;justify-content:space-between;gap:12px;margin-bottom:12px}
+    .fm-mb header b{font-weight:500;font-size:15px}
+    .fm-mb header small{font-size:12px;color:var(--on-night-muted)}
+    .fm-mb ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+    .fm-mb li{font-size:11px;color:var(--on-night-muted);display:grid;gap:5px}
+    .fm-mb li::before{content:"";height:6px;border-radius:3px;background:var(--night-3)}
+    .fm-mb li.d::before{background:var(--on-night)}
+    .fm-mb li.n::before{background:var(--warn)}
+    .fm-mb li.n{color:var(--warn)}
+    .fm-mb p{margin:12px 0 0;font-size:13.5px;line-height:20px;color:#D5D7DA}
+    .fm-mo{grid-template-columns:1fr}
+    .fm-mo a+a{padding-left:0;border-left:0}
+  }
+  @media (max-width:640px){
+    .fm-sp{display:block;border-top:0}
+    .fm-sp-hd{display:none}
+    .fm-row{display:block;border:1px solid var(--line);border-radius:16px;background:#fff;padding:4px 18px;margin-bottom:12px}
+    .fm-row>*{border-bottom:0;padding:16px 0}
+    .fm-row .fm-seam{display:flex;justify-content:flex-start;padding:0;height:1px;background:var(--line);margin:0}
+    .fm-row .fm-seam::before{display:none}
+    .fm-row .fm-seam span{width:28px;height:28px;font-size:12px;margin-top:-14px;margin-left:auto}
+    .fm-row .you h3::before{content:"Sie: ";color:var(--muted);font-weight:400}
+    .fm-row .ki h3::before{content:"KI: ";color:var(--muted);font-weight:400}
+    .fm-page{padding:26px 18px 22px}
+  }
+  @media (max-width:560px){
+    .fm-w{padding-left:16px;padding-right:16px}
+    .fm-crumb{margin-bottom:36px}
+    .fm-ctr{margin-bottom:48px}
+    .fm-lead{font-size:17px;line-height:27px}
+    .fm-prof{padding:20px 16px 16px}
+    .fm-prof::before{left:16px;right:16px}
+    .fm-prof dl div{grid-template-columns:92px 1fr}
+    .fm-res{padding:6px 16px 14px}
+    .fm-pr.top::before{left:-16px}
+    .fm-split,.fm-pb,.fm-fr,.fm-an{padding:88px 0}
+    .fm-it{padding:16px}
+    .fm-it b{font-size:16px}
+    .fm-qa summary{grid-template-columns:34px 1fr 18px;font-size:16px}
+    .fm-qa p{margin-left:44px}
+    .fm-hero .fm-cap{text-align:left}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .fm-rv{opacity:1;transform:none;transition:none}
+    .fm-bar{transition:none}
+  }
+</style>
+
+<main>
+<!-- ============ HERO (dunkel) ============ -->
+<section class="fm-hero fm-dk" aria-labelledby="fm-h">
+  <div class="fm-w">
+    <nav class="fm-crumb" aria-label="Brotkrumen"><a href="ailien-startseite.html">Start</a><span>/</span><a href="#">Branchen</a><span>/</span>Fördermittelberatung</nav>
+    <div class="fm-ctr">
+      <p class="eyebrow">KI für Fördermittelberater</p>
+      <h1 id="fm-h"><span>Jedes Programm <em>im Blick.</em></span><span>Jede Frist auch.</span></h1>
+      <p class="fm-lead">Mandantenprofil rein, passende Programme raus – mit Begründung und offenen Fragen. Danach der Antragsentwurf aus den Mandantendaten. <b>Bewertung, Strategie und Beratung bleiben bei Ihnen.</b></p>
+      <div class="fm-ctas">
+        <a class="btn m" href="/kontakt">Kurz telefonieren <span aria-hidden="true">→</span></a>
+        <a class="fm-link" href="#profil">Matching selbst ausprobieren ↓</a>
+      </div>
+    </div>
+
+    <div class="fm-mx" id="fmMx" aria-label="Beispiel: Aus einem Mandantenprofil werden passende Förderprogramme">
+      <div class="fm-prof">
+        <h3>Mandantenprofil</h3>
+        <p>aus Erstgespräch und Unterlagen</p>
+        <dl id="fmProf">
+          <div><dt>Branche</dt><dd data-v="Metallbau, Zulieferer"></dd></div>
+          <div><dt>Mitarbeitende</dt><dd data-v="34"></dd></div>
+          <div><dt>Region</dt><dd data-v="Rhein-Main"></dd></div>
+          <div><dt>Vorhaben</dt><dd data-v="Neue Halle mit PV, digitale Fertigungssteuerung"></dd></div>
+          <div><dt>Investition</dt><dd data-v="ca. 1,8 Mio. €"></dd></div>
+          <div><dt>Status</dt><dd data-v="noch nicht begonnen"></dd></div>
+        </dl>
+        <div class="src"><span>Gesprächsnotiz</span><span>Jahresabschluss</span><span>Investitionsplan</span></div>
+      </div>
+      <div class="fm-arr" aria-hidden="true"><svg viewBox="0 0 40 24"><path pathLength="1" d="M2 12H36M28 4L37 12L28 20"/></svg></div>
+      <div>
+        <div class="fm-res" role="list">
+          <div class="fm-res-h" aria-hidden="true"><span>Programm (Beispiel)</span><span>Passung</span><span>Art</span></div>
+          <div id="fmRows"></div>
+        </div>
+        <div class="fm-mxf"><p class="fm-hand">Ihre Einschätzung entscheidet.</p><a class="fm-link" href="#antrag">Weiter zum Antragsentwurf ↓</a></div>
+      </div>
+    </div>
+    <p class="fm-cap">Beispieldaten zur Veranschaulichung · Programmnamen allgemein gehalten, keine Aussage über Förderfähigkeit</p>
+  </div>
+</section>
+
+<!-- ============ KI vs. SIE ============ -->
+<section class="fm-split" aria-labelledby="sp-h">
+  <div class="fm-w">
+    <div class="fm-split-h fm-rv">
+      <p class="eyebrow">Arbeitsteilung</p>
+      <h2 class="fm-h2" id="sp-h">Die KI recherchiert. <em>Sie beraten.</em></h2>
+      <p class="fm-sub">Fördermittelberatung ist Vertrauenssache. Darum ist die Grenze klar gezogen: Die KI nimmt Ihnen Suche, Schreibarbeit und Fristenkontrolle ab. Urteil, Strategie und Verantwortung bleiben bei Ihnen.</p>
+    </div>
+    <div class="fm-sp fm-rv">
+      <div class="fm-sp-hd"><span>Das übernimmt die KI</span><span class="fm-seam"></span><span>Das bleibt bei Ihnen</span></div>
+      <div class="fm-row"><div class="ki"><h3>Programme abgleichen</h3><p>Durchsucht die Programmübersicht, die Sie mit uns pflegen – mit Quelle und Stand jeder Information.</p></div><div class="fm-seam"><span>→</span></div><div class="you"><h3>Förderfähigkeit beurteilen</h3><p>Sie entscheiden, was wirklich passt und was Sie dem Mandanten empfehlen.</p></div></div>
+      <div class="fm-row"><div class="ki"><h3>Antrag entwerfen</h3><p>Schreibt Vorhabenbeschreibung, Ausgangslage und Zeitplan aus den Mandantendaten vor.</p></div><div class="fm-seam"><span>→</span></div><div class="you"><h3>Prüfen und schärfen</h3><p>Sie setzen die Argumentation, der Mandant unterschreibt den Antrag.</p></div></div>
+      <div class="fm-row"><div class="ki"><h3>Fristen überwachen</h3><p>Behält Antragsfristen, Bewilligungszeiträume und Nachweistermine aller Mandanten im Blick.</p></div><div class="fm-seam"><span>→</span></div><div class="you"><h3>Mit Fördergeber sprechen</h3><p>Rückfragen, Änderungsanträge und Abstimmungen führen Sie selbst.</p></div></div>
+      <div class="fm-row"><div class="ki"><h3>Nachweise sammeln</h3><p>Ordnet Rechnungen und Belege dem Vorhaben zu und bereitet den Verwendungsnachweis vor.</p></div><div class="fm-seam"><span>→</span></div><div class="you"><h3>Abschluss bestätigen</h3><p>Sie prüfen Vollständigkeit und Plausibilität, bevor etwas eingereicht wird.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROFIL-BUILDER ============ -->
+<section class="fm-pb" id="profil" aria-labelledby="pb-h">
+  <div class="fm-w">
+    <div class="fm-pb-g">
+      <div class="fm-side">
+        <div class="fm-rv">
+          <p class="eyebrow">Programm-Matching</p>
+          <h2 class="fm-h2" id="pb-h">Profil ändern, <em>Treffer sehen.</em></h2>
+          <p class="fm-sub">Wählen Sie Vorhaben und Unternehmensgröße. Die Liste sortiert sich neu – mit Begründung und den Fragen, die Sie mit dem Mandanten klären sollten.</p>
+        </div>
+        <div class="fm-grp"><small>Vorhaben</small><div class="fm-chips" id="fmV" role="group" aria-label="Vorhaben"></div></div>
+        <div class="fm-grp"><small>Unternehmensgröße</small><div class="fm-chips" id="fmS" role="group" aria-label="Unternehmensgröße"></div></div>
+        <div class="fm-sum" aria-live="polite"><b id="fmN">0</b><span>Programme mit hoher Passung – zur Prüfung durch Sie</span></div>
+      </div>
+      <div>
+        <ol class="fm-list" id="fmList"></ol>
+        <p class="fm-cap">Vereinfachte Beispiel-Logik zur Veranschaulichung. Im echten Einsatz arbeitet der Helfer mit der Programmübersicht, die Sie pflegen – inklusive Quellen und Stand.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FRISTEN (dunkel) ============ -->
+<section class="fm-fr fm-dk" aria-labelledby="fr-h">
+  <div class="fm-w">
+    <div class="fm-fr-head fm-rv">
+      <div><p class="eyebrow">Fristen &amp; Nachweise</p><h2 class="fm-h2" id="fr-h">Alle Mandanten. <em>Ein Zeitstrahl.</em></h2></div>
+      <p class="fm-sub">Antrag, Bewilligung, Umsetzung, Verwendungsnachweis – für jeden Mandanten auf einen Blick. Der Helfer erinnert rechtzeitig und sagt dazu, was noch fehlt.</p>
+    </div>
+    <div class="fm-gt" id="fmGt" aria-label="Beispiel-Zeitplan mehrerer Mandanten">
+      <div class="fm-gt-ax"><span>Mandant · Programm</span><ol><li>Jan</li><li>Feb</li><li>Mär</li><li>Apr</li><li>Mai</li><li>Jun</li><li>Jul</li><li>Aug</li><li>Sep</li><li>Okt</li><li>Nov</li><li>Dez</li></ol></div>
+      <div class="fm-gt-row"><div><b>Metallbau K.</b><small>Energieeffizienz</small></div><div class="fm-trk"><span class="fm-bar a" style="left:0;width:8%">Antrag</span><span class="fm-bar b" style="left:8.5%;width:16%;transition-delay:.1s">Bewilligung</span><span class="fm-bar u" style="left:25%;width:50%;transition-delay:.2s">Umsetzung</span><span class="fm-bar v" style="left:75.5%;width:16%;transition-delay:.3s">Nachweis</span></div></div>
+      <div class="fm-gt-row"><div><b>Bäckerei S.</b><small>Beratungsförderung</small></div><div class="fm-trk"><span class="fm-bar a" style="left:16.6%;width:6%;transition-delay:.15s">Antrag</span><span class="fm-bar u" style="left:23%;width:20%;transition-delay:.25s">Beratung</span><span class="fm-bar w" style="left:43.5%;width:12%;transition-delay:.35s">Nachweis</span></div></div>
+      <div class="fm-gt-row"><div><b>Softwarehaus N.</b><small>Innovationsförderung</small></div><div class="fm-trk"><span class="fm-bar a" style="left:33%;width:10%;transition-delay:.2s">Antrag</span><span class="fm-bar b" style="left:43.5%;width:22%;transition-delay:.3s">Bewilligung</span><span class="fm-bar u" style="left:66%;width:34%;transition-delay:.4s">Umsetzung</span></div></div>
+      <div class="fm-gt-row"><div><b>Hotel am See</b><small>Digitalisierung</small></div><div class="fm-trk"><span class="fm-bar w" style="left:40%;width:9%;transition-delay:.25s">Antrag</span><span class="fm-bar b" style="left:49.5%;width:18%;transition-delay:.35s">Bewilligung</span></div></div>
+      <div class="fm-now" id="fmNow" style="left:calc(190px + 16px + 24px + (100% - 254px) * .44)"><span>heute</span></div>
+      <div class="fm-leg"><span><i style="background:var(--on-night)"></i>Antrag</span><span><i style="background:rgba(243,241,236,.16);border:1px solid var(--night-3)"></i>Warten auf Bescheid</span><span><i style="background:rgba(140,245,194,.22);border:1px solid rgba(140,245,194,.35)"></i>Umsetzung</span><span><i style="background:var(--mint)"></i>Verwendungsnachweis</span><span><i style="background:var(--warn)"></i>Frist bald fällig</span></div>
+    </div>
+    <div class="fm-mb" aria-label="Beispiel-Zeitplan mehrerer Mandanten">
+      <article><header><b>Bäckerei S.</b><small>Beratungsförderung</small></header><ol><li class="d">Antrag</li><li class="d">Beratung</li><li class="n">Nachweis</li><li>Abschluss</li></ol><p>Nachweis fällig in 3 Wochen – Beratungsbericht liegt vor, Zahlungsbeleg fehlt.</p></article>
+      <article><header><b>Hotel am See</b><small>Digitalisierung</small></header><ol><li class="n">Antrag</li><li>Bescheid</li><li>Umsetzung</li><li>Nachweis</li></ol><p>Antrag noch nicht vollständig – zwei Angebote fehlen.</p></article>
+      <article><header><b>Metallbau K.</b><small>Energieeffizienz</small></header><ol><li class="d">Antrag</li><li class="d">Bescheid</li><li class="d">Umsetzung</li><li>Nachweis</li></ol><p>Umsetzung läuft, Belege werden laufend zugeordnet.</p></article>
+    </div>
+    <div class="fm-al">
+      <div><small>In 3 Wochen fällig</small><p><b>Bäckerei S.</b> – Verwendungsnachweis. Beratungsbericht liegt vor, Zahlungsbeleg fehlt. Erinnerung an Mandant ist vorbereitet.</p></div>
+      <div><small>Unvollständig</small><p><b>Hotel am See</b> – Antrag. Zwei Vergleichsangebote fehlen noch. Entwurf der Nachricht an den Mandanten liegt bereit.</p></div>
+      <div class="ok"><small>Läuft</small><p><b>Metallbau K.</b> – Umsetzung. 14 von 18 Rechnungen dem Vorhaben zugeordnet, Abweichungen zum Plan markiert.</p></div>
+    </div>
+    <p class="fm-cap" style="margin-top:16px">Beispieldaten zur Veranschaulichung · Fantasienamen</p>
+  </div>
+</section>
+
+<!-- ============ ANTRAGSENTWURF ============ -->
+<section class="fm-an" id="antrag" aria-labelledby="an-h">
+  <div class="fm-w">
+    <div class="fm-an-g">
+      <div class="fm-rv">
+        <p class="eyebrow">Antragsentwurf</p>
+        <h2 class="fm-h2" id="an-h">Der erste Entwurf <em>steht schon.</em></h2>
+        <p class="fm-sub">Aus Profil, Gesprächsnotizen und Investitionsplan entsteht ein Antragsentwurf in der Gliederung des Programms. Jeder Absatz zeigt, woher die Angaben stammen – und was noch fehlt, ist markiert statt erfunden.</p>
+        <ul class="fm-keys">
+          <li><span class="fm-tag p">Mandantenprofil</span>Stammdaten, Größe, Branche</li>
+          <li><span class="fm-tag x">Investitionsplan</span>Kosten, Finanzierung, Zeitplan</li>
+          <li><span class="fm-tag g">Gesprächsnotiz</span>Ausgangslage, Ziele</li>
+          <li><span class="fm-tag o">offen</span>fehlt noch – bitte ergänzen</li>
+        </ul>
+        <p class="fm-hand">Unterschreiben tut der Mandant – prüfen tun Sie.</p>
+      </div>
+      <div class="fm-page" id="fmPage" aria-label="Beispiel eines Antragsentwurfs">
+        <header><b>Antrag · Energieeffizienz-Investition</b><span>Entwurf v1</span></header>
+        <div class="fm-sec"><h4>1. Antragsteller <span class="fm-tag p">Mandantenprofil</span></h4><p>Metallbau K. GmbH, Zulieferer für Maschinenbau, 34 Beschäftigte, Region Rhein-Main.</p></div>
+        <div class="fm-sec"><h4>2. Ausgangslage <span class="fm-tag g">Gesprächsnotiz 12.03.</span></h4><p>Die Fertigung verteilt sich auf zwei ältere Hallen mit hohem Wärmeverlust. Der Strombedarf ist durch neue Maschinen deutlich gestiegen.</p></div>
+        <div class="fm-sec"><h4>3. Vorhaben <span class="fm-tag x">Investitionsplan</span></h4><p>Neubau einer Produktionshalle mit Photovoltaik-Anlage und effizienter Hallenheizung; Zusammenlegung der Fertigung an einem Standort.</p></div>
+        <div class="fm-sec"><h4>4. Einsparung <span class="fm-tag o">offen</span></h4><p>Erwartete Energieeinsparung: <mark>Wert aus Energiekonzept ergänzen</mark> – liegt noch nicht vor.</p></div>
+        <div class="fm-sec"><h4>5. Kosten &amp; Zeitplan <span class="fm-tag x">Investitionsplan</span></h4><p>Gesamtinvestition ca. 1,8 Mio. €, davon förderrelevant laut Plan: <mark>Abgrenzung durch Sie prüfen</mark>. Vorhabenbeginn nach Bewilligung.</p></div>
+        <div class="fm-sig"><span>Ort, Datum</span><span>Unterschrift Antragsteller</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="fm-faq" aria-labelledby="faq-h">
+  <div class="fm-w">
+    <div class="fm-faq-g">
+      <div class="fm-rv"><p class="eyebrow">Häufige Fragen</p><h2 class="fm-h2" id="faq-h">Was Berater uns <em>meistens</em> fragen.</h2></div>
+      <div class="fm-qa fm-rv">
+        <details open><summary>Wer haftet, wenn die KI ein Programm übersieht?</summary><p>Die Verantwortung für die Beratung bleibt bei Ihnen – so wie heute. Die KI ist ein Werkzeug für Recherche und Entwürfe. Sie zeigt Quellen und Stand jeder Angabe, damit Sie schnell prüfen können, statt alles neu zu suchen.</p></details>
+        <details><summary>Woher kennt die KI die aktuellen Programme?</summary><p>Aus einer Programmübersicht, die wir gemeinsam mit Ihnen aufbauen und pflegen – aus den Quellen, denen Sie vertrauen. Ändert sich ein Programm, wird die Übersicht aktualisiert; die KI erfindet keine Konditionen dazu. Verbindlich ist immer die Auskunft des Fördergebers.</p></details>
+        <details><summary>Wie vertraulich sind die Mandantendaten?</summary><p>Die Daten bleiben in der EU und werden nur für Ihre Kanzlei verarbeitet – nicht zum Training fremder Modelle. Sie erhalten einen Auftragsverarbeitungsvertrag, Zugriffe sind auf Ihr Team beschränkt und werden protokolliert.</p></details>
+        <details><summary>Klappt das auch mit Förderportalen und deren Formularen?</summary><p>Die KI bereitet Texte und Angaben in der Struktur des jeweiligen Formulars vor. Das Einreichen im Portal bleibt bei Ihnen bzw. beim Mandanten. Wo es Exporte oder Vorlagen gibt, nutzen wir sie.</p></details>
+        <details><summary>Wir sind ein kleines Büro – lohnt sich das?</summary><p>Gerade dort, wo wenige Berater viele Mandanten betreuen, frisst Recherche und Fristenkontrolle die meiste Zeit. Wir starten mit dem Helfer, der bei Ihnen am meisten Stunden bindet, und bauen nur, was sich rechnet.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WEITERE BRANCHEN ============ -->
+<section class="fm-more" aria-labelledby="more-h">
+  <div class="fm-w">
+    <h2 id="more-h">Weitere Branchen</h2>
+    <div class="fm-mo">
+      <a href="ailien-branchen-solar-waermepumpe.html"><small>i.</small><b>Solar &amp; Wärmepumpe →</b><span>Netzanmeldung, Förderanträge, Kundenstatus</span></a>
+      <a href="ailien-branchen-maschinenbau.html"><small>ii.</small><b>Maschinen- &amp; Anlagenbau →</b><span>Angebote aus Altaufträgen, Service-Wissen</span></a>
+      <a href="ailien-branchen-architekten.html"><small>iii.</small><b>Architekturbüros →</b><span>Protokolle, Baubeschreibung, Bauantrag</span></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var rv=[].slice.call(document.querySelectorAll('.fm-rv'));
+  if(reduce||!('IntersectionObserver' in window)) rv.forEach(function(e){e.classList.add('in')});
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.12});rv.forEach(function(e){io.observe(e)})}
+  function dots(n){var s='<span class="fm-dots" aria-hidden="true">';for(var i=0;i<5;i++)s+='<i class="'+(i<n?'on':'')+'"></i>';return s+'</span>'}
+  var LBL=['','gering','gering','mittel','hoch','sehr hoch'];
+
+  /* ---------- Hero ---------- */
+  var mx=document.getElementById('fmMx'), prof=[].slice.call(document.querySelectorAll('#fmProf dd')), rowsEl=document.getElementById('fmRows');
+  var HR=[
+    ['Bundesprogramm Energieeffizienz','Zuschuss / Kredit',5,['PV und Hallentechnik im Vorhaben','Mittelstand'],'Energiekonzept vorhanden?'],
+    ['Landesprogramm Digitalisierung','Zuschuss',4,['Fertigungssteuerung','KMU-Größe passt'],'Anteil Software vs. Hardware?'],
+    ['Regionale Investitionsförderung','Zuschuss',3,['Neubau mit Arbeitsplätzen'],'Liegt der Standort im Fördergebiet?'],
+    ['Beratungsförderung','Zuschuss',3,['Vorbereitende Beratung'],'Beratung schon beauftragt?'],
+    ['Innovationsförderung','Zuschuss',1,[],'Nur bei echter Neuentwicklung']
+  ];
+  HR.forEach(function(r,i){
+    var why=r[3].map(function(x){return '<span>'+x+'</span>'}).join('')+'<span class="q">'+r[4]+'</span>';
+    rowsEl.insertAdjacentHTML('beforeend','<div class="fm-pr'+(i===0?' top':'')+(r[2]<2?' low':'')+'" role="listitem"><div><b>'+r[0]+'</b></div><div class="fit">'+dots(0)+'<em>'+LBL[r[2]]+'</em></div><span class="typ">'+r[1]+'</span><div class="why">'+why+'</div></div>');
+  });
+  var prs=[].slice.call(rowsEl.children), tm=[];
+  function T(f,ms){tm.push(setTimeout(f,ms))}
+  function setFit(el,n){[].forEach.call(el.querySelectorAll('.fm-dots i'),function(d,j){d.classList.toggle('on',j<n)})}
+  function play(){
+    tm.forEach(clearTimeout);tm=[];mx.className='fm-mx';
+    prof.forEach(function(d){d.textContent=''});prs.forEach(function(p){p.classList.remove('on');setFit(p,0)});
+    if(reduce){prof.forEach(function(d){d.textContent=d.dataset.v});prs.forEach(function(p,i){p.classList.add('on');setFit(p,HR[i][2])});mx.className='fm-mx s2 s4';return}
+    var t=300;
+    prof.forEach(function(d){var v=d.dataset.v;for(var c=1;c<=v.length;c++)(function(c){T(function(){d.textContent=v.slice(0,c)},t+c*22)})(c);t+=v.length*22+160});
+    T(function(){mx.classList.add('s2')},t+100);t+=700;
+    prs.forEach(function(p,i){T(function(){p.classList.add('on')},t);for(var k=1;k<=HR[i][2];k++)(function(k){T(function(){setFit(p,k)},t+200+k*110)})(k);t+=520});
+    T(function(){mx.classList.add('s4')},t+300);
+    T(play,t+8000);
+  }
+  play();
+
+  /* ---------- Profil-Builder ---------- */
+  var V=[['dig','Digitalisierung'],['en','Energie'],['neu','Neubau / Erweiterung'],['per','Personal']];
+  var S=[['k','unter 10'],['s','10–49'],['m','50–249'],['g','250 +']];
+  var P=[
+    {n:'Bundesprogramm Energieeffizienz',t:'Zuschuss / Kredit',v:{en:5,neu:3,dig:1,per:0},s:{k:0,s:0,m:0,g:0},w:{en:'Effizienzmaßnahmen an Anlagen und Gebäuden',neu:'Effiziente Gebäudetechnik im Neubau',dig:'Nur über Energiemanagement-Software',per:'Kein Bezug zum Vorhaben'},q:'Liegt ein Energiekonzept vor?'},
+    {n:'Landesprogramm Digitalisierung',t:'Zuschuss',v:{dig:5,en:1,neu:1,per:1},s:{k:0,s:0,m:-1,g:-5},w:{dig:'Software, Prozesse, Vernetzung im KMU',en:'Allenfalls für Mess- und Steuertechnik',neu:'Bauliches meist ausgeschlossen',per:'Schulungen nur begleitend'},q:'Vorhaben schon begonnen?'},
+    {n:'Innovationsförderung',t:'Zuschuss',v:{dig:3,en:3,neu:0,per:0},s:{k:0,s:0,m:0,g:-2},w:{dig:'Wenn neue Lösung entwickelt wird',en:'Bei neuartigem technischem Verfahren',neu:'Kein Innovationsbezug',per:'Kein Innovationsbezug'},q:'Ist es neu für den Markt – oder nur für den Betrieb?'},
+    {n:'Beratungsförderung',t:'Zuschuss',v:{dig:3,en:3,neu:2,per:3},s:{k:1,s:1,m:0,g:-5},w:{dig:'Vorbereitende Beratung zur Digitalisierung',en:'Beratung vor Investitionsentscheidung',neu:'Beratung zur Standortplanung',per:'Beratung zu Personal und Organisation'},q:'Ist die Beratung schon beauftragt?'},
+    {n:'Regionale Investitionsförderung',t:'Zuschuss',v:{neu:5,en:2,dig:2,per:1},s:{k:0,s:0,m:0,g:-2},w:{neu:'Investitionen, die Arbeitsplätze schaffen',en:'Nur als Teil einer Investition',dig:'Nur als Teil einer Investition',per:'Indirekt über neue Arbeitsplätze'},q:'Liegt der Standort in einem Fördergebiet?'},
+    {n:'Förderkredit Investitionen',t:'Kredit',v:{neu:4,en:3,dig:2,per:0},s:{k:0,s:0,m:0,g:-1},w:{neu:'Finanzierung von Bau und Ausstattung',en:'Finanzierung von Effizienzmaßnahmen',dig:'Finanzierung von Ausstattung',per:'Kein Investitionsbezug'},q:'Hausbank schon eingebunden?'},
+    {n:'Weiterbildungsförderung',t:'Zuschuss',v:{per:5,dig:2,en:0,neu:0},s:{k:0,s:0,m:0,g:-1},w:{per:'Qualifizierung von Beschäftigten',dig:'Schulungen zur neuen Software',en:'Kein Bezug',neu:'Kein Bezug'},q:'Welche Beschäftigtengruppen?'},
+    {n:'Programm Fachkräftesicherung',t:'Zuschuss',v:{per:4,dig:0,en:0,neu:1},s:{k:1,s:1,m:0,g:-2},w:{per:'Gewinnung und Bindung von Fachkräften',dig:'Kein Bezug',en:'Kein Bezug',neu:'Indirekt bei Erweiterung'},q:'Ausbildungsbetrieb?'}
+  ];
+  var cur={v:'dig',s:'s'}, list=document.getElementById('fmList'), nEl=document.getElementById('fmN');
+  function chips(el,arr,key){el.innerHTML=arr.map(function(a){return '<button type="button" data-k="'+a[0]+'" aria-pressed="'+(cur[key]===a[0])+'">'+a[1]+'</button>'}).join('');
+    el.onclick=function(e){var b=e.target.closest('button');if(!b)return;cur[key]=b.dataset.k;[].forEach.call(el.children,function(x){x.setAttribute('aria-pressed',x===b)});render()}}
+  chips(document.getElementById('fmV'),V,'v');chips(document.getElementById('fmS'),S,'s');
+  P.forEach(function(p,i){var li=document.createElement('li');li.className='fm-it';li.dataset.i=i;li.innerHTML='<div><b>'+p.n+'</b><small class="typ"></small></div><div class="fit"></div><p class="w"></p><p class="q"></p>';list.appendChild(li);p.el=li});
+  function render(){
+    var first={};P.forEach(function(p,i){first[i]=p.el.getBoundingClientRect().top});
+    P.forEach(function(p){p.sc=Math.max(0,Math.min(5,p.v[cur.v]+p.s[cur.s]))});
+    var sorted=P.slice().sort(function(a,b){return b.sc-a.sc});
+    var hi=0;
+    sorted.forEach(function(p){
+      list.appendChild(p.el);
+      p.el.className='fm-it'+(p.sc>=4?' hi':p.sc<=1?' lo':'');
+      if(p.sc>=4)hi++;
+      p.el.querySelector('.typ').textContent=p.t;
+      p.el.querySelector('.fit').innerHTML=dots(p.sc)+'<span>'+(p.sc===0?'passt nicht':'Passung '+LBL[p.sc])+'</span>';
+      var why=p.sc===0&&p.s[cur.s]<-3?'Für diese Unternehmensgröße in der Regel nicht vorgesehen':p.w[cur.v];
+      p.el.querySelector('.w').textContent=why;
+      var q=p.el.querySelector('.q');q.textContent=p.sc>=2?p.q:'';q.style.display=p.sc>=2?'':'none';
+    });
+    nEl.textContent=hi;
+    if(!reduce)P.forEach(function(p,i){var d=first[i]-p.el.getBoundingClientRect().top;if(d){p.el.animate([{transform:'translateY('+d+'px)'},{transform:'none'}],{duration:450,easing:'cubic-bezier(.2,.7,.2,1)'})}});
+  }
+  render();
+
+  /* ---------- Gantt + Antrag (Einblenden) ---------- */
+  var gt=document.getElementById('fmGt'), secs=[].slice.call(document.querySelectorAll('#fmPage .fm-sec'));
+  if(reduce||!('IntersectionObserver' in window)){gt.classList.add('in');secs.forEach(function(s){s.classList.add('on')})}
+  else{
+    var io2=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){
+      if(x.target===gt)gt.classList.add('in');
+      else secs.forEach(function(s,i){setTimeout(function(){s.classList.add('on')},i*260)});
+      io2.unobserve(x.target)}})},{threshold:.25});
+    io2.observe(gt);io2.observe(document.getElementById('fmPage'));
+  }
+})();
+</script>
+
+<style>
+  /* ---------- CTA + Footer ---------- */
+  .ct{background:var(--night);color:var(--on-night);position:relative;overflow:hidden}
+  .ct-in{max-width:1240px;margin:0 auto;padding:112px 32px 96px;position:relative}
+  .ct .eyebrow{color:var(--mint)}.ct .eyebrow::before{background:var(--mint)}
+
+  .ct-tl{position:relative;height:64px;margin:0 0 56px}
+  .ct-tl svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .ct-tl .base{stroke:var(--night-3);stroke-width:1;stroke-dasharray:3 5}
+  .ct-tl .ink{stroke:var(--on-night-muted);stroke-width:1.25}
+  .ct-tl ol{list-style:none;margin:0;padding:0;position:absolute;inset:0}
+  .ct-tl li{white-space:nowrap;position:absolute;top:22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;font-size:12px;letter-spacing:.06em;color:var(--on-night-muted);opacity:.25;transition:opacity .4s,color .4s}
+  .ct-tl li::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--night);border:1px solid currentColor;margin-top:-4px}
+  .ct-tl li.on{opacity:1}
+  .ct-tl li.now{color:var(--mint);font-weight:500}
+  .ct-tl li.now::before{width:13px;height:13px;margin-top:-6px;background:var(--mint);border-color:var(--mint);box-shadow:0 0 0 0 rgba(140,245,194,.5)}
+  .ct-tl li.now.on::before{animation:ctPulse 2.2s ease-out infinite}
+  @keyframes ctPulse{0%{box-shadow:0 0 0 0 rgba(140,245,194,.45)}100%{box-shadow:0 0 0 16px rgba(140,245,194,0)}}
+
+  .ct-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:72px;align-items:start}
+  .ct-grid>div:first-child{container-type:inline-size}
+  .ct h2 span{display:block;white-space:nowrap}
+  .ct h2{font-weight:500;font-size:min(64px,calc(100cqi / 10.6));line-height:1.02;letter-spacing:-.04em;margin:0 0 24px}
+  .ct h2 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--mint)}
+  .ct-lead{font-size:18px;line-height:28px;color:var(--on-night-muted);max-width:480px;margin:0 0 36px}
+  .ct-list{list-style:none;margin:0 0 40px;padding:0;display:grid;gap:14px;max-width:480px}
+  .ct-list li{display:grid;grid-template-columns:28px 1fr;gap:12px;font-size:15px;line-height:23px}
+  .ct-list li span{width:28px;height:28px;border-radius:50%;border:1px solid var(--night-3);display:grid;place-items:center;font-size:11px;color:var(--mint)}
+  .ct-list b{font-weight:500}
+  .ct-list small{display:block;color:var(--on-night-muted);font-size:14px}
+  .ct-person{display:flex;align-items:center;gap:14px;padding-top:28px;border-top:1px solid var(--night-3);max-width:480px}
+  .ct-ava{width:52px;height:52px;border-radius:50%;background:var(--night-3);display:grid;place-items:center;font-weight:500;font-size:16px;color:var(--mint);flex:none}
+  .ct-person p{margin:0;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-person b{display:block;color:var(--on-night);font-weight:500;font-size:15px}
+  .ct-person a{color:var(--mint);text-decoration:none}
+
+  .ct-form{background:var(--night-2);border:1px solid var(--night-3);border-radius:20px;padding:28px;position:relative}
+  .ct-form h3{margin:0 0 6px;font-size:20px;font-weight:500;letter-spacing:-.02em}
+  .ct-form>p{margin:0 0 22px;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:var(--night);border-radius:999px;margin:0 0 22px}
+  .ct-seg button{font:500 13px/18px var(--sans);color:var(--on-night-muted);background:none;border:0;border-radius:999px;padding:9px 10px;cursor:pointer}
+  .ct-seg button[aria-pressed="true"]{background:var(--on-night);color:var(--night)}
+  .ct-f{display:grid;gap:14px}
+  .ct-f label{display:grid;gap:6px;font-size:12px;letter-spacing:.04em;color:var(--on-night-muted)}
+  .ct-f input,.ct-f select,.ct-f textarea{font:400 15px/22px var(--sans);color:var(--on-night);background:var(--night);border:1px solid var(--night-3);border-radius:10px;padding:11px 13px;width:100%;transition:border-color .2s}
+  .ct-f textarea{resize:vertical;min-height:84px}
+  .ct-f input:focus,.ct-f select:focus,.ct-f textarea:focus{outline:none;border-color:var(--mint)}
+  .ct-f .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .ct-f .ok{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;line-height:19px;letter-spacing:0}
+  .ct-f .ok input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--mint);flex:none}
+  .ct-f .ok a{color:var(--on-night)}
+  .ct-f .btn{justify-content:center;width:100%;margin-top:4px;padding:15px 20px}
+  .ct-f [data-only="call"]{display:none}
+  .ct-form.call [data-only="call"]{display:grid}
+  .ct-form.call [data-only="mail"]{display:none}
+  .ct-done{display:none;text-align:center;padding:48px 8px}
+  .ct-done svg{width:56px;height:56px;margin:0 auto 18px;display:block}
+  .ct-done h3{margin-bottom:8px}
+  .ct-done p{margin:0;color:var(--on-night-muted);font-size:15px;line-height:23px}
+  .ct-form.sent .ct-f,.ct-form.sent .ct-seg,.ct-form.sent>h3,.ct-form.sent>p{display:none}
+  .ct-form.sent .ct-done{display:block}
+  .ct-done path{stroke-dasharray:1;stroke-dashoffset:1}
+  .ct-form.sent .ct-done path{animation:ctDraw .7s .15s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes ctDraw{to{stroke-dashoffset:0}}
+
+  .crv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .crv.in{opacity:1;transform:none}
+
+  /* Footer */
+  .ft{background:var(--night);color:var(--on-night);border-top:1px solid var(--night-3);overflow:hidden}
+  .ft-in{max-width:1240px;margin:0 auto;padding:64px 32px 0}
+  .ft-top{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px;padding-bottom:56px}
+  .ft-brand svg{height:30px;width:auto;display:block;margin-bottom:18px}
+  .ft-brand p{margin:0 0 20px;font-size:14px;line-height:22px;color:var(--on-night-muted);max-width:300px}
+  .ft-badges{display:flex;flex-wrap:wrap;gap:8px}
+  .ft-badges span{font-size:12px;color:var(--on-night-muted);border:1px solid var(--night-3);border-radius:999px;padding:5px 11px}
+  .ft h4{margin:0 0 16px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--on-night-muted)}
+  .ft ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .ft ul a{color:var(--on-night);text-decoration:none;font-size:15px;opacity:.86}
+  .ft ul a:hover{opacity:1;color:var(--mint)}
+  .ft-mark{position:relative;margin:0 -2px;line-height:0}
+  .ft-mark svg{width:100%;height:auto;display:block}
+  .ft-mark .o{fill:#15181C}
+  .ft-mark .f{fill:var(--night-3)}
+  .ft-bot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;padding:22px 0 28px;border-top:1px solid var(--night-3);font-size:13px;color:var(--on-night-muted)}
+  .ft-bot nav{display:flex;gap:20px}
+  .ft-bot a{color:inherit;text-decoration:none}.ft-bot a:hover{color:var(--on-night)}
+
+  @media (max-width:980px){
+    .ct-grid{grid-template-columns:1fr;gap:48px}
+    .ft-top{grid-template-columns:1fr 1fr}
+    .ft-brand{grid-column:1/-1}
+    .ft-top>div:last-child{grid-column:1/-1}
+  }
+  @media (max-width:640px){
+    .ct-in{padding:80px 16px 72px}
+    .ct-tl{margin-bottom:40px}
+    .ct-tl li{font-size:10.5px;letter-spacing:.02em}
+    .ct-tl li:nth-child(2),.ct-tl li:nth-child(4){display:none}
+    .ct-form{padding:22px 18px}
+    .ct-f .two{grid-template-columns:1fr}
+    .ft-in{padding:56px 16px 0}
+    .ft-top{gap:32px 20px}
+    .ft-bot{flex-direction:column}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .crv{opacity:1;transform:none;transition:none}
+    .ct-tl li.now.on::before{animation:none}
+  }
+</style>
+
+<section class="ct" id="kontakt">
+  <div class="ct-in">
+    <div class="ct-tl" aria-hidden="true">
+      <svg viewBox="0 0 1000 64" preserveAspectRatio="none"><line class="base" x1="0" y1="22" x2="1000" y2="22"/><line class="ink" x1="0" y1="22" x2="1000" y2="22" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+      <ol>
+        <li style="left:4%">1850</li><li style="left:24%">1920</li><li style="left:44%">1965</li><li style="left:64%">1995</li><li style="left:96%" class="now">Ihr Betrieb</li>
+      </ol>
+    </div>
+
+    <div class="ct-grid">
+      <div class="crv">
+        <p class="eyebrow">Erstgespräch</p>
+        <h2><span>Mehr Mandanten.</span><span>Gleiche <em>Sorgfalt.</em></span></h2>
+        <p class="ct-lead">In 30 Minuten wissen Sie, wo KI Ihrer Beratung Recherche und Schreibarbeit abnimmt – und wo Ihr Urteil unersetzlich bleibt. Ohne Verkaufsgespräch.</p>
+        <ol class="ct-list">
+          <li><span>01</span><div><b>Sie erzählen, wo es hakt.</b><small>Per Video oder bei Ihnen vor Ort.</small></div></li>
+          <li><span>02</span><div><b>Wir zeigen, was möglich ist.</b><small>An Beispielen aus Ihrer Branche.</small></div></li>
+          <li><span>03</span><div><b>Sie entscheiden in Ruhe.</b><small>Auf Wunsch mit schriftlicher Einschätzung.</small></div></li>
+        </ol>
+        <div class="ct-person">
+          <div class="ct-ava" aria-hidden="true">NK</div>
+          <p><b>Nic Karban</b>Gründer · Ihr Ansprechpartner<br><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></p>
+        </div>
+      </div>
+
+      <div class="ct-form crv" id="ctForm">
+        <h3>Erstgespräch anfragen</h3>
+        <p>Wir melden uns innerhalb eines Werktags.</p>
+        <div class="ct-seg" role="group" aria-label="Kontaktweg">
+          <button type="button" aria-pressed="true" data-mode="mail">Termin per E-Mail</button>
+          <button type="button" aria-pressed="false" data-mode="call">Rückruf</button>
+        </div>
+        <!-- TODO: action auf echtes Formular-Backend / Buchungstool setzen -->
+        <form class="ct-f" action="#" method="post" novalidate>
+          <div class="two">
+            <label>Name<input name="name" autocomplete="name" required></label>
+            <label>Betrieb<input name="firma" autocomplete="organization"></label>
+          </div>
+          <label data-only="mail">E-Mail<input type="email" name="email" autocomplete="email"></label>
+          <div class="two" data-only="call">
+            <label>Telefon<input type="tel" name="tel" autocomplete="tel"></label>
+            <label>Am besten erreichbar<select name="zeit"><option>Vormittags</option><option>Mittags</option><option>Nachmittags</option></select></label>
+          </div>
+          <label>Wo kostet Sie Routine am meisten Zeit? <span style="opacity:.6">(optional)</span><textarea name="nachricht" placeholder="z. B. Angebote schreiben, Telefon, Rechnungen prüfen …"></textarea></label>
+          <label class="ok"><input type="checkbox" name="dsgvo" required><span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden. <a href="#">Datenschutz</a></span></label>
+          <button class="btn m" type="submit">Anfrage senden <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="ct-done" role="status">
+          <svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="27" fill="none" stroke="#22262B"/><path d="M17 29 25 37 40 20" fill="none" stroke="#8CF5C2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
+          <h3>Danke – ist angekommen.</h3>
+          <p>Wir melden uns innerhalb eines Werktags bei Ihnen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="ft">
+  <div class="ft-in">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <svg viewBox="0 8 160.8 64" aria-label="Ailien"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#F3F1EC"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#8CF5C2" fill-rule="evenodd"/></svg>
+        <p>KI-Automatisierung für Mittelstand und Handwerk. Wir bauen Systeme, die Routine abnehmen – und betreuen sie dauerhaft.</p>
+        <div class="ft-badges"><span>DSGVO-konform</span><span>Server in der EU</span><span>Made in Germany</span></div>
+      </div>
+      <div>
+        <h4>Leistungen</h4>
+        <ul><li><a href="#leistungen">Prozess-Automationen</a></li><li><a href="#leistungen">KI-Wissenssysteme</a></li><li><a href="#leistungen">Voice &amp; Kommunikation</a></li><li><a href="#leistungen">KI-Strategie &amp; Beratung</a></li></ul>
+      </div>
+      <div>
+        <h4>Ailien</h4>
+        <ul><li><a href="#praxis">Praxisbeispiele</a></li><li><a href="#vorgehen">Vorgehen</a></li><li><a href="#faq">Häufige Fragen</a></li><li><a href="#rechner">Entlastungs-Rechner</a></li></ul>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul><li><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></li><li><a href="#kontakt">Erstgespräch anfragen</a></li><li><a href="#">LinkedIn</a></li></ul>
+      </div>
+    </div>
+
+    <div class="ft-mark" aria-hidden="true">
+      <svg viewBox="7 11.5 143.5 51.6"><defs><g id="ftWord"><path d=""/><path fill-rule="evenodd" d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z"/></g><clipPath id="ftClip"><rect id="ftRise" x="0" y="64" width="161" height="70"/></clipPath></defs>
+        <g class="o"><use href="#ftWord"/></g>
+        <g clip-path="url(#ftClip)"><g class="f"><use href="#ftWord"/></g></g>
+      </svg>
+    </div>
+
+    <div class="ft-bot">
+      <span>© 2026 Ailien · ailien-automation.de</span>
+      <nav><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">AGB</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var clamp=function(v){return v<0?0:v>1?1:v};
+  /* Reveals */
+  var els=[].slice.call(document.querySelectorAll('.crv'));
+  if(reduce||!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')})}
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.15});
+    els.forEach(function(e,i){e.style.transitionDelay=(i%2?.12:0)+'s';io.observe(e)})}
+
+  /* Zeitstrahl + Wortmarke scroll-gesteuert */
+  var tl=document.querySelector('.ct-tl'), ink=tl&&tl.querySelector('.ink'), lis=tl?[].slice.call(tl.querySelectorAll('li')):[];
+  var pos=lis.map(function(l){return parseFloat(l.style.left)/100});
+  var mark=document.querySelector('.ft-mark'), rise=document.getElementById('ftRise');
+  function tick(){
+    var vh=innerHeight;
+    if(tl){
+      var r=tl.getBoundingClientRect();
+      var p=reduce?1:clamp((vh*.92-r.top)/(vh*.55));
+      ink.style.strokeDashoffset=1-p;
+      lis.forEach(function(l,i){l.classList.toggle('on',p>=pos[i]-.02)});
+    }
+    if(mark){
+      var m=mark.getBoundingClientRect();
+      var q=reduce?1:clamp((vh-m.top-m.height*.1)/(m.height*.9));
+      rise.setAttribute('y',(63-q*51).toFixed(2));
+    }
+  }
+  var raf=0;function on(){if(!raf)raf=requestAnimationFrame(function(){raf=0;tick()})}
+  addEventListener('scroll',on,{passive:true});addEventListener('resize',on);tick();
+
+  /* Formular */
+  var f=document.getElementById('ctForm'); if(!f) return;
+  var btns=[].slice.call(f.querySelectorAll('.ct-seg button'));
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    f.classList.toggle('call',b.dataset.mode==='call');
+  })});
+  f.querySelector('form').addEventListener('submit',function(e){
+    e.preventDefault(); /* Demo: hier später an Backend senden */
+    var form=e.target, E=form.elements, call=f.classList.contains('call');
+    var nm=E.namedItem('name'), ct=E.namedItem(call?'tel':'email'), cb=E.namedItem('dsgvo');
+    var name=nm.value.trim(), contact=ct.value.trim(), ok=cb.checked;
+    [nm,ct].forEach(function(i){i.style.borderColor=i.value.trim()?'':'#F2C46B'});
+    cb.parentNode.style.color=ok?'':'#F2C46B';
+    if(!name||!contact||!ok) return;
+    f.classList.add('sent');
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1120 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KI für Elektroprüfung nach DGUV V3 | ailien</title>
+<meta name="description" content="Prüfbericht, Geräteliste und Folgetermine aus Ihren Messwerten – und jeder Mangel wird zum Angebotsentwurf. KI-Helfer für Prüfbetriebe nach DGUV Vorschrift 3.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F3F1EC; --ink:#0E1013; --muted:#5F636A; --line:#DEDBD3; --accent:#0F7A55;
+    --night:#0E1013; --night-2:#171A1E; --night-3:#22262B; --on-night:#F3F1EC; --on-night-muted:#A3A7AD; --mint:#8CF5C2;
+    --warn:#F2C46B;
+    --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+    --serif:"Instrument Serif",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);overflow-x:clip}
+  .btn{display:inline-flex;align-items:center;gap:10px;font:500 14px/20px var(--sans);padding:13px 20px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer}
+  .btn.p{background:var(--night);color:var(--on-night)}.btn.p:hover{background:#23262b}
+  .btn.s{color:var(--ink);border-color:var(--line)}.btn.s:hover{border-color:var(--ink)}
+  .btn:focus-visible,.dot:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--accent);margin:0 0 18px;display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--accent)}
+  .btn.m{background:var(--mint);color:var(--night)}.btn.m:hover{background:#a6f8d0}
+</style>
+<style>
+  /* ---------- Header (Variante C) ---------- */
+  .hd-sp{height:117px}
+  .hd{position:fixed;top:0;left:0;right:0;z-index:100;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+  .hd-w{max-width:1240px;margin:0 auto;padding:0 32px}
+  .hd-bar{background:var(--night);color:var(--on-night-muted);font-size:12px;height:36px;overflow:hidden;transition:height .35s,opacity .35s}
+  .hd-bar .hd-w{height:100%;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .hd-bar span{display:flex;gap:18px}
+  .hd-bar b{font-weight:500}
+  .hd-bar i{font-style:normal;color:var(--mint);margin-right:6px}
+  .hd-bar a{color:var(--on-night);text-decoration:none}.hd-bar a:hover{color:var(--mint)}
+  .hd-main{background:var(--paper);border-bottom:1px solid transparent;transition:border-color .3s}
+  .hd-main .hd-w{display:flex;align-items:center;gap:28px;padding-top:18px;padding-bottom:18px;transition:padding .35s}
+  .hd-lg{display:block;height:38px;width:auto;color:var(--ink);transition:height .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-nv{display:flex;align-items:center;gap:2px;margin-right:auto}
+  .hd-ni{font:400 14px/20px var(--sans);color:var(--ink);background:none;border:0;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;white-space:nowrap}
+  .hd-ni sup{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--accent);margin-right:2px;line-height:0}
+  .hd-ni:hover,.hd-dd.on .hd-ni{color:var(--accent)}
+  .hd-ni svg{width:9px;height:9px;opacity:.6;transition:transform .25s}
+  .hd-dd{position:relative}
+  .hd-dd.on .hd-ni svg{transform:rotate(180deg)}
+  .hd-p{position:absolute;top:calc(100% + 14px);left:0;z-index:5;transform:translateY(8px);opacity:0;visibility:hidden;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:0 30px 60px -20px rgba(14,16,19,.28);transition:opacity .25s,transform .25s cubic-bezier(.2,.7,.2,1),visibility .25s}
+  .hd-p::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px}
+  .hd-dd.on .hd-p{opacity:1;visibility:visible;transform:none}
+  .hd-p.wide{width:640px;display:grid;grid-template-columns:1fr 1fr 210px;gap:4px}
+  .hd-p.list{width:330px;display:grid;gap:2px}
+  .hd-i{position:relative;display:block;padding:14px;border-radius:12px;text-decoration:none;color:inherit;transition:background .2s}
+  .hd-i:hover{background:var(--paper)}
+  .hd-i b{display:block;font-weight:500;font-size:14.5px;letter-spacing:-.01em;margin-bottom:3px}
+  .hd-i b::before{content:"";position:absolute;left:5px;top:21px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity .2s}
+  .hd-i:hover b::before{opacity:1}
+  .hd-i span{display:block;font-size:13px;line-height:19px;color:var(--muted)}
+  .hd-feat{grid-row:1/3;grid-column:3;background:var(--night);color:var(--on-night);border-radius:12px;padding:18px;display:flex;flex-direction:column;text-decoration:none}
+  .hd-feat small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint)}
+  .hd-feat strong{font-weight:500;font-size:17px;line-height:23px;letter-spacing:-.02em;margin-top:10px}
+  .hd-feat strong em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;color:var(--mint)}
+  .hd-feat span{margin-top:auto;font-size:13px;color:var(--on-night-muted)}
+  .hd-all{grid-column:1/3;display:flex;justify-content:space-between;padding:12px 14px;margin-top:4px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);text-decoration:none}
+  .hd-all:hover{color:var(--accent)}
+  .hd-r{display:flex;gap:8px}
+  .hd .btn{padding:12px 20px;white-space:nowrap}
+  .hd .btn .ar{transition:transform .2s}.hd .btn:hover .ar{transform:translateX(3px)}
+  .hd-burger{display:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:none;cursor:pointer;position:relative;flex:none;color:var(--ink)}
+  .hd-burger::before,.hd-burger::after{content:"";position:absolute;left:14px;right:14px;height:1.5px;background:currentColor;transition:transform .3s,top .3s}
+  .hd-burger::before{top:17px}.hd-burger::after{top:25px}
+  .hd-open .hd-burger::before{top:21px;transform:rotate(45deg)}.hd-open .hd-burger::after{top:21px;transform:rotate(-45deg)}
+  .hd.sc .hd-bar{height:0;opacity:0}
+  .hd.sc .hd-main{border-color:var(--line)}
+  .hd.sc .hd-main .hd-w{padding-top:12px;padding-bottom:12px}
+  .hd.sc .hd-lg{height:32px}
+  .hd-lg.old{height:32px}.hd.sc .hd-lg.old{height:28px}
+  .hd.hide{transform:translateY(-100%)}
+
+  /* Handy-Menü */
+  .hd-mm{position:fixed;inset:0;z-index:99;background:var(--paper);display:flex;flex-direction:column;padding:120px 22px 24px;overflow:auto;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+  .hd-open .hd-mm{opacity:1;visibility:visible}
+  .hd-mm>ol{list-style:none;margin:0;padding:0;counter-reset:n}
+  .hd-mm>ol>li{counter-increment:n;border-bottom:1px solid var(--line);opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s}
+  .hd-open .hd-mm>ol>li{opacity:1;transform:none}
+  .hd-open .hd-mm>ol>li:nth-child(2){transition-delay:.04s}.hd-open .hd-mm>ol>li:nth-child(3){transition-delay:.08s}.hd-open .hd-mm>ol>li:nth-child(4){transition-delay:.12s}.hd-open .hd-mm>ol>li:nth-child(5){transition-delay:.16s}
+  .hd-t{display:flex;align-items:center;width:100%;padding:15px 0;font:500 26px/1.15 var(--sans);letter-spacing:-.03em;color:var(--ink);text-decoration:none;background:none;border:0;cursor:pointer;text-align:left}
+  .hd-t::after{content:"0" counter(n);margin-left:auto;font-family:var(--serif);font-style:italic;font-weight:400;font-size:17px;color:var(--accent)}
+  .hd-t .pl{order:3;margin-left:14px;width:12px;height:12px;position:relative;opacity:.6}
+  .hd-t .pl::before,.hd-t .pl::after{content:"";position:absolute;left:0;right:0;top:5.5px;height:1.5px;background:currentColor;transition:transform .3s}
+  .hd-t .pl::after{transform:rotate(90deg)}
+  .hd-mm li.ex .pl::after{transform:rotate(0)}
+  .hd-s{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-mm li.ex .hd-s{grid-template-rows:1fr}
+  .hd-s>div{overflow:hidden}
+  .hd-s a{display:block;padding:8px 0 8px 2px;font-size:16px;color:var(--ink);opacity:.75;text-decoration:none}
+  .hd-s a:last-child{margin-bottom:14px}
+  .hd-mf{margin-top:auto;padding-top:28px;display:grid;gap:14px}
+  .hd-mf .btn{justify-content:center;padding:15px}
+  .hd-mf small{font-size:12px;color:var(--muted);text-align:center}
+  body.hd-lock{overflow:hidden}
+
+  @media (max-width:1180px){.hd-r .btn.s{display:none}.hd-main .hd-w{gap:16px}}
+  @media (max-width:980px){
+    .hd-nv{display:none}.hd-burger{display:block}
+    .hd-r{margin-left:auto}.hd-bar a{display:none}
+    .hd-lg{height:34px}.hd.sc .hd-lg{height:30px}
+    .hd .btn{padding:10px 16px;font-size:13px}
+  }
+  @media (max-width:980px){.hd-sp{height:113px}}
+  @media (max-width:520px){
+    .hd-sp{height:109px}
+    .hd-w{padding:0 16px}.hd-bar{font-size:11px}
+    .hd-bar span b:nth-child(n+3){display:none}
+    .hd-main .hd-w{padding-top:14px;padding-bottom:14px;gap:12px}
+    .hd.sc .hd-main .hd-w{padding-top:10px;padding-bottom:10px}
+  }
+  @media (max-width:360px){.hd-r .btn{display:none}}
+  @media (prefers-reduced-motion:reduce){.hd,.hd-p,.hd-mm,.hd-mm li{transition:none}}
+  .hd-main .hd-w{position:relative}
+  .hd-dd.mega{position:static}
+  .hd-p.mega{left:32px;right:32px;width:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:18px}
+  .hd-g{display:flex;flex-direction:column;gap:2px;padding:6px}
+  .hd-g small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px 10px}
+  .hd-l{display:block;padding:9px 10px;border-radius:10px;color:var(--ink);text-decoration:none;font-size:14.5px;transition:background .2s}
+  .hd-l:hover{background:var(--paper)}
+  .hd-l[aria-current="page"]{background:var(--paper);font-weight:500}
+  .hd-l[aria-current="page"]::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:2px}
+  .hd-s a[aria-current="page"]{opacity:1;font-weight:500}
+
+</style>
+</head>
+<body>
+<header class="hd" id="hd">
+  <div class="hd-bar"><div class="hd-w"><span><b><i>✓</i>DSGVO-konform</b><b><i>✓</i>Server in der EU</b><b><i>✓</i>Antwort innerhalb eines Werktags</b></span><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></div></div>
+  <div class="hd-main"><div class="hd-w">
+    <a href="ailien-startseite.html" aria-label="ailien Startseite"><svg class="hd-lg" viewBox="0 8 160.8 64" aria-hidden="true"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#0E1013"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#0F7A55" fill-rule="evenodd"/></svg></a>
+    <nav class="hd-nv" aria-label="Hauptnavigation">
+      <div class="hd-dd">
+        <button class="hd-ni" aria-expanded="false"><sup>01</sup>Leistungen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+        <div class="hd-p wide">
+          <a class="hd-i" href="/leistungen/prozess-automation"><b>Prozess-Automationen</b><span>Belege, Angebote, Bestellungen – läuft von selbst.</span></a>
+          <a class="hd-i" href="/leistungen/wissenssysteme"><b>KI-Wissenssysteme</b><span>Firmenwissen, das jeder sofort findet.</span></a>
+          <a class="hd-i" href="/leistungen/voice"><b>Voice &amp; Kommunikation</b><span>Telefon-Assistent und E-Mail-Vorsortierung.</span></a>
+          <a class="hd-i" href="/leistungen/beratung"><b>KI-Strategie &amp; Beratung</b><span>Wo lohnt sich KI bei Ihnen wirklich?</span></a>
+          <a class="hd-feat" href="ailien-entlastungsrechner.html"><small>Rechner</small><strong>Wie viele Stunden <em>sparen Sie?</em></strong><span>Jetzt ausrechnen →</span></a>
+          <a class="hd-all" href="/leistungen">Alle Leistungen im Überblick <span>→</span></a>
+        </div>
+      </div>
+      <div class="hd-dd mega"><button class="hd-ni" aria-expanded="false"><sup>02</sup>Branchen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><div class="hd-p mega"><div class="hd-g"><small>Bau &amp; Handwerk</small><a class="hd-l" href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a class="hd-l" href="ailien-branchen-bad-kueche.html">Bad- &amp; Küchenstudios</a><a class="hd-l" href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a class="hd-l" href="ailien-branchen-gebaeudereinigung.html">Gebäudereinigung</a></div><div class="hd-g"><small>Industrie &amp; Technik</small><a class="hd-l" href="ailien-branchen-maschinenbau.html">Maschinen- &amp; Anlagenbau</a><a class="hd-l" href="ailien-branchen-cnc.html">CNC-Betriebe</a><a class="hd-l" href="ailien-branchen-dguv-v3.html" aria-current="page">Elektroprüfung DGUV V3</a><a class="hd-l" href="ailien-branchen-brandschutz.html">Brandschutz</a></div><div class="hd-g"><small>Immobilien &amp; Planung</small><a class="hd-l" href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a class="hd-l" href="ailien-branchen-immobilienmakler.html">Immobilienmakler</a><a class="hd-l" href="ailien-branchen-architekten.html">Architekten</a><a class="hd-l" href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a></div><div class="hd-g"><small>Dienstleistung</small><a class="hd-l" href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a class="hd-l" href="ailien-branchen-foerdermittelberatung.html">Fördermittelberatung</a><a class="hd-l" href="ailien-branchen-bestatter.html">Bestatter</a></div></div></div>
+      <a class="hd-ni" href="ailien-praxisbeispiele.html"><sup>03</sup>Praxisbeispiele</a>
+      <a class="hd-ni" href="ailien-ueber-uns.html"><sup>04</sup>Über uns</a>
+      <a class="hd-ni" href="/wissen"><sup>05</sup>Wissen</a>
+    </nav>
+    <div class="hd-r"><a class="btn s" href="ailien-entlastungsrechner.html?branche=dguv-v3">Rechner</a><a class="btn p" href="/kontakt">Erstgespräch <span class="ar">→</span></a></div>
+    <button class="hd-burger" aria-label="Menü öffnen" aria-expanded="false"></button>
+  </div></div>
+</header>
+<div class="hd-sp" aria-hidden="true"></div>
+<div class="hd-mm" id="hdMenu">
+  <ol>
+    <li><button class="hd-t">Leistungen<i class="pl"></i></button><div class="hd-s"><div><a href="/leistungen/prozess-automation">Prozess-Automationen</a><a href="/leistungen/wissenssysteme">KI-Wissenssysteme</a><a href="/leistungen/voice">Voice &amp; Kommunikation</a><a href="/leistungen/beratung">KI-Strategie &amp; Beratung</a><a href="/leistungen">Alle Leistungen →</a></div></div></li>
+    <li><button class="hd-t">Branchen<i class="pl"></i></button><div class="hd-s"><div><a href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a href="ailien-branchen-bad-kueche.html">Bad- &amp; Küchenstudios</a><a href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a href="ailien-branchen-gebaeudereinigung.html">Gebäudereinigung</a><a href="ailien-branchen-maschinenbau.html">Maschinen- &amp; Anlagenbau</a><a href="ailien-branchen-cnc.html">CNC-Betriebe</a><a href="ailien-branchen-dguv-v3.html" aria-current="page">Elektroprüfung DGUV V3</a><a href="ailien-branchen-brandschutz.html">Brandschutz</a><a href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a href="ailien-branchen-immobilienmakler.html">Immobilienmakler</a><a href="ailien-branchen-architekten.html">Architekten</a><a href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a><a href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a href="ailien-branchen-foerdermittelberatung.html">Fördermittelberatung</a><a href="ailien-branchen-bestatter.html">Bestatter</a></div></div></li>
+    <li><a class="hd-t" href="ailien-praxisbeispiele.html">Praxisbeispiele</a></li>
+    <li><a class="hd-t" href="ailien-ueber-uns.html">Über uns</a></li>
+    <li><a class="hd-t" href="/wissen">Wissen</a></li>
+  </ol>
+  <div class="hd-mf"><a class="btn p" href="/kontakt">Erstgespräch vereinbaren <span class="ar">→</span></a><a class="btn s" href="ailien-entlastungsrechner.html?branche=dguv-v3">Entlastungs-Rechner</a><small>DSGVO-konform · Server in der EU</small></div>
+</div>
+<script>
+(function(){
+  var h=document.getElementById('hd'), last=scrollY, root=document.documentElement, sp=document.querySelector('.hd-sp');
+  function fit(){if(!h.classList.contains('sc'))sp.style.height=h.offsetHeight+'px'}
+  fit();addEventListener('resize',fit);if(document.fonts)document.fonts.ready.then(fit);
+  var dds=[].slice.call(h.querySelectorAll('.hd-dd'));
+  function closeAll(ex){dds.forEach(function(d){if(d!==ex){d.classList.remove('on');d.querySelector('.hd-ni').setAttribute('aria-expanded','false')}})}
+  dds.forEach(function(d){
+    var t,b=d.querySelector('.hd-ni');
+    function open(){clearTimeout(t);closeAll(d);d.classList.add('on');b.setAttribute('aria-expanded','true')}
+    d.addEventListener('mouseenter',open);
+    d.addEventListener('mouseleave',function(){t=setTimeout(function(){d.classList.remove('on');b.setAttribute('aria-expanded','false')},140)});
+    b.addEventListener('click',function(){d.classList.contains('on')?closeAll():open()});
+  });
+  document.addEventListener('click',function(e){if(!h.contains(e.target))closeAll()});
+  var menu=document.getElementById('hdMenu'), burger=h.querySelector('.hd-burger');
+  function setMenu(o){root.classList.toggle('hd-open',o);document.body.classList.toggle('hd-lock',o);burger.setAttribute('aria-expanded',o?'true':'false');burger.setAttribute('aria-label',o?'Menü schließen':'Menü öffnen');if(o)h.classList.remove('hide')}
+  burger.addEventListener('click',function(){setMenu(!root.classList.contains('hd-open'))});
+  menu.querySelectorAll('button.hd-t').forEach(function(b){b.addEventListener('click',function(){b.parentNode.classList.toggle('ex')})});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeAll();setMenu(false)}});
+  var raf=0;
+  addEventListener('scroll',function(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;
+    var y=scrollY;
+    if(y>48)h.classList.add('sc');else if(y<8)h.classList.remove('sc');
+    if(!root.classList.contains('hd-open')){
+      if(y>240&&y>last+6){h.classList.add('hide');closeAll()}
+      else if(y<last-6||y<240)h.classList.remove('hide');
+    }
+    last=y;
+  })},{passive:true});
+})();
+</script>
+<style>
+  /* ================= Branche: DGUV V3 (Präfix dg-) ================= */
+  .dg-w{max-width:1240px;margin:0 auto;padding-left:32px;padding-right:32px}
+  .dg-mono{font-family:ui-monospace,"SFMono-Regular","JetBrains Mono",Menlo,Consolas,"Liberation Mono",monospace;font-variant-numeric:tabular-nums}
+  .dg-h2{font-weight:500;font-size:clamp(28px,3.5vw,48px);line-height:1.06;letter-spacing:-.04em;margin:0 0 18px}
+  .dg-h2 span{display:block}
+  .dg-h2 em,.dg-hero h1 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--accent)}
+  .dg-sub{font-size:18px;line-height:28px;color:var(--muted);max-width:540px;margin:0}
+  .dg-rv{opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .dg-rv.in{opacity:1;transform:none}
+  .dg-dark{background:var(--night);color:var(--on-night)}
+  .dg-dark .eyebrow{color:var(--mint)}.dg-dark .eyebrow::before{background:var(--mint)}
+  .dg-dark .dg-h2 em,.dg-dark h1 em{color:var(--mint)}
+  .dg-dark .dg-sub{color:var(--on-night-muted)}
+
+  /* ---------- Hero ---------- */
+  .dg-hero{position:relative;overflow:hidden;background:
+      linear-gradient(rgba(140,245,194,.045) 1px,transparent 1px) 0 0/100% 32px,
+      linear-gradient(90deg,rgba(140,245,194,.045) 1px,transparent 1px) 0 0/32px 100%,var(--night)}
+  .dg-hero .dg-w{display:grid;grid-template-columns:.92fr 1.08fr;gap:56px;align-items:start;padding-top:40px;padding-bottom:120px}
+  .dg-hero .dg-w>*{min-width:0}
+  .dg-hero-t{container-type:inline-size;padding-top:8px}
+  .dg-crumb{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--on-night-muted);margin:0 0 44px}
+  .dg-crumb a{color:inherit;text-decoration:none}.dg-crumb a:hover{color:var(--on-night)}
+  .dg-crumb span{opacity:.5}
+  .dg-hero h1{font-weight:500;font-size:min(64px,calc(100cqi / 9.6));line-height:1.03;letter-spacing:-.045em;margin:0 0 26px}
+  .dg-hero h1 span{display:block;white-space:nowrap}
+  .dg-lead{font-size:19px;line-height:30px;color:var(--on-night-muted);max-width:500px;margin:0 0 34px}
+  .dg-lead b{color:var(--on-night);font-weight:500}
+  .dg-ctas{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px}
+  .dg-ctas .btn.p{background:var(--on-night);color:var(--night)}.dg-ctas .btn.p:hover{background:#fff}
+  .dg-link{font-size:15px;color:var(--on-night);text-decoration:none;border-bottom:1px solid var(--night-3);padding-bottom:3px}
+  .dg-link:hover{border-color:var(--mint)}
+  .dg-norm{margin-top:44px;width:max-content;max-width:100%;display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:0;border:1px solid var(--night-3);border-radius:12px;overflow:hidden}
+  .dg-norm div{padding:12px 16px;border-right:1px solid var(--night-3)}
+  .dg-norm div:last-child{border-right:0}
+  .dg-norm small{display:block;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--on-night-muted);margin-bottom:4px}
+  .dg-norm b{font-weight:500;font-size:14px}
+
+  .dg-stage{position:relative;padding-bottom:150px}
+  .dg-con{background:var(--night-2);border:1px solid var(--night-3);border-radius:18px;overflow:hidden;box-shadow:0 40px 80px -40px rgba(0,0,0,.8)}
+  .dg-con-top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding:18px 20px 16px;border-bottom:1px solid var(--night-3)}
+  .dg-con-top small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--on-night-muted);margin-bottom:6px}
+  .dg-con-top b{font-weight:500;font-size:15px}
+  .dg-cnt{text-align:right;flex:none}
+  .dg-cnt .n{font-size:34px;line-height:1;color:var(--mint);letter-spacing:-.02em}
+  .dg-cnt .n i{font-style:normal;color:var(--on-night-muted);font-size:15px;margin-left:4px}
+  .dg-bar{height:3px;background:var(--night-3)}
+  .dg-bar i{display:block;height:100%;width:0;background:var(--mint);transition:width .12s linear}
+  .dg-tr{display:grid;grid-template-columns:44px minmax(0,1fr) 86px 26px 46px 50px 44px 22px;gap:8px;align-items:center;padding:0 20px;height:38px;font-size:12.5px;border-bottom:1px solid rgba(255,255,255,.05)}
+  .dg-tr>*{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dg-th{height:34px;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--on-night-muted);background:rgba(255,255,255,.02)}
+  .dg-th .r,.dg-td .r{text-align:right}
+  .dg-td{color:#D5D7DA;opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s,background .4s}
+  .dg-td.on{opacity:1;transform:none}
+  .dg-td .inv{color:var(--on-night-muted)}
+  .dg-td .ort{color:var(--on-night-muted)}
+  .dg-ok,.dg-x{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;font-size:11px;justify-self:end}
+  .dg-ok{background:rgba(140,245,194,.12);color:var(--mint)}
+  .dg-x{background:#E5484D;color:#fff}
+  .dg-td.bad{background:rgba(229,72,77,.12);color:#fff}
+  .dg-td.bad .bv{color:#FF8F92}
+  .dg-con-ft{display:flex;flex-wrap:wrap;gap:8px;padding:14px 20px 18px}
+  .dg-out{font-size:12.5px;padding:7px 11px;border-radius:999px;border:1px solid var(--night-3);color:var(--on-night-muted);display:inline-flex;align-items:center;gap:7px;transition:all .4s}
+  .dg-out::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--night-3);transition:background .4s}
+  .dg-out.on{color:var(--on-night);border-color:rgba(140,245,194,.35)}
+  .dg-out.on::before{background:var(--mint)}
+  .dg-offer{position:absolute;right:-10px;bottom:-26px;width:300px;background:var(--paper);color:var(--ink);border-radius:14px;padding:16px 16px 14px;box-shadow:0 30px 60px -20px rgba(0,0,0,.7);transform:translateY(18px) rotate(1.5deg);opacity:0;transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.2,1)}
+  .dg-offer.on{opacity:1;transform:rotate(1.5deg)}
+  .dg-offer header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .dg-offer header b{font-weight:500;font-size:13.5px}
+  .dg-offer header span{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);background:rgba(15,122,85,.1);padding:3px 8px;border-radius:999px}
+  .dg-offer p{margin:0;font-size:12px;color:var(--muted)}
+  .dg-offer .pos{display:flex;justify-content:space-between;gap:10px;padding:10px 0;margin:8px 0;border-top:1px dashed var(--line);border-bottom:1px dashed var(--line);font-size:13px}
+  .dg-offer .pos em{font-style:normal;color:var(--muted);white-space:nowrap}
+  .dg-offer-link{display:none;position:absolute;right:296px;bottom:60px;width:70px;height:50px;color:var(--mint);opacity:0;transition:opacity .4s}
+  .dg-offer-link.on{opacity:1}
+  .dg-offer-link path{fill:none;stroke:currentColor;stroke-width:1.5;stroke-dasharray:3 4}
+  .dg-cap{position:absolute;left:0;bottom:96px;font-size:12px;color:var(--on-night-muted)}
+
+  /* ---------- Fluss: Eingang -> Datensatz -> Unterlagen ---------- */
+  .dg-flow{padding:128px 0 120px}
+  .dg-flow .head{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:end;margin-bottom:56px}
+  .dg-fl{display:grid;grid-template-columns:1fr 64px 1fr;align-items:stretch}
+  .dg-fl>*{min-width:0}
+  .dg-in{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column}
+  .dg-tabs{display:inline-flex;gap:4px;padding:4px;background:var(--paper);border-radius:999px;align-self:flex-start;margin-bottom:18px}
+  .dg-tabs button{font:500 13px/18px var(--sans);border:0;background:none;color:var(--muted);padding:8px 14px;border-radius:999px;cursor:pointer;transition:all .2s}
+  .dg-tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+  .dg-tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .dg-raw{flex:1;background:var(--paper);border-radius:12px;padding:16px;font-size:12.5px;line-height:22px;color:var(--muted);min-height:190px;overflow-x:auto}
+  .dg-raw .hl{color:var(--ink);background:rgba(15,122,85,.12);border-radius:3px;box-shadow:0 0 0 2px rgba(15,122,85,.12)}
+  .dg-raw .hdr{color:#9A9DA2}
+  .dg-raw pre{margin:0;font:inherit;white-space:pre}
+  .dg-voice{font-family:var(--sans);font-size:15px;line-height:25px;color:var(--ink)}
+  .dg-voice .tm{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .dg-voice mark{background:rgba(15,122,85,.12);color:var(--ink);border-radius:3px;padding:0 2px}
+  .dg-in small{display:block;margin-top:12px;font-size:12px;color:var(--muted)}
+  .dg-arr{display:grid;place-items:center;color:var(--accent)}
+  .dg-arr svg{width:40px;height:24px}
+  .dg-rec{background:var(--night);color:var(--on-night);border-radius:18px;padding:20px;display:flex;flex-direction:column}
+  .dg-rec header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .dg-rec header b{font-weight:500;font-size:14px}
+  .dg-rec header span{font-size:11px;color:var(--on-night-muted)}
+  .dg-kv{display:grid;grid-template-columns:132px 1fr;gap:0 14px;font-size:13.5px}
+  .dg-kv dt,.dg-kv dd{padding:8px 0;border-bottom:1px solid var(--night-3);margin:0;opacity:.18;transition:opacity .35s}
+  .dg-kv dt{color:var(--on-night-muted)}
+  .dg-kv dd{overflow-wrap:anywhere}
+  .dg-kv .on{opacity:1}
+  .dg-kv dd.bad{color:#FF8F92}
+  .dg-docs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+  .dg-doc{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;display:flex;gap:14px;align-items:flex-start;opacity:.45;transition:opacity .5s,border-color .5s}
+  .dg-doc.on{opacity:1;border-color:#CFCBC1}
+  .dg-doc svg{flex:none;width:30px;height:38px;color:var(--ink)}
+  .dg-doc svg *{fill:none;stroke:currentColor;stroke-width:1.2}
+  .dg-doc b{display:block;font-weight:500;font-size:15px;margin-bottom:3px}
+  .dg-doc span{display:block;font-size:13px;line-height:19px;color:var(--muted)}
+
+  /* ---------- Signatur: Prüfhistorie ---------- */
+  .dg-hist{padding:120px 0;background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .dg-hist .head{max-width:760px;margin-bottom:44px}
+  .dg-app{border:1px solid var(--line);border-radius:20px;background:var(--paper);overflow:hidden}
+  .dg-tool{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line);background:#FAF9F6}
+  .dg-search{position:relative;flex:1 1 240px;max-width:340px}
+  .dg-search input{width:100%;font:400 14.5px/20px var(--sans);padding:11px 14px 11px 38px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink)}
+  .dg-search input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+  .dg-search svg{position:absolute;left:14px;top:50%;width:15px;height:15px;margin-top:-7.5px;color:var(--muted)}
+  .dg-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .dg-chip{font:400 13px/18px var(--sans);padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:all .2s;white-space:nowrap}
+  .dg-chip:hover{border-color:var(--ink)}
+  .dg-chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .dg-chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .dg-chip .dt{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:1px}
+  .dg-sep{width:1px;height:26px;background:var(--line)}
+  .dg-split{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);min-height:520px}
+  .dg-list{border-right:1px solid var(--line);display:flex;flex-direction:column}
+  .dg-lh{display:grid;grid-template-columns:50px minmax(0,1fr) 120px 74px;gap:12px;padding:12px 18px;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line)}
+  .dg-rows{list-style:none;margin:0;padding:0;max-height:470px;overflow:auto}
+  .dg-rows button{width:100%;display:grid;grid-template-columns:50px minmax(0,1fr) 120px 74px;gap:12px;align-items:center;padding:12px 18px;border:0;border-bottom:1px solid var(--line);background:none;font:400 14px/20px var(--sans);color:var(--ink);text-align:left;cursor:pointer;transition:background .15s}
+  .dg-rows button>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dg-rows button:hover{background:#fff}
+  .dg-rows button[aria-selected="true"]{background:#fff;box-shadow:inset 3px 0 0 var(--accent)}
+  .dg-rows button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+  .dg-rows .inv{font-size:12.5px;color:var(--muted)}
+  .dg-rows .rm{font-size:13px;color:var(--muted)}
+  .dg-st{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;justify-self:start}
+  .dg-st::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .dg-st.m::before{background:#E5484D}.dg-st.f::before{background:var(--warn)}
+  .dg-cnt2{margin-top:auto;padding:12px 18px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line)}
+  .dg-empty{padding:40px 18px;color:var(--muted);font-size:14.5px}
+  .dg-det{padding:26px 28px 24px;background:#fff;min-width:0}
+  .dg-det .k{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
+  .dg-det h3{margin:0 0 6px;font-weight:500;font-size:26px;letter-spacing:-.03em;line-height:1.15}
+  .dg-det .meta{font-size:14px;color:var(--muted);margin:0 0 20px}
+  .dg-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:22px}
+  .dg-facts div{background:var(--paper);border-radius:10px;padding:10px 12px}
+  .dg-facts small{display:block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+  .dg-facts b{font-weight:500;font-size:14.5px}
+  .dg-spark{display:block;width:100%;height:auto;margin:0 0 6px;overflow:visible}
+  .dg-spark .ln{fill:none;stroke:var(--ink);stroke-width:1.5}
+  .dg-spark .lim{stroke:#E5484D;stroke-width:1;stroke-dasharray:4 4}
+  .dg-spark text{font:400 10.5px var(--sans);fill:var(--muted)}
+  .dg-spark circle{fill:#fff;stroke:var(--ink);stroke-width:1.5}
+  .dg-spark circle.b{stroke:#E5484D;fill:#E5484D}
+  .dg-spk{font-size:12px;color:var(--muted);margin:0 0 16px}
+  .dg-ht{width:100%;border-collapse:collapse;font-size:13px}
+  .dg-ht th{text-align:left;font-weight:400;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:0 8px 8px 0;border-bottom:1px solid var(--line)}
+  .dg-ht td{padding:9px 8px 9px 0;border-bottom:1px solid var(--line);white-space:nowrap}
+  .dg-ht td.b{color:#C2353A}
+  .dg-ht .r,.dg-ht th.r{text-align:right}
+  .dg-hint{display:flex;gap:12px;margin-top:18px;padding:13px 14px;border-radius:12px;background:#EEF6F1;font-size:14px;line-height:21px}
+  .dg-hint::before{content:"KI";flex:none;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:10.5px;font-weight:600}
+  .dg-hint.w{background:#FBF3DE}
+  .dg-hint.w::before{background:#E8B04B;color:var(--ink)}
+  .dg-anim{animation:dgIn .4s cubic-bezier(.2,.7,.2,1)}
+  @keyframes dgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .dg-note{margin-top:14px;font-size:12px;color:var(--muted)}
+
+  /* ---------- Mängel -> Angebot ---------- */
+  .dg-def{padding:120px 0}
+  .dg-def .grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:52px;align-items:start}
+  .dg-def .grid>*{min-width:0}
+  .dg-ml{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+  .dg-ml li{background:var(--night-2);border:1px solid var(--night-3);border-radius:16px;padding:18px 18px 16px}
+  .dg-ml .t{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px}
+  .dg-ml .t b{font-weight:500;font-size:16px}
+  .dg-ml .t span{font-size:12px;color:var(--on-night-muted)}
+  .dg-ml p{margin:0 0 14px;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .dg-ml p .bv{color:#FF8F92}
+  .dg-seg{display:inline-flex;gap:3px;padding:3px;border:1px solid var(--night-3);border-radius:999px}
+  .dg-seg button{font:500 13px/18px var(--sans);padding:7px 14px;border:0;border-radius:999px;background:none;color:var(--on-night-muted);cursor:pointer;transition:all .2s}
+  .dg-seg button[aria-pressed="true"]{background:var(--mint);color:var(--night)}
+  .dg-seg button:disabled{opacity:.35;cursor:not-allowed;text-decoration:line-through}
+  .dg-seg button:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
+  .dg-ml .why{display:block;margin-top:10px;font-size:12.5px;color:var(--on-night-muted)}
+  .dg-ml .why i{font-style:normal;color:var(--mint)}
+  .dg-paper{background:var(--paper);color:var(--ink);border-radius:8px;padding:28px 28px 22px;box-shadow:0 40px 80px -40px rgba(0,0,0,.8);position:sticky;top:110px}
+  .dg-paper header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--ink);margin-bottom:6px}
+  .dg-paper header b{display:block;font-weight:500;font-size:18px;letter-spacing:-.02em}
+  .dg-paper header small{display:block;font-size:12.5px;color:var(--muted);margin-top:4px}
+  .dg-paper header span{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);background:rgba(15,122,85,.1);padding:4px 8px;border-radius:999px;flex:none}
+  .dg-pos{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:10px;padding:11px 0;border-bottom:1px dashed #D5D1C7;font-size:14px;line-height:20px}
+  .dg-pos i{font-style:normal;color:var(--muted);font-size:12.5px}
+  .dg-pos small{display:block;color:var(--muted);font-size:12.5px}
+  .dg-pos b{font-weight:400;white-space:nowrap}
+  .dg-pos.new{animation:dgIn .4s}
+  .dg-sum{display:flex;justify-content:space-between;padding:14px 0 4px;font-size:15px}
+  .dg-sum b{font-weight:500}
+  .dg-pf{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px;font-size:12px;color:var(--muted)}
+
+  /* ---------- Arbeitsteilung ---------- */
+  .dg-split2{padding:120px 0 112px}
+  .dg-ledger{display:grid;grid-template-columns:1fr 1fr;margin-top:52px;border-top:1px solid var(--ink)}
+  .dg-ledger>div{padding:28px 32px 8px 0}
+  .dg-ledger>div+div{padding:28px 0 8px 32px;border-left:1px solid var(--line)}
+  .dg-ledger h3{margin:0 0 4px;font-weight:500;font-size:22px;letter-spacing:-.02em}
+  .dg-ledger h3 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;color:var(--accent)}
+  .dg-ledger .k{font-size:13px;color:var(--muted);margin:0 0 18px}
+  .dg-ledger ol{list-style:none;margin:0;padding:0;counter-reset:l}
+  .dg-ledger li{counter-increment:l;display:grid;grid-template-columns:40px 1fr;padding:13px 0;border-bottom:1px solid var(--line);font-size:16px;line-height:24px}
+  .dg-ledger li::before{content:counter(l,decimal-leading-zero);font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;color:var(--muted);padding-top:3px}
+  .dg-ledger li small{display:block;font-size:13.5px;line-height:20px;color:var(--muted);margin-top:2px}
+  .dg-sig{margin-top:30px;display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap}
+  .dg-sig .ln{width:220px;border-bottom:1px solid var(--ink);height:44px;position:relative}
+  .dg-sig .ln span{position:absolute;left:6px;bottom:4px;font-family:"Caveat","Caveat Medium",cursive;font-weight:500;font-size:28px;color:var(--ink);line-height:1}
+  .dg-sig small{font-size:12.5px;color:var(--muted);line-height:18px;max-width:280px}
+
+  /* ---------- FAQ ---------- */
+  .dg-faq{padding:0 0 112px}
+  .dg-faq .dg-w{display:grid;grid-template-columns:1fr 1.45fr;gap:72px}
+  .dg-q{border-top:1px solid var(--ink)}
+  .dg-q details{border-bottom:1px solid var(--line)}
+  .dg-q summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:21px 0;font-size:18px;letter-spacing:-.01em}
+  .dg-q summary::-webkit-details-marker{display:none}
+  .dg-q summary::after{content:"+";flex:none;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:17px;transition:transform .3s,background .2s,color .2s}
+  .dg-q details[open] summary::after{transform:rotate(45deg);background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .dg-q p{margin:0 0 24px;font-size:16px;line-height:26px;color:var(--muted);max-width:640px}
+
+  /* ---------- Weitere Branchen ---------- */
+  .dg-more{padding:0 0 120px}
+  .dg-more h2{font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+  .dg-mo{border-top:1px solid var(--ink)}
+  .dg-mo a{display:grid;grid-template-columns:70px minmax(0,1fr) minmax(0,1.2fr) 30px;gap:20px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);transition:padding .25s,background .25s}
+  .dg-mo a:hover{padding-left:12px;background:#fff}
+  .dg-mo i{font-style:normal;font-size:12px;color:var(--muted)}
+  .dg-mo b{font-weight:500;font-size:20px;letter-spacing:-.02em}
+  .dg-mo span{font-size:14.5px;color:var(--muted)}
+  .dg-mo em{font-style:normal;text-align:right;font-size:18px}
+
+  @media (max-width:1280px){.dg-tr .ort{display:none}.dg-tr{grid-template-columns:44px minmax(0,1fr) 26px 46px 50px 44px 22px}}
+  @media (max-width:1100px){
+    .dg-hero .dg-w{grid-template-columns:1fr;gap:52px;padding-bottom:96px}
+    .dg-stage{max-width:720px}
+    .dg-tr .ort{display:block}.dg-tr{grid-template-columns:44px minmax(0,1fr) 86px 26px 46px 50px 44px 22px}
+    .dg-offer{right:0}
+  }
+  @media (max-width:980px){
+    .dg-flow .head{grid-template-columns:1fr;gap:16px}
+    .dg-fl{grid-template-columns:1fr}
+    .dg-arr{height:56px}.dg-arr svg{transform:rotate(90deg)}
+    .dg-docs{grid-template-columns:1fr 1fr}
+    .dg-split{grid-template-columns:1fr}
+    .dg-list{border-right:0;border-bottom:1px solid var(--line)}
+    .dg-rows{max-height:340px}
+    .dg-def .grid{grid-template-columns:1fr;gap:36px}
+    .dg-paper{position:relative;top:auto}
+    .dg-faq .dg-w{grid-template-columns:1fr;gap:28px}
+    .dg-mo a{grid-template-columns:50px minmax(0,1fr) 24px}
+    .dg-mo span{grid-column:2;grid-row:2;margin-top:-12px}
+    .dg-mo em{grid-column:3;grid-row:1}
+  }
+  @media (max-width:760px){
+    .dg-tr{grid-template-columns:40px minmax(0,1fr) 44px 46px 22px;padding:0 14px;gap:8px}
+    .dg-tr .ort,.dg-tr .sk,.dg-tr .ipe{display:none}
+    .dg-con-top{padding:16px 14px 14px}
+    .dg-con-ft{padding:12px 14px 16px}
+    .dg-ledger{grid-template-columns:1fr}
+    .dg-ledger>div{padding:24px 0 8px}
+    .dg-ledger>div+div{padding:32px 0 8px;border-left:0}
+    .dg-lh{display:none}
+    .dg-rows button{grid-template-columns:44px minmax(0,1fr) auto;gap:10px}
+    .dg-rows .rm{display:none}
+  }
+  @media (max-width:560px){
+    .dg-w{padding-left:16px;padding-right:16px}
+    .dg-crumb{margin-bottom:28px}
+    .dg-lead{font-size:17px;line-height:27px}
+    .dg-norm{grid-template-columns:1fr 1fr;width:100%}
+    .dg-norm div:nth-child(2){border-right:0}
+    .dg-norm div:nth-child(3){grid-column:1/3;border-top:1px solid var(--night-3)}
+    .dg-con-top b{font-size:13.5px}
+    .dg-cnt .n{font-size:28px}
+    .dg-stage{padding-bottom:0;display:flex;flex-direction:column}
+    .dg-offer,.dg-cap{position:relative;right:auto;left:auto;bottom:auto}
+    .dg-offer{width:auto;margin:-12px 10px 0 34px;transform:translateY(10px) rotate(1deg)}
+    .dg-offer.on{transform:rotate(1deg)}
+    .dg-offer-link{display:none}
+    .dg-offer{margin-top:16px}
+    .dg-ml .t{flex-direction:column;gap:2px}
+    .dg-facts{grid-template-columns:repeat(3,1fr);gap:6px}.dg-facts div{padding:8px 9px}.dg-facts small{font-size:9.5px;letter-spacing:.03em}.dg-facts b{font-size:13.5px}
+    .dg-cap{margin-top:18px}
+    .dg-flow,.dg-hist,.dg-def,.dg-split2{padding:88px 0}
+    .dg-in,.dg-rec{padding:16px}
+    .dg-kv{grid-template-columns:104px 1fr;font-size:13px}
+    .dg-docs{grid-template-columns:1fr}
+    .dg-tool{padding:14px}
+    .dg-search{max-width:none;flex-basis:100%}
+    .dg-sep{display:none}
+    .dg-chips{flex-wrap:nowrap;overflow-x:auto;max-width:100%;padding-bottom:2px;scrollbar-width:none}
+    .dg-chips::-webkit-scrollbar{display:none}
+    .dg-rows button{padding:12px 14px}
+    .dg-det{padding:22px 16px}
+    .dg-det h3{font-size:22px}
+    .dg-ht{font-size:12px}
+    .dg-ht .ipe{display:none}
+    .dg-paper{padding:20px 16px 16px}
+    .dg-pos{font-size:13.5px;grid-template-columns:20px minmax(0,1fr) auto;gap:8px}
+    .dg-faq{padding-bottom:88px}
+    .dg-q summary{font-size:16.5px}
+    .dg-more{padding-bottom:88px}
+    .dg-mo b{font-size:18px}
+  }
+  @media (prefers-reduced-motion:reduce){.dg-rv{opacity:1;transform:none;transition:none}.dg-anim,.dg-pos.new{animation:none}}
+</style>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="dg-hero dg-dark" aria-labelledby="dg-h">
+  <div class="dg-w">
+    <div class="dg-hero-t">
+      <nav class="dg-crumb" aria-label="Brotkrumen"><a href="ailien-startseite.html">Start</a><span>/</span><a href="#">Branchen</a><span>/</span>Elektroprüfung DGUV V3</nav>
+      <p class="eyebrow">KI für Elektroprüfer</p>
+      <h1 id="dg-h"><span>1.200 Geräte geprüft.</span><span>Bericht <em>schon fertig.</em></span></h1>
+      <p class="dg-lead">Messwerte aus dem Prüfgerät oder per Sprache – daraus entstehen Prüfbericht, Geräteliste und Folgetermine. <b>Und jeder Mangel wird zum Angebotsentwurf</b>, statt in der Liste zu verschwinden.</p>
+      <div class="dg-ctas">
+        <a class="btn p" href="/kontakt">Kurz telefonieren <span aria-hidden="true">→</span></a>
+        <a class="dg-link" href="#dg-historie">Prüfhistorie ausprobieren ↓</a>
+      </div>
+      <div class="dg-norm" aria-label="Rahmen">
+        <div><small>Prüfung nach</small><b>DGUV Vorschrift 3</b></div>
+        <div><small>Messung nach</small><b>VDE 0701 / 0702</b></div>
+        <div><small>Fachurteil</small><b>bleibt bei der Elektrofachkraft</b></div>
+      </div>
+    </div>
+
+    <div class="dg-stage" id="dgStage" aria-label="Beispiel: Prüfergebnisse füllen eine Geräteliste, ein Mangel wird zur Angebotsposition">
+      <div class="dg-con">
+        <div class="dg-con-top">
+          <div><small>Prüfauftrag · Wiederholungsprüfung</small><b>Muster Logistik GmbH · Halle Nord</b></div>
+          <div class="dg-cnt"><small>Geräte geprüft</small><div class="n dg-mono"><span id="dgN">0</span><i>/ 1.200</i></div></div>
+        </div>
+        <div class="dg-bar"><i id="dgBar"></i></div>
+        <div class="dg-tr dg-th"><span>Inv.</span><span>Gerät</span><span class="ort">Standort</span><span class="sk">SK</span><span class="r">R<sub>PE</sub> Ω</span><span class="r">R<sub>ISO</sub> MΩ</span><span class="r ipe">I mA</span><span></span></div>
+        <div id="dgRows"></div>
+        <div class="dg-con-ft"><span class="dg-out">Prüfbericht</span><span class="dg-out">Geräteliste</span><span class="dg-out">Prüfplaketten-Liste</span><span class="dg-out">Folgetermine</span></div>
+      </div>
+      <svg class="dg-offer-link" viewBox="0 0 70 50" aria-hidden="true"><path d="M2 2 C 10 40, 40 46, 68 46"/></svg>
+      <div class="dg-offer" id="dgOffer">
+        <header><b>Angebotsentwurf</b><span>aus Mangel</span></header>
+        <p>Inv. 0416 · Kabeltrommel 25 m · R<sub>ISO</sub> unter Grenzwert</p>
+        <div class="pos"><span>Kabeltrommel 25 m, H07RN-F, IP44 – Ersatz</span><em>1 Stk.</em></div>
+        <p>Liegt zur Freigabe bereit – Sie entscheiden.</p>
+      </div>
+      <p class="dg-cap">Beispieldaten zur Veranschaulichung</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FLUSS ============ -->
+<section class="dg-flow" aria-labelledby="dg-fl-h">
+  <div class="dg-w">
+    <div class="head dg-rv">
+      <div><p class="eyebrow">Erfassung</p><h2 class="dg-h2" id="dg-fl-h"><span>Messwert rein.</span><span><em>Unterlagen</em> raus.</span></h2></div>
+      <p class="dg-sub">Kein Abtippen mehr. Die KI übernimmt den Export Ihres Prüfgeräts – oder hört zu, wenn Sie Gerät und Befund einsprechen. Am Ende steht derselbe saubere Datensatz.</p>
+    </div>
+    <div class="dg-fl" id="dgFlow">
+      <div class="dg-in">
+        <div class="dg-tabs" role="tablist" aria-label="Eingang wählen">
+          <button role="tab" aria-selected="true" data-m="exp">Prüfgerät-Export</button>
+          <button role="tab" aria-selected="false" data-m="voice">Per Sprache</button>
+        </div>
+        <div class="dg-raw dg-mono" id="dgRaw"></div>
+        <small id="dgRawCap">Export-Datei, wie sie viele Prüfgeräte ausgeben (CSV/XML).</small>
+      </div>
+      <div class="dg-arr" aria-hidden="true"><svg viewBox="0 0 40 24"><path d="M2 12 H36 M28 4 L36 12 L28 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="dg-rec">
+        <header><b>Datensatz Inv. 0416</b><span>von der KI zugeordnet</span></header>
+        <dl class="dg-kv" id="dgKv">
+          <dt>Gerät</dt><dd>Kabeltrommel 25 m</dd>
+          <dt>Standort</dt><dd>Halle Nord · Lager</dd>
+          <dt>Schutzklasse</dt><dd>I</dd>
+          <dt>Sichtprüfung</dt><dd class="bad">Mantel an zwei Stellen angescheuert</dd>
+          <dt>R<sub>PE</sub></dt><dd class="dg-mono">0,52 Ω</dd>
+          <dt>R<sub>ISO</sub></dt><dd class="dg-mono bad">0,4 MΩ · Grenzwert 1,0 MΩ</dd>
+          <dt>Ergebnis</dt><dd class="bad">nicht bestanden → Mangel</dd>
+        </dl>
+      </div>
+    </div>
+    <div class="dg-docs" id="dgDocs">
+      <div class="dg-doc"><svg viewBox="0 0 30 38" aria-hidden="true"><path d="M1 1h20l8 8v28H1z M21 1v8h8 M6 16h18 M6 21h18 M6 26h12"/></svg><div><b>Prüfbericht</b><span>mit Prüfgrundlage, Messgerät, Prüfer und Ergebnis je Gerät</span></div></div>
+      <div class="dg-doc"><svg viewBox="0 0 30 38" aria-hidden="true"><path d="M1 1h28v36H1z M1 9h28 M1 16h28 M1 23h28 M1 30h28 M10 1v36"/></svg><div><b>Geräteliste</b><span>sortiert nach Standort, als PDF und Tabelle</span></div></div>
+      <div class="dg-doc"><svg viewBox="0 0 30 38" aria-hidden="true"><circle cx="15" cy="15" r="12"/><circle cx="15" cy="15" r="7"/><path d="M15 3v4 M15 23v4 M3 15h4 M23 15h4 M8 33h14"/></svg><div><b>Prüfplaketten</b><span>Liste mit nächstem Prüftermin je Gerät</span></div></div>
+      <div class="dg-doc"><svg viewBox="0 0 30 38" aria-hidden="true"><path d="M1 5h28v32H1z M1 13h28 M8 1v8 M22 1v8"/><path d="M8 21h4v4H8z M18 27h4v4h-4z"/></svg><div><b>Folgetermine</b><span>aus Ihren Prüffristen berechnet, Kunde wird erinnert</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SIGNATUR: PRÜFHISTORIE ============ -->
+<section class="dg-hist" id="dg-historie" aria-labelledby="dg-hi-h">
+  <div class="dg-w">
+    <div class="head dg-rv">
+      <p class="eyebrow">Prüfhistorie</p>
+      <h2 class="dg-h2" id="dg-hi-h"><span>Jedes Gerät gefunden.</span><span>In <em>Sekunden.</em></span></h2>
+      <p class="dg-sub">Der Kunde ruft an und will wissen, wann die Bohrmaschine zuletzt geprüft wurde? Suchen, anklicken, fertig. Probieren Sie es aus – Gerät antippen zeigt den Verlauf.</p>
+    </div>
+    <div class="dg-app dg-rv">
+      <div class="dg-tool">
+        <label class="dg-search"><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Suche</span>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <input id="dgQ" type="search" placeholder="Gerät, Inventarnr. oder Raum" autocomplete="off">
+        </label>
+        <div class="dg-chips" id="dgK" aria-label="Kunde"></div>
+        <span class="dg-sep" aria-hidden="true"></span>
+        <div class="dg-chips" id="dgS" aria-label="Status"></div>
+      </div>
+      <div class="dg-split">
+        <div class="dg-list">
+          <div class="dg-lh" aria-hidden="true"><span>Inv.</span><span>Gerät</span><span>Raum</span><span>Status</span></div>
+          <ul class="dg-rows" id="dgList" role="listbox" aria-label="Geräte"></ul>
+          <div class="dg-cnt2" id="dgCount"></div>
+        </div>
+        <div class="dg-det" id="dgDet" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="dg-note">Beispieldaten zur Veranschaulichung. Grenzwerte im Diagramm: Mindestwert Isolationswiderstand für die jeweilige Schutzklasse.</p>
+  </div>
+</section>
+
+<!-- ============ MÄNGEL -> ANGEBOT ============ -->
+<section class="dg-def dg-dark" aria-labelledby="dg-df-h">
+  <div class="dg-w">
+    <div class="dg-rv">
+      <p class="eyebrow">Mängel</p>
+      <h2 class="dg-h2" id="dg-df-h"><span>Aus jedem Mangel</span><span>wird ein <em>Auftrag.</em></span></h2>
+      <p class="dg-sub">Defekte Geräte stehen im Bericht – und dann passiert oft nichts. Die KI macht aus jedem Mangel eine Angebotsposition: instandsetzen oder ersetzen, mit Ihren Preisen. Stellen Sie selbst um.</p>
+    </div>
+    <div class="grid">
+      <ul class="dg-ml" id="dgMl"></ul>
+      <div class="dg-paper" aria-live="polite">
+        <header><div><b>Angebot · Mängelbeseitigung</b><small>Muster Logistik GmbH · aus Prüfung vom 07.10.2026</small></div><span>Entwurf</span></header>
+        <div id="dgPos"></div>
+        <div class="dg-sum"><span>Summe netto</span><b class="dg-mono" id="dgSum">0,00 €</b></div>
+        <div class="dg-pf"><span>Beispielpreise · Ihre Preisliste wird hinterlegt</span><span>Freigabe durch Sie</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ARBEITSTEILUNG ============ -->
+<section class="dg-split2" aria-labelledby="dg-at-h">
+  <div class="dg-w">
+    <div class="dg-rv">
+      <p class="eyebrow">Verantwortung</p>
+      <h2 class="dg-h2" id="dg-at-h"><span>Sie prüfen und bewerten.</span><span>Die KI <em>schreibt mit.</em></span></h2>
+      <p class="dg-sub">Prüfen, messen und bewerten darf nur, wer dafür befähigt ist. Daran ändert keine Software etwas. Was sich ändert: alles drumherum.</p>
+    </div>
+    <div class="dg-ledger dg-rv">
+      <div>
+        <h3>Bleibt bei <em>Ihnen</em></h3>
+        <p class="k">Elektrofachkraft bzw. befähigte Person</p>
+        <ol>
+          <li><span>Sichtprüfung, Messen, Erproben<small>am Gerät, mit Ihrem Prüfgerät</small></span></li>
+          <li><span>Bewertung „bestanden / nicht bestanden“<small>die KI übernimmt nur, was Sie festgestellt haben</small></span></li>
+          <li><span>Prüffristen festlegen<small>auf Grundlage der Gefährdungsbeurteilung des Kunden</small></span></li>
+          <li><span>Unterschrift unter dem Prüfbericht</span></li>
+        </ol>
+        <div class="dg-sig"><div class="ln"><span>M. Kraus</span></div><small>Ihre Unterschrift. Die KI unterschreibt nichts und bewertet nichts.</small></div>
+      </div>
+      <div>
+        <h3>Übernimmt die <em>KI</em></h3>
+        <p class="k">vorbereitet, Sie geben frei</p>
+        <ol>
+          <li><span>Messwerte übernehmen statt abtippen<small>aus dem Export Ihres Prüfgeräts oder per Sprache</small></span></li>
+          <li><span>Prüfbericht und Geräteliste zusammenstellen<small>in Ihrem Layout, mit Ihrem Briefkopf</small></span></li>
+          <li><span>Folgetermine planen und Kunden erinnern<small>mit den Fristen, die Sie hinterlegt haben</small></span></li>
+          <li><span>Mängel in Angebotsentwürfe übersetzen<small>an Ihre Software angebunden – sonst per Export/Import</small></span></li>
+          <li><span>Prüfhistorie pro Kunde durchsuchbar halten</span></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="dg-faq" aria-labelledby="dg-fq-h">
+  <div class="dg-w">
+    <div class="dg-rv"><p class="eyebrow">Häufige Fragen</p><h2 class="dg-h2" id="dg-fq-h"><span>Was Prüfbetriebe</span><span>uns <em>meistens</em> fragen.</span></h2></div>
+    <div class="dg-q dg-rv">
+      <details open><summary>Funktioniert das mit unserem Prüfgerät?</summary><p>Die meisten Prüfgeräte und Prüfsoftware-Lösungen können Messdaten exportieren, etwa als CSV, XML oder PDF. Damit arbeiten wir. Welches Format Ihr Gerät liefert, schauen wir uns im ersten Gespräch gemeinsam an – eine bestimmte Schnittstelle versprechen wir vorher nicht.</p></details>
+      <details><summary>Wir haben schon eine Prüfsoftware – brauchen wir die dann nicht mehr?</summary><p>Doch, die bleibt. Die KI setzt dort an, wo heute Handarbeit anfällt: Daten zusammenführen, Bericht und Liste aufbereiten, Kunden erinnern, Mängel in Angebote übertragen. Wo es eine Schnittstelle gibt, nutzen wir sie, sonst Export und Import.</p></details>
+      <details><summary>Wer ist für das Prüfergebnis verantwortlich?</summary><p>Immer die prüfende Elektrofachkraft bzw. befähigte Person. Die KI übernimmt Messwerte und Befunde, die Sie erfasst haben, und markiert Auffälligkeiten – bewerten, entscheiden und unterschreiben tun Sie.</p></details>
+      <details><summary>Klappt das Einsprechen auch in einer lauten Halle?</summary><p>Meist ja, mit einem Headset deutlich besser. Unklare Stellen werden nicht geraten, sondern als Rückfrage markiert – zum Beispiel, wenn eine Inventarnummer nicht eindeutig verstanden wurde.</p></details>
+      <details><summary>Wo liegen die Daten unserer Kunden?</summary><p>Auf Servern in der EU, nur für Ihren Betrieb verarbeitet. Sie bekommen einen Auftragsverarbeitungsvertrag, und jeder Schritt wird protokolliert.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WEITERE BRANCHEN ============ -->
+<section class="dg-more" aria-labelledby="dg-mo-h">
+  <div class="dg-w">
+    <h2 id="dg-mo-h">Weitere Branchen</h2>
+    <nav class="dg-mo">
+      <a href="ailien-branchen-brandschutz.html"><i class="dg-mono">B-07</i><b>Brandschutz</b><span>Prüffristen, Touren, Bericht per Sprache</span><em aria-hidden="true">→</em></a>
+      <a href="ailien-branchen-maschinenbau.html"><i class="dg-mono">B-05</i><b>Maschinen- &amp; Anlagenbau</b><span>Altaufträge, Service-Wissen, Doku</span><em aria-hidden="true">→</em></a>
+      <a href="ailien-branchen-sicherheitsdienste.html"><i class="dg-mono">B-13</i><b>Sicherheitsdienste</b><span>Wachberichte, Nachweise, Dienstplan</span><em aria-hidden="true">→</em></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function $(id){return document.getElementById(id)}
+  function de(n){return n.toLocaleString('de-DE')}
+
+  /* Reveal */
+  var rv=[].slice.call(document.querySelectorAll('.dg-rv'));
+  if(reduce||!('IntersectionObserver' in window)) rv.forEach(function(e){e.classList.add('in')});
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.12});rv.forEach(function(e){io.observe(e)})}
+
+  /* ---- Hero: Geräteliste füllt sich ---- */
+  var R=[['0410','Kaffeevollautomat','Sozialraum','I','0,08','>200','0,42',1],['0411','Wasserkocher','Sozialraum','I','0,05','124','0,11',1],['0412','Monitor 27″','Büro 2','I','0,09','85,0','0,21',1],['0413','Laptop-Netzteil','Büro 2','II','–','>200','0,02',1],['0416','Kabeltrommel 25 m','Lager','I','0,52','0,4','–',0],['0417','Steckdosenleiste 5-fach','Versand','I','0,11','>200','–',1],['0418','Akku-Ladegerät','Werkstatt','II','–','48,6','0,04',1]];
+  var rowsEl=$('dgRows');
+  R.forEach(function(r){var d=document.createElement('div');d.className='dg-tr dg-td'+(r[7]?'':' bad');
+    d.innerHTML='<span class="inv dg-mono">'+r[0]+'</span><span>'+r[1]+'</span><span class="ort">'+r[2]+'</span><span class="sk dg-mono">'+r[3]+'</span><span class="r dg-mono">'+r[4]+'</span><span class="r dg-mono'+(r[7]?'':' bv')+'">'+r[5]+'</span><span class="r ipe dg-mono">'+r[6]+'</span>'+(r[7]?'<i class="dg-ok" aria-label="bestanden">✓</i>':'<i class="dg-x" aria-label="nicht bestanden">✕</i>');rowsEl.appendChild(d)});
+  var rows=[].slice.call(rowsEl.children), outs=[].slice.call(document.querySelectorAll('.dg-out')), N=$('dgN'), bar=$('dgBar'), offer=$('dgOffer'), link=document.querySelector('.dg-offer-link'), tm=[], cntRaf=0;
+  function setN(v){N.textContent=de(Math.round(v));bar.style.width=(v/1200*100)+'%'}
+  function play(){
+    tm.forEach(clearTimeout);tm=[];cancelAnimationFrame(cntRaf);
+    rows.forEach(function(r){r.classList.remove('on')});outs.forEach(function(o){o.classList.remove('on')});offer.classList.remove('on');link.classList.remove('on');
+    if(reduce){rows.forEach(function(r){r.classList.add('on')});outs.forEach(function(o){o.classList.add('on')});offer.classList.add('on');link.classList.add('on');setN(1200);return}
+    var t0=performance.now(),D=2600;
+    (function step(t){var p=Math.min(1,(t-t0)/D);setN(1200*(1-Math.pow(1-p,2.2)));if(p<1)cntRaf=requestAnimationFrame(step)})(t0);
+    rows.forEach(function(r,i){tm.push(setTimeout(function(){r.classList.add('on')},200+i*300))});
+    tm.push(setTimeout(function(){offer.classList.add('on');link.classList.add('on')},1900));
+    outs.forEach(function(o,i){tm.push(setTimeout(function(){o.classList.add('on')},2650+i*160))});
+    tm.push(setTimeout(play,11000));
+  }
+  play();
+
+  /* ---- Fluss: Export / Sprache ---- */
+  var RAW={
+    exp:'<pre><span class="hdr">INV;BEZ;ORT;SK;RPE;RISO;IPE;SICHT;ERG</span>\n0413;Laptop-NT;Buero 2;2;;>200;0.02;OK;J\n<span class="hl">0416;Kabeltr. 25m;Lager;1;0.52;0.40;;MANTEL;N</span>\n0417;Steckdl. 5f;Versand;1;0.11;>200;;OK;J\n0418;Ladegeraet;Werkst.;2;;48.6;0.04;OK;J</pre>',
+    voice:'<div class="dg-voice"><span class="tm">Sprachnotiz · 0:21</span>„Null vier eins sechs, <mark>Kabeltrommel fünfundzwanzig Meter</mark>, steht im <mark>Lager</mark>. Schutzklasse eins. <mark>Mantel an zwei Stellen angescheuert</mark>. Schutzleiter null Komma fünf zwei Ohm, <mark>Iso null Komma vier Megaohm</mark>. Nicht bestanden.“</div>'
+  };
+  var CAP={exp:'Export-Datei, wie sie viele Prüfgeräte ausgeben (CSV/XML).',voice:'Eingesprochen am Gerät – Fachbegriffe und Zahlen werden sauber übernommen.'};
+  var raw=$('dgRaw'), kv=[].slice.call($('dgKv').children), docs=[].slice.call($('dgDocs').children), ftm=[];
+  function runFlow(m){
+    ftm.forEach(clearTimeout);ftm=[];raw.innerHTML=RAW[m];$('dgRawCap').textContent=CAP[m];
+    [].forEach.call(document.querySelectorAll('.dg-tabs button'),function(b){b.setAttribute('aria-selected',b.dataset.m===m?'true':'false')});
+    kv.forEach(function(e){e.classList.remove('on')});docs.forEach(function(e){e.classList.remove('on')});
+    if(reduce){kv.forEach(function(e){e.classList.add('on')});docs.forEach(function(e){e.classList.add('on')});return}
+    for(var i=0;i<kv.length;i+=2)(function(i){ftm.push(setTimeout(function(){kv[i].classList.add('on');kv[i+1].classList.add('on')},300+i/2*220))})(i);
+    docs.forEach(function(d,i){ftm.push(setTimeout(function(){d.classList.add('on')},300+kv.length/2*220+200+i*180))});
+  }
+  [].forEach.call(document.querySelectorAll('.dg-tabs button'),function(b){b.addEventListener('click',function(){runFlow(b.dataset.m)})});
+  raw.innerHTML=RAW.exp;
+  if(reduce||!('IntersectionObserver' in window))runFlow('exp');
+  else{var fio=new IntersectionObserver(function(es){if(es[0].isIntersecting){runFlow('exp');fio.disconnect()}},{threshold:.35});fio.observe($('dgFlow'))}
+
+  /* ---- Prüfhistorie ---- */
+  /* h: [Datum, RPE, RISO, I, Ergebnis(1/0), Prüfer]; st: o=ok, m=Mangel, f=bald fällig */
+  var D=[
+    {i:'0102',g:'Kaffeevollautomat',k:'Kanzlei Berger',r:'Teeküche',sk:'I',f:24,n:'10/2028',st:'o',h:[['10/2020','0,07','>200','0,38',1,'J. Weiß'],['10/2022','0,07','>200','0,40',1,'J. Weiß'],['10/2024','0,08','>200','0,41',1,'M. Kraus'],['10/2026','0,08','>200','0,42',1,'M. Kraus']]},
+    {i:'0107',g:'Laserdrucker',k:'Kanzlei Berger',r:'Sekretariat',sk:'I',f:24,n:'10/2028',st:'o',h:[['10/2022','0,10','92,0','0,61',1,'J. Weiß'],['10/2024','0,10','88,5','0,64',1,'M. Kraus'],['10/2026','0,11','86,0','0,66',1,'M. Kraus']]},
+    {i:'0114',g:'Steckdosenleiste 3-fach',k:'Kanzlei Berger',r:'Büro 4',sk:'I',f:24,n:'–',st:'m',h:[['10/2022','0,12','>200','–',1,'J. Weiß'],['10/2024','0,13','>200','–',1,'M. Kraus'],['10/2026','–','–','–',0,'M. Kraus']],x:'Gehäuse gebrochen – Sichtprüfung nicht bestanden, nicht gemessen. Ersatz ist im Angebotsentwurf.',xw:1},
+    {i:'0121',g:'Ventilator',k:'Kanzlei Berger',r:'Büro 1',sk:'II',f:24,n:'10/2028',st:'o',h:[['10/2024','–','>200','0,03',1,'M. Kraus'],['10/2026','–','>200','0,03',1,'M. Kraus']]},
+    {i:'0129',g:'Laptop-Netzteil',k:'Kanzlei Berger',r:'Besprechung',sk:'II',f:24,n:'10/2028',st:'o',h:[['10/2024','–','>200','0,02',1,'M. Kraus'],['10/2026','–','>200','0,02',1,'M. Kraus']]},
+    {i:'2031',g:'Brotschneidemaschine',k:'Bäckerei Lindner',r:'Verkaufsraum',sk:'I',f:12,n:'11/2026',st:'f',h:[['11/2023','0,06','65,0','0,52',1,'J. Weiß'],['11/2024','0,06','61,2','0,55',1,'M. Kraus'],['11/2025','0,07','58,9','0,57',1,'M. Kraus']],x:'Prüfung im November fällig. Terminvorschlag an die Filialleitung ist vorbereitet.'},
+    {i:'2034',g:'Handrührgerät',k:'Bäckerei Lindner',r:'Backstube',sk:'II',f:12,n:'11/2026',st:'f',h:[['11/2023','–','>200','0,05',1,'J. Weiß'],['11/2024','–','>200','0,05',1,'M. Kraus'],['11/2025','–','154','0,06',1,'M. Kraus']]},
+    {i:'2040',g:'Verlängerung 10 m',k:'Bäckerei Lindner',r:'Backstube',sk:'I',f:12,n:'11/2026',st:'f',h:[['11/2023','0,21','48,0','–',1,'J. Weiß'],['11/2024','0,22','12,4','–',1,'M. Kraus'],['11/2025','0,22','3,1','–',1,'M. Kraus']],x:'Isolationswiderstand fällt seit 2023 deutlich (48 → 3,1 MΩ). Feuchte Umgebung? Beim nächsten Termin genau prüfen – Ersatz im Angebot vormerken?',xw:1},
+    {i:'2046',g:'Kühlvitrine',k:'Bäckerei Lindner',r:'Verkaufsraum',sk:'I',f:12,n:'11/2026',st:'f',h:[['11/2024','0,09','34,0','1,10',1,'M. Kraus'],['11/2025','0,09','33,1','1,18',1,'M. Kraus']]},
+    {i:'3302',g:'Winkelschleifer',k:'Autohaus Kessler',r:'Werkstatt',sk:'II',f:12,n:'03/2027',st:'o',h:[['03/2024','–','>200','0,06',1,'J. Weiß'],['03/2025','–','>200','0,07',1,'M. Kraus'],['03/2026','–','176','0,07',1,'M. Kraus']]},
+    {i:'3308',g:'Batterieladegerät',k:'Autohaus Kessler',r:'Werkstatt',sk:'I',f:12,n:'03/2027',st:'o',h:[['03/2024','0,14','52,0','0,30',1,'J. Weiß'],['03/2025','0,14','50,4','0,31',1,'M. Kraus'],['03/2026','0,15','49,8','0,31',1,'M. Kraus']]},
+    {i:'3311',g:'Hochdruckreiniger',k:'Autohaus Kessler',r:'Waschplatz',sk:'I',f:12,n:'–',st:'m',h:[['03/2024','0,18','22,0','0,90',1,'J. Weiß'],['03/2025','0,19','4,6','1,40',1,'M. Kraus'],['03/2026','0,19','0,7','–',0,'M. Kraus']],x:'R<sub>ISO</sub> 0,7 MΩ unter dem Grenzwert von 1,0 MΩ. Mangel ist dem Kunden gemeldet, Angebot für Instandsetzung liegt als Entwurf vor.',xw:1},
+    {i:'3315',g:'Kabeltrommel 50 m',k:'Autohaus Kessler',r:'Lager',sk:'I',f:12,n:'03/2027',st:'o',h:[['03/2025','0,58','>200','–',1,'M. Kraus'],['03/2026','0,59','>200','–',1,'M. Kraus']]},
+    {i:'3320',g:'Handleuchte LED',k:'Autohaus Kessler',r:'Werkstatt',sk:'II',f:12,n:'03/2027',st:'o',h:[['03/2025','–','>200','0,01',1,'M. Kraus'],['03/2026','–','>200','0,01',1,'M. Kraus']]}
+  ];
+  var KUN=['Alle Kunden','Kanzlei Berger','Bäckerei Lindner','Autohaus Kessler'], STA=[['a','Alle'],['m','Mangel'],['f','Bald fällig']];
+  var stName={o:'bestanden',m:'Mangel',f:'bald fällig'};
+  var fK='Alle Kunden', fS='a', sel='2040', q='';
+  function chip(host,items,cur,cb){host.innerHTML='';items.forEach(function(it){var v=Array.isArray(it)?it[0]:it,l=Array.isArray(it)?it[1]:it,b=document.createElement('button');b.type='button';b.className='dg-chip';
+    b.innerHTML=(v==='m'?'<span class="dt" style="background:#E5484D"></span>':v==='f'?'<span class="dt" style="background:var(--warn)"></span>':'')+l;
+    b.setAttribute('aria-pressed',v===cur?'true':'false');b.addEventListener('click',function(){cb(v)});host.appendChild(b)})}
+  function drawChips(){chip($('dgK'),KUN,fK,function(v){fK=v;render()});chip($('dgS'),STA,fS,function(v){fS=v;render()})}
+  function num(s){if(s==='>200')return 200;var v=parseFloat(String(s).replace(',','.'));return isNaN(v)?null:v}
+  function spark(d){
+    var pts=d.h.map(function(h){return num(h[2])}), lim=d.sk==='I'?1:2, W=innerWidth<560?300:400,H=70,pad=22;
+    var lg=function(v){return Math.log10(Math.max(v,.2))}, lo=lg(.3), hi=lg(220);
+    var y=function(v){return 8+(H-16)*(1-(lg(v)-lo)/(hi-lo))};
+    var n=pts.length, x=function(i){return n<2?W/2:pad+(W-2*pad)*i/(n-1)};
+    var s='<svg class="dg-spark" viewBox="0 0 '+W+' '+(H+14)+'" role="img" aria-label="Verlauf Isolationswiderstand"><line class="lim" x1="0" x2="'+W+'" y1="'+y(lim)+'" y2="'+y(lim)+'"/><text x="0" y="'+(y(lim)+14)+'" text-anchor="start">Grenzwert '+lim+',0 MΩ</text>';
+    var p=[];pts.forEach(function(v,i){if(v!==null)p.push(x(i)+','+y(v))});
+    if(p.length>1)s+='<polyline class="ln" points="'+p.join(' ')+'"/>';
+    pts.forEach(function(v,i){if(v!==null)s+='<circle r="4" cx="'+x(i)+'" cy="'+y(v)+'" class="'+(v<lim?'b':'')+'"/>';s+='<text x="'+x(i)+'" y="'+(H+12)+'" text-anchor="middle">'+d.h[i][0]+'</text>'});
+    return s+'</svg>';
+  }
+  function detail(d,anim){
+    var h='<div'+(anim?' class="dg-anim"':'')+'><p class="k dg-mono">Inv. '+d.i+'</p><h3>'+d.g+'</h3><p class="meta">'+d.k+' · '+d.r+'</p>'+
+      '<div class="dg-facts"><div><small>Schutzklasse</small><b>'+d.sk+'</b></div><div><small>Prüffrist</small><b>'+d.f+' Monate</b></div><div><small>Nächste Prüfung</small><b class="dg-mono">'+d.n+'</b></div></div>'+
+      spark(d)+'<p class="dg-spk">Isolationswiderstand R<sub>ISO</sub> je Prüfung (logarithmisch)</p>'+
+      '<table class="dg-ht"><thead><tr><th>Datum</th><th class="r">R<sub>PE</sub> Ω</th><th class="r">R<sub>ISO</sub> MΩ</th><th class="r ipe">I mA</th><th>Ergebnis</th><th class="ipe">Prüfer</th></tr></thead><tbody>'+
+      d.h.slice().reverse().map(function(r){return '<tr><td class="dg-mono">'+r[0]+'</td><td class="r dg-mono">'+r[1]+'</td><td class="r dg-mono'+(r[4]?'':' b')+'">'+r[2]+'</td><td class="r ipe dg-mono">'+r[3]+'</td><td class="'+(r[4]?'':'b')+'">'+(r[4]?'bestanden':'nicht bestanden')+'</td><td class="ipe">'+r[5]+'</td></tr>'}).join('')+
+      '</tbody></table>'+(d.x?'<div class="dg-hint'+(d.xw?' w':'')+'"><span>'+d.x+'</span></div>':'')+'</div>';
+    $('dgDet').innerHTML=h;
+  }
+  function render(anim){
+    drawChips();
+    var ql=q.toLowerCase().trim();
+    var L=D.filter(function(d){return (fK==='Alle Kunden'||d.k===fK)&&(fS==='a'||d.st===fS)&&(!ql||(d.g+' '+d.i+' '+d.r+' '+d.k).toLowerCase().indexOf(ql)>-1)});
+    var list=$('dgList');list.innerHTML='';
+    if(!L.length){list.innerHTML='<li class="dg-empty">Kein Gerät gefunden. Suche oder Filter anpassen.</li>'}
+    if(L.length&&!L.some(function(d){return d.i===sel})){sel=L[0].i;anim=true}
+    L.forEach(function(d){var li=document.createElement('li'),b=document.createElement('button');b.type='button';b.setAttribute('role','option');b.setAttribute('aria-selected',d.i===sel?'true':'false');
+      b.innerHTML='<span class="inv dg-mono">'+d.i+'</span><span>'+d.g+'</span><span class="rm">'+d.r+'</span><span class="dg-st '+d.st+'">'+stName[d.st]+'</span>';
+      b.addEventListener('click',function(){sel=d.i;render(true);if(innerWidth<980){var t=$('dgDet').getBoundingClientRect().top+scrollY-90;scrollTo({top:t,behavior:reduce?'auto':'smooth'})}});li.appendChild(b);list.appendChild(li)});
+    $('dgCount').textContent=L.length+(L.length===1?' Gerät':' Geräte')+' · '+(fK==='Alle Kunden'?'3 Kunden':fK);
+    var cur=D.filter(function(d){return d.i===sel})[0];
+    if(L.length)detail(cur,anim&&!reduce);else $('dgDet').innerHTML='';
+  }
+  $('dgQ').addEventListener('input',function(e){q=e.target.value;render(true)});
+  render(false);
+
+  /* ---- Mängel -> Angebot ---- */
+  var M=[
+    {t:'Kabeltrommel 25 m',w:'Inv. 0416 · Lager',d:'Mantel angescheuert, R<sub>ISO</sub> <span class="bv dg-mono">0,4 MΩ</span>',o:{r:['Leitung H07RN-F 3G1,5 erneuern, 25 m','inkl. Arbeitszeit',118],e:['Kabeltrommel 25 m, H07RN-F, IP44','neu',139]},c:'r',why:'Trommel und Gehäuse in Ordnung – Instandsetzung lohnt sich.'},
+    {t:'Steckdosenleiste 3-fach',w:'Inv. 0114 · Büro 4',d:'Gehäuse gebrochen, nicht gemessen',o:{r:null,e:['Steckdosenleiste 3-fach mit Schalter','neu',24.9]},c:'e',why:'Instandsetzung nicht wirtschaftlich.'},
+    {t:'Kaltgeräteleitung 2 m',w:'Inv. 0452 · Serverraum',d:'Stecker lose, R<sub>PE</sub> <span class="bv dg-mono">0,9 Ω</span> · Grenzwert 0,3 Ω',o:{r:['Gerätestecker erneuern','inkl. Arbeitszeit',38],e:['Kaltgeräteleitung 2 m','neu',12.5]},c:'e',why:'Neue Leitung ist günstiger als die Reparatur.'}
+  ];
+  var ml=$('dgMl');
+  function eur(v){return v.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €'}
+  function offerRender(changed){
+    var pos=[],i=1,sum=0,rep=0;
+    M.forEach(function(m,k){var o=m.o[m.c];pos.push([o[0],m.t+' · '+o[1],o[2],k===changed]);sum+=o[2];if(m.c==='r')rep++});
+    if(rep){pos.push(['Wiederholungsprüfung nach Instandsetzung',rep+(rep===1?' Gerät':' Geräte')+' · Messung und Bericht',rep*9.5,false]);sum+=rep*9.5}
+    $('dgPos').innerHTML=pos.map(function(p){return '<div class="dg-pos'+(p[3]?' new':'')+'"><i class="dg-mono">'+(i++)+'</i><span>'+p[0]+'<small>'+p[1]+'</small></span><b class="dg-mono">'+eur(p[2])+'</b></div>'}).join('');
+    $('dgSum').textContent=eur(sum);
+  }
+  M.forEach(function(m,k){
+    var li=document.createElement('li');
+    li.innerHTML='<div class="t"><b>'+m.t+'</b><span class="dg-mono">'+m.w+'</span></div><p>'+m.d+'</p><div class="dg-seg" role="group" aria-label="Maßnahme für '+m.t+'"><button type="button" data-v="r"'+(m.o.r?'':' disabled')+'>Instandsetzen</button><button type="button" data-v="e">Ersetzen</button></div><span class="why"><i>KI-Vorschlag:</i> '+m.why+'</span>';
+    var bs=[].slice.call(li.querySelectorAll('button'));
+    function upd(){bs.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.v===m.c?'true':'false')})}
+    bs.forEach(function(b){b.addEventListener('click',function(){if(b.disabled||m.c===b.dataset.v)return;m.c=b.dataset.v;upd();offerRender(k)})});
+    upd();ml.appendChild(li);
+  });
+  offerRender(-1);
+})();
+</script>
+
+<style>
+  /* ---------- CTA + Footer ---------- */
+  .ct{background:var(--night);color:var(--on-night);position:relative;overflow:hidden}
+  .ct-in{max-width:1240px;margin:0 auto;padding:112px 32px 96px;position:relative}
+  .ct .eyebrow{color:var(--mint)}.ct .eyebrow::before{background:var(--mint)}
+
+  .ct-tl{position:relative;height:64px;margin:0 0 56px}
+  .ct-tl svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .ct-tl .base{stroke:var(--night-3);stroke-width:1;stroke-dasharray:3 5}
+  .ct-tl .ink{stroke:var(--on-night-muted);stroke-width:1.25}
+  .ct-tl ol{list-style:none;margin:0;padding:0;position:absolute;inset:0}
+  .ct-tl li{white-space:nowrap;position:absolute;top:22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;font-size:12px;letter-spacing:.06em;color:var(--on-night-muted);opacity:.25;transition:opacity .4s,color .4s}
+  .ct-tl li::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--night);border:1px solid currentColor;margin-top:-4px}
+  .ct-tl li.on{opacity:1}
+  .ct-tl li.now{color:var(--mint);font-weight:500}
+  .ct-tl li.now::before{width:13px;height:13px;margin-top:-6px;background:var(--mint);border-color:var(--mint);box-shadow:0 0 0 0 rgba(140,245,194,.5)}
+  .ct-tl li.now.on::before{animation:ctPulse 2.2s ease-out infinite}
+  @keyframes ctPulse{0%{box-shadow:0 0 0 0 rgba(140,245,194,.45)}100%{box-shadow:0 0 0 16px rgba(140,245,194,0)}}
+
+  .ct-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:72px;align-items:start}
+  .ct-grid>div:first-child{container-type:inline-size}
+  .ct h2 span{display:block;white-space:nowrap}
+  .ct h2{font-weight:500;font-size:min(64px,calc(100cqi / 10.6));line-height:1.02;letter-spacing:-.04em;margin:0 0 24px}
+  .ct h2 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--mint)}
+  .ct-lead{font-size:18px;line-height:28px;color:var(--on-night-muted);max-width:480px;margin:0 0 36px}
+  .ct-list{list-style:none;margin:0 0 40px;padding:0;display:grid;gap:14px;max-width:480px}
+  .ct-list li{display:grid;grid-template-columns:28px 1fr;gap:12px;font-size:15px;line-height:23px}
+  .ct-list li span{width:28px;height:28px;border-radius:50%;border:1px solid var(--night-3);display:grid;place-items:center;font-size:11px;color:var(--mint)}
+  .ct-list b{font-weight:500}
+  .ct-list small{display:block;color:var(--on-night-muted);font-size:14px}
+  .ct-person{display:flex;align-items:center;gap:14px;padding-top:28px;border-top:1px solid var(--night-3);max-width:480px}
+  .ct-ava{width:52px;height:52px;border-radius:50%;background:var(--night-3);display:grid;place-items:center;font-weight:500;font-size:16px;color:var(--mint);flex:none}
+  .ct-person p{margin:0;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-person b{display:block;color:var(--on-night);font-weight:500;font-size:15px}
+  .ct-person a{color:var(--mint);text-decoration:none}
+
+  .ct-form{background:var(--night-2);border:1px solid var(--night-3);border-radius:20px;padding:28px;position:relative}
+  .ct-form h3{margin:0 0 6px;font-size:20px;font-weight:500;letter-spacing:-.02em}
+  .ct-form>p{margin:0 0 22px;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:var(--night);border-radius:999px;margin:0 0 22px}
+  .ct-seg button{font:500 13px/18px var(--sans);color:var(--on-night-muted);background:none;border:0;border-radius:999px;padding:9px 10px;cursor:pointer}
+  .ct-seg button[aria-pressed="true"]{background:var(--on-night);color:var(--night)}
+  .ct-f{display:grid;gap:14px}
+  .ct-f label{display:grid;gap:6px;font-size:12px;letter-spacing:.04em;color:var(--on-night-muted)}
+  .ct-f input,.ct-f select,.ct-f textarea{font:400 15px/22px var(--sans);color:var(--on-night);background:var(--night);border:1px solid var(--night-3);border-radius:10px;padding:11px 13px;width:100%;transition:border-color .2s}
+  .ct-f textarea{resize:vertical;min-height:84px}
+  .ct-f input:focus,.ct-f select:focus,.ct-f textarea:focus{outline:none;border-color:var(--mint)}
+  .ct-f .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .ct-f .ok{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;line-height:19px;letter-spacing:0}
+  .ct-f .ok input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--mint);flex:none}
+  .ct-f .ok a{color:var(--on-night)}
+  .ct-f .btn{justify-content:center;width:100%;margin-top:4px;padding:15px 20px}
+  .ct-f [data-only="call"]{display:none}
+  .ct-form.call [data-only="call"]{display:grid}
+  .ct-form.call [data-only="mail"]{display:none}
+  .ct-done{display:none;text-align:center;padding:48px 8px}
+  .ct-done svg{width:56px;height:56px;margin:0 auto 18px;display:block}
+  .ct-done h3{margin-bottom:8px}
+  .ct-done p{margin:0;color:var(--on-night-muted);font-size:15px;line-height:23px}
+  .ct-form.sent .ct-f,.ct-form.sent .ct-seg,.ct-form.sent>h3,.ct-form.sent>p{display:none}
+  .ct-form.sent .ct-done{display:block}
+  .ct-done path{stroke-dasharray:1;stroke-dashoffset:1}
+  .ct-form.sent .ct-done path{animation:ctDraw .7s .15s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes ctDraw{to{stroke-dashoffset:0}}
+
+  .crv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .crv.in{opacity:1;transform:none}
+
+  /* Footer */
+  .ft{background:var(--night);color:var(--on-night);border-top:1px solid var(--night-3);overflow:hidden}
+  .ft-in{max-width:1240px;margin:0 auto;padding:64px 32px 0}
+  .ft-top{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px;padding-bottom:56px}
+  .ft-brand svg{height:30px;width:auto;display:block;margin-bottom:18px}
+  .ft-brand p{margin:0 0 20px;font-size:14px;line-height:22px;color:var(--on-night-muted);max-width:300px}
+  .ft-badges{display:flex;flex-wrap:wrap;gap:8px}
+  .ft-badges span{font-size:12px;color:var(--on-night-muted);border:1px solid var(--night-3);border-radius:999px;padding:5px 11px}
+  .ft h4{margin:0 0 16px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--on-night-muted)}
+  .ft ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .ft ul a{color:var(--on-night);text-decoration:none;font-size:15px;opacity:.86}
+  .ft ul a:hover{opacity:1;color:var(--mint)}
+  .ft-mark{position:relative;margin:0 -2px;line-height:0}
+  .ft-mark svg{width:100%;height:auto;display:block}
+  .ft-mark .o{fill:#15181C}
+  .ft-mark .f{fill:var(--night-3)}
+  .ft-bot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;padding:22px 0 28px;border-top:1px solid var(--night-3);font-size:13px;color:var(--on-night-muted)}
+  .ft-bot nav{display:flex;gap:20px}
+  .ft-bot a{color:inherit;text-decoration:none}.ft-bot a:hover{color:var(--on-night)}
+
+  @media (max-width:980px){
+    .ct-grid{grid-template-columns:1fr;gap:48px}
+    .ft-top{grid-template-columns:1fr 1fr}
+    .ft-brand{grid-column:1/-1}
+    .ft-top>div:last-child{grid-column:1/-1}
+  }
+  @media (max-width:640px){
+    .ct-in{padding:80px 16px 72px}
+    .ct-tl{margin-bottom:40px}
+    .ct-tl li{font-size:10.5px;letter-spacing:.02em}
+    .ct-tl li:nth-child(2),.ct-tl li:nth-child(4){display:none}
+    .ct-form{padding:22px 18px}
+    .ct-f .two{grid-template-columns:1fr}
+    .ft-in{padding:56px 16px 0}
+    .ft-top{gap:32px 20px}
+    .ft-bot{flex-direction:column}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .crv{opacity:1;transform:none;transition:none}
+    .ct-tl li.now.on::before{animation:none}
+  }
+</style>
+
+<section class="ct" id="kontakt">
+  <div class="ct-in">
+    <div class="ct-tl" aria-hidden="true">
+      <svg viewBox="0 0 1000 64" preserveAspectRatio="none"><line class="base" x1="0" y1="22" x2="1000" y2="22"/><line class="ink" x1="0" y1="22" x2="1000" y2="22" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+      <ol>
+        <li style="left:4%">1850</li><li style="left:24%">1920</li><li style="left:44%">1965</li><li style="left:64%">1995</li><li style="left:96%" class="now">Ihr Betrieb</li>
+      </ol>
+    </div>
+
+    <div class="ct-grid">
+      <div class="crv">
+        <p class="eyebrow">Erstgespräch</p>
+        <h2><span>Die nächste Epoche</span><span>beginnt in <em>Ihrem Betrieb.</em></span></h2>
+        <p class="ct-lead">In 30 Minuten wissen Sie, wo KI bei Ihnen Zeit spart – und wo nicht. Ohne Verkaufsgespräch, ohne Fachchinesisch.</p>
+        <ol class="ct-list">
+          <li><span>01</span><div><b>Sie erzählen, wo es hakt.</b><small>Per Video oder bei Ihnen vor Ort.</small></div></li>
+          <li><span>02</span><div><b>Wir zeigen, was möglich ist.</b><small>An Beispielen aus Ihrer Branche.</small></div></li>
+          <li><span>03</span><div><b>Sie entscheiden in Ruhe.</b><small>Auf Wunsch mit schriftlicher Einschätzung.</small></div></li>
+        </ol>
+        <div class="ct-person">
+          <div class="ct-ava" aria-hidden="true">NK</div>
+          <p><b>Nic Karban</b>Gründer · Ihr Ansprechpartner<br><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></p>
+        </div>
+      </div>
+
+      <div class="ct-form crv" id="ctForm">
+        <h3>Erstgespräch anfragen</h3>
+        <p>Wir melden uns innerhalb eines Werktags.</p>
+        <div class="ct-seg" role="group" aria-label="Kontaktweg">
+          <button type="button" aria-pressed="true" data-mode="mail">Termin per E-Mail</button>
+          <button type="button" aria-pressed="false" data-mode="call">Rückruf</button>
+        </div>
+        <!-- TODO: action auf echtes Formular-Backend / Buchungstool setzen -->
+        <form class="ct-f" action="#" method="post" novalidate>
+          <div class="two">
+            <label>Name<input name="name" autocomplete="name" required></label>
+            <label>Betrieb<input name="firma" autocomplete="organization"></label>
+          </div>
+          <label data-only="mail">E-Mail<input type="email" name="email" autocomplete="email"></label>
+          <div class="two" data-only="call">
+            <label>Telefon<input type="tel" name="tel" autocomplete="tel"></label>
+            <label>Am besten erreichbar<select name="zeit"><option>Vormittags</option><option>Mittags</option><option>Nachmittags</option></select></label>
+          </div>
+          <label>Wo kostet Sie Routine am meisten Zeit? <span style="opacity:.6">(optional)</span><textarea name="nachricht" placeholder="z. B. Angebote schreiben, Telefon, Rechnungen prüfen …"></textarea></label>
+          <label class="ok"><input type="checkbox" name="dsgvo" required><span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden. <a href="#">Datenschutz</a></span></label>
+          <button class="btn m" type="submit">Anfrage senden <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="ct-done" role="status">
+          <svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="27" fill="none" stroke="#22262B"/><path d="M17 29 25 37 40 20" fill="none" stroke="#8CF5C2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
+          <h3>Danke – ist angekommen.</h3>
+          <p>Wir melden uns innerhalb eines Werktags bei Ihnen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="ft">
+  <div class="ft-in">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <svg viewBox="0 8 160.8 64" aria-label="Ailien"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#F3F1EC"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#8CF5C2" fill-rule="evenodd"/></svg>
+        <p>KI-Automatisierung für Mittelstand und Handwerk. Wir bauen Systeme, die Routine abnehmen – und betreuen sie dauerhaft.</p>
+        <div class="ft-badges"><span>DSGVO-konform</span><span>Server in der EU</span><span>Made in Germany</span></div>
+      </div>
+      <div>
+        <h4>Leistungen</h4>
+        <ul><li><a href="#leistungen">Prozess-Automationen</a></li><li><a href="#leistungen">KI-Wissenssysteme</a></li><li><a href="#leistungen">Voice &amp; Kommunikation</a></li><li><a href="#leistungen">KI-Strategie &amp; Beratung</a></li></ul>
+      </div>
+      <div>
+        <h4>Ailien</h4>
+        <ul><li><a href="#praxis">Praxisbeispiele</a></li><li><a href="#vorgehen">Vorgehen</a></li><li><a href="#faq">Häufige Fragen</a></li><li><a href="#rechner">Entlastungs-Rechner</a></li></ul>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul><li><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></li><li><a href="#kontakt">Erstgespräch anfragen</a></li><li><a href="#">LinkedIn</a></li></ul>
+      </div>
+    </div>
+
+    <div class="ft-mark" aria-hidden="true">
+      <svg viewBox="7 11.5 143.5 51.6"><defs><g id="ftWord"><path d=""/><path fill-rule="evenodd" d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z"/></g><clipPath id="ftClip"><rect id="ftRise" x="0" y="64" width="161" height="70"/></clipPath></defs>
+        <g class="o"><use href="#ftWord"/></g>
+        <g clip-path="url(#ftClip)"><g class="f"><use href="#ftWord"/></g></g>
+      </svg>
+    </div>
+
+    <div class="ft-bot">
+      <span>© 2026 Ailien · ailien-automation.de</span>
+      <nav><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">AGB</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var clamp=function(v){return v<0?0:v>1?1:v};
+  /* Reveals */
+  var els=[].slice.call(document.querySelectorAll('.crv'));
+  if(reduce||!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')})}
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.15});
+    els.forEach(function(e,i){e.style.transitionDelay=(i%2?.12:0)+'s';io.observe(e)})}
+
+  /* Zeitstrahl + Wortmarke scroll-gesteuert */
+  var tl=document.querySelector('.ct-tl'), ink=tl&&tl.querySelector('.ink'), lis=tl?[].slice.call(tl.querySelectorAll('li')):[];
+  var pos=lis.map(function(l){return parseFloat(l.style.left)/100});
+  var mark=document.querySelector('.ft-mark'), rise=document.getElementById('ftRise');
+  function tick(){
+    var vh=innerHeight;
+    if(tl){
+      var r=tl.getBoundingClientRect();
+      var p=reduce?1:clamp((vh*.92-r.top)/(vh*.55));
+      ink.style.strokeDashoffset=1-p;
+      lis.forEach(function(l,i){l.classList.toggle('on',p>=pos[i]-.02)});
+    }
+    if(mark){
+      var m=mark.getBoundingClientRect();
+      var q=reduce?1:clamp((vh-m.top-m.height*.1)/(m.height*.9));
+      rise.setAttribute('y',(63-q*51).toFixed(2));
+    }
+  }
+  var raf=0;function on(){if(!raf)raf=requestAnimationFrame(function(){raf=0;tick()})}
+  addEventListener('scroll',on,{passive:true});addEventListener('resize',on);tick();
+
+  /* Formular */
+  var f=document.getElementById('ctForm'); if(!f) return;
+  var btns=[].slice.call(f.querySelectorAll('.ct-seg button'));
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    f.classList.toggle('call',b.dataset.mode==='call');
+  })});
+  f.querySelector('form').addEventListener('submit',function(e){
+    e.preventDefault(); /* Demo: hier später an Backend senden */
+    var form=e.target, E=form.elements, call=f.classList.contains('call');
+    var nm=E.namedItem('name'), ct=E.namedItem(call?'tel':'email'), cb=E.namedItem('dsgvo');
+    var name=nm.value.trim(), contact=ct.value.trim(), ok=cb.checked;
+    [nm,ct].forEach(function(i){i.style.borderColor=i.value.trim()?'':'#F2C46B'});
+    cb.parentNode.style.color=ok?'':'#F2C46B';
+    if(!name||!contact||!ok) return;
+    f.classList.add('sent');
+  });
+})();
+</script>
+
+</body>
+</html>

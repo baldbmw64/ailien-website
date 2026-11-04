@@ -1,0 +1,928 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KI für Bestattungsunternehmen – Formalitäten vorbereitet, mehr Zeit für Angehörige | ailien</title>
+<meta name="description" content="KI-Helfer für Bestatter: Nach dem Erstgespräch sind Formulare für Standesamt, Friedhof, Rentenservice und Krankenkasse vorbereitet. Sie prüfen und unterschreiben. Daten in der EU.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F3F1EC; --ink:#0E1013; --muted:#5F636A; --line:#DEDBD3; --accent:#0F7A55;
+    --night:#0E1013; --night-2:#171A1E; --night-3:#22262B; --on-night:#F3F1EC; --on-night-muted:#A3A7AD; --mint:#8CF5C2;
+    --warn:#F2C46B;
+    --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+    --serif:"Instrument Serif",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);overflow-x:clip}
+  .btn{display:inline-flex;align-items:center;gap:10px;font:500 14px/20px var(--sans);padding:13px 20px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer}
+  .btn.p{background:var(--night);color:var(--on-night)}.btn.p:hover{background:#23262b}
+  .btn.s{color:var(--ink);border-color:var(--line)}.btn.s:hover{border-color:var(--ink)}
+  .btn:focus-visible,.dot:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--accent);margin:0 0 18px;display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--accent)}
+  .btn.m{background:var(--mint);color:var(--night)}.btn.m:hover{background:#a6f8d0}
+</style>
+<style>
+  /* ---------- Header (Variante C) ---------- */
+  .hd-sp{height:117px}
+  .hd{position:fixed;top:0;left:0;right:0;z-index:100;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+  .hd-w{max-width:1240px;margin:0 auto;padding:0 32px}
+  .hd-bar{background:var(--night);color:var(--on-night-muted);font-size:12px;height:36px;overflow:hidden;transition:height .35s,opacity .35s}
+  .hd-bar .hd-w{height:100%;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .hd-bar span{display:flex;gap:18px}
+  .hd-bar b{font-weight:500}
+  .hd-bar i{font-style:normal;color:var(--mint);margin-right:6px}
+  .hd-bar a{color:var(--on-night);text-decoration:none}.hd-bar a:hover{color:var(--mint)}
+  .hd-main{background:var(--paper);border-bottom:1px solid transparent;transition:border-color .3s}
+  .hd-main .hd-w{display:flex;align-items:center;gap:28px;padding-top:18px;padding-bottom:18px;transition:padding .35s}
+  .hd-lg{display:block;height:38px;width:auto;color:var(--ink);transition:height .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-nv{display:flex;align-items:center;gap:2px;margin-right:auto}
+  .hd-ni{font:400 14px/20px var(--sans);color:var(--ink);background:none;border:0;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;white-space:nowrap}
+  .hd-ni sup{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--accent);margin-right:2px;line-height:0}
+  .hd-ni:hover,.hd-dd.on .hd-ni{color:var(--accent)}
+  .hd-ni svg{width:9px;height:9px;opacity:.6;transition:transform .25s}
+  .hd-dd{position:relative}
+  .hd-dd.on .hd-ni svg{transform:rotate(180deg)}
+  .hd-p{position:absolute;top:calc(100% + 14px);left:0;z-index:5;transform:translateY(8px);opacity:0;visibility:hidden;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:0 30px 60px -20px rgba(14,16,19,.28);transition:opacity .25s,transform .25s cubic-bezier(.2,.7,.2,1),visibility .25s}
+  .hd-p::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px}
+  .hd-dd.on .hd-p{opacity:1;visibility:visible;transform:none}
+  .hd-p.wide{width:640px;display:grid;grid-template-columns:1fr 1fr 210px;gap:4px}
+  .hd-p.list{width:330px;display:grid;gap:2px}
+  .hd-i{position:relative;display:block;padding:14px;border-radius:12px;text-decoration:none;color:inherit;transition:background .2s}
+  .hd-i:hover{background:var(--paper)}
+  .hd-i b{display:block;font-weight:500;font-size:14.5px;letter-spacing:-.01em;margin-bottom:3px}
+  .hd-i b::before{content:"";position:absolute;left:5px;top:21px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity .2s}
+  .hd-i:hover b::before{opacity:1}
+  .hd-i span{display:block;font-size:13px;line-height:19px;color:var(--muted)}
+  .hd-feat{grid-row:1/3;grid-column:3;background:var(--night);color:var(--on-night);border-radius:12px;padding:18px;display:flex;flex-direction:column;text-decoration:none}
+  .hd-feat small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint)}
+  .hd-feat strong{font-weight:500;font-size:17px;line-height:23px;letter-spacing:-.02em;margin-top:10px}
+  .hd-feat strong em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;color:var(--mint)}
+  .hd-feat span{margin-top:auto;font-size:13px;color:var(--on-night-muted)}
+  .hd-all{grid-column:1/3;display:flex;justify-content:space-between;padding:12px 14px;margin-top:4px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);text-decoration:none}
+  .hd-all:hover{color:var(--accent)}
+  .hd-r{display:flex;gap:8px}
+  .hd .btn{padding:12px 20px;white-space:nowrap}
+  .hd .btn .ar{transition:transform .2s}.hd .btn:hover .ar{transform:translateX(3px)}
+  .hd-burger{display:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:none;cursor:pointer;position:relative;flex:none;color:var(--ink)}
+  .hd-burger::before,.hd-burger::after{content:"";position:absolute;left:14px;right:14px;height:1.5px;background:currentColor;transition:transform .3s,top .3s}
+  .hd-burger::before{top:17px}.hd-burger::after{top:25px}
+  .hd-open .hd-burger::before{top:21px;transform:rotate(45deg)}.hd-open .hd-burger::after{top:21px;transform:rotate(-45deg)}
+  .hd.sc .hd-bar{height:0;opacity:0}
+  .hd.sc .hd-main{border-color:var(--line)}
+  .hd.sc .hd-main .hd-w{padding-top:12px;padding-bottom:12px}
+  .hd.sc .hd-lg{height:32px}
+  .hd-lg.old{height:32px}.hd.sc .hd-lg.old{height:28px}
+  .hd.hide{transform:translateY(-100%)}
+
+  /* Handy-Menü */
+  .hd-mm{position:fixed;inset:0;z-index:99;background:var(--paper);display:flex;flex-direction:column;padding:120px 22px 24px;overflow:auto;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+  .hd-open .hd-mm{opacity:1;visibility:visible}
+  .hd-mm>ol{list-style:none;margin:0;padding:0;counter-reset:n}
+  .hd-mm>ol>li{counter-increment:n;border-bottom:1px solid var(--line);opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s}
+  .hd-open .hd-mm>ol>li{opacity:1;transform:none}
+  .hd-open .hd-mm>ol>li:nth-child(2){transition-delay:.04s}.hd-open .hd-mm>ol>li:nth-child(3){transition-delay:.08s}.hd-open .hd-mm>ol>li:nth-child(4){transition-delay:.12s}.hd-open .hd-mm>ol>li:nth-child(5){transition-delay:.16s}
+  .hd-t{display:flex;align-items:center;width:100%;padding:15px 0;font:500 26px/1.15 var(--sans);letter-spacing:-.03em;color:var(--ink);text-decoration:none;background:none;border:0;cursor:pointer;text-align:left}
+  .hd-t::after{content:"0" counter(n);margin-left:auto;font-family:var(--serif);font-style:italic;font-weight:400;font-size:17px;color:var(--accent)}
+  .hd-t .pl{order:3;margin-left:14px;width:12px;height:12px;position:relative;opacity:.6}
+  .hd-t .pl::before,.hd-t .pl::after{content:"";position:absolute;left:0;right:0;top:5.5px;height:1.5px;background:currentColor;transition:transform .3s}
+  .hd-t .pl::after{transform:rotate(90deg)}
+  .hd-mm li.ex .pl::after{transform:rotate(0)}
+  .hd-s{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-mm li.ex .hd-s{grid-template-rows:1fr}
+  .hd-s>div{overflow:hidden}
+  .hd-s a{display:block;padding:8px 0 8px 2px;font-size:16px;color:var(--ink);opacity:.75;text-decoration:none}
+  .hd-s a:last-child{margin-bottom:14px}
+  .hd-mf{margin-top:auto;padding-top:28px;display:grid;gap:14px}
+  .hd-mf .btn{justify-content:center;padding:15px}
+  .hd-mf small{font-size:12px;color:var(--muted);text-align:center}
+  body.hd-lock{overflow:hidden}
+
+  @media (max-width:1180px){.hd-r .btn.s{display:none}.hd-main .hd-w{gap:16px}}
+  @media (max-width:980px){
+    .hd-nv{display:none}.hd-burger{display:block}
+    .hd-r{margin-left:auto}.hd-bar a{display:none}
+    .hd-lg{height:34px}.hd.sc .hd-lg{height:30px}
+    .hd .btn{padding:10px 16px;font-size:13px}
+  }
+  @media (max-width:980px){.hd-sp{height:113px}}
+  @media (max-width:520px){
+    .hd-sp{height:109px}
+    .hd-w{padding:0 16px}.hd-bar{font-size:11px}
+    .hd-bar span b:nth-child(n+3){display:none}
+    .hd-main .hd-w{padding-top:14px;padding-bottom:14px;gap:12px}
+    .hd.sc .hd-main .hd-w{padding-top:10px;padding-bottom:10px}
+  }
+  @media (max-width:360px){.hd-r .btn{display:none}}
+  @media (prefers-reduced-motion:reduce){.hd,.hd-p,.hd-mm,.hd-mm li{transition:none}}
+  .hd-main .hd-w{position:relative}
+  .hd-dd.mega{position:static}
+  .hd-p.mega{left:32px;right:32px;width:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:18px}
+  .hd-g{display:flex;flex-direction:column;gap:2px;padding:6px}
+  .hd-g small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px 10px}
+  .hd-l{display:block;padding:9px 10px;border-radius:10px;color:var(--ink);text-decoration:none;font-size:14.5px;transition:background .2s}
+  .hd-l:hover{background:var(--paper)}
+  .hd-l[aria-current="page"]{background:var(--paper);font-weight:500}
+  .hd-l[aria-current="page"]::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:2px}
+  .hd-s a[aria-current="page"]{opacity:1;font-weight:500}
+
+</style>
+</head>
+<body>
+<header class="hd" id="hd">
+  <div class="hd-bar"><div class="hd-w"><span><b><i>✓</i>DSGVO-konform</b><b><i>✓</i>Server in der EU</b><b><i>✓</i>Antwort innerhalb eines Werktags</b></span><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></div></div>
+  <div class="hd-main"><div class="hd-w">
+    <a href="ailien-startseite.html" aria-label="ailien Startseite"><svg class="hd-lg" viewBox="0 8 160.8 64" aria-hidden="true"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#0E1013"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#0F7A55" fill-rule="evenodd"/></svg></a>
+    <nav class="hd-nv" aria-label="Hauptnavigation">
+      <div class="hd-dd">
+        <button class="hd-ni" aria-expanded="false"><sup>01</sup>Leistungen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+        <div class="hd-p wide">
+          <a class="hd-i" href="/leistungen/prozess-automation"><b>Prozess-Automationen</b><span>Belege, Angebote, Bestellungen – läuft von selbst.</span></a>
+          <a class="hd-i" href="/leistungen/wissenssysteme"><b>KI-Wissenssysteme</b><span>Firmenwissen, das jeder sofort findet.</span></a>
+          <a class="hd-i" href="/leistungen/voice"><b>Voice &amp; Kommunikation</b><span>Telefon-Assistent und E-Mail-Vorsortierung.</span></a>
+          <a class="hd-i" href="/leistungen/beratung"><b>KI-Strategie &amp; Beratung</b><span>Wo lohnt sich KI bei Ihnen wirklich?</span></a>
+          <a class="hd-feat" href="ailien-entlastungsrechner.html"><small>Rechner</small><strong>Wie viele Stunden <em>sparen Sie?</em></strong><span>Jetzt ausrechnen →</span></a>
+          <a class="hd-all" href="/leistungen">Alle Leistungen im Überblick <span>→</span></a>
+        </div>
+      </div>
+      <div class="hd-dd mega"><button class="hd-ni" aria-expanded="false"><sup>02</sup>Branchen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><div class="hd-p mega"><div class="hd-g"><small>Bau &amp; Handwerk</small><a class="hd-l" href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a class="hd-l" href="ailien-branchen-bad-kueche.html">Bad- &amp; Küchenstudios</a><a class="hd-l" href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a class="hd-l" href="ailien-branchen-gebaeudereinigung.html">Gebäudereinigung</a></div><div class="hd-g"><small>Industrie &amp; Technik</small><a class="hd-l" href="ailien-branchen-maschinenbau.html">Maschinen- &amp; Anlagenbau</a><a class="hd-l" href="ailien-branchen-cnc.html">CNC-Betriebe</a><a class="hd-l" href="ailien-branchen-dguv-v3.html">Elektroprüfung DGUV V3</a><a class="hd-l" href="ailien-branchen-brandschutz.html">Brandschutz</a></div><div class="hd-g"><small>Immobilien &amp; Planung</small><a class="hd-l" href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a class="hd-l" href="ailien-branchen-immobilienmakler.html">Immobilienmakler</a><a class="hd-l" href="ailien-branchen-architekten.html">Architekten</a><a class="hd-l" href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a></div><div class="hd-g"><small>Dienstleistung</small><a class="hd-l" href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a class="hd-l" href="ailien-branchen-foerdermittelberatung.html">Fördermittelberatung</a><a class="hd-l" href="ailien-branchen-bestatter.html" aria-current="page">Bestatter</a></div></div></div>
+      <a class="hd-ni" href="ailien-praxisbeispiele.html"><sup>03</sup>Praxisbeispiele</a>
+      <a class="hd-ni" href="ailien-ueber-uns.html"><sup>04</sup>Über uns</a>
+      <a class="hd-ni" href="/wissen"><sup>05</sup>Wissen</a>
+    </nav>
+    <div class="hd-r"><a class="btn s" href="ailien-entlastungsrechner.html?branche=bestatter">Rechner</a><a class="btn p" href="/kontakt">Erstgespräch <span class="ar">→</span></a></div>
+    <button class="hd-burger" aria-label="Menü öffnen" aria-expanded="false"></button>
+  </div></div>
+</header>
+<div class="hd-sp" aria-hidden="true"></div>
+<div class="hd-mm" id="hdMenu">
+  <ol>
+    <li><button class="hd-t">Leistungen<i class="pl"></i></button><div class="hd-s"><div><a href="/leistungen/prozess-automation">Prozess-Automationen</a><a href="/leistungen/wissenssysteme">KI-Wissenssysteme</a><a href="/leistungen/voice">Voice &amp; Kommunikation</a><a href="/leistungen/beratung">KI-Strategie &amp; Beratung</a><a href="/leistungen">Alle Leistungen →</a></div></div></li>
+    <li><button class="hd-t">Branchen<i class="pl"></i></button><div class="hd-s"><div><a href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a href="ailien-branchen-bad-kueche.html">Bad- &amp; Küchenstudios</a><a href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a href="ailien-branchen-gebaeudereinigung.html">Gebäudereinigung</a><a href="ailien-branchen-maschinenbau.html">Maschinen- &amp; Anlagenbau</a><a href="ailien-branchen-cnc.html">CNC-Betriebe</a><a href="ailien-branchen-dguv-v3.html">Elektroprüfung DGUV V3</a><a href="ailien-branchen-brandschutz.html">Brandschutz</a><a href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a href="ailien-branchen-immobilienmakler.html">Immobilienmakler</a><a href="ailien-branchen-architekten.html">Architekten</a><a href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a><a href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a href="ailien-branchen-foerdermittelberatung.html">Fördermittelberatung</a><a href="ailien-branchen-bestatter.html" aria-current="page">Bestatter</a></div></div></li>
+    <li><a class="hd-t" href="ailien-praxisbeispiele.html">Praxisbeispiele</a></li>
+    <li><a class="hd-t" href="ailien-ueber-uns.html">Über uns</a></li>
+    <li><a class="hd-t" href="/wissen">Wissen</a></li>
+  </ol>
+  <div class="hd-mf"><a class="btn p" href="/kontakt">Erstgespräch vereinbaren <span class="ar">→</span></a><a class="btn s" href="ailien-entlastungsrechner.html?branche=bestatter">Entlastungs-Rechner</a><small>DSGVO-konform · Server in der EU</small></div>
+</div>
+<script>
+(function(){
+  var h=document.getElementById('hd'), last=scrollY, root=document.documentElement, sp=document.querySelector('.hd-sp');
+  function fit(){if(!h.classList.contains('sc'))sp.style.height=h.offsetHeight+'px'}
+  fit();addEventListener('resize',fit);if(document.fonts)document.fonts.ready.then(fit);
+  var dds=[].slice.call(h.querySelectorAll('.hd-dd'));
+  function closeAll(ex){dds.forEach(function(d){if(d!==ex){d.classList.remove('on');d.querySelector('.hd-ni').setAttribute('aria-expanded','false')}})}
+  dds.forEach(function(d){
+    var t,b=d.querySelector('.hd-ni');
+    function open(){clearTimeout(t);closeAll(d);d.classList.add('on');b.setAttribute('aria-expanded','true')}
+    d.addEventListener('mouseenter',open);
+    d.addEventListener('mouseleave',function(){t=setTimeout(function(){d.classList.remove('on');b.setAttribute('aria-expanded','false')},140)});
+    b.addEventListener('click',function(){d.classList.contains('on')?closeAll():open()});
+  });
+  document.addEventListener('click',function(e){if(!h.contains(e.target))closeAll()});
+  var menu=document.getElementById('hdMenu'), burger=h.querySelector('.hd-burger');
+  function setMenu(o){root.classList.toggle('hd-open',o);document.body.classList.toggle('hd-lock',o);burger.setAttribute('aria-expanded',o?'true':'false');burger.setAttribute('aria-label',o?'Menü schließen':'Menü öffnen');if(o)h.classList.remove('hide')}
+  burger.addEventListener('click',function(){setMenu(!root.classList.contains('hd-open'))});
+  menu.querySelectorAll('button.hd-t').forEach(function(b){b.addEventListener('click',function(){b.parentNode.classList.toggle('ex')})});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeAll();setMenu(false)}});
+  var raf=0;
+  addEventListener('scroll',function(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;
+    var y=scrollY;
+    if(y>48)h.classList.add('sc');else if(y<8)h.classList.remove('sc');
+    if(!root.classList.contains('hd-open')){
+      if(y>240&&y>last+6){h.classList.add('hide');closeAll()}
+      else if(y<last-6||y<240)h.classList.remove('hide');
+    }
+    last=y;
+  })},{passive:true});
+})();
+</script>
+<style>
+  /* ================= Branche: Bestattungsunternehmen (be-) ================= */
+  .be-w{max-width:1240px;margin:0 auto;padding-left:32px;padding-right:32px}
+  .be-h2{font-weight:500;font-size:clamp(30px,3.4vw,46px);line-height:1.08;letter-spacing:-.035em;margin:0 0 20px}
+  .be-h2 em,.be-hero h1 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--accent)}
+  .be-dk .be-h2 em{color:var(--mint)}
+  .be-sub{font-size:18px;line-height:29px;color:var(--muted);max-width:540px;margin:0}
+  .be-rv{opacity:0;transform:translateY(14px);transition:opacity 1.2s cubic-bezier(.25,.6,.25,1),transform 1.2s cubic-bezier(.25,.6,.25,1)}
+  .be-rv.in{opacity:1;transform:none}
+  .be-cap{font-size:12px;color:var(--muted)}
+  .be-lbl{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:0 0 14px}
+
+  /* ---------- Hero ---------- */
+  .be-hero{background:var(--paper)}
+  .be-hero .be-w{display:grid;grid-template-columns:1.05fr .95fr;gap:80px;align-items:center;padding-top:36px;padding-bottom:128px}
+  .be-hero .be-w>*{min-width:0}
+  .be-hero .be-w>div:first-child{container-type:inline-size}
+  .be-crumb{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted);margin:0 0 56px}
+  .be-crumb a{color:inherit;text-decoration:none}.be-crumb a:hover{color:var(--ink)}
+  .be-crumb span{opacity:.5}
+  .be-hero h1{font-weight:500;font-size:min(60px,calc(100cqi / 11));line-height:1.06;letter-spacing:-.04em;margin:0 0 30px}
+  .be-hero h1>span{display:block;white-space:nowrap}
+  .be-lead{font-size:18px;line-height:30px;color:var(--muted);max-width:520px;margin:0 0 36px}
+  .be-lead b{color:var(--ink);font-weight:500}
+  .be-ctas{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px}
+  .be-link{font-size:15px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:3px}
+  .be-link:hover{border-color:var(--ink)}
+  .be-note{margin:44px 0 0;padding-top:20px;border-top:1px solid var(--line);font-size:14px;line-height:22px;color:var(--muted);max-width:460px}
+
+  .be-forms{background:#fff;border:1px solid var(--line);border-radius:6px;padding:34px 34px 26px;box-shadow:0 30px 70px -50px rgba(14,16,19,.35)}
+  .be-forms header{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-bottom:18px;margin-bottom:4px;border-bottom:1px solid var(--line)}
+  .be-forms header b{display:block;font-size:17px;font-weight:500;letter-spacing:-.01em}
+  .be-forms header small{font-size:13px;color:var(--muted)}
+  .be-forms ol{list-style:none;margin:0;padding:0}
+  .be-forms li{display:grid;grid-template-columns:1fr auto;gap:2px 16px;align-items:center;padding:16px 0;border-bottom:1px solid #EFECE6}
+  .be-forms li b{font-weight:500;font-size:15.5px}
+  .be-forms li small{grid-column:1;font-size:13px;color:var(--muted)}
+  .be-st{grid-row:1/3;grid-column:2;display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);white-space:nowrap}
+  .be-st i{position:relative;width:18px;height:18px;border-radius:50%;border:1px solid var(--line);transition:border-color 1.2s,background 1.2s}
+  .be-st i svg{position:absolute;inset:3px;width:10px;height:10px}
+  .be-st i path{fill:none;stroke:var(--accent);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1s .2s}
+  .be-st span{opacity:.55;transition:opacity 1.2s,color 1.2s}
+  .be-forms li.on .be-st i{border-color:rgba(15,122,85,.45);background:rgba(15,122,85,.05)}
+  .be-forms li.on .be-st i path{stroke-dashoffset:0}
+  .be-forms li.on .be-st span{opacity:1;color:var(--accent)}
+  .be-forms footer{display:flex;justify-content:space-between;gap:16px;padding-top:18px;font-size:13px;color:var(--muted)}
+
+  /* ---------- Einmal erzählen ---------- */
+  .be-once{background:#fff;padding:128px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .be-once .head{max-width:640px;margin-bottom:64px}
+  .be-flow{display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,.9fr) minmax(0,1fr);align-items:stretch}
+  .be-col{display:flex;flex-direction:column;justify-content:space-between;gap:10px}
+  .be-col .be-lbl{margin-bottom:8px}
+  .be-fld{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;border:1px solid var(--line);border-radius:10px;font-size:14.5px;background:var(--paper)}
+  .be-fld span{color:var(--muted);font-size:13px}
+  .be-dst{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:10px;border:1px solid var(--line);font-size:14.5px}
+  .be-dst i{width:7px;height:7px;border-radius:50%;background:var(--line);flex:none;transition:background 1s}
+  .be-flow.in .be-dst i{background:var(--accent)}
+  .be-dst small{margin-left:auto;font-size:12.5px;color:var(--muted)}
+  .be-mid{position:relative}
+  .be-mid svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .be-mid path{fill:none;stroke:#CFCabf;stroke:#CBC6BA;stroke-width:1;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 2.2s cubic-bezier(.3,.5,.2,1)}
+  .be-flow.in .be-mid path{stroke-dashoffset:0}
+  .be-mid .node{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;border:1px solid var(--ink);border-radius:999px;padding:8px 14px;font-size:12.5px;white-space:nowrap}
+  .be-once .be-cap{margin-top:24px}
+
+  /* ---------- Was Angehörige sehen ---------- */
+  .be-fam{padding:128px 0}
+  .be-fg{display:grid;grid-template-columns:.85fr 1.15fr;gap:80px;align-items:start}
+  .be-fg>*{min-width:0}
+  .be-fg .txt{position:sticky;top:120px}
+  .be-seg{display:inline-grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:#fff;border:1px solid var(--line);border-radius:999px;margin:30px 0 18px}
+  .be-seg button{font:500 14px/20px var(--sans);border:0;background:none;color:var(--muted);padding:10px 18px;border-radius:999px;cursor:pointer;white-space:nowrap;transition:background .4s,color .4s}
+  .be-seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+  .be-fg .hint{font-size:14px;line-height:22px;color:var(--muted);margin:0;max-width:400px}
+  .be-page{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 30px 70px -50px rgba(14,16,19,.35)}
+  .be-page .bar{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);background:#FBFAF7}
+  .be-page .bar i{width:8px;height:8px;border-radius:50%;background:var(--line)}
+  .be-page .bar span{margin-left:8px}
+  .be-view{padding:32px 34px 30px;animation:beIn .9s cubic-bezier(.25,.6,.25,1)}
+  @keyframes beIn{from{opacity:0}to{opacity:1}}
+  .be-view h3{margin:0 0 4px;font-family:var(--serif);font-weight:400;font-size:32px;letter-spacing:-.01em;line-height:1.15}
+  .be-view .meta{margin:0 0 26px;font-size:14px;color:var(--muted)}
+  .be-grp{margin:0 0 22px}
+  .be-grp>p{margin:0 0 6px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500}
+  .be-grp ul{list-style:none;margin:0;padding:0}
+  .be-grp li{display:grid;grid-template-columns:22px 1fr auto;gap:12px;align-items:baseline;padding:11px 0;border-bottom:1px solid #EFECE6;font-size:15px;line-height:22px}
+  .be-grp li small{display:block;font-size:13px;color:var(--muted)}
+  .be-grp li em{font-style:normal;font-size:12px;color:var(--muted);white-space:nowrap}
+  .be-grp li .ic{width:16px;height:16px;border-radius:50%;border:1px solid var(--line);position:relative;top:3px}
+  .be-grp li.dn .ic{border-color:rgba(15,122,85,.45);background:rgba(15,122,85,.06)}
+  .be-grp li.dn .ic::after{content:"";position:absolute;left:5px;top:2px;width:4px;height:7px;border:solid var(--accent);border-width:0 1.5px 1.5px 0;transform:rotate(45deg)}
+  .be-grp li.nx .ic{border-color:var(--ink)}
+  .be-grp li.nx .ic::after{content:"";position:absolute;left:4px;top:4px;width:6px;height:6px;border-radius:50%;background:var(--ink)}
+  .be-grp li.wt em{color:#8A6411}
+  .be-contact{display:flex;align-items:center;gap:14px;margin-top:8px;padding:16px 18px;border-radius:12px;background:var(--paper);font-size:14px;line-height:20px}
+  .be-contact b{display:block;font-weight:500}
+  .be-contact span{color:var(--muted)}
+  .be-contact .av{width:42px;height:42px;border-radius:50%;background:#E6E2D9;display:grid;place-items:center;font-size:14px;font-weight:500;flex:none}
+  .be-fam .be-cap{margin-top:14px}
+
+  /* ---------- Traueranzeige (dunkel) ---------- */
+  .be-dk{background:var(--night);color:var(--on-night);padding:128px 0}
+  .be-dk .eyebrow{color:var(--mint)}.be-dk .eyebrow::before{background:var(--mint)}
+  .be-dk .be-sub{color:var(--on-night-muted)}
+  .be-ag{display:grid;grid-template-columns:.9fr 1.1fr;gap:80px;align-items:center}
+  .be-ag>*{min-width:0}
+  .be-opt{margin:32px 0 0;display:grid;gap:8px;max-width:440px}
+  .be-opt button{text-align:left;font:400 15px/22px var(--sans);color:var(--on-night-muted);background:none;border:1px solid var(--night-3);border-radius:14px;padding:14px 16px;cursor:pointer;transition:border-color .5s,color .5s}
+  .be-opt button:hover{color:var(--on-night)}
+  .be-opt button[aria-pressed="true"]{border-color:var(--on-night-muted);color:var(--on-night)}
+  .be-opt button small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--on-night-muted);margin-bottom:4px}
+  .be-dk .be-cap{color:var(--on-night-muted);margin-top:18px}
+  .be-ad{background:#FCFBF8;color:var(--ink);padding:14px;border-radius:2px;box-shadow:0 40px 80px -40px rgba(0,0,0,.7);max-width:520px;justify-self:center;width:100%}
+  .be-ad-in{border:1.5px solid var(--ink);outline:1px solid var(--ink);outline-offset:-6px;padding:46px 40px 40px;text-align:center}
+  .be-quote{font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.45;color:#3A3D42;margin:0 auto 6px;max-width:340px;min-height:56px;transition:opacity .9s}
+  .be-quote.fade{opacity:0}
+  .be-src{font-size:11.5px;color:var(--muted);margin:0 0 28px;min-height:16px;transition:opacity .9s}
+  .be-src.fade{opacity:0}
+  .be-ad .rule{width:40px;height:1px;background:var(--ink);margin:0 auto 26px;opacity:.5}
+  .be-ad .pre{font-size:13.5px;color:#3A3D42;margin:0 0 12px}
+  .be-ad .nm{font-family:var(--serif);font-size:42px;line-height:1.05;margin:0 0 6px;letter-spacing:-.005em}
+  .be-ad .geb{font-size:13.5px;color:#3A3D42;margin:0 0 14px}
+  .be-ad .dt{font-size:14px;letter-spacing:.06em;margin:0 0 30px;font-variant-numeric:tabular-nums}
+  .be-ad .sig{font-size:13.5px;line-height:21px;color:#3A3D42;margin:0 0 22px}
+  .be-ad .info{font-size:12px;line-height:19px;color:var(--muted);margin:0;padding-top:16px;border-top:1px solid #E7E3DA}
+
+  /* ---------- Kosten ---------- */
+  .be-cost{padding:128px 0}
+  .be-cg{display:grid;grid-template-columns:1.2fr .8fr;gap:64px;align-items:start;margin-top:56px}
+  .be-cg>*{min-width:0}
+  .be-kv{background:#fff;border:1px solid var(--line);border-radius:6px;padding:32px 34px 26px}
+  .be-kv header{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--ink);margin-bottom:8px}
+  .be-kv header b{font-size:17px;font-weight:500}
+  .be-kv header span{font-size:12.5px;color:var(--muted)}
+  .be-kv h4{margin:22px 0 4px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500}
+  .be-kv .r{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid #EFECE6;font-size:14.5px;line-height:21px}
+  .be-kv .r span:last-child{color:var(--muted);font-size:13px;white-space:nowrap;text-align:right}
+  .be-kv .r.f span:last-child{color:#7A6A45}
+  .be-kv .note{margin:18px 0 0;font-size:13px;line-height:20px;color:var(--muted)}
+  .be-steps{list-style:none;margin:0;padding:0;counter-reset:s}
+  .be-steps li{counter-increment:s;display:grid;grid-template-columns:40px 1fr;gap:4px 14px;padding:0 0 30px;position:relative}
+  .be-steps li::before{content:counter(s);grid-row:1/3;width:32px;height:32px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:16px;color:var(--accent);background:var(--paper);position:relative;z-index:1}
+  .be-steps li::after{content:"";position:absolute;left:16px;top:32px;bottom:0;width:1px;background:var(--line)}
+  .be-steps li:last-child::after{display:none}
+  .be-steps b{font-weight:500;font-size:16px;padding-top:5px}
+  .be-steps span{font-size:14.5px;line-height:22px;color:var(--muted)}
+
+  /* ---------- FAQ ---------- */
+  .be-faq{padding:0 0 128px}
+  .be-faq .be-w{display:grid;grid-template-columns:1fr 1.4fr;gap:80px}
+  .be-q{border-top:1px solid var(--ink)}
+  .be-q details{border-bottom:1px solid var(--line)}
+  .be-q summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;font-size:18px;letter-spacing:-.01em}
+  .be-q summary::-webkit-details-marker{display:none}
+  .be-q summary::after{content:"+";flex:none;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:17px;transition:transform .4s,background .3s,color .3s}
+  .be-q details[open] summary::after{transform:rotate(45deg);background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .be-q p{margin:0 0 24px;font-size:16px;line-height:27px;color:var(--muted);max-width:620px}
+
+  /* ---------- Weitere ---------- */
+  .be-more{padding:0 0 128px}
+  .be-more .in{display:grid;grid-template-columns:220px 1fr;gap:40px;padding-top:28px;border-top:1px solid var(--line)}
+  .be-more h2{font-size:15px;line-height:22px;font-weight:500;margin:2px 0 0;color:var(--muted);letter-spacing:0;align-self:start}
+  .be-more ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .be-more a{display:block;color:var(--ink);text-decoration:none}
+  .be-more b{display:block;font-weight:500;font-size:18px;letter-spacing:-.015em;margin-bottom:6px}
+  .be-more b::after{content:" →";color:var(--muted);transition:color .3s}
+  .be-more a:hover b::after{color:var(--accent)}
+  .be-more span{font-size:14px;line-height:21px;color:var(--muted)}
+
+  /* Abschluss-Section für diese Seite */
+  #kontakt .ct-tl{display:none}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:1100px){
+    .be-hero .be-w{gap:48px}
+    .be-fg,.be-ag{gap:48px}
+    .be-forms{padding:28px 26px 22px}
+  }
+  @media (max-width:980px){
+    .be-hero .be-w{grid-template-columns:1fr;gap:64px;padding-bottom:104px}
+    .be-forms{max-width:600px}
+    .be-flow{grid-template-columns:1fr;gap:28px}
+    .be-mid{display:none}
+    .be-col.dst{position:relative;padding-left:22px;border-left:1px solid var(--line)}
+    .be-fg{grid-template-columns:1fr;gap:40px}
+    .be-fg .txt{position:static}
+    .be-ag{grid-template-columns:1fr;gap:56px}
+    .be-cg{grid-template-columns:1fr;gap:48px}
+    .be-faq .be-w{grid-template-columns:1fr;gap:28px}
+    .be-more .in{grid-template-columns:1fr;gap:20px}
+  }
+  @media (max-width:700px){
+    .be-more ul{grid-template-columns:1fr;gap:18px}
+  }
+  @media (max-width:560px){
+    .be-w{padding-left:16px;padding-right:16px}
+    .be-crumb{margin-bottom:32px}
+    .be-lead{font-size:17px;line-height:28px}
+    .be-hero .be-w{padding-bottom:88px}
+    .be-forms{padding:22px 18px 18px}
+    .be-forms header{flex-direction:column;gap:2px}
+    .be-forms li{padding:14px 0}
+    .be-forms li b{font-size:15px}
+    .be-forms footer{flex-direction:column;gap:6px}
+    .be-once,.be-fam,.be-dk,.be-cost{padding:96px 0}
+    .be-once .head{margin-bottom:44px}
+    .be-seg{display:grid;width:100%}
+    .be-seg button{padding:10px 8px;font-size:13.5px}
+    .be-view{padding:24px 18px 22px}
+    .be-view h3{font-size:27px}
+    .be-grp li{grid-template-columns:20px 1fr;gap:10px}
+    .be-grp li em{grid-column:2}
+    .be-ad{padding:10px}
+    .be-ad-in{padding:34px 18px 28px}
+    .be-ad .nm{font-size:34px}
+    .be-quote{font-size:17px}
+    .be-kv{padding:22px 18px 18px}
+    .be-kv header{flex-direction:column;gap:2px}
+    .be-kv .r{flex-direction:column;gap:2px}
+    .be-kv .r span:last-child{text-align:left}
+    .be-faq,.be-more{padding-bottom:96px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .be-rv{opacity:1;transform:none;transition:none}
+    .be-view{animation:none}
+    .be-mid path{transition:none;stroke-dashoffset:0}
+  }
+</style>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="be-hero" aria-labelledby="be-h">
+  <div class="be-w">
+    <div>
+      <nav class="be-crumb" aria-label="Brotkrumen"><a href="ailien-startseite.html">Start</a><span>/</span><a href="#">Branchen</a><span>/</span>Bestattungsunternehmen</nav>
+      <p class="eyebrow">KI für Bestattungsunternehmen</p>
+      <h1 id="be-h"><span>Mehr Zeit für <em>Angehörige.</em></span><span>Weniger für Formulare.</span></h1>
+      <p class="be-lead">Nach dem Erstgespräch sind Sterbefallanzeige, Friedhofsantrag und die Mitteilungen an Rentenservice und Krankenkasse vorbereitet. <b>Sie prüfen, ergänzen und unterschreiben</b> – und haben den Kopf frei für die Familie.</p>
+      <div class="be-ctas">
+        <a class="btn p" href="/kontakt">Kurz telefonieren <span aria-hidden="true">→</span></a>
+        <a class="be-link" href="#angehoerige">Was Angehörige sehen ↓</a>
+      </div>
+      <p class="be-note">Gespräche mit Angehörigen führen Sie selbst. Die KI arbeitet im Hintergrund – und nichts verlässt Ihr Haus ohne Ihre Freigabe.</p>
+    </div>
+
+    <div class="be-forms" id="beForms" aria-label="Beispiel: Unterlagen, die nach dem Erstgespräch vorbereitet sind">
+      <header><div><b>Unterlagen · Familie Lindner</b><small>aus dem Erstgespräch am 14. Oktober</small></div></header>
+      <ol>
+        <li><b>Sterbefallanzeige</b><small>Standesamt</small><span class="be-st"><i><svg viewBox="0 0 10 10"><path pathLength="1" d="M2 5.2 L4.2 7.3 L8 2.8"/></svg></i><span>vorbereitet</span></span></li>
+        <li><b>Antrag auf Beisetzung</b><small>Friedhofsverwaltung</small><span class="be-st"><i><svg viewBox="0 0 10 10"><path pathLength="1" d="M2 5.2 L4.2 7.3 L8 2.8"/></svg></i><span>vorbereitet</span></span></li>
+        <li><b>Sterbefallmitteilung</b><small>Rentenservice</small><span class="be-st"><i><svg viewBox="0 0 10 10"><path pathLength="1" d="M2 5.2 L4.2 7.3 L8 2.8"/></svg></i><span>vorbereitet</span></span></li>
+        <li><b>Abmeldung</b><small>Krankenkasse</small><span class="be-st"><i><svg viewBox="0 0 10 10"><path pathLength="1" d="M2 5.2 L4.2 7.3 L8 2.8"/></svg></i><span>vorbereitet</span></span></li>
+        <li><b>Mitteilung an Versicherungen</b><small>soweit vorhanden</small><span class="be-st"><i><svg viewBox="0 0 10 10"><path pathLength="1" d="M2 5.2 L4.2 7.3 L8 2.8"/></svg></i><span>vorbereitet</span></span></li>
+        <li><b>Traueranzeige</b><small>Entwurf zur Abstimmung mit der Familie</small><span class="be-st"><i><svg viewBox="0 0 10 10"><path pathLength="1" d="M2 5.2 L4.2 7.3 L8 2.8"/></svg></i><span>vorbereitet</span></span></li>
+      </ol>
+      <footer><span>Alle Angaben einmal erfasst.</span><span>Beispieldaten zur Veranschaulichung</span></footer>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EINMAL ERZÄHLEN ============ -->
+<section class="be-once" aria-labelledby="be-once-h">
+  <div class="be-w">
+    <div class="head be-rv">
+      <p class="eyebrow">Im Hintergrund</p>
+      <h2 class="be-h2" id="be-once-h">Einmal erzählen. <em>Überall</em> richtig.</h2>
+      <p class="be-sub">Angehörige müssen nichts doppelt sagen. Was im Erstgespräch notiert wird, landet in jedem Formular an der richtigen Stelle – in der Fassung, die Ihre Gemeinde und Ihre Friedhofsverwaltung verlangen.</p>
+    </div>
+    <div class="be-flow" id="beFlow">
+      <div class="be-col">
+        <p class="be-lbl">Aus dem Gespräch</p>
+        <div class="be-fld">Name, Geburtsname<span>Elisabeth Lindner, geb. Hartmann</span></div>
+        <div class="be-fld">Geboren<span>3. März 1941</span></div>
+        <div class="be-fld">Verstorben<span>9. Oktober 2026</span></div>
+        <div class="be-fld">Letzter Wohnort<span>Musterstadt</span></div>
+        <div class="be-fld">Krankenkasse<span>liegt vor</span></div>
+        <div class="be-fld">Wunsch<span>Erdbestattung, Waldfriedhof</span></div>
+      </div>
+      <div class="be-mid" aria-hidden="true">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path pathLength="1" d="M0 20 C 30 20, 30 50, 50 50"/><path pathLength="1" d="M0 33 C 30 33, 30 50, 50 50"/><path pathLength="1" d="M0 46 C 30 46, 30 50, 50 50"/><path pathLength="1" d="M0 60 C 30 60, 30 50, 50 50"/><path pathLength="1" d="M0 73 C 30 73, 30 50, 50 50"/><path pathLength="1" d="M0 87 C 30 87, 30 50, 50 50"/>
+          <path pathLength="1" d="M50 50 C 70 50, 70 20, 100 20"/><path pathLength="1" d="M50 50 C 70 50, 70 36, 100 36"/><path pathLength="1" d="M50 50 C 70 50, 70 52, 100 52"/><path pathLength="1" d="M50 50 C 70 50, 70 68, 100 68"/><path pathLength="1" d="M50 50 C 70 50, 70 85, 100 85"/>
+        </svg>
+        <span class="node">einmal erfasst</span>
+      </div>
+      <div class="be-col dst">
+        <p class="be-lbl">Vorbereitet für</p>
+        <div class="be-dst"><i></i>Standesamt<small>Sterbefallanzeige</small></div>
+        <div class="be-dst"><i></i>Friedhofsverwaltung<small>Beisetzung</small></div>
+        <div class="be-dst"><i></i>Rentenservice<small>Mitteilung</small></div>
+        <div class="be-dst"><i></i>Krankenkasse<small>Abmeldung</small></div>
+        <div class="be-dst"><i></i>Versicherungen<small>falls vorhanden</small></div>
+      </div>
+    </div>
+    <p class="be-cap">Beispieldaten zur Veranschaulichung · Wo Behörden Online-Portale nutzen, werden die Angaben zum Übertragen vorbereitet.</p>
+  </div>
+</section>
+
+<!-- ============ WAS ANGEHÖRIGE SEHEN ============ -->
+<section class="be-fam" id="angehoerige" aria-labelledby="be-fam-h">
+  <div class="be-w">
+    <div class="be-fg">
+      <div class="txt be-rv">
+        <p class="eyebrow">Für die Familie</p>
+        <h2 class="be-h2" id="be-fam-h">Was Angehörige <em>sehen.</em></h2>
+        <p class="be-sub">Eine ruhige Übersicht, die Sie der Familie freigeben können: Was ist erledigt, was folgt, wer ist erreichbar. Das erspart Nachfragen – und gibt Halt in Tagen, in denen vieles gleichzeitig passiert.</p>
+        <div class="be-seg" role="group" aria-label="Ansicht wählen" id="beSeg">
+          <button type="button" aria-pressed="true" data-v="fam">Ansicht der Familie</button>
+          <button type="button" aria-pressed="false" data-v="int">Ihre Ansicht</button>
+        </div>
+        <p class="hint">Beide Ansichten beruhen auf denselben Daten. Was die Familie sieht, entscheiden Sie.</p>
+      </div>
+      <div class="be-rv">
+        <div class="be-page">
+          <div class="bar" aria-hidden="true"><i></i><i></i><i></i><span id="beBar">Übersicht für Familie Lindner</span></div>
+          <div id="beView" aria-live="polite"></div>
+        </div>
+        <p class="be-cap">Beispieldaten zur Veranschaulichung · Namen frei erfunden.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRAUERANZEIGE ============ -->
+<section class="be-dk" aria-labelledby="be-ad-h">
+  <div class="be-w">
+    <div class="be-ag">
+      <div class="be-rv">
+        <p class="eyebrow">Traueranzeige &amp; Trauerkarten</p>
+        <h2 class="be-h2" id="be-ad-h">Eine Anzeige, in <em>Ruhe</em> entworfen.</h2>
+        <p class="be-sub">Aus den Angaben der Familie entsteht ein erster Entwurf – für die Zeitung, für Trauerkarten, für das Danksagungsschreiben. Die Familie wählt aus, ändert und gibt frei. Wählen Sie einen Leitspruch.</p>
+        <div class="be-opt" role="group" aria-label="Leitspruch wählen" id="beOpt">
+          <button type="button" aria-pressed="true"><small>Schlicht</small>Dankbarkeit für die gemeinsame Zeit</button>
+          <button type="button" aria-pressed="false"><small>Überliefert</small>Nach Victor Hugo</button>
+          <button type="button" aria-pressed="false"><small>Volkstümlich</small>Ein Leben voller Fleiß</button>
+        </div>
+        <p class="be-cap">Beispieltext zur Veranschaulichung · Fantasienamen.</p>
+      </div>
+      <div class="be-ad be-rv" aria-label="Entwurf einer Traueranzeige">
+        <div class="be-ad-in">
+          <p class="be-quote" id="beQ"></p>
+          <p class="be-src" id="beS"></p>
+          <div class="rule"></div>
+          <p class="pre">In Liebe und Dankbarkeit nehmen wir Abschied von</p>
+          <p class="nm">Elisabeth Lindner</p>
+          <p class="geb">geb. Hartmann</p>
+          <p class="dt">* 3. März 1941 &nbsp;&nbsp; † 9. Oktober 2026</p>
+          <p class="sig">In stiller Trauer<br>Thomas und Anja Lindner<br>mit Familie</p>
+          <p class="info">Die Trauerfeier findet am Freitag, dem 24. Oktober 2026, um 11 Uhr in der Kapelle des Waldfriedhofs statt.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KOSTEN ============ -->
+<section class="be-cost" aria-labelledby="be-cost-h">
+  <div class="be-w">
+    <div class="be-rv" style="max-width:640px">
+      <p class="eyebrow">Kostenvoranschlag &amp; Rechnung</p>
+      <h2 class="be-h2" id="be-cost-h">Kosten, <em>klar</em> aufgeschlüsselt.</h2>
+      <p class="be-sub">Ein Kostenvoranschlag, den Familien verstehen: eigene Leistungen und Fremdkosten getrennt, nach Ihrer Preisliste. Aus dem freigegebenen Voranschlag wird später die Rechnung.</p>
+    </div>
+    <div class="be-cg">
+      <div class="be-kv be-rv">
+        <header><b>Kostenvoranschlag · Familie Lindner</b><span>Entwurf</span></header>
+        <h4>Leistungen des Bestattungshauses</h4>
+        <div class="r"><span>Überführung und hygienische Versorgung</span><span>nach Preisliste</span></div>
+        <div class="r"><span>Sarg nach Auswahl der Familie</span><span>nach Preisliste</span></div>
+        <div class="r"><span>Organisation und Begleitung der Trauerfeier</span><span>nach Preisliste</span></div>
+        <div class="r"><span>Erledigung der Formalitäten</span><span>nach Preisliste</span></div>
+        <h4>Fremdkosten</h4>
+        <div class="r f"><span>Friedhofsgebühren</span><span>laut Gebührenbescheid</span></div>
+        <div class="r f"><span>Sterbeurkunden, Standesamt</span><span>laut Gebühr</span></div>
+        <div class="r f"><span>Traueranzeige Tageszeitung</span><span>laut Angebot Verlag</span></div>
+        <div class="r f"><span>Blumenschmuck</span><span>laut Auswahl</span></div>
+        <p class="note">Fremdkosten werden getrennt ausgewiesen. Beträge setzt die KI aus Ihrer Preisliste und den vorliegenden Bescheiden ein – Sie prüfen jeden Posten.</p>
+      </div>
+      <ol class="be-steps be-rv">
+        <li><b>Entwurf aus dem Gespräch</b><span>Positionen nach den Wünschen der Familie, Preise aus Ihrer Liste.</span></li>
+        <li><b>Gemeinsam durchgehen</b><span>Sie besprechen den Voranschlag mit der Familie und passen an.</span></li>
+        <li><b>Rechnung vorbereitet</b><span>Aus dem freigegebenen Voranschlag, ergänzt um die tatsächlichen Fremdkosten.</span></li>
+        <li><b>Abgleich der Bescheide</b><span>Eingehende Gebührenbescheide werden mit dem Voranschlag verglichen, Abweichungen markiert.</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="be-faq" aria-labelledby="be-faq-h">
+  <div class="be-w">
+    <div class="be-rv"><p class="eyebrow">Häufige Fragen</p><h2 class="be-h2" id="be-faq-h">Was Bestatter uns <em>fragen.</em></h2></div>
+    <div class="be-q be-rv">
+      <details open><summary>Spricht die KI mit den Angehörigen?</summary><p>Nein. Gespräche mit Angehörigen führen Sie und Ihr Team. Die KI bereitet im Hintergrund vor: Formulare, Entwürfe, Übersichten. Nachrichten an die Familie gehen nur raus, wenn Sie sie freigeben.</p></details>
+      <details><summary>Wer ist für die Angaben verantwortlich?</summary><p>Sie. Jedes vorbereitete Formular prüfen Sie, bevor es unterschrieben und versendet wird. Unklare oder fehlende Angaben werden markiert, statt geraten.</p></details>
+      <details><summary>Wie werden die sehr persönlichen Daten geschützt?</summary><p>Die Daten bleiben in der EU und werden nur für Ihr Haus verarbeitet. Zugriff haben nur die Personen, die Sie festlegen. Sie bekommen einen Auftragsverarbeitungsvertrag, jeder Schritt wird protokolliert, Löschfristen richten sich nach Ihren Vorgaben.</p></details>
+      <details><summary>Jede Gemeinde hat eigene Formulare – geht das trotzdem?</summary><p>Ja. Wir hinterlegen die Formulare der Standesämter und Friedhofsverwaltungen, mit denen Sie regelmäßig arbeiten. Wo Online-Portale genutzt werden, liegen die Angaben fertig zum Übertragen bereit.</p></details>
+      <details><summary>Wir sind ein kleines Familienunternehmen. Passt das?</summary><p>Gerade dann. In kleinen Häusern erledigt oft dieselbe Person Gespräche, Formalitäten und Abrechnung. Ein einzelner Helfer – etwa die vorbereiteten Formulare nach dem Erstgespräch – nimmt dort spürbar Last ab.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WEITERE BRANCHEN ============ -->
+<section class="be-more" aria-labelledby="be-more-h">
+  <div class="be-w">
+    <div class="in">
+      <h2 id="be-more-h">Weitere Branchen</h2>
+      <ul>
+        <li><a href="ailien-branchen-foerdermittelberatung.html"><b>Fördermittelberatung</b><span>Programme finden, Anträge vorbereiten, Fristen halten</span></a></li>
+        <li><a href="ailien-branchen-hausverwaltung.html"><b>Hausverwaltungen</b><span>Meldungen sortieren, Protokolle, Mieterfragen</span></a></li>
+        <li><a href="ailien-branchen-gutachter.html"><b>Gutachter</b><span>Gutachten aus Diktat und Fotos vorbereiten</span></a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+</main>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function $(id){return document.getElementById(id)}
+
+  /* Ruhige Einblendung */
+  var rv=[].slice.call(document.querySelectorAll('.be-rv'));
+  function obs(els,cb,th){if(reduce||!('IntersectionObserver' in window)){els.forEach(cb);return}
+    var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){cb(x.target);io.unobserve(x.target)}})},{threshold:th||.15});els.forEach(function(e){io.observe(e)})}
+  obs(rv,function(e){e.classList.add('in')});
+  obs([$('beFlow')],function(e){e.classList.add('in')},.3);
+
+  /* Hero: Unterlagen werden nacheinander als vorbereitet markiert (einmalig, langsam) */
+  var items=[].slice.call(document.querySelectorAll('#beForms li'));
+  if(reduce)items.forEach(function(l){l.classList.add('on')});
+  else items.forEach(function(l,i){setTimeout(function(){l.classList.add('on')},900+i*1100)});
+
+  /* Was Angehörige sehen */
+  var V={
+    fam:{bar:'Übersicht für Familie Lindner',h:'Abschied von Elisabeth Lindner',m:'Hier sehen Sie, was bereits geregelt ist und was als Nächstes ansteht.',
+      g:[['Bereits erledigt',[['dn','Sterbeurkunden liegen vor','Sie erhalten Ihre Exemplare beim nächsten Termin.',''],['dn','Termin der Trauerfeier','Freitag, 24. Oktober, 11 Uhr, Kapelle des Waldfriedhofs',''],['dn','Blumenschmuck bestellt','Wie besprochen: weiße Rosen','']]],
+         ['Als Nächstes',[['nx','Traueranzeige ansehen','Ein Entwurf liegt für Sie bereit.','bis Mittwoch'],['nx','Musikwünsche mitteilen','Gern auch telefonisch.','']]]],
+      c:['MW','Martina Weber','Ihre Ansprechpartnerin · erreichbar werktags 8–18 Uhr']},
+    int:{bar:'Vorgang Lindner · intern',h:'Vorgang Lindner',m:'Stand aller Formalitäten – nur für Ihr Haus sichtbar.',
+      g:[['Behörden & Stellen',[['dn','Standesamt','Sterbefallanzeige eingereicht, Urkunden abgeholt','erledigt'],['dn','Friedhofsverwaltung','Grabstätte und Termin bestätigt','erledigt'],['dn','Rentenservice','Mitteilung versendet','erledigt'],['dn','Krankenkasse','Abmeldung versendet','erledigt'],['wt','Versicherung','Unterlagen bei der Familie angefordert','wartet']]],
+         ['Mit der Familie',[['wt','Traueranzeige','Entwurf liegt bei der Familie','wartet'],['dn','Kostenvoranschlag','besprochen und freigegeben','erledigt']]]],
+      c:['MW','Zuständig: Martina Weber','Nächste Wiedervorlage: Mittwoch']}
+  };
+  var view=$('beView'), bar=$('beBar');
+  function render(k){var d=V[k];bar.textContent=d.bar;
+    view.className='be-view';void view.offsetWidth;view.className='be-view';
+    view.innerHTML='<h3>'+d.h+'</h3><p class="meta">'+d.m+'</p>'+d.g.map(function(g){return '<div class="be-grp"><p>'+g[0]+'</p><ul>'+g[1].map(function(x){return '<li class="'+x[0]+'"><span class="ic"></span><span>'+x[1]+'<small>'+x[2]+'</small></span><em>'+x[3]+'</em></li>'}).join('')+'</ul></div>'}).join('')+
+      '<div class="be-contact"><span class="av">'+d.c[0]+'</span><span><b>'+d.c[1]+'</b><span>'+d.c[2]+'</span></span></div>';
+  }
+  [].forEach.call($('beSeg').children,function(b){b.addEventListener('click',function(){[].forEach.call($('beSeg').children,function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});render(b.dataset.v)})});
+  render('fam');
+
+  /* Traueranzeige: Leitspruch */
+  var Q=[['Wir sind dankbar für jeden Tag, den wir mit dir teilen durften.',''],['Du bist nicht mehr da, wo du warst, aber du bist überall, wo wir sind.','Victor Hugo'],['Still und einfach war dein Leben, treu und fleißig deine Hand.','']];
+  var q=$('beQ'), s=$('beS'), opts=[].slice.call($('beOpt').children), tq=0;
+  function setQ(i,anim){
+    opts.forEach(function(b,j){b.setAttribute('aria-pressed',i===j?'true':'false')});
+    function put(){q.textContent='„'+Q[i][0]+'“';s.textContent=Q[i][1];q.classList.remove('fade');s.classList.remove('fade')}
+    if(!anim||reduce){put();return}
+    q.classList.add('fade');s.classList.add('fade');clearTimeout(tq);tq=setTimeout(put,700);
+  }
+  opts.forEach(function(b,i){b.addEventListener('click',function(){setQ(i,true)})});
+  setQ(0,false);
+})();
+</script>
+
+<style>
+  /* ---------- CTA + Footer ---------- */
+  .ct{background:var(--night);color:var(--on-night);position:relative;overflow:hidden}
+  .ct-in{max-width:1240px;margin:0 auto;padding:112px 32px 96px;position:relative}
+  .ct .eyebrow{color:var(--mint)}.ct .eyebrow::before{background:var(--mint)}
+
+  .ct-tl{position:relative;height:64px;margin:0 0 56px}
+  .ct-tl svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .ct-tl .base{stroke:var(--night-3);stroke-width:1;stroke-dasharray:3 5}
+  .ct-tl .ink{stroke:var(--on-night-muted);stroke-width:1.25}
+  .ct-tl ol{list-style:none;margin:0;padding:0;position:absolute;inset:0}
+  .ct-tl li{white-space:nowrap;position:absolute;top:22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;font-size:12px;letter-spacing:.06em;color:var(--on-night-muted);opacity:.25;transition:opacity .4s,color .4s}
+  .ct-tl li::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--night);border:1px solid currentColor;margin-top:-4px}
+  .ct-tl li.on{opacity:1}
+  .ct-tl li.now{color:var(--mint);font-weight:500}
+  .ct-tl li.now::before{width:13px;height:13px;margin-top:-6px;background:var(--mint);border-color:var(--mint);box-shadow:0 0 0 0 rgba(140,245,194,.5)}
+  .ct-tl li.now.on::before{animation:ctPulse 2.2s ease-out infinite}
+  @keyframes ctPulse{0%{box-shadow:0 0 0 0 rgba(140,245,194,.45)}100%{box-shadow:0 0 0 16px rgba(140,245,194,0)}}
+
+  .ct-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:72px;align-items:start}
+  .ct-grid>div:first-child{container-type:inline-size}
+  .ct h2 span{display:block;white-space:nowrap}
+  .ct h2{font-weight:500;font-size:min(64px,calc(100cqi / 10.6));line-height:1.02;letter-spacing:-.04em;margin:0 0 24px}
+  .ct h2 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--mint)}
+  .ct-lead{font-size:18px;line-height:28px;color:var(--on-night-muted);max-width:480px;margin:0 0 36px}
+  .ct-list{list-style:none;margin:0 0 40px;padding:0;display:grid;gap:14px;max-width:480px}
+  .ct-list li{display:grid;grid-template-columns:28px 1fr;gap:12px;font-size:15px;line-height:23px}
+  .ct-list li span{width:28px;height:28px;border-radius:50%;border:1px solid var(--night-3);display:grid;place-items:center;font-size:11px;color:var(--mint)}
+  .ct-list b{font-weight:500}
+  .ct-list small{display:block;color:var(--on-night-muted);font-size:14px}
+  .ct-person{display:flex;align-items:center;gap:14px;padding-top:28px;border-top:1px solid var(--night-3);max-width:480px}
+  .ct-ava{width:52px;height:52px;border-radius:50%;background:var(--night-3);display:grid;place-items:center;font-weight:500;font-size:16px;color:var(--mint);flex:none}
+  .ct-person p{margin:0;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-person b{display:block;color:var(--on-night);font-weight:500;font-size:15px}
+  .ct-person a{color:var(--mint);text-decoration:none}
+
+  .ct-form{background:var(--night-2);border:1px solid var(--night-3);border-radius:20px;padding:28px;position:relative}
+  .ct-form h3{margin:0 0 6px;font-size:20px;font-weight:500;letter-spacing:-.02em}
+  .ct-form>p{margin:0 0 22px;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:var(--night);border-radius:999px;margin:0 0 22px}
+  .ct-seg button{font:500 13px/18px var(--sans);color:var(--on-night-muted);background:none;border:0;border-radius:999px;padding:9px 10px;cursor:pointer}
+  .ct-seg button[aria-pressed="true"]{background:var(--on-night);color:var(--night)}
+  .ct-f{display:grid;gap:14px}
+  .ct-f label{display:grid;gap:6px;font-size:12px;letter-spacing:.04em;color:var(--on-night-muted)}
+  .ct-f input,.ct-f select,.ct-f textarea{font:400 15px/22px var(--sans);color:var(--on-night);background:var(--night);border:1px solid var(--night-3);border-radius:10px;padding:11px 13px;width:100%;transition:border-color .2s}
+  .ct-f textarea{resize:vertical;min-height:84px}
+  .ct-f input:focus,.ct-f select:focus,.ct-f textarea:focus{outline:none;border-color:var(--mint)}
+  .ct-f .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .ct-f .ok{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;line-height:19px;letter-spacing:0}
+  .ct-f .ok input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--mint);flex:none}
+  .ct-f .ok a{color:var(--on-night)}
+  .ct-f .btn{justify-content:center;width:100%;margin-top:4px;padding:15px 20px}
+  .ct-f [data-only="call"]{display:none}
+  .ct-form.call [data-only="call"]{display:grid}
+  .ct-form.call [data-only="mail"]{display:none}
+  .ct-done{display:none;text-align:center;padding:48px 8px}
+  .ct-done svg{width:56px;height:56px;margin:0 auto 18px;display:block}
+  .ct-done h3{margin-bottom:8px}
+  .ct-done p{margin:0;color:var(--on-night-muted);font-size:15px;line-height:23px}
+  .ct-form.sent .ct-f,.ct-form.sent .ct-seg,.ct-form.sent>h3,.ct-form.sent>p{display:none}
+  .ct-form.sent .ct-done{display:block}
+  .ct-done path{stroke-dasharray:1;stroke-dashoffset:1}
+  .ct-form.sent .ct-done path{animation:ctDraw .7s .15s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes ctDraw{to{stroke-dashoffset:0}}
+
+  .crv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .crv.in{opacity:1;transform:none}
+
+  /* Footer */
+  .ft{background:var(--night);color:var(--on-night);border-top:1px solid var(--night-3);overflow:hidden}
+  .ft-in{max-width:1240px;margin:0 auto;padding:64px 32px 0}
+  .ft-top{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px;padding-bottom:56px}
+  .ft-brand svg{height:30px;width:auto;display:block;margin-bottom:18px}
+  .ft-brand p{margin:0 0 20px;font-size:14px;line-height:22px;color:var(--on-night-muted);max-width:300px}
+  .ft-badges{display:flex;flex-wrap:wrap;gap:8px}
+  .ft-badges span{font-size:12px;color:var(--on-night-muted);border:1px solid var(--night-3);border-radius:999px;padding:5px 11px}
+  .ft h4{margin:0 0 16px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--on-night-muted)}
+  .ft ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .ft ul a{color:var(--on-night);text-decoration:none;font-size:15px;opacity:.86}
+  .ft ul a:hover{opacity:1;color:var(--mint)}
+  .ft-mark{position:relative;margin:0 -2px;line-height:0}
+  .ft-mark svg{width:100%;height:auto;display:block}
+  .ft-mark .o{fill:#15181C}
+  .ft-mark .f{fill:var(--night-3)}
+  .ft-bot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;padding:22px 0 28px;border-top:1px solid var(--night-3);font-size:13px;color:var(--on-night-muted)}
+  .ft-bot nav{display:flex;gap:20px}
+  .ft-bot a{color:inherit;text-decoration:none}.ft-bot a:hover{color:var(--on-night)}
+
+  @media (max-width:980px){
+    .ct-grid{grid-template-columns:1fr;gap:48px}
+    .ft-top{grid-template-columns:1fr 1fr}
+    .ft-brand{grid-column:1/-1}
+    .ft-top>div:last-child{grid-column:1/-1}
+  }
+  @media (max-width:640px){
+    .ct-in{padding:80px 16px 72px}
+    .ct-tl{margin-bottom:40px}
+    .ct-tl li{font-size:10.5px;letter-spacing:.02em}
+    .ct-tl li:nth-child(2),.ct-tl li:nth-child(4){display:none}
+    .ct-form{padding:22px 18px}
+    .ct-f .two{grid-template-columns:1fr}
+    .ft-in{padding:56px 16px 0}
+    .ft-top{gap:32px 20px}
+    .ft-bot{flex-direction:column}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .crv{opacity:1;transform:none;transition:none}
+    .ct-tl li.now.on::before{animation:none}
+  }
+</style>
+
+<section class="ct" id="kontakt">
+  <div class="ct-in">
+    <div class="ct-tl" aria-hidden="true">
+      <svg viewBox="0 0 1000 64" preserveAspectRatio="none"><line class="base" x1="0" y1="22" x2="1000" y2="22"/><line class="ink" x1="0" y1="22" x2="1000" y2="22" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+      <ol>
+        <li style="left:4%">1850</li><li style="left:24%">1920</li><li style="left:44%">1965</li><li style="left:64%">1995</li><li style="left:96%" class="now">Ihr Betrieb</li>
+      </ol>
+    </div>
+
+    <div class="ct-grid">
+      <div class="crv">
+        <p class="eyebrow">Erstgespräch</p>
+        <h2><span>In Ruhe sprechen.</span><span>Ganz <em>unverbindlich.</em></span></h2>
+        <p class="ct-lead">Wir nehmen uns Zeit für Ihre Abläufe und sagen ehrlich, wo KI Ihrem Haus Arbeit abnehmen kann – und wo sie nichts zu suchen hat. Persönlich, ohne Verkaufsgespräch.</p>
+        <ol class="ct-list">
+          <li><span>01</span><div><b>Sie erzählen, wo es hakt.</b><small>Per Video oder bei Ihnen vor Ort.</small></div></li>
+          <li><span>02</span><div><b>Wir zeigen, was möglich ist.</b><small>An Beispielen aus Ihrer Branche.</small></div></li>
+          <li><span>03</span><div><b>Sie entscheiden in Ruhe.</b><small>Auf Wunsch mit schriftlicher Einschätzung.</small></div></li>
+        </ol>
+        <div class="ct-person">
+          <div class="ct-ava" aria-hidden="true">NK</div>
+          <p><b>Nic Karban</b>Gründer · Ihr Ansprechpartner<br><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></p>
+        </div>
+      </div>
+
+      <div class="ct-form crv" id="ctForm">
+        <h3>Erstgespräch anfragen</h3>
+        <p>Wir melden uns innerhalb eines Werktags.</p>
+        <div class="ct-seg" role="group" aria-label="Kontaktweg">
+          <button type="button" aria-pressed="true" data-mode="mail">Termin per E-Mail</button>
+          <button type="button" aria-pressed="false" data-mode="call">Rückruf</button>
+        </div>
+        <!-- TODO: action auf echtes Formular-Backend / Buchungstool setzen -->
+        <form class="ct-f" action="#" method="post" novalidate>
+          <div class="two">
+            <label>Name<input name="name" autocomplete="name" required></label>
+            <label>Betrieb<input name="firma" autocomplete="organization"></label>
+          </div>
+          <label data-only="mail">E-Mail<input type="email" name="email" autocomplete="email"></label>
+          <div class="two" data-only="call">
+            <label>Telefon<input type="tel" name="tel" autocomplete="tel"></label>
+            <label>Am besten erreichbar<select name="zeit"><option>Vormittags</option><option>Mittags</option><option>Nachmittags</option></select></label>
+          </div>
+          <label>Wo kostet Sie Routine am meisten Zeit? <span style="opacity:.6">(optional)</span><textarea name="nachricht" placeholder="z. B. Angebote schreiben, Telefon, Rechnungen prüfen …"></textarea></label>
+          <label class="ok"><input type="checkbox" name="dsgvo" required><span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden. <a href="#">Datenschutz</a></span></label>
+          <button class="btn m" type="submit">Anfrage senden <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="ct-done" role="status">
+          <svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="27" fill="none" stroke="#22262B"/><path d="M17 29 25 37 40 20" fill="none" stroke="#8CF5C2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
+          <h3>Danke – ist angekommen.</h3>
+          <p>Wir melden uns innerhalb eines Werktags bei Ihnen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="ft">
+  <div class="ft-in">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <svg viewBox="0 8 160.8 64" aria-label="Ailien"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#F3F1EC"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#8CF5C2" fill-rule="evenodd"/></svg>
+        <p>KI-Automatisierung für Mittelstand und Handwerk. Wir bauen Systeme, die Routine abnehmen – und betreuen sie dauerhaft.</p>
+        <div class="ft-badges"><span>DSGVO-konform</span><span>Server in der EU</span><span>Made in Germany</span></div>
+      </div>
+      <div>
+        <h4>Leistungen</h4>
+        <ul><li><a href="#leistungen">Prozess-Automationen</a></li><li><a href="#leistungen">KI-Wissenssysteme</a></li><li><a href="#leistungen">Voice &amp; Kommunikation</a></li><li><a href="#leistungen">KI-Strategie &amp; Beratung</a></li></ul>
+      </div>
+      <div>
+        <h4>Ailien</h4>
+        <ul><li><a href="#praxis">Praxisbeispiele</a></li><li><a href="#vorgehen">Vorgehen</a></li><li><a href="#faq">Häufige Fragen</a></li><li><a href="#rechner">Entlastungs-Rechner</a></li></ul>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul><li><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></li><li><a href="#kontakt">Erstgespräch anfragen</a></li><li><a href="#">LinkedIn</a></li></ul>
+      </div>
+    </div>
+
+    <div class="ft-mark" aria-hidden="true">
+      <svg viewBox="7 11.5 143.5 51.6"><defs><g id="ftWord"><path d=""/><path fill-rule="evenodd" d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z"/></g><clipPath id="ftClip"><rect id="ftRise" x="0" y="64" width="161" height="70"/></clipPath></defs>
+        <g class="o"><use href="#ftWord"/></g>
+        <g clip-path="url(#ftClip)"><g class="f"><use href="#ftWord"/></g></g>
+      </svg>
+    </div>
+
+    <div class="ft-bot">
+      <span>© 2026 Ailien · ailien-automation.de</span>
+      <nav><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">AGB</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var clamp=function(v){return v<0?0:v>1?1:v};
+  /* Reveals */
+  var els=[].slice.call(document.querySelectorAll('.crv'));
+  if(reduce||!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')})}
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.15});
+    els.forEach(function(e,i){e.style.transitionDelay=(i%2?.12:0)+'s';io.observe(e)})}
+
+  /* Zeitstrahl + Wortmarke scroll-gesteuert */
+  var tl=document.querySelector('.ct-tl'), ink=tl&&tl.querySelector('.ink'), lis=tl?[].slice.call(tl.querySelectorAll('li')):[];
+  var pos=lis.map(function(l){return parseFloat(l.style.left)/100});
+  var mark=document.querySelector('.ft-mark'), rise=document.getElementById('ftRise');
+  function tick(){
+    var vh=innerHeight;
+    if(tl){
+      var r=tl.getBoundingClientRect();
+      var p=reduce?1:clamp((vh*.92-r.top)/(vh*.55));
+      ink.style.strokeDashoffset=1-p;
+      lis.forEach(function(l,i){l.classList.toggle('on',p>=pos[i]-.02)});
+    }
+    if(mark){
+      var m=mark.getBoundingClientRect();
+      var q=reduce?1:clamp((vh-m.top-m.height*.1)/(m.height*.9));
+      rise.setAttribute('y',(63-q*51).toFixed(2));
+    }
+  }
+  var raf=0;function on(){if(!raf)raf=requestAnimationFrame(function(){raf=0;tick()})}
+  addEventListener('scroll',on,{passive:true});addEventListener('resize',on);tick();
+
+  /* Formular */
+  var f=document.getElementById('ctForm'); if(!f) return;
+  var btns=[].slice.call(f.querySelectorAll('.ct-seg button'));
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    f.classList.toggle('call',b.dataset.mode==='call');
+  })});
+  f.querySelector('form').addEventListener('submit',function(e){
+    e.preventDefault(); /* Demo: hier später an Backend senden */
+    var form=e.target, E=form.elements, call=f.classList.contains('call');
+    var nm=E.namedItem('name'), ct=E.namedItem(call?'tel':'email'), cb=E.namedItem('dsgvo');
+    var name=nm.value.trim(), contact=ct.value.trim(), ok=cb.checked;
+    [nm,ct].forEach(function(i){i.style.borderColor=i.value.trim()?'':'#F2C46B'});
+    cb.parentNode.style.color=ok?'':'#F2C46B';
+    if(!name||!contact||!ok) return;
+    f.classList.add('sent');
+  });
+})();
+</script>
+
+</body>
+</html>

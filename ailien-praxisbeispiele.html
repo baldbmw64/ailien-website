@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Praxisbeispiele – ailien</title>
+<meta name="description" content="KI-Systeme, die im Mittelstand laufen: echte Betriebe, echte Zahlen, und was dabei nicht auf Anhieb geklappt hat. Aus Handwerk, Industrie, Immobilien und Dienstleistung.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F3F1EC; --ink:#0E1013; --muted:#5F636A; --line:#DEDBD3; --accent:#0F7A55;
+    --night:#0E1013; --night-2:#171A1E; --night-3:#22262B; --on-night:#F3F1EC; --on-night-muted:#A3A7AD; --mint:#8CF5C2;
+    --warn:#F2C46B;
+    --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+    --serif:"Instrument Serif",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);overflow-x:clip}
+  .btn{display:inline-flex;align-items:center;gap:10px;font:500 14px/20px var(--sans);padding:13px 20px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer}
+  .btn.p{background:var(--night);color:var(--on-night)}.btn.p:hover{background:#23262b}
+  .btn.s{color:var(--ink);border-color:var(--line)}.btn.s:hover{border-color:var(--ink)}
+  .btn:focus-visible,.dot:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--accent);margin:0 0 18px;display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--accent)}
+  .btn.m{background:var(--mint);color:var(--night)}.btn.m:hover{background:#a6f8d0}
+</style>
+<style>
+  /* ---------- Header (Variante C) ---------- */
+  .hd-sp{height:117px}
+  .hd{position:fixed;top:0;left:0;right:0;z-index:100;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+  .hd-w{max-width:1240px;margin:0 auto;padding:0 32px}
+  .hd-bar{background:var(--night);color:var(--on-night-muted);font-size:12px;height:36px;overflow:hidden;transition:height .35s,opacity .35s}
+  .hd-bar .hd-w{height:100%;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .hd-bar span{display:flex;gap:18px}
+  .hd-bar b{font-weight:500}
+  .hd-bar i{font-style:normal;color:var(--mint);margin-right:6px}
+  .hd-bar a{color:var(--on-night);text-decoration:none}.hd-bar a:hover{color:var(--mint)}
+  .hd-main{background:var(--paper);border-bottom:1px solid transparent;transition:border-color .3s}
+  .hd-main .hd-w{display:flex;align-items:center;gap:28px;padding-top:18px;padding-bottom:18px;transition:padding .35s}
+  .hd-lg{display:block;height:38px;width:auto;color:var(--ink);transition:height .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-nv{display:flex;align-items:center;gap:2px;margin-right:auto}
+  .hd-ni{font:400 14px/20px var(--sans);color:var(--ink);background:none;border:0;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;white-space:nowrap}
+  .hd-ni sup{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--accent);margin-right:2px;line-height:0}
+  .hd-ni:hover,.hd-dd.on .hd-ni{color:var(--accent)}
+  .hd-ni svg{width:9px;height:9px;opacity:.6;transition:transform .25s}
+  .hd-dd{position:relative}
+  .hd-dd.on .hd-ni svg{transform:rotate(180deg)}
+  .hd-p{position:absolute;top:calc(100% + 14px);left:0;z-index:5;transform:translateY(8px);opacity:0;visibility:hidden;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:0 30px 60px -20px rgba(14,16,19,.28);transition:opacity .25s,transform .25s cubic-bezier(.2,.7,.2,1),visibility .25s}
+  .hd-p::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px}
+  .hd-dd.on .hd-p{opacity:1;visibility:visible;transform:none}
+  .hd-p.wide{width:640px;display:grid;grid-template-columns:1fr 1fr 210px;gap:4px}
+  .hd-p.list{width:330px;display:grid;gap:2px}
+  .hd-i{position:relative;display:block;padding:14px;border-radius:12px;text-decoration:none;color:inherit;transition:background .2s}
+  .hd-i:hover{background:var(--paper)}
+  .hd-i b{display:block;font-weight:500;font-size:14.5px;letter-spacing:-.01em;margin-bottom:3px}
+  .hd-i b::before{content:"";position:absolute;left:5px;top:21px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity .2s}
+  .hd-i:hover b::before{opacity:1}
+  .hd-i span{display:block;font-size:13px;line-height:19px;color:var(--muted)}
+  .hd-feat{grid-row:1/3;grid-column:3;background:var(--night);color:var(--on-night);border-radius:12px;padding:18px;display:flex;flex-direction:column;text-decoration:none}
+  .hd-feat small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint)}
+  .hd-feat strong{font-weight:500;font-size:17px;line-height:23px;letter-spacing:-.02em;margin-top:10px}
+  .hd-feat strong em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;color:var(--mint)}
+  .hd-feat span{margin-top:auto;font-size:13px;color:var(--on-night-muted)}
+  .hd-all{grid-column:1/3;display:flex;justify-content:space-between;padding:12px 14px;margin-top:4px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);text-decoration:none}
+  .hd-all:hover{color:var(--accent)}
+  .hd-r{display:flex;gap:8px}
+  .hd .btn{padding:12px 20px;white-space:nowrap}
+  .hd .btn .ar{transition:transform .2s}.hd .btn:hover .ar{transform:translateX(3px)}
+  .hd-burger{display:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:none;cursor:pointer;position:relative;flex:none;color:var(--ink)}
+  .hd-burger::before,.hd-burger::after{content:"";position:absolute;left:14px;right:14px;height:1.5px;background:currentColor;transition:transform .3s,top .3s}
+  .hd-burger::before{top:17px}.hd-burger::after{top:25px}
+  .hd-open .hd-burger::before{top:21px;transform:rotate(45deg)}.hd-open .hd-burger::after{top:21px;transform:rotate(-45deg)}
+  .hd.sc .hd-bar{height:0;opacity:0}
+  .hd.sc .hd-main{border-color:var(--line)}
+  .hd.sc .hd-main .hd-w{padding-top:12px;padding-bottom:12px}
+  .hd.sc .hd-lg{height:32px}
+  .hd-lg.old{height:32px}.hd.sc .hd-lg.old{height:28px}
+  .hd.hide{transform:translateY(-100%)}
+
+  /* Handy-Menü */
+  .hd-mm{position:fixed;inset:0;z-index:99;background:var(--paper);display:flex;flex-direction:column;padding:120px 22px 24px;overflow:auto;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+  .hd-open .hd-mm{opacity:1;visibility:visible}
+  .hd-mm>ol{list-style:none;margin:0;padding:0;counter-reset:n}
+  .hd-mm>ol>li{counter-increment:n;border-bottom:1px solid var(--line);opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s}
+  .hd-open .hd-mm>ol>li{opacity:1;transform:none}
+  .hd-open .hd-mm>ol>li:nth-child(2){transition-delay:.04s}.hd-open .hd-mm>ol>li:nth-child(3){transition-delay:.08s}.hd-open .hd-mm>ol>li:nth-child(4){transition-delay:.12s}.hd-open .hd-mm>ol>li:nth-child(5){transition-delay:.16s}
+  .hd-t{display:flex;align-items:center;width:100%;padding:15px 0;font:500 26px/1.15 var(--sans);letter-spacing:-.03em;color:var(--ink);text-decoration:none;background:none;border:0;cursor:pointer;text-align:left}
+  .hd-t::after{content:"0" counter(n);margin-left:auto;font-family:var(--serif);font-style:italic;font-weight:400;font-size:17px;color:var(--accent)}
+  .hd-t .pl{order:3;margin-left:14px;width:12px;height:12px;position:relative;opacity:.6}
+  .hd-t .pl::before,.hd-t .pl::after{content:"";position:absolute;left:0;right:0;top:5.5px;height:1.5px;background:currentColor;transition:transform .3s}
+  .hd-t .pl::after{transform:rotate(90deg)}
+  .hd-mm li.ex .pl::after{transform:rotate(0)}
+  .hd-s{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-mm li.ex .hd-s{grid-template-rows:1fr}
+  .hd-s>div{overflow:hidden}
+  .hd-s a{display:block;padding:8px 0 8px 2px;font-size:16px;color:var(--ink);opacity:.75;text-decoration:none}
+  .hd-s a:last-child{margin-bottom:14px}
+  .hd-mf{margin-top:auto;padding-top:28px;display:grid;gap:14px}
+  .hd-mf .btn{justify-content:center;padding:15px}
+  .hd-mf small{font-size:12px;color:var(--muted);text-align:center}
+  body.hd-lock{overflow:hidden}
+
+  @media (max-width:1180px){.hd-r .btn.s{display:none}.hd-main .hd-w{gap:16px}}
+  @media (max-width:980px){
+    .hd-nv{display:none}.hd-burger{display:block}
+    .hd-r{margin-left:auto}.hd-bar a{display:none}
+    .hd-lg{height:34px}.hd.sc .hd-lg{height:30px}
+    .hd .btn{padding:10px 16px;font-size:13px}
+  }
+  @media (max-width:980px){.hd-sp{height:113px}}
+  @media (max-width:520px){
+    .hd-sp{height:109px}
+    .hd-w{padding:0 16px}.hd-bar{font-size:11px}
+    .hd-bar span b:nth-child(n+3){display:none}
+    .hd-main .hd-w{padding-top:14px;padding-bottom:14px;gap:12px}
+    .hd.sc .hd-main .hd-w{padding-top:10px;padding-bottom:10px}
+  }
+  @media (max-width:360px){.hd-r .btn{display:none}}
+  @media (prefers-reduced-motion:reduce){.hd,.hd-p,.hd-mm,.hd-mm li{transition:none}}
+  .hd-main .hd-w{position:relative}
+  .hd-dd.mega{position:static}
+  .hd-p.mega{left:32px;right:32px;width:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:18px}
+  .hd-g{display:flex;flex-direction:column;gap:2px;padding:6px}
+  .hd-g small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px 10px}
+  .hd-l{display:block;padding:9px 10px;border-radius:10px;color:var(--ink);text-decoration:none;font-size:14.5px;transition:background .2s}
+  .hd-l:hover{background:var(--paper)}
+  .hd-l[aria-current="page"]{background:var(--paper);font-weight:500}
+  .hd-l[aria-current="page"]::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:2px}
+  .hd-s a[aria-current="page"]{opacity:1;font-weight:500}
+
+</style>
+</head>
+<body>
+<header class="hd" id="hd">
+  <div class="hd-bar"><div class="hd-w"><span><b><i>✓</i>DSGVO-konform</b><b><i>✓</i>Server in der EU</b><b><i>✓</i>Antwort innerhalb eines Werktags</b></span><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></div></div>
+  <div class="hd-main"><div class="hd-w">
+    <a href="ailien-startseite.html" aria-label="ailien Startseite"><svg class="hd-lg" viewBox="0 8 160.8 64" aria-hidden="true"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#0E1013"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#0F7A55" fill-rule="evenodd"/></svg></a>
+    <nav class="hd-nv" aria-label="Hauptnavigation">
+      <div class="hd-dd">
+        <button class="hd-ni" aria-expanded="false"><sup>01</sup>Leistungen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+        <div class="hd-p wide">
+          <a class="hd-i" href="/leistungen/prozess-automation"><b>Prozess-Automationen</b><span>Belege, Angebote, Bestellungen – läuft von selbst.</span></a>
+          <a class="hd-i" href="/leistungen/wissenssysteme"><b>KI-Wissenssysteme</b><span>Firmenwissen, das jeder sofort findet.</span></a>
+          <a class="hd-i" href="/leistungen/voice"><b>Voice &amp; Kommunikation</b><span>Telefon-Assistent und E-Mail-Vorsortierung.</span></a>
+          <a class="hd-i" href="/leistungen/beratung"><b>KI-Strategie &amp; Beratung</b><span>Wo lohnt sich KI bei Ihnen wirklich?</span></a>
+          <a class="hd-feat" href="ailien-entlastungsrechner.html"><small>Rechner</small><strong>Wie viele Stunden <em>sparen Sie?</em></strong><span>Jetzt ausrechnen →</span></a>
+          <a class="hd-all" href="/leistungen">Alle Leistungen im Überblick <span>→</span></a>
+        </div>
+      </div>
+      <div class="hd-dd mega"><button class="hd-ni" aria-expanded="false"><sup>02</sup>Branchen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><div class="hd-p mega"><div class="hd-g"><small>Bau &amp; Handwerk</small><a class="hd-l" href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a class="hd-l" href="ailien-branchen-bad-kueche.html">Bad- &amp; Küchenstudios</a><a class="hd-l" href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a class="hd-l" href="ailien-branchen-gebaeudereinigung.html">Gebäudereinigung</a></div><div class="hd-g"><small>Industrie &amp; Technik</small><a class="hd-l" href="ailien-branchen-maschinenbau.html">Maschinen- &amp; Anlagenbau</a><a class="hd-l" href="ailien-branchen-cnc.html">CNC-Betriebe</a><a class="hd-l" href="ailien-branchen-dguv-v3.html">Elektroprüfung DGUV V3</a><a class="hd-l" href="ailien-branchen-brandschutz.html">Brandschutz</a></div><div class="hd-g"><small>Immobilien &amp; Planung</small><a class="hd-l" href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a class="hd-l" href="ailien-branchen-immobilienmakler.html">Immobilienmakler</a><a class="hd-l" href="ailien-branchen-architekten.html">Architekten</a><a class="hd-l" href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a></div><div class="hd-g"><small>Dienstleistung</small><a class="hd-l" href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a class="hd-l" href="ailien-branchen-foerdermittelberatung.html">Fördermittelberatung</a><a class="hd-l" href="ailien-branchen-bestatter.html">Bestatter</a></div></div></div>
+      <a class="hd-ni" href="ailien-praxisbeispiele.html" aria-current="page"><sup>03</sup>Praxisbeispiele</a>
+      <a class="hd-ni" href="/ueber-uns"><sup>04</sup>Über uns</a>
+      <a class="hd-ni" href="/wissen"><sup>05</sup>Wissen</a>
+    </nav>
+    <div class="hd-r"><a class="btn s" href="ailien-entlastungsrechner.html">Rechner</a><a class="btn p" href="/kontakt">Erstgespräch <span class="ar">→</span></a></div>
+    <button class="hd-burger" aria-label="Menü öffnen" aria-expanded="false"></button>
+  </div></div>
+</header>
+<div class="hd-sp" aria-hidden="true"></div>
+<div class="hd-mm" id="hdMenu">
+  <ol>
+    <li><button class="hd-t">Leistungen<i class="pl"></i></button><div class="hd-s"><div><a href="/leistungen/prozess-automation">Prozess-Automationen</a><a href="/leistungen/wissenssysteme">KI-Wissenssysteme</a><a href="/leistungen/voice">Voice &amp; Kommunikation</a><a href="/leistungen/beratung">KI-Strategie &amp; Beratung</a><a href="/leistungen">Alle Leistungen →</a></div></div></li>
+    <li><button class="hd-t">Branchen<i class="pl"></i></button><div class="hd-s"><div><a href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a href="ailien-branchen-bad-kueche.html">Bad- &amp; Küchenstudios</a><a href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a href="ailien-branchen-gebaeudereinigung.html">Gebäudereinigung</a><a href="ailien-branchen-maschinenbau.html">Maschinen- &amp; Anlagenbau</a><a href="ailien-branchen-cnc.html">CNC-Betriebe</a><a href="ailien-branchen-dguv-v3.html">Elektroprüfung DGUV V3</a><a href="ailien-branchen-brandschutz.html">Brandschutz</a><a href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a href="ailien-branchen-immobilienmakler.html">Immobilienmakler</a><a href="ailien-branchen-architekten.html">Architekten</a><a href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a><a href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a href="ailien-branchen-foerdermittelberatung.html">Fördermittelberatung</a><a href="ailien-branchen-bestatter.html">Bestatter</a></div></div></li>
+    <li><a class="hd-t" href="ailien-praxisbeispiele.html" aria-current="page">Praxisbeispiele</a></li>
+    <li><a class="hd-t" href="/ueber-uns">Über uns</a></li>
+    <li><a class="hd-t" href="/wissen">Wissen</a></li>
+  </ol>
+  <div class="hd-mf"><a class="btn p" href="/kontakt">Erstgespräch vereinbaren <span class="ar">→</span></a><a class="btn s" href="ailien-entlastungsrechner.html">Entlastungs-Rechner</a><small>DSGVO-konform · Server in der EU</small></div>
+</div>
+<script>
+(function(){
+  var h=document.getElementById('hd'), last=scrollY, root=document.documentElement, sp=document.querySelector('.hd-sp');
+  function fit(){if(!h.classList.contains('sc'))sp.style.height=h.offsetHeight+'px'}
+  fit();addEventListener('resize',fit);if(document.fonts)document.fonts.ready.then(fit);
+  var dds=[].slice.call(h.querySelectorAll('.hd-dd'));
+  function closeAll(ex){dds.forEach(function(d){if(d!==ex){d.classList.remove('on');d.querySelector('.hd-ni').setAttribute('aria-expanded','false')}})}
+  dds.forEach(function(d){
+    var t,b=d.querySelector('.hd-ni');
+    function open(){clearTimeout(t);closeAll(d);d.classList.add('on');b.setAttribute('aria-expanded','true')}
+    d.addEventListener('mouseenter',open);
+    d.addEventListener('mouseleave',function(){t=setTimeout(function(){d.classList.remove('on');b.setAttribute('aria-expanded','false')},140)});
+    b.addEventListener('click',function(){d.classList.contains('on')?closeAll():open()});
+  });
+  document.addEventListener('click',function(e){if(!h.contains(e.target))closeAll()});
+  var menu=document.getElementById('hdMenu'), burger=h.querySelector('.hd-burger');
+  function setMenu(o){root.classList.toggle('hd-open',o);document.body.classList.toggle('hd-lock',o);burger.setAttribute('aria-expanded',o?'true':'false');burger.setAttribute('aria-label',o?'Menü schließen':'Menü öffnen');if(o)h.classList.remove('hide')}
+  burger.addEventListener('click',function(){setMenu(!root.classList.contains('hd-open'))});
+  menu.querySelectorAll('button.hd-t').forEach(function(b){b.addEventListener('click',function(){b.parentNode.classList.toggle('ex')})});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeAll();setMenu(false)}});
+  var raf=0;
+  addEventListener('scroll',function(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;
+    var y=scrollY;
+    if(y>48)h.classList.add('sc');else if(y<8)h.classList.remove('sc');
+    if(!root.classList.contains('hd-open')){
+      if(y>240&&y>last+6){h.classList.add('hide');closeAll()}
+      else if(y<last-6||y<240)h.classList.remove('hide');
+    }
+    last=y;
+  })},{passive:true});
+})();
+</script>
+<style>
+  /* ================= Praxisbeispiele (Präfix pb-) ================= */
+  .pb-hand{font-family:"Caveat","Caveat Medium","Segoe Print","Bradley Hand",cursive;font-weight:500}
+  .pb-w{max-width:1240px;margin:0 auto;padding-left:32px;padding-right:32px}
+  .pb-rv{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .pb-rv.in{opacity:1;transform:none}
+
+  /* Platzhalter – verschwinden automatisch, sobald Text ohne [eckige Klammern] eingetragen ist */
+  .ph{background:#FBF3DE;border-bottom:1px dashed #C9A24A;border-radius:3px;padding:0 3px;color:#7A5A12;display:inline;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .pb-kpi b .ph,.pb-stats b .ph{font-size:.72em;vertical-align:.06em;white-space:nowrap}
+  .pb-draft{background:#FBF3DE;color:#7A5A12;font-size:13px;padding:10px 32px;text-align:center;border-bottom:1px solid #EAD9A8}
+  .pb-draft b{font-weight:500}
+
+  /* Hero */
+  .pb-hero{background:var(--paper);position:relative;overflow:hidden}
+  .pb-hero .pb-w{padding-top:36px;padding-bottom:40px}
+  .pb-crumb{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted);margin:0 0 40px}
+  .pb-crumb a{color:inherit;text-decoration:none}.pb-crumb a:hover{color:var(--ink)}.pb-crumb span{opacity:.5}
+  .pb-hero-g{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end}
+  .pb-hero-t{container-type:inline-size}
+  .pb-hero h1{font-weight:500;font-size:min(64px,calc(100cqi / 10.6));line-height:1.02;letter-spacing:-.045em;margin:0 0 22px}
+  .pb-hero h1 span{display:block;white-space:nowrap}
+  .pb-hero h1 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--accent)}
+  .pb-lead{font-size:18px;line-height:28px;color:var(--muted);max-width:520px;margin:0}
+  .pb-lead b{color:var(--ink);font-weight:500}
+  .pb-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .pb-stats div{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px}
+  .pb-stats b{display:block;font-weight:500;font-size:32px;letter-spacing:-.03em;line-height:1;margin-bottom:6px}
+  .pb-stats b em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--accent)}
+  .pb-stats span{font-size:12.5px;color:var(--muted);line-height:17px;display:block}
+
+  /* Filter */
+  .pb-filter{position:sticky;top:0;z-index:50;background:rgba(243,241,236,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .pb-filter .pb-w{display:flex;gap:6px;align-items:center;padding-top:10px;padding-bottom:10px;overflow-x:auto;scrollbar-width:none}
+  .pb-filter .pb-w::-webkit-scrollbar{display:none}
+  .pb-filter small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:8px;white-space:nowrap;font-weight:500}
+  .pb-filter button{font:500 13px/18px var(--sans);padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .2s}
+  .pb-filter button:hover{border-color:var(--ink);color:var(--ink)}
+  .pb-filter button[aria-pressed="true"]{background:var(--night);color:var(--on-night);border-color:var(--night)}
+  .pb-filter button i{font-style:normal;opacity:.6;margin-left:4px}
+
+  /* Fälle */
+  .pb-list{padding:56px 0 40px}
+  .pb-case{display:grid;grid-template-columns:300px minmax(0,1fr);gap:48px;padding:56px 0;border-top:1px solid var(--line);scroll-margin-top:80px}
+  .pb-case:first-child{border-top:0;padding-top:16px}
+  .pb-case.hide{display:none}
+  .pb-meta{position:sticky;top:76px;align-self:start}
+  .pb-no{font-family:var(--serif);font-style:italic;font-size:30px;color:var(--accent);line-height:1;margin:0 0 14px}
+  .pb-firm{font-weight:500;font-size:20px;letter-spacing:-.02em;margin:0 0 4px;line-height:1.25}
+  .pb-loc{font-size:14px;color:var(--muted);margin:0 0 18px}
+  .pb-dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13.5px;margin:0 0 18px}
+  .pb-dl dt{color:var(--muted)}.pb-dl dd{margin:0;font-weight:500}
+  .pb-tags{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px}
+  .pb-tags span{font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 9px}
+  .pb-meta a{font-size:14px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px}
+  .pb-meta a:hover{border-color:var(--ink)}
+  .pb-body h2{font-weight:500;font-size:clamp(26px,2.8vw,38px);line-height:1.08;letter-spacing:-.035em;margin:0 0 10px}
+  .pb-body h2 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;color:var(--accent)}
+  .pb-teaser{font-size:17px;line-height:27px;color:var(--muted);margin:0 0 28px;max-width:640px}
+  .pb-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 20px}
+  .pb-col{border-radius:16px;padding:20px 20px 16px}
+  .pb-col.a{background:#fff;border:1px solid var(--line)}
+  .pb-col.b{background:var(--night);color:var(--on-night)}
+  .pb-col small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;color:var(--muted);font-weight:500}
+  .pb-col.b small{color:var(--mint)}
+  .pb-col ul{margin:0;padding:0;list-style:none;display:grid;gap:9px}
+  .pb-col li{font-size:14.5px;line-height:21px;padding-left:20px;position:relative}
+  .pb-col.a li::before{content:"";position:absolute;left:2px;top:8px;width:8px;height:8px;border-radius:50%;border:1.5px solid var(--line)}
+  .pb-col.a li{color:var(--muted)}
+  .pb-col.b li::before{content:"✓";position:absolute;left:0;color:var(--mint);font-size:13px}
+  .pb-build{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;padding:18px 20px;border:1px dashed var(--line);border-radius:16px;margin:0 0 20px;font-size:14.5px;line-height:22px}
+  .pb-build b{display:block;font-weight:500;margin-bottom:2px}
+  .pb-build i{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--accent);line-height:1}
+  .pb-build span{color:var(--muted)}
+  .pb-kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 20px}
+  .pb-kpi div{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px}
+  .pb-kpi b{display:block;font-weight:500;font-size:24px;letter-spacing:-.03em;line-height:1.1;margin-bottom:5px}
+  .pb-kpi b em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--accent)}
+  .pb-kpi b,.pb-stats b{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 .22em}
+  .pb-kpi span{font-size:12.5px;color:var(--muted);line-height:17px;display:block}
+  .pb-quote{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;padding:4px 0 0}
+  .pb-quote .q{font-family:var(--serif);font-style:italic;font-size:54px;line-height:.7;color:var(--accent);margin-top:12px}
+  .pb-quote p{margin:0 0 8px;font-size:18px;line-height:28px;letter-spacing:-.01em}
+  .pb-quote cite{font-style:normal;font-size:13.5px;color:var(--muted)}
+
+  /* Abschluss */
+  .pb-end{padding:48px 0 120px}
+  .pb-end-box{background:#fff;border:1px solid var(--line);border-radius:22px;padding:36px 40px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+  .pb-end-box h2{font-weight:500;font-size:clamp(24px,2.6vw,34px);letter-spacing:-.035em;margin:0 0 8px;line-height:1.1}
+  .pb-end-box h2 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;color:var(--accent)}
+  .pb-end-box p{margin:0;font-size:15.5px;line-height:24px;color:var(--muted);max-width:560px}
+
+  @media (max-width:980px){
+    .pb-hero-g{grid-template-columns:1fr;gap:28px}
+    .pb-case{grid-template-columns:1fr;gap:28px;padding:44px 0}
+    .pb-meta{position:static}
+    .pb-dl{grid-template-columns:auto 1fr}
+    .pb-end-box{grid-template-columns:1fr}
+  }
+  @media (max-width:640px){
+    .pb-w{padding-left:16px;padding-right:16px}
+    .pb-draft{padding:10px 16px}
+    .pb-crumb{margin-bottom:26px}
+    .pb-stats{grid-template-columns:1fr 1fr 1fr;gap:6px}.pb-stats div{padding:12px 10px}.pb-stats b{font-size:24px}.pb-stats span{font-size:11px}
+    .pb-cols,.pb-kpi{grid-template-columns:1fr}
+    .pb-end-box{padding:26px 20px}
+    .pb-quote .q{font-size:44px}
+  }
+  @media (prefers-reduced-motion:reduce){.pb-rv{opacity:1;transform:none;transition:none}}
+</style>
+
+<main>
+<div class="pb-draft" id="pbDraft" hidden><b>Entwurf:</b> Markierte Stellen in [eckigen Klammern] werden noch mit echten Angaben ergänzt.</div>
+<section class="pb-hero" aria-labelledby="pb-h">
+  <div class="pb-w">
+    <nav class="pb-crumb" aria-label="Brotkrumen"><a href="ailien-startseite.html">Start</a><span>/</span>Praxisbeispiele</nav>
+    <div class="pb-hero-g">
+      <div class="pb-hero-t">
+        <p class="eyebrow">Praxisbeispiele</p>
+        <h1 id="pb-h"><span>Gebaut, eingeführt,</span><span>im <em>Alltag</em> angekommen.</span></h1>
+        <p class="pb-lead">Keine Vorführ-Projekte, sondern Systeme, die heute Morgen gelaufen sind. <b>Mit echten Betrieben, echten Zahlen – und dem, was dabei nicht auf Anhieb geklappt hat.</b></p>
+      </div>
+      <div class="pb-stats" id="pbStats">
+        <div><b id="pbN">0</b><span>Projekte, die hier offen beschrieben sind</span></div>
+        <div><b><span class="ph">[Zahl]</span> <em>Std.</em></b><span>Routine pro Woche, die in diesen Betrieben entfällt</span></div>
+        <div><b><span class="ph">[Zahl]</span> <em>Wochen</em></b><span>vom ersten Gespräch bis zum laufenden System, im Schnitt</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pb-filter" role="group" aria-label="Filter"><div class="pb-w"><small>Bereich</small><div id="pbFilter" style="display:flex;gap:6px"></div></div></div>
+
+<section class="pb-list">
+  <div class="pb-w" id="pbList"></div>
+</section>
+
+<section class="pb-end">
+  <div class="pb-w">
+    <div class="pb-end-box pb-rv">
+      <div><h2>Ihr Betrieb könnte der <em>nächste</em> Fall sein.</h2><p>Die meisten dieser Projekte haben mit einem 30-Minuten-Gespräch angefangen. Wenn Sie sich in einem der Beispiele wiedererkennen, ist das der einfachste Einstieg.</p></div>
+      <a class="btn p" href="/kontakt">Kurz telefonieren <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<script>
+(function(){
+  /* ============ FÄLLE – hier echte Angaben eintragen. Alles in [eckigen Klammern] wird auf der Seite gelb markiert, bis es ersetzt ist. ============ */
+  var CASES=[
+    {f:'angebote',br:'Handwerk & Bau',page:'ailien-branchen-handwerk.html',
+     firma:'[Betrieb]',ort:'[Ort]',size:'[Anzahl] Mitarbeitende',seit:'[Monat Jahr]',dauer:'[Anzahl] Wochen',tags:['Sprachnachricht','Angebot','Handwerkersoftware'],
+     h:'Vom Sprachmemo im Auto zum <em>fertigen Angebot.</em>',
+     teaser:'Ein SHK-Betrieb, bei dem Angebote abends am Küchentisch entstanden – oft Tage nach dem Termin. Heute spricht der Meister nach dem Kundenbesuch eine Nachricht ein, und der Entwurf liegt im System, bevor er zurück im Büro ist.',
+     vorher:['Notizen auf dem Zettel, Angebot erst abends oder am Wochenende','Positionen von Hand aus der Kalkulation zusammengesucht','Angebot ging im Schnitt erst nach [Anzahl] Tagen raus'],
+     bau:'Sprachnachricht → Transkript → Positionen aus der eigenen Kalkulation → Angebotsentwurf in der bestehenden Handwerkersoftware. Unklares wird als Rückfrage markiert, nicht geraten.',
+     heute:['Entwurf liegt fertig im System, Meister prüft und versendet','Rückfragen stehen markiert drin („Fliesenformat?“)','Angebot beim Kunden am selben oder nächsten Tag'],
+     kpis:[['[Zahl] Std.','pro Woche weniger Büro'],['[Zahl] Tage → [Zahl] Tag','bis das Angebot beim Kunden ist'],['[Zahl] %','mehr Angebote rausgeschickt']],
+     zitat:'[Zitat des Kunden – ein, zwei Sätze, in seinen Worten.]',von:'[Name, Funktion], [Betrieb]',
+     lesson:'Was nicht auf Anhieb lief: [z. B. Die ersten Entwürfe hatten zu viele Positionen – wir haben die Kalkulationslogik nachgeschärft.]'},
+
+    {f:'angebote',br:'CNC-Betriebe',page:'ailien-branchen-cnc.html',
+     firma:'[Betrieb]',ort:'[Ort]',size:'[Anzahl] Mitarbeitende',seit:'[Monat Jahr]',dauer:'[Anzahl] Wochen',tags:['Zeichnung','Kalkulation','Liefertermin'],
+     h:'Zeichnung rein, <em>Preis</em> raus – am selben Tag.',
+     teaser:'Ein Lohnfertiger, bei dem die Kalkulation an einer Person hing. Anfragen stapelten sich, und wer zuerst ein sauberes Angebot schickte, bekam den Auftrag – meist nicht dieser Betrieb.',
+     vorher:['Kalkulation nur durch den Inhaber, [Anzahl] Anfragen pro Woche','Antwort nach [Anzahl] Tagen, Aufträge gingen an Schnellere','„Wann kommt mein Teil?“ – jeden Tag mehrere Mails'],
+     bau:'Zeichnung (PDF/STEP) → Material, Maße, Toleranzen, Stückzahl ausgelesen → Rüst- und Bearbeitungszeit nach der Logik des Betriebs vorgeschlagen, ähnliche Altteile mit Ist-Zeiten daneben. Lieferterminanfragen bekommen automatisch den Stand aus der Planung.',
+     heute:['Angebotsentwurf in Minuten, Inhaber prüft nur noch','Ähnliche Teile mit echten Ist-Zeiten als Vergleich','Standard-Lieferterminanfragen beantworten sich selbst'],
+     kpis:[['[Zahl] Min.','statt [Zahl] Std. pro Kalkulation'],['[Zahl] %','mehr Anfragen beantwortet'],['[Zahl]','Terminanfragen pro Woche automatisch']],
+     zitat:'[Zitat des Kunden]',von:'[Name, Funktion], [Betrieb]',
+     lesson:'Was nicht auf Anhieb lief: [z. B. STEP-Dateien älterer CAD-Versionen – Workaround über PDF-Export.]'},
+
+    {f:'service',br:'Maschinen- & Anlagenbau',page:'ailien-branchen-maschinenbau.html',
+     firma:'[Betrieb]',ort:'[Ort]',size:'[Anzahl] Mitarbeitende',seit:'[Monat Jahr]',dauer:'[Anzahl] Wochen',tags:['Wissenssystem','Service','Handbücher'],
+     h:'Vierzig Jahre Erfahrung, <em>sofort</em> abrufbar.',
+     teaser:'Ein Anlagenbauer, dessen Servicewissen in Köpfen, Ordnern und 30 Jahren Altaufträgen steckte. Techniker riefen vom Kunden aus im Werk an – und erreichten oft niemanden, der es wusste.',
+     vorher:['Handbücher, Schaltpläne, Notizen verteilt auf Server, Papier und Köpfe','[Anzahl] Rückrufe ins Werk pro Woche aus dem Service','Neue Techniker brauchten Monate, bis sie allein losfahren konnten'],
+     bau:'Alle Unterlagen durchsuchbar gemacht – inklusive eingescannter Altakten. Techniker fragen in eigenen Worten („Fehler 4711 an der Rollenbahn“) und bekommen die Antwort mit Quellenangabe: Handbuch Seite, Schaltplan Blatt, Einsatzbericht von damals.',
+     heute:['Antwort mit Quelle in Sekunden – auf dem Handy, beim Kunden','Rechte je Abteilung: Service sieht Handbücher, nicht die Kalkulation','Jeder gelöste Fall wird zur Quelle für den nächsten'],
+     kpis:[['[Zahl] %','weniger Rückrufe ins Werk'],['[Zahl] Min.','schneller pro Serviceeinsatz'],['[Zahl]','Dokumente durchsuchbar']],
+     zitat:'[Zitat des Kunden]',von:'[Name, Funktion], [Betrieb]',
+     lesson:'Was nicht auf Anhieb lief: [z. B. Alte Scans ohne Texterkennung – Nachdigitalisierung in Etappen.]'},
+
+    {f:'buero',br:'Hausverwaltung',page:'ailien-branchen-hausverwaltung.html',
+     firma:'[Betrieb]',ort:'[Ort]',size:'[Anzahl] Einheiten · [Anzahl] Mitarbeitende',seit:'[Monat Jahr]',dauer:'[Anzahl] Wochen',tags:['Schadensmeldungen','Telefon-Assistent','Nachtdienst'],
+     h:'Jede Meldung sortiert. <em>Auch nachts um drei.</em>',
+     teaser:'Eine Hausverwaltung, bei der das Telefon den Tag bestimmte: Schadensmeldungen über Mail, Anruf und Foto, Notfälle am Wochenende, und niemand wusste zuerst, was dringend ist.',
+     vorher:['[Anzahl] Meldungen pro Woche über fünf Kanäle','Dringlichkeit nach Bauchgefühl, Notfälle nachts auf dem Privathandy','Handwerker telefonisch beauftragt, nichts dokumentiert'],
+     bau:'Jede Meldung – egal ob Mail, Anruf oder Foto – wird gelesen, nach Dringlichkeit eingestuft und mit dem passenden Handwerker aus der eigenen Liste vorbereitet. Nachts nimmt ein Telefon-Assistent ab, entscheidet nach festen Regeln zwischen Notdienst sofort und morgen früh.',
+     heute:['Drei Spalten: Sofort · Diese Woche · Zur Info – nichts liegt im Postfach','Notfälle nachts erkannt, Notdienst beauftragt, Verwalter informiert','Jeder Vorgang dokumentiert, jede Beauftragung nachvollziehbar'],
+     kpis:[['[Zahl] Std.','pro Woche weniger Telefon'],['[Zahl]','Nacht-Einsätze korrekt erkannt'],['[Zahl] %','der Meldungen ohne Rückfrage zugeordnet']],
+     zitat:'[Zitat des Kunden]',von:'[Name, Funktion], [Betrieb]',
+     lesson:'Was nicht auf Anhieb lief: [z. B. Die Notfall-Regeln mussten nach zwei Wochen nachgeschärft werden – Heizung aus im Sommer ist kein Notfall.]'},
+
+    {f:'buero',br:'Gebäudereinigung',page:'ailien-branchen-gebaeudereinigung.html',
+     firma:'[Betrieb]',ort:'[Ort]',size:'[Anzahl] Reinigungskräfte · [Anzahl] Objekte',seit:'[Monat Jahr]',dauer:'[Anzahl] Wochen',tags:['Vertretung','Einsatzplanung','Leistungsnachweis'],
+     h:'5:42 Uhr Krankmeldung. <em>5:45 Uhr</em> Vertretung steht.',
+     teaser:'Ein Reinigungsunternehmen, bei dem die Objektleitung jeden Morgen um sechs Vertretungen telefonisch suchte – während das erste Objekt schon aufgeschlossen sein musste.',
+     vorher:['Krankmeldungen per WhatsApp, Vertretung per Anruf-Kette','Objektleitung ab 5:30 Uhr am Telefon, [Anzahl] Ausfälle pro Woche','Leistungsnachweise für Kunden abends zusammengesucht'],
+     bau:'Krankmeldung kommt rein → Vorschlag für Vertretung nach Objektkenntnis, freien Stunden und Nähe → Nachricht an die Kraft in ihrer Sprache → Objektleitung bestätigt nur. Leistungsnachweise entstehen aus den Checklisten der Kräfte, Monatsbericht an den Kunden automatisch.',
+     heute:['Vertretung in Minuten, Objektleitung bestätigt per Klick','Checkliste per Handy, Monatsbericht an den Kunden ohne Zutun','Reklamationen erfasst, nachverfolgt, abgeschlossen'],
+     kpis:[['[Zahl] Min.','statt [Zahl] Min. bis zur Vertretung'],['[Zahl] Std.','pro Woche weniger Objektleitung am Telefon'],['[Zahl]','Objekte mit automatischem Nachweis']],
+     zitat:'[Zitat des Kunden]',von:'[Name, Funktion], [Betrieb]',
+     lesson:'Was nicht auf Anhieb lief: [z. B. Stundenkontingente der Minijobs mussten erst sauber hinterlegt werden.]'},
+
+    {f:'angebote',br:'Bad- & Küchenstudios',page:'ailien-branchen-bad-kueche.html',
+     firma:'[Betrieb]',ort:'[Ort]',size:'[Anzahl] Mitarbeitende',seit:'[Monat Jahr]',dauer:'[Anzahl] Wochen',tags:['AB-Abgleich','Beratung','Nachfassen'],
+     h:'Abweichung gefunden. <em>Bevor die Küche kommt.</em>',
+     teaser:'Ein Küchenstudio, dessen teuerste Fehler erst bei der Montage auffielen: Hochschrank 5 cm zu niedrig, Front matt statt glänzend. Die Auftragsbestätigung des Lieferanten hatte es verraten – nur hatte niemand Zeit, 14 Positionen zu vergleichen.',
+     vorher:['Auftragsbestätigungen nur auf Summe geprüft','[Anzahl] Montagen pro Jahr mit Nachlieferung oder Umbau','Offene Angebote nach dem Beratungstermin selten nachgefasst'],
+     bau:'Bestellung und AB werden Zeile für Zeile abgeglichen – Maß, Front, Gerät, Menge. Abweichungen leuchten auf, die Rückfrage an den Lieferanten ist vorformuliert. Dazu: Beratungsgespräch aufnehmen → strukturierte Notizen → Angebotsentwurf, und automatisches Nachfassen nach 3, 10 und 21 Tagen.',
+     heute:['Jede AB in Minuten geprüft, Abweichungen markiert','Rückfrage an den Lieferanten mit einem Klick','Kein offenes Angebot bleibt mehr liegen'],
+     kpis:[['[Zahl]','Abweichungen vor Produktion gefunden'],['[Zahl] €','Nachlieferungen vermieden (geschätzt)'],['[Zahl] %','mehr Abschlüsse durch Nachfassen']],
+     zitat:'[Zitat des Kunden]',von:'[Name, Funktion], [Betrieb]',
+     lesson:'Was nicht auf Anhieb lief: [z. B. Lieferanten-ABs als Bild statt PDF – Texterkennung ergänzt.]'},
+
+    {f:'planung',br:'Solar & Wärmepumpe',page:'ailien-branchen-solar-waermepumpe.html',
+     firma:'[Betrieb]',ort:'[Ort]',size:'[Anzahl] Mitarbeitende · [Anzahl] Anlagen pro Jahr',seit:'[Monat Jahr]',dauer:'[Anzahl] Wochen',tags:['Netzanmeldung','Förderung','Kundenstatus'],
+     h:'Weniger Papierkrieg. <em>Mehr Anlagen</em> am Netz.',
+     teaser:'Ein Solarbetrieb mit mehr Montageteams als Büroleuten. Jeder Netzbetreiber wollte sein eigenes Formular, jeder Kunde wollte wissen, wo seine Anlage steht – und beides landete bei derselben Person.',
+     vorher:['Kundendaten [Anzahl] Mal in verschiedene Formulare abgetippt','Netzanmeldungen [Anzahl] Wochen im Rückstand','„Wo steht meine Anlage?“ – [Anzahl] Anrufe pro Tag'],
+     bau:'Kundendaten werden einmal erfasst und in das jeweils richtige Formular des Netzbetreibers übertragen, fehlende Angaben markiert. Förderanträge werden vorbereitet. Jeder Kunde hat eine Statusseite wie bei der Paketverfolgung – mit automatischer Nachricht bei jedem Schritt.',
+     heute:['Netzanmeldung in Minuten statt Stunden, nichts doppelt getippt','Kunde sieht selbst, wo seine Anlage steht','Förderanträge vorbereitet, Büro prüft und schickt ab'],
+     kpis:[['[Zahl] Std.','pro Anlage weniger Büro'],['[Zahl] %','weniger Statusanrufe'],['[Zahl]','Anlagen mehr pro Monat angemeldet']],
+     zitat:'[Zitat des Kunden]',von:'[Name, Funktion], [Betrieb]',
+     lesson:'Was nicht auf Anhieb lief: [z. B. Ein Netzbetreiber-Portal ohne Schnittstelle – Lösung über vorausgefülltes PDF.]'},
+
+    {f:'planung',br:'Elektroprüfung DGUV V3',page:'ailien-branchen-dguv-v3.html',
+     firma:'[Betrieb]',ort:'[Ort]',size:'[Anzahl] Prüfer',seit:'[Monat Jahr]',dauer:'[Anzahl] Wochen',tags:['Prüfbericht','Geräteliste','Folgetermine'],
+     h:'1.200 Geräte geprüft. <em>Bericht</em> schon fertig.',
+     teaser:'Ein Prüfdienstleister, bei dem auf jeden Prüftag ein halber Bürotag folgte: Messwerte aus dem Prüfgerät in die Liste, Liste in den Bericht, Bericht an den Kunden. Mängel gingen dabei oft unter – und mit ihnen der Folgeauftrag.',
+     vorher:['Messwerte abgetippt, Berichte am Abend zusammengebaut','Mängel in der Liste, aber kein Angebot dazu','Folgetermine im Kalender des Chefs – oder gar nicht'],
+     bau:'Export aus dem Prüfgerät → Prüfbericht und Geräteliste fertig formatiert, Prüfplaketten-Liste inklusive. Jeder Mangel wird automatisch zum Angebotsentwurf für Reparatur oder Ersatz. Prüffristen je Kunde überwacht, Erinnerung mit Terminvorschlag.',
+     heute:['Bericht und Geräteliste am selben Tag beim Kunden','Jeder Mangel ist ein Angebot – nicht nur eine Zeile','Kunde wird automatisch erinnert, bevor die Frist läuft'],
+     kpis:[['[Zahl] Std.','pro Prüftag weniger Büro'],['[Zahl] %','der Mängel als Auftrag umgesetzt'],['[Zahl]','Kunden mit automatischer Fristerinnerung']],
+     zitat:'[Zitat des Kunden]',von:'[Name, Funktion], [Betrieb]',
+     lesson:'Was nicht auf Anhieb lief: [z. B. Zwei Prüfgeräte mit unterschiedlichem Export-Format – beide angebunden.]'}
+  ];
+  var FILTERS=[['alle','Alle'],['angebote','Angebote & Kalkulation'],['service','Service & Wissen'],['buero','Büro & Telefon'],['planung','Abwicklung & Prüfung']];
+
+  var esc=function(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')};
+  var ph=function(s){return esc(s).replace(/\[([^\]]+)\]/g,'<span class="ph">[$1]</span>')};
+  var hasPh=false; function chk(s){if(/\[[^\]]+\]/.test(String(s)))hasPh=true;return s}
+  var list=document.getElementById('pbList');
+  CASES.forEach(function(c,i){
+    [c.firma,c.ort,c.size,c.seit,c.dauer,c.zitat,c.von,c.lesson].concat(c.vorher,c.heute,[].concat.apply([],c.kpis)).forEach(chk);
+    var el=document.createElement('article');el.className='pb-case';el.id='fall-'+(i+1);el.dataset.f=c.f;
+    el.innerHTML='<aside class="pb-meta"><p class="pb-no">'+('0'+(i+1))+'</p><p class="pb-firm">'+ph(c.firma)+'</p><p class="pb-loc">'+ph(c.ort)+' · '+esc(c.br)+'</p>'
+      +'<dl class="pb-dl"><dt>Größe</dt><dd>'+ph(c.size)+'</dd><dt>Läuft seit</dt><dd>'+ph(c.seit)+'</dd><dt>Einführung</dt><dd>'+ph(c.dauer)+'</dd></dl>'
+      +'<div class="pb-tags">'+c.tags.map(function(t){return '<span>'+esc(t)+'</span>'}).join('')+'</div>'
+      +'<a href="'+c.page+'">Mehr zur Branche →</a></aside>'
+      +'<div class="pb-body"><h2>'+c.h+'</h2><p class="pb-teaser">'+esc(c.teaser)+'</p>'
+      +'<div class="pb-cols"><div class="pb-col a"><small>Vorher</small><ul>'+c.vorher.map(function(x){return '<li>'+ph(x)+'</li>'}).join('')+'</ul></div>'
+      +'<div class="pb-col b"><small>Heute</small><ul>'+c.heute.map(function(x){return '<li>'+ph(x)+'</li>'}).join('')+'</ul></div></div>'
+      +'<div class="pb-build"><i>→</i><div><b>Was wir gebaut haben</b><span>'+esc(c.bau)+'</span></div></div>'
+      +'<div class="pb-kpi">'+c.kpis.map(function(k){return '<div><b>'+ph(k[0])+'</b><span>'+ph(k[1])+'</span></div>'}).join('')+'</div>'
+      +'<div class="pb-build" style="border-style:solid;background:#fff"><i class="pb-hand" style="font-family:inherit">!</i><div><b>Ehrlich gesagt</b><span>'+ph(c.lesson)+'</span></div></div>'
+      +'<blockquote class="pb-quote"><span class="q">„</span><div><p>'+ph(c.zitat)+'</p><cite>'+ph(c.von)+'</cite></div></blockquote></div>';
+    list.appendChild(el);
+  });
+  document.getElementById('pbN').textContent=CASES.length;
+  if(hasPh)document.getElementById('pbDraft').hidden=false;
+
+  var fw=document.getElementById('pbFilter');
+  FILTERS.forEach(function(f){var b=document.createElement('button');b.dataset.f=f[0];var n=f[0]==='alle'?CASES.length:CASES.filter(function(c){return c.f===f[0]}).length;b.innerHTML=esc(f[1])+'<i>'+n+'</i>';b.setAttribute('aria-pressed',f[0]==='alle');
+    b.addEventListener('click',function(){[].forEach.call(fw.children,function(x){x.setAttribute('aria-pressed',x===b)});[].forEach.call(list.children,function(el){el.classList.toggle('hide',f[0]!=='alle'&&el.dataset.f!==f[0])})});fw.appendChild(b)});
+
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var rv=[].slice.call(document.querySelectorAll('.pb-rv'));
+  if(reduce||!('IntersectionObserver' in window))rv.forEach(function(e){e.classList.add('in')});
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.15});rv.forEach(function(e){io.observe(e)})}
+})();
+</script>
+
+<style>
+  /* ---------- CTA + Footer ---------- */
+  .ct{background:var(--night);color:var(--on-night);position:relative;overflow:hidden}
+  .ct-in{max-width:1240px;margin:0 auto;padding:112px 32px 96px;position:relative}
+  .ct .eyebrow{color:var(--mint)}.ct .eyebrow::before{background:var(--mint)}
+
+  .ct-tl{position:relative;height:64px;margin:0 0 56px}
+  .ct-tl svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .ct-tl .base{stroke:var(--night-3);stroke-width:1;stroke-dasharray:3 5}
+  .ct-tl .ink{stroke:var(--on-night-muted);stroke-width:1.25}
+  .ct-tl ol{list-style:none;margin:0;padding:0;position:absolute;inset:0}
+  .ct-tl li{white-space:nowrap;position:absolute;top:22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;font-size:12px;letter-spacing:.06em;color:var(--on-night-muted);opacity:.25;transition:opacity .4s,color .4s}
+  .ct-tl li::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--night);border:1px solid currentColor;margin-top:-4px}
+  .ct-tl li.on{opacity:1}
+  .ct-tl li.now{color:var(--mint);font-weight:500}
+  .ct-tl li.now::before{width:13px;height:13px;margin-top:-6px;background:var(--mint);border-color:var(--mint);box-shadow:0 0 0 0 rgba(140,245,194,.5)}
+  .ct-tl li.now.on::before{animation:ctPulse 2.2s ease-out infinite}
+  @keyframes ctPulse{0%{box-shadow:0 0 0 0 rgba(140,245,194,.45)}100%{box-shadow:0 0 0 16px rgba(140,245,194,0)}}
+
+  .ct-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:72px;align-items:start}
+  .ct-grid>div:first-child{container-type:inline-size}
+  .ct h2 span{display:block;white-space:nowrap}
+  .ct h2{font-weight:500;font-size:min(64px,calc(100cqi / 10.6));line-height:1.02;letter-spacing:-.04em;margin:0 0 24px}
+  .ct h2 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--mint)}
+  .ct-lead{font-size:18px;line-height:28px;color:var(--on-night-muted);max-width:480px;margin:0 0 36px}
+  .ct-list{list-style:none;margin:0 0 40px;padding:0;display:grid;gap:14px;max-width:480px}
+  .ct-list li{display:grid;grid-template-columns:28px 1fr;gap:12px;font-size:15px;line-height:23px}
+  .ct-list li span{width:28px;height:28px;border-radius:50%;border:1px solid var(--night-3);display:grid;place-items:center;font-size:11px;color:var(--mint)}
+  .ct-list b{font-weight:500}
+  .ct-list small{display:block;color:var(--on-night-muted);font-size:14px}
+  .ct-person{display:flex;align-items:center;gap:14px;padding-top:28px;border-top:1px solid var(--night-3);max-width:480px}
+  .ct-ava{width:52px;height:52px;border-radius:50%;background:var(--night-3);display:grid;place-items:center;font-weight:500;font-size:16px;color:var(--mint);flex:none}
+  .ct-person p{margin:0;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-person b{display:block;color:var(--on-night);font-weight:500;font-size:15px}
+  .ct-person a{color:var(--mint);text-decoration:none}
+
+  .ct-form{background:var(--night-2);border:1px solid var(--night-3);border-radius:20px;padding:28px;position:relative}
+  .ct-form h3{margin:0 0 6px;font-size:20px;font-weight:500;letter-spacing:-.02em}
+  .ct-form>p{margin:0 0 22px;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:var(--night);border-radius:999px;margin:0 0 22px}
+  .ct-seg button{font:500 13px/18px var(--sans);color:var(--on-night-muted);background:none;border:0;border-radius:999px;padding:9px 10px;cursor:pointer}
+  .ct-seg button[aria-pressed="true"]{background:var(--on-night);color:var(--night)}
+  .ct-f{display:grid;gap:14px}
+  .ct-f label{display:grid;gap:6px;font-size:12px;letter-spacing:.04em;color:var(--on-night-muted)}
+  .ct-f input,.ct-f select,.ct-f textarea{font:400 15px/22px var(--sans);color:var(--on-night);background:var(--night);border:1px solid var(--night-3);border-radius:10px;padding:11px 13px;width:100%;transition:border-color .2s}
+  .ct-f textarea{resize:vertical;min-height:84px}
+  .ct-f input:focus,.ct-f select:focus,.ct-f textarea:focus{outline:none;border-color:var(--mint)}
+  .ct-f .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .ct-f .ok{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;line-height:19px;letter-spacing:0}
+  .ct-f .ok input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--mint);flex:none}
+  .ct-f .ok a{color:var(--on-night)}
+  .ct-f .btn{justify-content:center;width:100%;margin-top:4px;padding:15px 20px}
+  .ct-f [data-only="call"]{display:none}
+  .ct-form.call [data-only="call"]{display:grid}
+  .ct-form.call [data-only="mail"]{display:none}
+  .ct-done{display:none;text-align:center;padding:48px 8px}
+  .ct-done svg{width:56px;height:56px;margin:0 auto 18px;display:block}
+  .ct-done h3{margin-bottom:8px}
+  .ct-done p{margin:0;color:var(--on-night-muted);font-size:15px;line-height:23px}
+  .ct-form.sent .ct-f,.ct-form.sent .ct-seg,.ct-form.sent>h3,.ct-form.sent>p{display:none}
+  .ct-form.sent .ct-done{display:block}
+  .ct-done path{stroke-dasharray:1;stroke-dashoffset:1}
+  .ct-form.sent .ct-done path{animation:ctDraw .7s .15s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes ctDraw{to{stroke-dashoffset:0}}
+
+  .crv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .crv.in{opacity:1;transform:none}
+
+  /* Footer */
+  .ft{background:var(--night);color:var(--on-night);border-top:1px solid var(--night-3);overflow:hidden}
+  .ft-in{max-width:1240px;margin:0 auto;padding:64px 32px 0}
+  .ft-top{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px;padding-bottom:56px}
+  .ft-brand svg{height:30px;width:auto;display:block;margin-bottom:18px}
+  .ft-brand p{margin:0 0 20px;font-size:14px;line-height:22px;color:var(--on-night-muted);max-width:300px}
+  .ft-badges{display:flex;flex-wrap:wrap;gap:8px}
+  .ft-badges span{font-size:12px;color:var(--on-night-muted);border:1px solid var(--night-3);border-radius:999px;padding:5px 11px}
+  .ft h4{margin:0 0 16px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--on-night-muted)}
+  .ft ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .ft ul a{color:var(--on-night);text-decoration:none;font-size:15px;opacity:.86}
+  .ft ul a:hover{opacity:1;color:var(--mint)}
+  .ft-mark{position:relative;margin:0 -2px;line-height:0}
+  .ft-mark svg{width:100%;height:auto;display:block}
+  .ft-mark .o{fill:#15181C}
+  .ft-mark .f{fill:var(--night-3)}
+  .ft-bot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;padding:22px 0 28px;border-top:1px solid var(--night-3);font-size:13px;color:var(--on-night-muted)}
+  .ft-bot nav{display:flex;gap:20px}
+  .ft-bot a{color:inherit;text-decoration:none}.ft-bot a:hover{color:var(--on-night)}
+
+  @media (max-width:980px){
+    .ct-grid{grid-template-columns:1fr;gap:48px}
+    .ft-top{grid-template-columns:1fr 1fr}
+    .ft-brand{grid-column:1/-1}
+    .ft-top>div:last-child{grid-column:1/-1}
+  }
+  @media (max-width:640px){
+    .ct-in{padding:80px 16px 72px}
+    .ct-tl{margin-bottom:40px}
+    .ct-tl li{font-size:10.5px;letter-spacing:.02em}
+    .ct-tl li:nth-child(2),.ct-tl li:nth-child(4){display:none}
+    .ct-form{padding:22px 18px}
+    .ct-f .two{grid-template-columns:1fr}
+    .ft-in{padding:56px 16px 0}
+    .ft-top{gap:32px 20px}
+    .ft-bot{flex-direction:column}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .crv{opacity:1;transform:none;transition:none}
+    .ct-tl li.now.on::before{animation:none}
+  }
+</style>
+
+<section class="ct" id="kontakt">
+  <div class="ct-in">
+    <div class="ct-tl" aria-hidden="true">
+      <svg viewBox="0 0 1000 64" preserveAspectRatio="none"><line class="base" x1="0" y1="22" x2="1000" y2="22"/><line class="ink" x1="0" y1="22" x2="1000" y2="22" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+      <ol>
+        <li style="left:4%">1850</li><li style="left:24%">1920</li><li style="left:44%">1965</li><li style="left:64%">1995</li><li style="left:96%" class="now">Ihr Betrieb</li>
+      </ol>
+    </div>
+
+    <div class="ct-grid">
+      <div class="crv">
+        <p class="eyebrow">Erstgespräch</p>
+        <h2><span>Ihr Fall kommt</span><span><em>als Nächstes.</em></span></h2>
+        <p class="ct-lead">Jedes Beispiel hier hat mit einem kurzen Gespräch angefangen. In 30 Minuten wissen Sie, ob Ihr Betrieb der nächste sein könnte.</p>
+        <ol class="ct-list">
+          <li><span>01</span><div><b>Sie erzählen, wo es hakt.</b><small>Per Video oder bei Ihnen vor Ort.</small></div></li>
+          <li><span>02</span><div><b>Wir zeigen, was möglich ist.</b><small>An Beispielen aus Ihrer Branche.</small></div></li>
+          <li><span>03</span><div><b>Sie entscheiden in Ruhe.</b><small>Auf Wunsch mit schriftlicher Einschätzung.</small></div></li>
+        </ol>
+        <div class="ct-person">
+          <div class="ct-ava" aria-hidden="true">NK</div>
+          <p><b>Nic Karban</b>Gründer · Ihr Ansprechpartner<br><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></p>
+        </div>
+      </div>
+
+      <div class="ct-form crv" id="ctForm">
+        <h3>Erstgespräch anfragen</h3>
+        <p>Wir melden uns innerhalb eines Werktags.</p>
+        <div class="ct-seg" role="group" aria-label="Kontaktweg">
+          <button type="button" aria-pressed="true" data-mode="mail">Termin per E-Mail</button>
+          <button type="button" aria-pressed="false" data-mode="call">Rückruf</button>
+        </div>
+        <!-- TODO: action auf echtes Formular-Backend / Buchungstool setzen -->
+        <form class="ct-f" action="#" method="post" novalidate>
+          <div class="two">
+            <label>Name<input name="name" autocomplete="name" required></label>
+            <label>Betrieb<input name="firma" autocomplete="organization"></label>
+          </div>
+          <label data-only="mail">E-Mail<input type="email" name="email" autocomplete="email"></label>
+          <div class="two" data-only="call">
+            <label>Telefon<input type="tel" name="tel" autocomplete="tel"></label>
+            <label>Am besten erreichbar<select name="zeit"><option>Vormittags</option><option>Mittags</option><option>Nachmittags</option></select></label>
+          </div>
+          <label>Wo kostet Sie Routine am meisten Zeit? <span style="opacity:.6">(optional)</span><textarea name="nachricht" placeholder="z. B. Angebote schreiben, Telefon, Rechnungen prüfen …"></textarea></label>
+          <label class="ok"><input type="checkbox" name="dsgvo" required><span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden. <a href="#">Datenschutz</a></span></label>
+          <button class="btn m" type="submit">Anfrage senden <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="ct-done" role="status">
+          <svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="27" fill="none" stroke="#22262B"/><path d="M17 29 25 37 40 20" fill="none" stroke="#8CF5C2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
+          <h3>Danke – ist angekommen.</h3>
+          <p>Wir melden uns innerhalb eines Werktags bei Ihnen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="ft">
+  <div class="ft-in">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <svg viewBox="0 8 160.8 64" aria-label="Ailien"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#F3F1EC"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#8CF5C2" fill-rule="evenodd"/></svg>
+        <p>KI-Automatisierung für Mittelstand und Handwerk. Wir bauen Systeme, die Routine abnehmen – und betreuen sie dauerhaft.</p>
+        <div class="ft-badges"><span>DSGVO-konform</span><span>Server in der EU</span><span>Made in Germany</span></div>
+      </div>
+      <div>
+        <h4>Leistungen</h4>
+        <ul><li><a href="#leistungen">Prozess-Automationen</a></li><li><a href="#leistungen">KI-Wissenssysteme</a></li><li><a href="#leistungen">Voice &amp; Kommunikation</a></li><li><a href="#leistungen">KI-Strategie &amp; Beratung</a></li></ul>
+      </div>
+      <div>
+        <h4>Ailien</h4>
+        <ul><li><a href="#praxis">Praxisbeispiele</a></li><li><a href="#vorgehen">Vorgehen</a></li><li><a href="#faq">Häufige Fragen</a></li><li><a href="#rechner">Entlastungs-Rechner</a></li></ul>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul><li><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></li><li><a href="#kontakt">Erstgespräch anfragen</a></li><li><a href="#">LinkedIn</a></li></ul>
+      </div>
+    </div>
+
+    <div class="ft-mark" aria-hidden="true">
+      <svg viewBox="7 11.5 143.5 51.6"><defs><g id="ftWord"><path d=""/><path fill-rule="evenodd" d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z"/></g><clipPath id="ftClip"><rect id="ftRise" x="0" y="64" width="161" height="70"/></clipPath></defs>
+        <g class="o"><use href="#ftWord"/></g>
+        <g clip-path="url(#ftClip)"><g class="f"><use href="#ftWord"/></g></g>
+      </svg>
+    </div>
+
+    <div class="ft-bot">
+      <span>© 2026 Ailien · ailien-automation.de</span>
+      <nav><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">AGB</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var clamp=function(v){return v<0?0:v>1?1:v};
+  /* Reveals */
+  var els=[].slice.call(document.querySelectorAll('.crv'));
+  if(reduce||!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')})}
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.15});
+    els.forEach(function(e,i){e.style.transitionDelay=(i%2?.12:0)+'s';io.observe(e)})}
+
+  /* Zeitstrahl + Wortmarke scroll-gesteuert */
+  var tl=document.querySelector('.ct-tl'), ink=tl&&tl.querySelector('.ink'), lis=tl?[].slice.call(tl.querySelectorAll('li')):[];
+  var pos=lis.map(function(l){return parseFloat(l.style.left)/100});
+  var mark=document.querySelector('.ft-mark'), rise=document.getElementById('ftRise');
+  function tick(){
+    var vh=innerHeight;
+    if(tl){
+      var r=tl.getBoundingClientRect();
+      var p=reduce?1:clamp((vh*.92-r.top)/(vh*.55));
+      ink.style.strokeDashoffset=1-p;
+      lis.forEach(function(l,i){l.classList.toggle('on',p>=pos[i]-.02)});
+    }
+    if(mark){
+      var m=mark.getBoundingClientRect();
+      var q=reduce?1:clamp((vh-m.top-m.height*.1)/(m.height*.9));
+      rise.setAttribute('y',(63-q*51).toFixed(2));
+    }
+  }
+  var raf=0;function on(){if(!raf)raf=requestAnimationFrame(function(){raf=0;tick()})}
+  addEventListener('scroll',on,{passive:true});addEventListener('resize',on);tick();
+
+  /* Formular */
+  var f=document.getElementById('ctForm'); if(!f) return;
+  var btns=[].slice.call(f.querySelectorAll('.ct-seg button'));
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    f.classList.toggle('call',b.dataset.mode==='call');
+  })});
+  f.querySelector('form').addEventListener('submit',function(e){
+    e.preventDefault(); /* Demo: hier später an Backend senden */
+    var form=e.target, E=form.elements, call=f.classList.contains('call');
+    var nm=E.namedItem('name'), ct=E.namedItem(call?'tel':'email'), cb=E.namedItem('dsgvo');
+    var name=nm.value.trim(), contact=ct.value.trim(), ok=cb.checked;
+    [nm,ct].forEach(function(i){i.style.borderColor=i.value.trim()?'':'#F2C46B'});
+    cb.parentNode.style.color=ok?'':'#F2C46B';
+    if(!name||!contact||!ok) return;
+    f.classList.add('sent');
+  });
+})();
+</script>
+
+</body>
+</html>

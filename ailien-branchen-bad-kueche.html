@@ -1,0 +1,1024 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KI für Bad- & Küchenstudios | ailien</title>
+<meta name="description" content="AB-Abgleich, Angebote aus dem Beratungsgespräch und Nachfassen offener Angebote: KI-Helfer für Bad- und Küchenstudios. Fehler finden, bevor produziert wird.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F3F1EC; --ink:#0E1013; --muted:#5F636A; --line:#DEDBD3; --accent:#0F7A55;
+    --night:#0E1013; --night-2:#171A1E; --night-3:#22262B; --on-night:#F3F1EC; --on-night-muted:#A3A7AD; --mint:#8CF5C2;
+    --warn:#F2C46B;
+    --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+    --serif:"Instrument Serif",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);overflow-x:clip}
+  .btn{display:inline-flex;align-items:center;gap:10px;font:500 14px/20px var(--sans);padding:13px 20px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer}
+  .btn.p{background:var(--night);color:var(--on-night)}.btn.p:hover{background:#23262b}
+  .btn.s{color:var(--ink);border-color:var(--line)}.btn.s:hover{border-color:var(--ink)}
+  .btn:focus-visible,.dot:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--accent);margin:0 0 18px;display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--accent)}
+  .btn.m{background:var(--mint);color:var(--night)}.btn.m:hover{background:#a6f8d0}
+</style>
+<style>
+  /* ---------- Header (Variante C) ---------- */
+  .hd-sp{height:117px}
+  .hd{position:fixed;top:0;left:0;right:0;z-index:100;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+  .hd-w{max-width:1240px;margin:0 auto;padding:0 32px}
+  .hd-bar{background:var(--night);color:var(--on-night-muted);font-size:12px;height:36px;overflow:hidden;transition:height .35s,opacity .35s}
+  .hd-bar .hd-w{height:100%;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .hd-bar span{display:flex;gap:18px}
+  .hd-bar b{font-weight:500}
+  .hd-bar i{font-style:normal;color:var(--mint);margin-right:6px}
+  .hd-bar a{color:var(--on-night);text-decoration:none}.hd-bar a:hover{color:var(--mint)}
+  .hd-main{background:var(--paper);border-bottom:1px solid transparent;transition:border-color .3s}
+  .hd-main .hd-w{display:flex;align-items:center;gap:28px;padding-top:18px;padding-bottom:18px;transition:padding .35s}
+  .hd-lg{display:block;height:38px;width:auto;color:var(--ink);transition:height .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-nv{display:flex;align-items:center;gap:2px;margin-right:auto}
+  .hd-ni{font:400 14px/20px var(--sans);color:var(--ink);background:none;border:0;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;white-space:nowrap}
+  .hd-ni sup{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--accent);margin-right:2px;line-height:0}
+  .hd-ni:hover,.hd-dd.on .hd-ni{color:var(--accent)}
+  .hd-ni svg{width:9px;height:9px;opacity:.6;transition:transform .25s}
+  .hd-dd{position:relative}
+  .hd-dd.on .hd-ni svg{transform:rotate(180deg)}
+  .hd-p{position:absolute;top:calc(100% + 14px);left:0;z-index:5;transform:translateY(8px);opacity:0;visibility:hidden;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:0 30px 60px -20px rgba(14,16,19,.28);transition:opacity .25s,transform .25s cubic-bezier(.2,.7,.2,1),visibility .25s}
+  .hd-p::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px}
+  .hd-dd.on .hd-p{opacity:1;visibility:visible;transform:none}
+  .hd-p.wide{width:640px;display:grid;grid-template-columns:1fr 1fr 210px;gap:4px}
+  .hd-p.list{width:330px;display:grid;gap:2px}
+  .hd-i{position:relative;display:block;padding:14px;border-radius:12px;text-decoration:none;color:inherit;transition:background .2s}
+  .hd-i:hover{background:var(--paper)}
+  .hd-i b{display:block;font-weight:500;font-size:14.5px;letter-spacing:-.01em;margin-bottom:3px}
+  .hd-i b::before{content:"";position:absolute;left:5px;top:21px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity .2s}
+  .hd-i:hover b::before{opacity:1}
+  .hd-i span{display:block;font-size:13px;line-height:19px;color:var(--muted)}
+  .hd-feat{grid-row:1/3;grid-column:3;background:var(--night);color:var(--on-night);border-radius:12px;padding:18px;display:flex;flex-direction:column;text-decoration:none}
+  .hd-feat small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint)}
+  .hd-feat strong{font-weight:500;font-size:17px;line-height:23px;letter-spacing:-.02em;margin-top:10px}
+  .hd-feat strong em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;color:var(--mint)}
+  .hd-feat span{margin-top:auto;font-size:13px;color:var(--on-night-muted)}
+  .hd-all{grid-column:1/3;display:flex;justify-content:space-between;padding:12px 14px;margin-top:4px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);text-decoration:none}
+  .hd-all:hover{color:var(--accent)}
+  .hd-r{display:flex;gap:8px}
+  .hd .btn{padding:12px 20px;white-space:nowrap}
+  .hd .btn .ar{transition:transform .2s}.hd .btn:hover .ar{transform:translateX(3px)}
+  .hd-burger{display:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:none;cursor:pointer;position:relative;flex:none;color:var(--ink)}
+  .hd-burger::before,.hd-burger::after{content:"";position:absolute;left:14px;right:14px;height:1.5px;background:currentColor;transition:transform .3s,top .3s}
+  .hd-burger::before{top:17px}.hd-burger::after{top:25px}
+  .hd-open .hd-burger::before{top:21px;transform:rotate(45deg)}.hd-open .hd-burger::after{top:21px;transform:rotate(-45deg)}
+  .hd.sc .hd-bar{height:0;opacity:0}
+  .hd.sc .hd-main{border-color:var(--line)}
+  .hd.sc .hd-main .hd-w{padding-top:12px;padding-bottom:12px}
+  .hd.sc .hd-lg{height:32px}
+  .hd-lg.old{height:32px}.hd.sc .hd-lg.old{height:28px}
+  .hd.hide{transform:translateY(-100%)}
+
+  /* Handy-Menü */
+  .hd-mm{position:fixed;inset:0;z-index:99;background:var(--paper);display:flex;flex-direction:column;padding:120px 22px 24px;overflow:auto;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+  .hd-open .hd-mm{opacity:1;visibility:visible}
+  .hd-mm>ol{list-style:none;margin:0;padding:0;counter-reset:n}
+  .hd-mm>ol>li{counter-increment:n;border-bottom:1px solid var(--line);opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s}
+  .hd-open .hd-mm>ol>li{opacity:1;transform:none}
+  .hd-open .hd-mm>ol>li:nth-child(2){transition-delay:.04s}.hd-open .hd-mm>ol>li:nth-child(3){transition-delay:.08s}.hd-open .hd-mm>ol>li:nth-child(4){transition-delay:.12s}.hd-open .hd-mm>ol>li:nth-child(5){transition-delay:.16s}
+  .hd-t{display:flex;align-items:center;width:100%;padding:15px 0;font:500 26px/1.15 var(--sans);letter-spacing:-.03em;color:var(--ink);text-decoration:none;background:none;border:0;cursor:pointer;text-align:left}
+  .hd-t::after{content:"0" counter(n);margin-left:auto;font-family:var(--serif);font-style:italic;font-weight:400;font-size:17px;color:var(--accent)}
+  .hd-t .pl{order:3;margin-left:14px;width:12px;height:12px;position:relative;opacity:.6}
+  .hd-t .pl::before,.hd-t .pl::after{content:"";position:absolute;left:0;right:0;top:5.5px;height:1.5px;background:currentColor;transition:transform .3s}
+  .hd-t .pl::after{transform:rotate(90deg)}
+  .hd-mm li.ex .pl::after{transform:rotate(0)}
+  .hd-s{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.7,.2,1)}
+  .hd-mm li.ex .hd-s{grid-template-rows:1fr}
+  .hd-s>div{overflow:hidden}
+  .hd-s a{display:block;padding:8px 0 8px 2px;font-size:16px;color:var(--ink);opacity:.75;text-decoration:none}
+  .hd-s a:last-child{margin-bottom:14px}
+  .hd-mf{margin-top:auto;padding-top:28px;display:grid;gap:14px}
+  .hd-mf .btn{justify-content:center;padding:15px}
+  .hd-mf small{font-size:12px;color:var(--muted);text-align:center}
+  body.hd-lock{overflow:hidden}
+
+  @media (max-width:1180px){.hd-r .btn.s{display:none}.hd-main .hd-w{gap:16px}}
+  @media (max-width:980px){
+    .hd-nv{display:none}.hd-burger{display:block}
+    .hd-r{margin-left:auto}.hd-bar a{display:none}
+    .hd-lg{height:34px}.hd.sc .hd-lg{height:30px}
+    .hd .btn{padding:10px 16px;font-size:13px}
+  }
+  @media (max-width:980px){.hd-sp{height:113px}}
+  @media (max-width:520px){
+    .hd-sp{height:109px}
+    .hd-w{padding:0 16px}.hd-bar{font-size:11px}
+    .hd-bar span b:nth-child(n+3){display:none}
+    .hd-main .hd-w{padding-top:14px;padding-bottom:14px;gap:12px}
+    .hd.sc .hd-main .hd-w{padding-top:10px;padding-bottom:10px}
+  }
+  @media (max-width:360px){.hd-r .btn{display:none}}
+  @media (prefers-reduced-motion:reduce){.hd,.hd-p,.hd-mm,.hd-mm li{transition:none}}
+  .hd-main .hd-w{position:relative}
+  .hd-dd.mega{position:static}
+  .hd-p.mega{left:32px;right:32px;width:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:18px}
+  .hd-g{display:flex;flex-direction:column;gap:2px;padding:6px}
+  .hd-g small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px 10px}
+  .hd-l{display:block;padding:9px 10px;border-radius:10px;color:var(--ink);text-decoration:none;font-size:14.5px;transition:background .2s}
+  .hd-l:hover{background:var(--paper)}
+  .hd-l[aria-current="page"]{background:var(--paper);font-weight:500}
+  .hd-l[aria-current="page"]::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:2px}
+  .hd-s a[aria-current="page"]{opacity:1;font-weight:500}
+
+</style>
+</head>
+<body>
+<header class="hd" id="hd">
+  <div class="hd-bar"><div class="hd-w"><span><b><i>✓</i>DSGVO-konform</b><b><i>✓</i>Server in der EU</b><b><i>✓</i>Antwort innerhalb eines Werktags</b></span><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></div></div>
+  <div class="hd-main"><div class="hd-w">
+    <a href="ailien-startseite.html" aria-label="ailien Startseite"><svg class="hd-lg" viewBox="0 8 160.8 64" aria-hidden="true"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#0E1013"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#0F7A55" fill-rule="evenodd"/></svg></a>
+    <nav class="hd-nv" aria-label="Hauptnavigation">
+      <div class="hd-dd">
+        <button class="hd-ni" aria-expanded="false"><sup>01</sup>Leistungen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+        <div class="hd-p wide">
+          <a class="hd-i" href="/leistungen/prozess-automation"><b>Prozess-Automationen</b><span>Belege, Angebote, Bestellungen – läuft von selbst.</span></a>
+          <a class="hd-i" href="/leistungen/wissenssysteme"><b>KI-Wissenssysteme</b><span>Firmenwissen, das jeder sofort findet.</span></a>
+          <a class="hd-i" href="/leistungen/voice"><b>Voice &amp; Kommunikation</b><span>Telefon-Assistent und E-Mail-Vorsortierung.</span></a>
+          <a class="hd-i" href="/leistungen/beratung"><b>KI-Strategie &amp; Beratung</b><span>Wo lohnt sich KI bei Ihnen wirklich?</span></a>
+          <a class="hd-feat" href="ailien-entlastungsrechner.html"><small>Rechner</small><strong>Wie viele Stunden <em>sparen Sie?</em></strong><span>Jetzt ausrechnen →</span></a>
+          <a class="hd-all" href="/leistungen">Alle Leistungen im Überblick <span>→</span></a>
+        </div>
+      </div>
+      <div class="hd-dd mega"><button class="hd-ni" aria-expanded="false"><sup>02</sup>Branchen<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><div class="hd-p mega"><div class="hd-g"><small>Bau &amp; Handwerk</small><a class="hd-l" href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a class="hd-l" href="ailien-branchen-bad-kueche.html" aria-current="page">Bad- &amp; Küchenstudios</a><a class="hd-l" href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a class="hd-l" href="ailien-branchen-gebaeudereinigung.html">Gebäudereinigung</a></div><div class="hd-g"><small>Industrie &amp; Technik</small><a class="hd-l" href="ailien-branchen-maschinenbau.html">Maschinen- &amp; Anlagenbau</a><a class="hd-l" href="ailien-branchen-cnc.html">CNC-Betriebe</a><a class="hd-l" href="ailien-branchen-dguv-v3.html">Elektroprüfung DGUV V3</a><a class="hd-l" href="ailien-branchen-brandschutz.html">Brandschutz</a></div><div class="hd-g"><small>Immobilien &amp; Planung</small><a class="hd-l" href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a class="hd-l" href="ailien-branchen-immobilienmakler.html">Immobilienmakler</a><a class="hd-l" href="ailien-branchen-architekten.html">Architekten</a><a class="hd-l" href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a></div><div class="hd-g"><small>Dienstleistung</small><a class="hd-l" href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a class="hd-l" href="ailien-branchen-foerdermittelberatung.html">Fördermittelberatung</a><a class="hd-l" href="ailien-branchen-bestatter.html">Bestatter</a></div></div></div>
+      <a class="hd-ni" href="ailien-praxisbeispiele.html"><sup>03</sup>Praxisbeispiele</a>
+      <a class="hd-ni" href="ailien-ueber-uns.html"><sup>04</sup>Über uns</a>
+      <a class="hd-ni" href="/wissen"><sup>05</sup>Wissen</a>
+    </nav>
+    <div class="hd-r"><a class="btn s" href="ailien-entlastungsrechner.html?branche=bad-kueche">Rechner</a><a class="btn p" href="/kontakt">Erstgespräch <span class="ar">→</span></a></div>
+    <button class="hd-burger" aria-label="Menü öffnen" aria-expanded="false"></button>
+  </div></div>
+</header>
+<div class="hd-sp" aria-hidden="true"></div>
+<div class="hd-mm" id="hdMenu">
+  <ol>
+    <li><button class="hd-t">Leistungen<i class="pl"></i></button><div class="hd-s"><div><a href="/leistungen/prozess-automation">Prozess-Automationen</a><a href="/leistungen/wissenssysteme">KI-Wissenssysteme</a><a href="/leistungen/voice">Voice &amp; Kommunikation</a><a href="/leistungen/beratung">KI-Strategie &amp; Beratung</a><a href="/leistungen">Alle Leistungen →</a></div></div></li>
+    <li><button class="hd-t">Branchen<i class="pl"></i></button><div class="hd-s"><div><a href="ailien-branchen-handwerk.html">Handwerk &amp; Bau</a><a href="ailien-branchen-bad-kueche.html" aria-current="page">Bad- &amp; Küchenstudios</a><a href="ailien-branchen-solar-waermepumpe.html">Solar &amp; Wärmepumpe</a><a href="ailien-branchen-gebaeudereinigung.html">Gebäudereinigung</a><a href="ailien-branchen-maschinenbau.html">Maschinen- &amp; Anlagenbau</a><a href="ailien-branchen-cnc.html">CNC-Betriebe</a><a href="ailien-branchen-dguv-v3.html">Elektroprüfung DGUV V3</a><a href="ailien-branchen-brandschutz.html">Brandschutz</a><a href="ailien-branchen-hausverwaltung.html">Hausverwaltung</a><a href="ailien-branchen-immobilienmakler.html">Immobilienmakler</a><a href="ailien-branchen-architekten.html">Architekten</a><a href="ailien-branchen-gutachter.html">Gutachter &amp; Sachverständige</a><a href="ailien-branchen-sicherheitsdienste.html">Sicherheitsdienste</a><a href="ailien-branchen-foerdermittelberatung.html">Fördermittelberatung</a><a href="ailien-branchen-bestatter.html">Bestatter</a></div></div></li>
+    <li><a class="hd-t" href="ailien-praxisbeispiele.html">Praxisbeispiele</a></li>
+    <li><a class="hd-t" href="ailien-ueber-uns.html">Über uns</a></li>
+    <li><a class="hd-t" href="/wissen">Wissen</a></li>
+  </ol>
+  <div class="hd-mf"><a class="btn p" href="/kontakt">Erstgespräch vereinbaren <span class="ar">→</span></a><a class="btn s" href="ailien-entlastungsrechner.html?branche=bad-kueche">Entlastungs-Rechner</a><small>DSGVO-konform · Server in der EU</small></div>
+</div>
+<script>
+(function(){
+  var h=document.getElementById('hd'), last=scrollY, root=document.documentElement, sp=document.querySelector('.hd-sp');
+  function fit(){if(!h.classList.contains('sc'))sp.style.height=h.offsetHeight+'px'}
+  fit();addEventListener('resize',fit);if(document.fonts)document.fonts.ready.then(fit);
+  var dds=[].slice.call(h.querySelectorAll('.hd-dd'));
+  function closeAll(ex){dds.forEach(function(d){if(d!==ex){d.classList.remove('on');d.querySelector('.hd-ni').setAttribute('aria-expanded','false')}})}
+  dds.forEach(function(d){
+    var t,b=d.querySelector('.hd-ni');
+    function open(){clearTimeout(t);closeAll(d);d.classList.add('on');b.setAttribute('aria-expanded','true')}
+    d.addEventListener('mouseenter',open);
+    d.addEventListener('mouseleave',function(){t=setTimeout(function(){d.classList.remove('on');b.setAttribute('aria-expanded','false')},140)});
+    b.addEventListener('click',function(){d.classList.contains('on')?closeAll():open()});
+  });
+  document.addEventListener('click',function(e){if(!h.contains(e.target))closeAll()});
+  var menu=document.getElementById('hdMenu'), burger=h.querySelector('.hd-burger');
+  function setMenu(o){root.classList.toggle('hd-open',o);document.body.classList.toggle('hd-lock',o);burger.setAttribute('aria-expanded',o?'true':'false');burger.setAttribute('aria-label',o?'Menü schließen':'Menü öffnen');if(o)h.classList.remove('hide')}
+  burger.addEventListener('click',function(){setMenu(!root.classList.contains('hd-open'))});
+  menu.querySelectorAll('button.hd-t').forEach(function(b){b.addEventListener('click',function(){b.parentNode.classList.toggle('ex')})});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeAll();setMenu(false)}});
+  var raf=0;
+  addEventListener('scroll',function(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;
+    var y=scrollY;
+    if(y>48)h.classList.add('sc');else if(y<8)h.classList.remove('sc');
+    if(!root.classList.contains('hd-open')){
+      if(y>240&&y>last+6){h.classList.add('hide');closeAll()}
+      else if(y<last-6||y<240)h.classList.remove('hide');
+    }
+    last=y;
+  })},{passive:true});
+})();
+</script>
+<style>
+  /* ================= Branche: Bad- & Küchenstudios (bk-) ================= */
+  .bk-w{max-width:1240px;margin:0 auto;padding-left:32px;padding-right:32px}
+  .bk-hand{font-family:"Caveat","Caveat Medium",cursive;font-weight:500}
+  .bk-h2{font-weight:500;font-size:clamp(30px,3.6vw,50px);line-height:1.05;letter-spacing:-.04em;margin:0 0 18px}
+  .bk-h2 em,.bk-hero h1 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--accent)}
+  .bk-sub{font-size:18px;line-height:28px;color:var(--muted);max-width:560px;margin:0}
+  .bk-rv{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .bk-rv.in{opacity:1;transform:none}
+  .bk-cap{font-size:12px;color:var(--muted)}
+  :root{--bk-salbei:#A7B8A5;--bk-kasch:#D9D0C1;--bk-eiche:#B7956F;--bk-anth:#3A3E44;--bk-weiss:#EEEBE5;--bk-blau:#34465A;--bk-ton:#C9A48E}
+
+  /* ---------- Hero ---------- */
+  .bk-hero{position:relative;overflow:hidden;background:var(--paper)}
+  .bk-hero>.bk-w{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:stretch}
+  .bk-hero>.bk-w>*{min-width:0}
+  .bk-txt{container-type:inline-size;padding:36px 0 96px;display:flex;flex-direction:column}
+  .bk-crumb{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted);margin:0 0 72px}
+  .bk-crumb a{color:inherit;text-decoration:none}.bk-crumb a:hover{color:var(--ink)}
+  .bk-crumb span{opacity:.5}
+  .bk-hero h1{font-weight:500;font-size:min(64px,calc(100cqi / 12.4));line-height:1.02;letter-spacing:-.045em;margin:0 0 26px}
+  .bk-hero h1 span{display:block;white-space:nowrap}
+  .bk-lead{font-size:18px;line-height:28px;color:var(--muted);margin:0 0 32px;max-width:500px}
+  .bk-lead b{color:var(--ink);font-weight:500}
+  .bk-ctas{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px}
+  .bk-link{font-size:15px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:3px}
+  .bk-link:hover{border-color:var(--ink)}
+  .bk-sw{display:flex;gap:0;margin-top:auto;padding-top:56px}
+  .bk-sw i{width:52px;height:74px;border-radius:4px;margin-right:-14px;box-shadow:0 10px 24px -14px rgba(14,16,19,.5),inset 0 0 0 1px rgba(0,0,0,.05);transform:rotate(var(--r));position:relative}
+  .bk-sw i::after{content:"";position:absolute;left:6px;right:6px;bottom:6px;height:3px;border-radius:2px;background:rgba(255,255,255,.35)}
+  .bk-sw small{margin-left:30px;align-self:center;font-size:13px;color:var(--muted);line-height:19px;max-width:190px}
+
+  .bk-stage{position:relative;background:var(--night);color:var(--on-night);padding:44px 0 40px 44px;margin-right:calc(-32px - max(0px,(100vw - 1240px)/2));border-radius:0 0 0 28px}
+  .bk-stage::before{content:"";position:absolute;inset:0;background:radial-gradient(circle,rgba(243,241,236,.07) 1px,transparent 1.2px) 0 0/18px 18px;border-radius:inherit;pointer-events:none}
+  .bk-stin{position:relative;max-width:640px;padding-right:32px}
+  .bk-sthd{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:18px;font-size:13px;color:var(--on-night-muted)}
+  .bk-sthd b{color:var(--on-night);font-weight:500}
+  .bk-pill{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mint);border:1px solid rgba(140,245,194,.35);padding:5px 10px;border-radius:999px;white-space:nowrap}
+  .bk-docs{display:grid;grid-template-columns:1fr 30px 1fr;align-items:start}
+  .bk-doc{background:#fff;color:var(--ink);border-radius:6px;padding:0 14px 10px;box-shadow:0 26px 50px -26px rgba(0,0,0,.7)}
+  .bk-doc:first-child{transform:rotate(-.8deg)}
+  .bk-doc:last-child{transform:rotate(.8deg)}
+  .bk-doc header{height:62px;display:flex;flex-direction:column;justify-content:center;border-bottom:1px solid var(--line);margin-bottom:4px}
+  .bk-doc header b{font-size:13.5px;font-weight:500}
+  .bk-doc header small{font-size:11px;color:var(--muted)}
+  .bk-r{height:40px;display:grid;grid-template-columns:18px 1fr;gap:6px;align-items:center;font-size:12.5px;line-height:15px;border-bottom:1px dashed #E7E3DA;position:relative;transition:background .3s;margin:0 -6px;padding:0 6px;border-radius:4px}
+  .bk-r i{font-style:normal;color:var(--muted);font-size:11px}
+  .bk-r span u{text-decoration:none;font-weight:500}
+  .bk-r.scan{background:rgba(15,122,85,.07)}
+  .bk-r.bad{background:#FBEFD3}
+  .bk-r.bad u{background:linear-gradient(transparent 60%,rgba(242,196,107,.75) 60%)}
+  .bk-mid{padding-top:66px;display:grid}
+  .bk-mid span{height:40px;display:grid;place-items:center}
+  .bk-mid span::before{content:"";width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:11px;line-height:18px;text-align:center;opacity:0;transform:scale(.6);transition:opacity .3s,transform .3s}
+  .bk-mid span.ok::before{content:"✓";background:rgba(140,245,194,.15);color:var(--mint);opacity:1;transform:none}
+  .bk-mid span.bad::before{content:"≠";background:var(--warn);color:var(--ink);font-weight:600;opacity:1;transform:none}
+  .bk-res{margin-top:22px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;background:var(--night-2);border:1px solid var(--night-3);border-radius:16px;padding:16px 18px;transition:border-color .45s}
+  .bk-res.on{border-color:rgba(242,196,107,.45)}
+  .bk-res .n{transition:color .3s}
+  .bk-res:not(.on) .n{color:var(--on-night-muted)}
+  .bk-mail .wait{color:var(--on-night-muted)}
+  .bk-res .n{font-size:34px;line-height:1;font-weight:500;letter-spacing:-.04em;color:var(--warn)}
+  .bk-res p{margin:0;font-size:13.5px;line-height:20px;color:var(--on-night-muted)}
+  .bk-res p b{color:var(--on-night);font-weight:500;display:block;margin-bottom:4px;font-size:14.5px}
+  .bk-mail{grid-column:1/-1;background:var(--night);border-radius:10px;padding:12px 14px;font-size:12.5px;line-height:19px;color:#D5D7DA;min-height:96px}
+  .bk-mail small{display:flex;justify-content:space-between;color:var(--on-night-muted);font-size:11px;margin-bottom:6px}
+  .bk-mail small b{color:var(--mint);font-weight:500}
+  .bk-mail .cur{display:inline-block;width:6px;height:13px;background:var(--mint);vertical-align:-2px;margin-left:2px;animation:bkBlink 1s steps(2) infinite}
+  @keyframes bkBlink{50%{opacity:0}}
+  .bk-stage .bk-cap{color:var(--on-night-muted);margin:16px 0 0}
+  .bk-mrg{display:none}
+
+  /* ---------- Index-Leiste ---------- */
+  .bk-idx{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--paper)}
+  .bk-idx ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr)}
+  .bk-idx li+li{border-left:1px solid var(--line)}
+  .bk-idx a{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;padding:26px 24px;text-decoration:none;color:var(--ink);height:100%;transition:background .2s}
+  .bk-idx li:first-child a{padding-left:0}
+  .bk-idx a:hover{background:#fff}
+  .bk-idx i{grid-row:1/3;width:14px;height:30px;border-radius:3px;margin-top:2px}
+  .bk-idx b{font-weight:500;font-size:16px;letter-spacing:-.01em}
+  .bk-idx span{font-size:13.5px;color:var(--muted);line-height:19px}
+
+  /* ---------- Teure Zentimeter ---------- */
+  .bk-cm{background:#fff;padding:120px 0}
+  .bk-cm-g{display:grid;grid-template-columns:1fr 1.5fr;gap:64px;align-items:center}
+  .bk-cm-g>*{min-width:0}
+  .bk-elev svg{display:block;width:100%;height:auto;overflow:visible}
+  .bk-elev .ln{fill:none;stroke:var(--ink);stroke-width:1.1;stroke-linejoin:round}
+  .bk-elev .ln.lt{stroke:#B9B4AA}
+  .bk-elev .fr{fill:var(--bk-salbei);opacity:0;transition:opacity .6s}
+  .bk-elev .fr.gl{fill:url(#bkGloss)}
+  .bk-elev.f .fr{opacity:.55}
+  .bk-elev .gh{fill:none;stroke:#C98A1A;stroke-width:1.3;stroke-dasharray:5 4;opacity:0;transition:opacity .4s}
+  .bk-elev .dm{stroke:var(--accent);stroke-width:1;fill:none}
+  .bk-elev .dm2{stroke:#C98A1A;stroke-width:1;fill:none}
+  .bk-elev text{font-family:var(--sans);font-size:12px;fill:var(--muted)}
+  .bk-elev text.a{fill:var(--accent);font-weight:500}
+  .bk-elev text.w{fill:#A36D0C;font-weight:500}
+  .bk-elev .cl{opacity:0;transition:opacity .4s}
+  .bk-elev .cl.on,.bk-elev .gh.on{opacity:1}
+  .bk-elev .cl circle{fill:var(--warn)}
+  .bk-elev .cl text{fill:var(--ink);font-size:12px;font-weight:600}
+  .bk-list{list-style:none;margin:32px 0 0;padding:0;display:grid;gap:12px}
+  .bk-list li{display:grid;grid-template-columns:26px 1fr;gap:12px;font-size:15.5px;line-height:23px;opacity:.35;transition:opacity .4s}
+  .bk-list li.on{opacity:1}
+  .bk-list li i{font-style:normal;width:22px;height:22px;border-radius:50%;background:var(--warn);display:grid;place-items:center;font-size:12px;font-weight:600;margin-top:1px}
+  .bk-list b{font-weight:500}
+  .bk-list s{color:var(--muted)}
+
+  /* ---------- Beratung -> Angebot (dunkel, Signatur) ---------- */
+  .bk-be{background:var(--night);color:var(--on-night);padding:120px 0}
+  .bk-be .eyebrow{color:var(--mint)}.bk-be .eyebrow::before{background:var(--mint)}
+  .bk-be .bk-h2 em{color:var(--mint)}
+  .bk-be .bk-sub{color:var(--on-night-muted)}
+  .bk-be-head{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:end;margin-bottom:44px}
+  .bk-ctl{display:flex;flex-wrap:wrap;gap:20px 36px;align-items:flex-start;padding:22px 0;border-top:1px solid var(--night-3);border-bottom:1px solid var(--night-3);margin-bottom:28px}
+  .bk-ctl>div>small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--on-night-muted);margin-bottom:10px}
+  .bk-seg{display:inline-flex;padding:4px;background:var(--night-2);border:1px solid var(--night-3);border-radius:999px}
+  .bk-seg button{border:0;background:none;color:var(--on-night-muted);font:500 14px/20px var(--sans);padding:8px 18px;border-radius:999px;cursor:pointer;transition:all .2s}
+  .bk-seg button[aria-pressed="true"]{background:var(--on-night);color:var(--ink)}
+  .bk-styles{display:flex;gap:10px;flex-wrap:wrap}
+  .bk-styles button{display:flex;align-items:center;gap:10px;background:var(--night-2);border:1px solid var(--night-3);color:var(--on-night);border-radius:12px;padding:7px 14px 7px 7px;font:400 14px/18px var(--sans);cursor:pointer;transition:border-color .2s}
+  .bk-styles button i{width:26px;height:34px;border-radius:4px;display:flex;overflow:hidden}
+  .bk-styles button i b{flex:1}
+  .bk-styles button[aria-pressed="true"]{border-color:var(--mint);box-shadow:0 0 0 3px rgba(140,245,194,.12)}
+  .bk-styles button:hover{border-color:var(--on-night-muted)}
+  .bk-opts{display:flex;gap:8px;flex-wrap:wrap}
+  .bk-opts button{border:1px dashed var(--night-3);background:none;color:var(--on-night-muted);border-radius:999px;padding:8px 14px;font:400 14px/18px var(--sans);cursor:pointer;transition:all .2s}
+  .bk-opts button[aria-pressed="true"]{border:1px solid rgba(140,245,194,.5);background:rgba(140,245,194,.08);color:var(--on-night)}
+  .bk-opts button[aria-pressed="true"]::before{content:"✓ ";color:var(--mint)}
+  .bk-seg button:focus-visible,.bk-styles button:focus-visible,.bk-opts button:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
+  .bk-flow{display:grid;grid-template-columns:1fr 28px 1fr 28px 1.15fr;align-items:stretch}
+  .bk-flow>*{min-width:0}
+  .bk-arw{display:grid;place-items:center;color:var(--night-3);font-size:18px}
+  .bk-card{background:var(--night-2);border:1px solid var(--night-3);border-radius:18px;padding:20px}
+  .bk-card>small{display:flex;justify-content:space-between;gap:8px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint);margin-bottom:14px}
+  .bk-card>small span{color:var(--on-night-muted);letter-spacing:0;text-transform:none}
+  .bk-q{margin:0 0 10px;font-size:14px;line-height:21px;color:#D5D7DA;padding-left:12px;border-left:2px solid var(--night-3)}
+  .bk-q.k{border-color:var(--mint)}
+  .bk-q em{font-style:normal;color:var(--on-night-muted);font-size:12px;display:block}
+  .bk-notes{display:grid;gap:0;margin:0}
+  .bk-notes div{display:grid;grid-template-columns:82px 1fr;gap:10px;padding:9px 0;border-top:1px solid var(--night-3);font-size:13.5px;line-height:19px}
+  .bk-notes dt{color:var(--on-night-muted)}
+  .bk-notes dd{margin:0}
+  .bk-notes dd i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+  .bk-off{background:#fff;color:var(--ink);border-color:#fff}
+  .bk-off>small{color:var(--accent)}
+  .bk-off>small span{color:var(--muted)}
+  .bk-pos{list-style:none;margin:0;padding:0;counter-reset:p}
+  .bk-pos li{counter-increment:p;display:grid;grid-template-columns:22px 1fr;gap:6px;padding:7px 0;border-bottom:1px dashed #E7E3DA;font-size:13.5px;line-height:19px}
+  .bk-pos li::before{content:counter(p);color:var(--muted);font-size:12px}
+  .bk-pos li.new{animation:bkNew .9s ease}
+  @keyframes bkNew{0%{background:rgba(15,122,85,.16)}100%{background:transparent}}
+  .bk-offf{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px;font-size:12px;color:var(--muted)}
+  .bk-offf b{font-weight:500;color:var(--ink)}
+  .bk-be .bk-cap{color:var(--on-night-muted);margin-top:18px}
+  .bk-fade{animation:bkIn .4s cubic-bezier(.2,.7,.2,1)}
+  @keyframes bkIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* ---------- Nachfassen ---------- */
+  .bk-nf{padding:120px 0}
+  .bk-nf-head{max-width:640px;margin-bottom:56px}
+  .bk-tl{position:relative;display:grid;grid-template-columns:.7fr 1fr 1fr 1fr;gap:20px}
+  .bk-tl::before{content:"";position:absolute;left:0;right:0;top:15px;height:1px;background:var(--line)}
+  .bk-tl .prog{position:absolute;left:0;top:15px;height:1px;background:var(--accent);width:0}
+  .bk-st{position:relative;padding-top:44px}
+  .bk-st::before{content:"";position:absolute;left:0;top:9px;width:13px;height:13px;border-radius:50%;background:var(--paper);border:1.5px solid var(--muted);transition:all .3s}
+  .bk-st.on::before{background:var(--accent);border-color:var(--accent)}
+  .bk-st .d{position:absolute;left:20px;top:5px;font-size:13px;color:var(--muted);background:var(--paper);padding:0 8px;white-space:nowrap}
+  .bk-st .d b{font-weight:500;color:var(--ink)}
+  .bk-st h3{margin:0 0 6px;font-size:18px;font-weight:500;letter-spacing:-.02em}
+  .bk-st>p{margin:0;font-size:14.5px;line-height:22px;color:var(--muted)}
+  .bk-msg{background:#fff;border:1px solid var(--line);border-radius:4px 16px 16px 16px;padding:16px 16px 14px;opacity:0;transform:translateY(10px);transition:opacity .5s,transform .5s}
+  .bk-st.on .bk-msg{opacity:1;transform:none}
+  .bk-msg small{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .bk-msg small span{color:var(--muted);letter-spacing:0;text-transform:none}
+  .bk-msg p{margin:0;font-size:14px;line-height:21px}
+  .bk-stop{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:40px;padding-top:22px;border-top:1px solid var(--line);font-size:15px;line-height:23px}
+  .bk-stop span{display:flex;gap:10px;align-items:baseline}
+  .bk-stop span::before{content:"";width:8px;height:8px;border-radius:50%;border:1.5px solid var(--accent);flex:none;transform:translateY(-1px)}
+  .bk-nf .bk-hand{font-size:24px;color:var(--accent);margin:22px 0 0;transform:rotate(-1.5deg);display:inline-block}
+
+  /* ---------- Gut zu wissen ---------- */
+  .bk-gw{padding:0 0 112px}
+  .bk-gw-g{display:grid;grid-template-columns:1fr 1fr;gap:0 56px;border-top:1px solid var(--ink);margin-top:32px}
+  .bk-gw-g div{padding:24px 0 26px;border-bottom:1px solid var(--line)}
+  .bk-gw-g h3{margin:0 0 8px;font-size:18px;font-weight:500;letter-spacing:-.015em;line-height:1.3}
+  .bk-gw-g p{margin:0;font-size:15.5px;line-height:25px;color:var(--muted)}
+
+  /* ---------- Weitere Branchen ---------- */
+  .bk-more{padding:0 0 112px}
+  .bk-more h2{font-size:22px;font-weight:500;letter-spacing:-.02em;margin:0 0 20px}
+  .bk-mo{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .bk-mo a{display:block;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;text-decoration:none;color:var(--ink);transition:transform .25s,box-shadow .25s}
+  .bk-mo a:hover{transform:translateY(-3px);box-shadow:0 20px 40px -26px rgba(14,16,19,.4)}
+  .bk-mo a>i{display:block;height:46px}
+  .bk-mo a>div{padding:18px 20px 20px;display:flex;justify-content:space-between;gap:12px;align-items:flex-end}
+  .bk-mo b{display:block;font-weight:500;font-size:18px;letter-spacing:-.02em;margin-bottom:4px}
+  .bk-mo span{font-size:13.5px;color:var(--muted)}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:1100px){
+    .bk-hero>.bk-w{grid-template-columns:1fr;gap:0}
+    .bk-txt{padding-bottom:48px}
+    .bk-crumb{margin-bottom:40px}
+    .bk-sw{padding-top:40px}
+    .bk-stage{margin:0 -32px;border-radius:0;padding:40px 32px}
+    .bk-stin{max-width:680px;margin:0 auto;padding-right:0}
+    .bk-cm-g{grid-template-columns:1fr;gap:40px}
+    .bk-flow{grid-template-columns:1fr 1fr;gap:16px}
+    .bk-flow .bk-arw{display:none}
+    .bk-flow .bk-off{grid-column:1/-1}
+  }
+  @media (max-width:980px){
+    .bk-idx ol{grid-template-columns:1fr 1fr}
+    .bk-idx li:nth-child(3){border-left:0}
+    .bk-idx li:nth-child(n+3){border-top:1px solid var(--line)}
+    .bk-idx li:nth-child(3) a{padding-left:0}
+    .bk-be-head{grid-template-columns:1fr;gap:16px}
+    .bk-tl{grid-template-columns:1fr;gap:28px;padding-left:28px}
+    .bk-tl::before{left:6px;right:auto;top:6px;bottom:6px;width:1px;height:auto}
+    .bk-tl .prog{display:none}
+    .bk-st{padding-top:0}
+    .bk-st::before{left:-28px;top:3px}
+    .bk-st .d{position:static;display:block;margin-bottom:8px;padding:0;background:none}
+    .bk-gw-g{grid-template-columns:1fr}
+    .bk-mo{grid-template-columns:1fr}
+  }
+  @media (max-width:640px){
+    .bk-docs{display:none}
+    .bk-mrg{display:block;background:#fff;color:var(--ink);border-radius:8px;padding:4px 14px 6px}
+    .bk-mrg>div{padding:10px 0;border-bottom:1px dashed #E7E3DA;display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;transition:background .3s;margin:0 -8px;padding-left:8px;padding-right:8px;border-radius:4px}
+    .bk-mrg>div:last-child{border-bottom:0}
+    .bk-mrg b{font-weight:500;font-size:13.5px}
+    .bk-mrg small{grid-column:1;font-size:12px;color:var(--muted)}
+    .bk-mrg small s{color:var(--ink)}
+    .bk-mrg em{grid-row:1/3;grid-column:2;font-style:normal;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px}
+    .bk-mrg .ok em{background:rgba(15,122,85,.12);color:var(--accent)}
+    .bk-mrg .bad{background:#FBEFD3}
+    .bk-mrg .bad em{background:var(--warn);font-weight:600}
+    .bk-mrg .scan{background:rgba(15,122,85,.07)}
+    .bk-flow{grid-template-columns:1fr}
+  }
+  @media (max-width:560px){
+    .bk-w{padding-left:16px;padding-right:16px}
+    .bk-crumb{margin-bottom:28px}
+    .bk-lead{font-size:17px;line-height:27px}
+    .bk-stage{margin:0 -16px;padding:28px 16px 30px}
+    .bk-sthd{flex-wrap:wrap;gap:8px}
+    .bk-res{padding:14px}
+    .bk-idx ol{grid-template-columns:1fr}
+    .bk-idx li+li{border-left:0;border-top:1px solid var(--line)}
+    .bk-idx a{padding:18px 0}
+    .bk-cm,.bk-be,.bk-nf{padding:88px 0}
+    .bk-ctl{gap:18px}
+    .bk-seg button{padding:8px 14px}
+    .bk-sw i{width:42px;height:60px}
+    .bk-sw small{margin-left:26px;font-size:12.5px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .bk-rv{opacity:1;transform:none;transition:none}
+    .bk-mail .cur{animation:none}
+  }
+</style>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="bk-hero" aria-labelledby="bk-h">
+  <div class="bk-w">
+    <div class="bk-txt">
+      <nav class="bk-crumb" aria-label="Brotkrumen"><a href="ailien-startseite.html">Start</a><span>/</span><a href="#">Branchen</a><span>/</span>Bad &amp; Küche</nav>
+      <p class="eyebrow">KI für Bad- &amp; Küchenstudios</p>
+      <h1 id="bk-h"><span>Jede Abweichung <em>gefunden.</em></span><span>Bevor die Küche kommt.</span></h1>
+      <p class="bk-lead">Die KI gleicht jede Auftragsbestätigung Zeile für Zeile mit Ihrer Bestellung ab – Front, Maß, Gerät. <b>Was nicht passt, liegt auf Ihrem Tisch, bevor produziert wird.</b></p>
+      <div class="bk-ctas">
+        <a class="btn p" href="/kontakt">Kurz telefonieren <span aria-hidden="true">→</span></a>
+        <a class="bk-link" href="#beratung">Vom Gespräch zum Angebot ↓</a>
+      </div>
+      <div class="bk-sw" aria-hidden="true">
+        <i style="background:var(--bk-salbei);--r:-6deg"></i><i style="background:var(--bk-kasch);--r:-2deg"></i><i style="background:var(--bk-eiche);--r:2deg"></i><i style="background:var(--bk-anth);--r:5deg"></i>
+        <small>Für Küchen- und Badstudios, Tischlereien mit Studio und Sanitär-Ausstellungen.</small>
+      </div>
+    </div>
+
+    <div class="bk-stage" id="bkStage" aria-label="Beispiel: Bestellung und Auftragsbestätigung werden abgeglichen">
+      <div class="bk-stin">
+        <div class="bk-sthd"><span><b>AB-Abgleich</b> · Küche Arslan · Lieferant „Küchenwerk“</span><span class="bk-pill" id="bkPill">prüft …</span></div>
+        <div class="bk-docs">
+          <div class="bk-doc"><header><b>Ihre Bestellung</b><small>Best.-Nr. 2024-118 · 14 Positionen</small></header><div id="bkL"></div></div>
+          <div class="bk-mid" id="bkM"></div>
+          <div class="bk-doc"><header><b>Auftragsbestätigung</b><small>AB 48213 · eingegangen heute 09:12</small></header><div id="bkR"></div></div>
+        </div>
+        <div class="bk-mrg" id="bkMrg"></div>
+        <div class="bk-res" id="bkRes">
+          <span class="n" id="bkN">0</span>
+          <p><b id="bkResT">Abweichungen bisher</b><span id="bkResP">Abgleich läuft – Position für Position, auch Maße und Gerätevarianten.</span></p>
+          <div class="bk-mail"><small><span>Entwurf · an Auftragsbearbeitung</span><b>Freigabe durch Sie</b></small><span id="bkMail"></span></div>
+        </div>
+        <p class="bk-cap">Beispieldaten zur Veranschaulichung · Lieferantenname erfunden</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INDEX ============ -->
+<nav class="bk-idx" aria-label="Die vier Helfer">
+  <div class="bk-w">
+    <ol>
+      <li><a href="#zentimeter"><i style="background:var(--bk-salbei)"></i><b>AB-Abgleich</b><span>Bestellung gegen Auftragsbestätigung</span></a></li>
+      <li><a href="#beratung"><i style="background:var(--bk-kasch)"></i><b>Beratung → Notizen</b><span>Gespräch aufnehmen, strukturiert ablegen</span></a></li>
+      <li><a href="#beratung"><i style="background:var(--bk-eiche)"></i><b>Angebotsentwurf</b><span>Aus Wünschen, Grundriss und Fotos</span></a></li>
+      <li><a href="#nachfassen"><i style="background:var(--bk-anth)"></i><b>Nachfassen</b><span>Offene Angebote nicht vergessen</span></a></li>
+    </ol>
+  </div>
+</nav>
+
+<!-- ============ TEURE ZENTIMETER ============ -->
+<section class="bk-cm" id="zentimeter" aria-labelledby="cm-h">
+  <div class="bk-w">
+    <div class="bk-cm-g">
+      <div>
+        <div class="bk-rv">
+          <p class="eyebrow">Der teuerste Fehler</p>
+          <h2 class="bk-h2" id="cm-h">Fünf Zentimeter, die <em>teuer werden.</em></h2>
+          <p class="bk-sub">Ein falsches Maß in der AB fällt oft erst auf, wenn der Monteur vor der Wand steht. Dann heißt es: Nachbestellung, zweite Anfahrt, Kunde wartet. Die KI liest jede AB gegen – auch die zwölfte Seite.</p>
+        </div>
+        <ol class="bk-list" id="bkList">
+          <li><i>1</i><span><b>Hochschrank:</b> bestellt 2150 mm, AB sagt <s>2100 mm</s> – die Passblende zur Decke stimmt nicht mehr.</span></li>
+          <li><i>2</i><span><b>Hängeschränke:</b> bestellt Lack matt, AB sagt <s>Lack hochglanz</s> – passt nicht zu den Unterschränken.</span></li>
+          <li><i>3</i><span><b>Geschirrspüler:</b> bestellt vollintegriert, AB sagt <s>teilintegriert</s> – Bedienblende wäre sichtbar.</span></li>
+        </ol>
+      </div>
+      <div class="bk-elev" id="bkElev" aria-label="Linienzeichnung einer Küchenzeile mit markierten Abweichungen">
+        <svg viewBox="0 0 760 380" id="bkSvg" aria-hidden="true"></svg>
+        <p class="bk-cap" style="margin:14px 0 0">Ansicht von vorne · Beispiel zur Veranschaulichung</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BERATUNG -> ANGEBOT ============ -->
+<section class="bk-be" id="beratung" aria-labelledby="be-h">
+  <div class="bk-w">
+    <div class="bk-be-head bk-rv">
+      <div><p class="eyebrow">Beratung → Angebot</p><h2 class="bk-h2" id="be-h">Sie beraten. <em>Die KI schreibt mit.</em></h2></div>
+      <p class="bk-sub">Das Beratungsgespräch wird – mit Einverständnis des Kunden – aufgenommen. Daraus entstehen strukturierte Notizen und ein Angebotsentwurf mit Ihren Positionen. Probieren Sie es aus: Wählen Sie Raum, Stil und Wünsche.</p>
+    </div>
+    <div class="bk-ctl" role="group" aria-label="Beispiel konfigurieren">
+      <div><small>Raum</small><div class="bk-seg" id="bkRoom"><button type="button" aria-pressed="true" data-r="k">Küche</button><button type="button" aria-pressed="false" data-r="b">Bad</button></div></div>
+      <div><small>Stil laut Gespräch</small><div class="bk-styles" id="bkStyles"></div></div>
+      <div><small>Wünsche</small><div class="bk-opts" id="bkOpts"></div></div>
+    </div>
+    <div class="bk-flow">
+      <div class="bk-card"><small>Gespräch <span id="bkDur">48 min</span></small><div id="bkTalk"></div></div>
+      <div class="bk-arw" aria-hidden="true">→</div>
+      <div class="bk-card"><small>Notizen <span>strukturiert</span></small><dl class="bk-notes" id="bkNotes"></dl></div>
+      <div class="bk-arw" aria-hidden="true">→</div>
+      <div class="bk-card bk-off" aria-live="polite"><small>Angebotsentwurf <span id="bkCnt"></span></small><ol class="bk-pos" id="bkPos"></ol><div class="bk-offf"><span>Preise aus <b>Ihrer Kalkulation</b></span><span>Entwurf · zur Freigabe</span></div></div>
+    </div>
+    <p class="bk-cap">Beispieldaten zur Veranschaulichung · vereinfachte Logik, Ihre Positionen und Preise hinterlegen wir mit Ihnen</p>
+  </div>
+</section>
+
+<!-- ============ NACHFASSEN ============ -->
+<section class="bk-nf" id="nachfassen" aria-labelledby="nf-h">
+  <div class="bk-w">
+    <div class="bk-nf-head bk-rv">
+      <p class="eyebrow">Offene Angebote</p>
+      <h2 class="bk-h2" id="nf-h">Kein Angebot <em>versandet.</em></h2>
+      <p class="bk-sub">Ein Küchenangebot ist schnell 20 Seiten Arbeit – und liegt dann beim Kunden. Der Helfer erinnert freundlich, im Ton Ihres Studios. Jede Nachricht ist ein Entwurf, den Sie freigeben oder automatisch laufen lassen.</p>
+    </div>
+    <div class="bk-tl" id="bkTl">
+      <span class="prog" id="bkProg"></span>
+      <div class="bk-st"><span class="d"><b>Tag 0</b></span><h3>Angebot versendet</h3><p>Familie Arslan, Küche mit Insel. Der Helfer legt die Wiedervorlage an.</p></div>
+      <div class="bk-st"><span class="d"><b>Tag 3</b> · kurz nachfragen</span><div class="bk-msg"><small>Entwurf <span>per Mail</span></small><p>Guten Tag Frau Arslan, ist unser Angebot gut angekommen? Wenn Sie Fragen zur Planung haben – rufen Sie gern an oder antworten Sie einfach hier.</p></div></div>
+      <div class="bk-st"><span class="d"><b>Tag 10</b> · Mehrwert bieten</span><div class="bk-msg"><small>Entwurf <span>per Mail</span></small><p>Sie hatten nach den matten Fronten gefragt: Die Musterfront in Salbei liegt für Sie in der Ausstellung bereit. Wann passt es Ihnen?</p></div></div>
+      <div class="bk-st"><span class="d"><b>Tag 21</b> · Termin anbieten</span><div class="bk-msg"><small>Entwurf <span>Anruf-Erinnerung an Sie</span></small><p>Noch keine Rückmeldung. Vorschlag: persönlicher Anruf durch Herrn Berger – er hat die Beratung gemacht.</p></div></div>
+    </div>
+    <div class="bk-stop">
+      <span>Kunde antwortet → Nachfassen stoppt automatisch</span>
+      <span>Abstände und Ton legen Sie fest</span>
+      <span>Übersicht aller offenen Angebote nach Wert</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GUT ZU WISSEN ============ -->
+<section class="bk-gw" aria-labelledby="gw-h">
+  <div class="bk-w">
+    <div class="bk-rv"><p class="eyebrow">Häufige Fragen</p><h2 class="bk-h2" id="gw-h">Was Studios uns <em>meistens</em> fragen.</h2></div>
+    <div class="bk-gw-g bk-rv">
+      <div><h3>Unsere ABs kommen als PDF, Fax-Scan oder Mail-Text.</h3><p>Das ist normal. Die KI liest alle drei. Bei sehr schlechten Scans markiert sie die Stelle, statt zu raten – dann schaut ein Mensch drauf.</p></div>
+      <div><h3>Funktioniert das mit unserem Planungsprogramm?</h3><p>Wir binden an, was Sie schon nutzen. Bestellungen und Stücklisten lassen sich meist als Datei exportieren; wo es keine Schnittstelle gibt, arbeiten wir über Export und Import. Das klären wir im ersten Gespräch.</p></div>
+      <div><h3>Darf man ein Beratungsgespräch einfach aufnehmen?</h3><p>Nur mit Einverständnis des Kunden – wir bauen die Abfrage direkt ein. Alternativ sprechen Sie nach dem Termin eine kurze Zusammenfassung ein. Die Aufnahme kann nach dem Erstellen der Notizen gelöscht werden.</p></div>
+      <div><h3>Was passiert mit den Daten unserer Kunden?</h3><p>Die Daten bleiben in der EU und werden nur für Ihr Studio verarbeitet. Sie erhalten einen Auftragsverarbeitungsvertrag, jeder Schritt wird protokolliert.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WEITERE BRANCHEN ============ -->
+<section class="bk-more" aria-labelledby="more-h">
+  <div class="bk-w">
+    <h2 id="more-h">Weitere Branchen</h2>
+    <div class="bk-mo">
+      <a href="ailien-branchen-handwerk.html"><i style="background:var(--bk-eiche)"></i><div><div><b>Handwerk &amp; Bau</b><span>Angebote, Rapporte, Telefon</span></div><span aria-hidden="true">→</span></div></a>
+      <a href="ailien-branchen-solar-waermepumpe.html"><i style="background:var(--bk-salbei)"></i><div><div><b>Solar &amp; Wärmepumpe</b><span>Netzanmeldung, Förderung, Status</span></div><span aria-hidden="true">→</span></div></a>
+      <a href="ailien-branchen-architekten.html"><i style="background:var(--bk-kasch)"></i><div><div><b>Architekturbüros</b><span>Protokolle, Baubeschreibung, LV</span></div><span aria-hidden="true">→</span></div></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var clamp=function(v){return v<0?0:v>1?1:v};
+  var rv=[].slice.call(document.querySelectorAll('.bk-rv'));
+  if(reduce||!('IntersectionObserver' in window)) rv.forEach(function(e){e.classList.add('in')});
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.12});rv.forEach(function(e){io.observe(e)})}
+
+  /* ---------- Hero: AB-Abgleich ---------- */
+  var D=[
+    ['1','Unterschrank 60, <u>Lack matt</u> Salbei','Unterschrank 60, <u>Lack matt</u> Salbei','Unterschrank 60','',0],
+    ['2','Hochschrank 60 · H <u>2150 mm</u>','Hochschrank 60 · H <u>2100 mm</u>','Hochschrank 60','bestellt 2150 mm · AB <s>2100 mm</s>',1],
+    ['3','Hängeschränke: <u>Lack matt</u>','Hängeschränke: <u>Lack hochglanz</u>','Hängeschränke','bestellt matt · AB <s>hochglanz</s>',1],
+    ['4','Arbeitsplatte Eiche 38 mm, 3,40 m','Arbeitsplatte Eiche 38 mm, 3,40 m','Arbeitsplatte Eiche','',0],
+    ['5','Geschirrspüler 60 <u>vollintegriert</u>','Geschirrspüler 60 <u>teilintegriert</u>','Geschirrspüler 60','bestellt vollintegriert · AB <s>teilintegriert</s>',1],
+    ['6','Griffleiste grifflos, Edelstahl','Griffleiste grifflos, Edelstahl','Griffleiste','',0]
+  ];
+  var L=document.getElementById('bkL'),R=document.getElementById('bkR'),M=document.getElementById('bkM'),G=document.getElementById('bkMrg');
+  D.forEach(function(d){
+    L.insertAdjacentHTML('beforeend','<div class="bk-r"><i>'+d[0]+'</i><span>'+d[1]+'</span></div>');
+    R.insertAdjacentHTML('beforeend','<div class="bk-r"><i>'+d[0]+'</i><span>'+d[2]+'</span></div>');
+    M.insertAdjacentHTML('beforeend','<span></span>');
+    G.insertAdjacentHTML('beforeend','<div><b>Pos. '+d[0]+' · '+d[3]+'</b><small>'+(d[4]||'stimmt überein')+'</small><em></em></div>');
+  });
+  var lr=[].slice.call(L.children), rr=[].slice.call(R.children), mm=[].slice.call(M.children), gg=[].slice.call(G.children);
+  var res=document.getElementById('bkRes'), pill=document.getElementById('bkPill'), mail=document.getElementById('bkMail'), nEl=document.getElementById('bkN'), rT=document.getElementById('bkResT'), rP=document.getElementById('bkResP'), nb=0;
+  function done(){res.classList.add('on');rT.textContent='Abweichungen gefunden';rP.textContent='Rückfrage an den Lieferanten ist vorbereitet. Sie prüfen und senden – bevor die Produktion startet.'}
+  var mailTxt='Sehr geehrte Damen und Herren, zu AB 48213 bitten wir um Korrektur: Pos. 2 Höhe 2150 mm statt 2100 mm, Pos. 3 Lack matt statt hochglanz, Pos. 5 vollintegriert statt teilintegriert. Bitte bestätigen Sie vor Produktionsbeginn.';
+  var tm=[];function T(f,ms){tm.push(setTimeout(f,ms))}
+  function mark(i,state){[lr[i],rr[i],gg[i]].forEach(function(e){e.classList.remove('scan');if(state)e.classList.add(state)});mm[i].className=state==='bad'?'bad':state==='scan'?'':'ok';if(state==='ok'){lr[i].classList.remove('ok');rr[i].classList.remove('ok');gg[i].classList.add('ok')}}
+  function reset(){tm.forEach(clearTimeout);tm=[];[].concat(lr,rr,gg).forEach(function(e){e.className=e.className.replace(/\b(scan|bad|ok)\b/g,'').trim()});mm.forEach(function(e){e.className=''});res.classList.remove('on');nb=0;nEl.textContent='0';rT.textContent='Abweichungen bisher';rP.textContent='Abgleich läuft – Position für Position, auch Maße und Gerätevarianten.';mail.innerHTML='<span class="wait">Rückfrage wird vorbereitet, sobald der Abgleich fertig ist …</span>';pill.textContent='prüft …'}
+  function play(){
+    reset();
+    if(reduce){D.forEach(function(d,i){mark(i,d[5]?'bad':'ok')});nEl.textContent='3';done();mail.textContent=mailTxt;pill.textContent='6 von 14 · 3 Abweichungen';return}
+    var t=600;
+    D.forEach(function(d,i){
+      T(function(){[lr[i],rr[i],gg[i]].forEach(function(e){e.classList.add('scan')});pill.textContent='prüft Position '+(i+1)},t);
+      T(function(){mark(i,d[5]?'bad':'ok');if(d[5]){nb++;nEl.textContent=nb}},t+520);
+      t+=d[5]?900:640;
+    });
+    T(function(){done();pill.textContent='3 Abweichungen'},t+200);
+    for(var c=0;c<=mailTxt.length;c+=3)(function(c){T(function(){mail.innerHTML=mailTxt.slice(0,c)+'<span class="cur"></span>'},t+700+c*14)})(c);
+    T(function(){mail.textContent=mailTxt},t+700+mailTxt.length*14+60);
+    T(play,t+700+mailTxt.length*14+6500);
+  }
+  play();
+
+  /* ---------- Küchenzeile (scrollgesteuert) ---------- */
+  var svg=document.getElementById('bkSvg');
+  function P(x,y,w,h){return 'M'+x+' '+y+'h'+w+'v'+h+'h'+(-w)+'Z'}
+  // Maßstab: 1px = 7,5 mm; Boden y=350
+  var s='<defs><linearGradient id="bkGloss" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A7B8A5"/><stop offset=".45" stop-color="#DCE5DA"/><stop offset=".55" stop-color="#A7B8A5"/></linearGradient></defs>';
+  s+='<path class="ln lt" pathLength="1" d="M0 350H760"/><path class="ln lt" pathLength="1" stroke-dasharray="4 5" d="M0 30H520"/><text x="300" y="24">Decke 2,40 m</text>';
+  // Hochschrank (bestellt 2150 -> 287px, Oberkante y=63) ; laut AB 2100 -> 280px, y=70
+  s+='<rect class="fr" x="40" y="63" width="80" height="287"/><path class="ln" pathLength="1" d="'+P(40,63,80,287)+'"/><path class="ln" pathLength="1" d="M40 190H120M40 280H120"/>';
+  s+='<path class="ln lt" pathLength="1" d="'+P(40,30,80,33)+'"/><text x="44" y="51" style="font-size:10px">Passblende</text>';
+  s+='<rect class="gh" id="bkGh1" x="37" y="70" width="86" height="280"/>';
+  // Bemaßung rechts vom Hochschrank
+  s+='<g class="cl" id="bkC1"><path class="dm" d="M14 63V350M10 63H18M10 350H18"/><text class="a" x="0" y="56" style="font-size:11px">2150</text><path class="dm2" d="M128 70V350M124 70H132"/><text class="w" x="132" y="84" style="font-size:11px">2100 laut AB</text><circle cx="140" cy="110" r="10"/><text x="136.5" y="114">1</text></g>';
+  // Unterschränke 870mm -> 116px, y=234 ; Arbeitsplatte 38mm ~5px y=229
+  var xs=[120,200,260,340,420];
+  s+='<path class="ln" pathLength="1" d="M120 229H500V234H120Z"/>';
+  [[120,80],[200,60],[260,80],[340,80],[420,80]].forEach(function(u,i){
+    s+='<rect class="fr" x="'+u[0]+'" y="234" width="'+u[1]+'" height="104"/><path class="ln" pathLength="1" d="'+P(u[0],234,u[1],104)+'"/>';
+    if(i!==1)s+='<path class="ln lt" pathLength="1" d="M'+u[0]+' 274H'+(u[0]+u[1])+'"/>';
+  });
+  s+='<path class="ln" pathLength="1" d="M120 338H500V350H120Z"/>';
+  // Geschirrspüler teilintegriert: Bedienblende sichtbar (x=200..260)
+  s+='<g class="cl" id="bkC3"><rect x="203" y="237" width="54" height="14" fill="#3A3E44"/><circle cx="211" cy="244" r="2" fill="#8CF5C2"/><circle cx="230" cy="214" r="10"/><text x="226.5" y="218">3</text><path class="dm2" d="M230 224V236"/></g>';
+  // Spüle + Kochfeld auf Arbeitsplatte (Andeutung)
+  s+='<path class="ln" pathLength="1" d="M300 229V214H312V229M306 214V206H322"/><path class="ln lt" pathLength="1" d="M360 229H400"/>';
+  // Oberschränke Lack (Glanz-Fehler) 2 Stück x=260..420 y=90..170
+  s+='<rect class="fr" id="bkUp1" x="260" y="90" width="80" height="80"/><rect class="fr" id="bkUp2" x="340" y="90" width="80" height="80"/><path class="ln" pathLength="1" d="'+P(260,90,160,80)+'M340 90V170"/>';
+  // Insel rechts (separat), Fronten matt bestellt -> AB hochglanz
+  s+='<rect class="fr" id="bkIs" x="560" y="234" width="170" height="104"/><path class="ln" pathLength="1" d="'+P(560,234,170,104)+'M560 229H730V234H560ZM560 338H730V350H560ZM645 234V338"/><text x="600" y="372">Kochinsel</text>';
+  s+='<g class="cl" id="bkC2"><path d="M272 100L296 150M292 100L310 136M352 100L376 150M372 100L390 136" stroke="#fff" stroke-width="3" opacity=".9"/><circle cx="432" cy="92" r="10"/><text x="428.5" y="96">2</text></g>';
+  svg.innerHTML=s;
+  var mq=matchMedia('(max-width:640px)');function vb(){svg.setAttribute('viewBox',mq.matches?'0 20 470 360':'0 0 760 380')}vb();mq.addListener(vb);
+  var elev=document.getElementById('bkElev'), lns=[].slice.call(svg.querySelectorAll('.ln')), gh1=document.getElementById('bkGh1');
+  var cls=[document.getElementById('bkC1'),document.getElementById('bkC2'),document.getElementById('bkC3')], li=[].slice.call(document.querySelectorAll('#bkList li'));
+  lns.forEach(function(l){if(!l.getAttribute('stroke-dasharray'))l.style.strokeDasharray='1';});
+  function elevTick(){
+    var r=elev.getBoundingClientRect(), vh=innerHeight;
+    var p=reduce?1:clamp((vh*.9-r.top)/(vh*.6));
+    var pd=clamp(p/.45);
+    lns.forEach(function(l){if(l.style.strokeDasharray==='1')l.style.strokeDashoffset=String(1-pd)});
+    elev.classList.toggle('f',p>.4);
+    gh1.classList.toggle('on',p>.55);
+    cls.forEach(function(c,i){var on=p>[.5,.62,.74][i];c.classList.toggle('on',on);li[i].classList.toggle('on',on)});
+  }
+
+  /* ---------- Beratung -> Angebot ---------- */
+  var CFG={
+    k:{dur:'48 min',styles:[
+        {n:'Grifflos modern',c:['--bk-salbei','--bk-weiss'],f:'Lack matt Salbei, grifflos',w:'Arbeitsplatte Keramik hell'},
+        {n:'Landhaus',c:['--bk-kasch','--bk-eiche'],f:'Rahmenfront Kaschmir',w:'Arbeitsplatte Eiche massiv'},
+        {n:'Eiche & Anthrazit',c:['--bk-eiche','--bk-anth'],f:'Furnier Eiche, Anthrazit matt',w:'Arbeitsplatte Schiefer-Optik'}],
+      opts:[['Kochinsel','Kochinsel 1,80 × 0,95 m mit Sitzbereich'],['Kochfeldabzug','Induktionskochfeld mit integriertem Abzug'],['Vorratsauszug','Apothekerauszug 30 cm'],['','']],
+      talk:[['Kundin','„Wir kochen viel zu zweit – eine Insel wäre ein Traum.“',1],['Kunde','„Budget so um die 25.000, aber nicht mehr.“',0],['Beraterin','„Die Wand ist 3,40 m – der Hochschrank passt links neben das Fenster.“',0]],
+      base:[['Budget','ca. 25.000 € (Kundenangabe)'],['Maße','Wand 3,40 m · Raumhöhe 2,40 m']],
+      pos:['Küchenzeile 3,40 m, Unterschränke','Hochschrank mit Backofen + Mikrowelle','Montage & Anschluss']},
+    b:{dur:'35 min',styles:[
+        {n:'Hell & ruhig',c:['--bk-weiss','--bk-kasch'],f:'Großformat 120 × 60, Sand matt',w:'Waschtischplatte Mineralwerkstoff'},
+        {n:'Naturstein-Look',c:['--bk-ton','--bk-anth'],f:'Steinoptik Terracotta, Fugen anthrazit',w:'Waschtisch Eiche-Unterschrank'},
+        {n:'Dunkel & edel',c:['--bk-anth','--bk-blau'],f:'Fliese Nachtblau matt',w:'Armaturen Schwarz matt'}],
+      opts:[['Bodengleiche Dusche','Dusche bodengleich 120 × 90, Rinne'],['Wand-WC','Wand-WC mit Vorwandelement'],['Doppelwaschtisch','Doppelwaschtisch 1,40 m'],['','']],
+      talk:[['Kundin','„Die Wanne nutzt keiner mehr – lieber eine große Dusche.“',1],['Kunde','„Wir wollen hier alt werden, also bitte ohne Stolperkante.“',0],['Berater','„Raum ist 2,10 × 2,60 m, Fallrohr links in der Ecke.“',0]],
+      base:[['Budget','offen, Richtwert erbeten'],['Maße','2,10 × 2,60 m · Fallrohr Ecke links']],
+      pos:['Demontage Altbestand & Entsorgung','Fliesenarbeiten Wand und Boden','Sanitärinstallation & Montage']}
+  };
+  var st={r:'k',s:0,o:{0:true,1:false,2:true}};
+  var room=document.getElementById('bkRoom'), sty=document.getElementById('bkStyles'), opt=document.getElementById('bkOpts');
+  var talk=document.getElementById('bkTalk'), notes=document.getElementById('bkNotes'), pos=document.getElementById('bkPos'), cnt=document.getElementById('bkCnt'), dur=document.getElementById('bkDur');
+  var lastPos=[];
+  function ctrls(){
+    var c=CFG[st.r];
+    sty.innerHTML=c.styles.map(function(x,i){return '<button type="button" aria-pressed="'+(i===st.s)+'" data-i="'+i+'"><i><b style="background:var('+x.c[0]+')"></b><b style="background:var('+x.c[1]+')"></b></i>'+x.n+'</button>'}).join('');
+    opt.innerHTML=c.opts.filter(function(o){return o[0]&&o[1]}).map(function(o,i){return '<button type="button" aria-pressed="'+(!!st.o[i])+'" data-i="'+i+'">'+o[0]+'</button>'}).join('');
+  }
+  function render(anim){
+    var c=CFG[st.r], s=c.styles[st.s];
+    dur.textContent=c.dur;
+    talk.innerHTML=c.talk.map(function(t){return '<p class="bk-q'+(t[2]?' k':'')+'"><em>'+t[0]+'</em>'+t[1]+'</p>'}).join('');
+    var wishes=c.opts.filter(function(o,i){return o[0]&&o[1]&&st.o[i]}).map(function(o){return o[0]}).join(', ')||'–';
+    var rows=[['Stil','<i style="background:var('+s.c[0]+')"></i><i style="background:var('+s.c[1]+')"></i>'+s.n],['Wünsche',wishes]].concat(c.base).concat([['Offen',st.r==='k'?'Gerätemarke noch klären':'Heizkörper tauschen?']]);
+    notes.innerHTML=rows.map(function(r){return '<div'+(anim?' class="bk-fade"':'')+'><dt>'+r[0]+'</dt><dd>'+r[1]+'</dd></div>'}).join('');
+    var p=[c.pos[0]+(st.r==='k'?' – '+s.f:''),st.r==='k'?c.pos[1]:c.pos[1]+' – '+s.f,s.w];
+    c.opts.forEach(function(o,i){if(o[0]&&o[1]&&st.o[i])p.push(o[1])});
+    p.push(c.pos[2]);
+    pos.innerHTML=p.map(function(x){return '<li'+(anim&&lastPos.indexOf(x)<0?' class="new"':'')+'>'+x+'</li>'}).join('');
+    lastPos=p;
+    cnt.textContent=p.length+' Positionen';
+  }
+  room.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;st.r=b.dataset.r;st.s=0;st.o={0:true,1:false,2:true};[].forEach.call(room.children,function(x){x.setAttribute('aria-pressed',x===b)});lastPos=[];ctrls();render(true)});
+  sty.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;st.s=+b.dataset.i;ctrls();render(true)});
+  opt.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var i=+b.dataset.i;st.o[i]=!st.o[i];ctrls();render(true)});
+  ctrls();render(false);
+
+  /* ---------- Nachfassen (scrollgesteuert) ---------- */
+  var tl=document.getElementById('bkTl'), prog=document.getElementById('bkProg'), sts=[].slice.call(tl.querySelectorAll('.bk-st'));
+  function tlTick(){
+    var r=tl.getBoundingClientRect(), vh=innerHeight;
+    var p=reduce?1:clamp((vh*.85-r.top)/(vh*.55));
+    prog.style.width=(p*100)+'%';
+    sts.forEach(function(s,i){s.classList.toggle('on',p>=i/4+.02||(i===0&&p>0))});
+  }
+
+  var raf=0;function on(){if(!raf)raf=requestAnimationFrame(function(){raf=0;elevTick();tlTick()})}
+  addEventListener('scroll',on,{passive:true});addEventListener('resize',on);elevTick();tlTick();
+})();
+</script>
+
+<style>
+  /* ---------- CTA + Footer ---------- */
+  .ct{background:var(--night);color:var(--on-night);position:relative;overflow:hidden}
+  .ct-in{max-width:1240px;margin:0 auto;padding:112px 32px 96px;position:relative}
+  .ct .eyebrow{color:var(--mint)}.ct .eyebrow::before{background:var(--mint)}
+
+  .ct-tl{position:relative;height:64px;margin:0 0 56px}
+  .ct-tl svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .ct-tl .base{stroke:var(--night-3);stroke-width:1;stroke-dasharray:3 5}
+  .ct-tl .ink{stroke:var(--on-night-muted);stroke-width:1.25}
+  .ct-tl ol{list-style:none;margin:0;padding:0;position:absolute;inset:0}
+  .ct-tl li{white-space:nowrap;position:absolute;top:22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;font-size:12px;letter-spacing:.06em;color:var(--on-night-muted);opacity:.25;transition:opacity .4s,color .4s}
+  .ct-tl li::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--night);border:1px solid currentColor;margin-top:-4px}
+  .ct-tl li.on{opacity:1}
+  .ct-tl li.now{color:var(--mint);font-weight:500}
+  .ct-tl li.now::before{width:13px;height:13px;margin-top:-6px;background:var(--mint);border-color:var(--mint);box-shadow:0 0 0 0 rgba(140,245,194,.5)}
+  .ct-tl li.now.on::before{animation:ctPulse 2.2s ease-out infinite}
+  @keyframes ctPulse{0%{box-shadow:0 0 0 0 rgba(140,245,194,.45)}100%{box-shadow:0 0 0 16px rgba(140,245,194,0)}}
+
+  .ct-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:72px;align-items:start}
+  .ct-grid>div:first-child{container-type:inline-size}
+  .ct h2 span{display:block;white-space:nowrap}
+  .ct h2{font-weight:500;font-size:min(64px,calc(100cqi / 10.6));line-height:1.02;letter-spacing:-.04em;margin:0 0 24px}
+  .ct h2 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--mint)}
+  .ct-lead{font-size:18px;line-height:28px;color:var(--on-night-muted);max-width:480px;margin:0 0 36px}
+  .ct-list{list-style:none;margin:0 0 40px;padding:0;display:grid;gap:14px;max-width:480px}
+  .ct-list li{display:grid;grid-template-columns:28px 1fr;gap:12px;font-size:15px;line-height:23px}
+  .ct-list li span{width:28px;height:28px;border-radius:50%;border:1px solid var(--night-3);display:grid;place-items:center;font-size:11px;color:var(--mint)}
+  .ct-list b{font-weight:500}
+  .ct-list small{display:block;color:var(--on-night-muted);font-size:14px}
+  .ct-person{display:flex;align-items:center;gap:14px;padding-top:28px;border-top:1px solid var(--night-3);max-width:480px}
+  .ct-ava{width:52px;height:52px;border-radius:50%;background:var(--night-3);display:grid;place-items:center;font-weight:500;font-size:16px;color:var(--mint);flex:none}
+  .ct-person p{margin:0;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-person b{display:block;color:var(--on-night);font-weight:500;font-size:15px}
+  .ct-person a{color:var(--mint);text-decoration:none}
+
+  .ct-form{background:var(--night-2);border:1px solid var(--night-3);border-radius:20px;padding:28px;position:relative}
+  .ct-form h3{margin:0 0 6px;font-size:20px;font-weight:500;letter-spacing:-.02em}
+  .ct-form>p{margin:0 0 22px;font-size:14px;line-height:21px;color:var(--on-night-muted)}
+  .ct-seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:var(--night);border-radius:999px;margin:0 0 22px}
+  .ct-seg button{font:500 13px/18px var(--sans);color:var(--on-night-muted);background:none;border:0;border-radius:999px;padding:9px 10px;cursor:pointer}
+  .ct-seg button[aria-pressed="true"]{background:var(--on-night);color:var(--night)}
+  .ct-f{display:grid;gap:14px}
+  .ct-f label{display:grid;gap:6px;font-size:12px;letter-spacing:.04em;color:var(--on-night-muted)}
+  .ct-f input,.ct-f select,.ct-f textarea{font:400 15px/22px var(--sans);color:var(--on-night);background:var(--night);border:1px solid var(--night-3);border-radius:10px;padding:11px 13px;width:100%;transition:border-color .2s}
+  .ct-f textarea{resize:vertical;min-height:84px}
+  .ct-f input:focus,.ct-f select:focus,.ct-f textarea:focus{outline:none;border-color:var(--mint)}
+  .ct-f .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .ct-f .ok{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;line-height:19px;letter-spacing:0}
+  .ct-f .ok input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--mint);flex:none}
+  .ct-f .ok a{color:var(--on-night)}
+  .ct-f .btn{justify-content:center;width:100%;margin-top:4px;padding:15px 20px}
+  .ct-f [data-only="call"]{display:none}
+  .ct-form.call [data-only="call"]{display:grid}
+  .ct-form.call [data-only="mail"]{display:none}
+  .ct-done{display:none;text-align:center;padding:48px 8px}
+  .ct-done svg{width:56px;height:56px;margin:0 auto 18px;display:block}
+  .ct-done h3{margin-bottom:8px}
+  .ct-done p{margin:0;color:var(--on-night-muted);font-size:15px;line-height:23px}
+  .ct-form.sent .ct-f,.ct-form.sent .ct-seg,.ct-form.sent>h3,.ct-form.sent>p{display:none}
+  .ct-form.sent .ct-done{display:block}
+  .ct-done path{stroke-dasharray:1;stroke-dashoffset:1}
+  .ct-form.sent .ct-done path{animation:ctDraw .7s .15s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes ctDraw{to{stroke-dashoffset:0}}
+
+  .crv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .crv.in{opacity:1;transform:none}
+
+  /* Footer */
+  .ft{background:var(--night);color:var(--on-night);border-top:1px solid var(--night-3);overflow:hidden}
+  .ft-in{max-width:1240px;margin:0 auto;padding:64px 32px 0}
+  .ft-top{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px;padding-bottom:56px}
+  .ft-brand svg{height:30px;width:auto;display:block;margin-bottom:18px}
+  .ft-brand p{margin:0 0 20px;font-size:14px;line-height:22px;color:var(--on-night-muted);max-width:300px}
+  .ft-badges{display:flex;flex-wrap:wrap;gap:8px}
+  .ft-badges span{font-size:12px;color:var(--on-night-muted);border:1px solid var(--night-3);border-radius:999px;padding:5px 11px}
+  .ft h4{margin:0 0 16px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--on-night-muted)}
+  .ft ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .ft ul a{color:var(--on-night);text-decoration:none;font-size:15px;opacity:.86}
+  .ft ul a:hover{opacity:1;color:var(--mint)}
+  .ft-mark{position:relative;margin:0 -2px;line-height:0}
+  .ft-mark svg{width:100%;height:auto;display:block}
+  .ft-mark .o{fill:#15181C}
+  .ft-mark .f{fill:var(--night-3)}
+  .ft-bot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;padding:22px 0 28px;border-top:1px solid var(--night-3);font-size:13px;color:var(--on-night-muted)}
+  .ft-bot nav{display:flex;gap:20px}
+  .ft-bot a{color:inherit;text-decoration:none}.ft-bot a:hover{color:var(--on-night)}
+
+  @media (max-width:980px){
+    .ct-grid{grid-template-columns:1fr;gap:48px}
+    .ft-top{grid-template-columns:1fr 1fr}
+    .ft-brand{grid-column:1/-1}
+    .ft-top>div:last-child{grid-column:1/-1}
+  }
+  @media (max-width:640px){
+    .ct-in{padding:80px 16px 72px}
+    .ct-tl{margin-bottom:40px}
+    .ct-tl li{font-size:10.5px;letter-spacing:.02em}
+    .ct-tl li:nth-child(2),.ct-tl li:nth-child(4){display:none}
+    .ct-form{padding:22px 18px}
+    .ct-f .two{grid-template-columns:1fr}
+    .ft-in{padding:56px 16px 0}
+    .ft-top{gap:32px 20px}
+    .ft-bot{flex-direction:column}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .crv{opacity:1;transform:none;transition:none}
+    .ct-tl li.now.on::before{animation:none}
+  }
+</style>
+
+<section class="ct" id="kontakt">
+  <div class="ct-in">
+    <div class="ct-tl" aria-hidden="true">
+      <svg viewBox="0 0 1000 64" preserveAspectRatio="none"><line class="base" x1="0" y1="22" x2="1000" y2="22"/><line class="ink" x1="0" y1="22" x2="1000" y2="22" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+      <ol>
+        <li style="left:4%">1850</li><li style="left:24%">1920</li><li style="left:44%">1965</li><li style="left:64%">1995</li><li style="left:96%" class="now">Ihr Betrieb</li>
+      </ol>
+    </div>
+
+    <div class="ct-grid">
+      <div class="crv">
+        <p class="eyebrow">Erstgespräch</p>
+        <h2><span>Weniger Nacharbeit.</span><span>Mehr <em>Beratung.</em></span></h2>
+        <p class="ct-lead">In 30 Minuten wissen Sie, wo KI Ihrem Studio Zeit spart – vom Angebot bis zur Auftragsbestätigung. Ohne Verkaufsgespräch, ohne Fachchinesisch.</p>
+        <ol class="ct-list">
+          <li><span>01</span><div><b>Sie erzählen, wo es hakt.</b><small>Per Video oder bei Ihnen vor Ort.</small></div></li>
+          <li><span>02</span><div><b>Wir zeigen, was möglich ist.</b><small>An Beispielen aus Ihrer Branche.</small></div></li>
+          <li><span>03</span><div><b>Sie entscheiden in Ruhe.</b><small>Auf Wunsch mit schriftlicher Einschätzung.</small></div></li>
+        </ol>
+        <div class="ct-person">
+          <div class="ct-ava" aria-hidden="true">NK</div>
+          <p><b>Nic Karban</b>Gründer · Ihr Ansprechpartner<br><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></p>
+        </div>
+      </div>
+
+      <div class="ct-form crv" id="ctForm">
+        <h3>Erstgespräch anfragen</h3>
+        <p>Wir melden uns innerhalb eines Werktags.</p>
+        <div class="ct-seg" role="group" aria-label="Kontaktweg">
+          <button type="button" aria-pressed="true" data-mode="mail">Termin per E-Mail</button>
+          <button type="button" aria-pressed="false" data-mode="call">Rückruf</button>
+        </div>
+        <!-- TODO: action auf echtes Formular-Backend / Buchungstool setzen -->
+        <form class="ct-f" action="#" method="post" novalidate>
+          <div class="two">
+            <label>Name<input name="name" autocomplete="name" required></label>
+            <label>Betrieb<input name="firma" autocomplete="organization"></label>
+          </div>
+          <label data-only="mail">E-Mail<input type="email" name="email" autocomplete="email"></label>
+          <div class="two" data-only="call">
+            <label>Telefon<input type="tel" name="tel" autocomplete="tel"></label>
+            <label>Am besten erreichbar<select name="zeit"><option>Vormittags</option><option>Mittags</option><option>Nachmittags</option></select></label>
+          </div>
+          <label>Wo kostet Sie Routine am meisten Zeit? <span style="opacity:.6">(optional)</span><textarea name="nachricht" placeholder="z. B. Angebote schreiben, Telefon, Rechnungen prüfen …"></textarea></label>
+          <label class="ok"><input type="checkbox" name="dsgvo" required><span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden. <a href="#">Datenschutz</a></span></label>
+          <button class="btn m" type="submit">Anfrage senden <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="ct-done" role="status">
+          <svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="27" fill="none" stroke="#22262B"/><path d="M17 29 25 37 40 20" fill="none" stroke="#8CF5C2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
+          <h3>Danke – ist angekommen.</h3>
+          <p>Wir melden uns innerhalb eines Werktags bei Ihnen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="ft">
+  <div class="ft-in">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <svg viewBox="0 8 160.8 64" aria-label="Ailien"><path d="M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z" fill="#F3F1EC"/><path d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z" fill="#8CF5C2" fill-rule="evenodd"/></svg>
+        <p>KI-Automatisierung für Mittelstand und Handwerk. Wir bauen Systeme, die Routine abnehmen – und betreuen sie dauerhaft.</p>
+        <div class="ft-badges"><span>DSGVO-konform</span><span>Server in der EU</span><span>Made in Germany</span></div>
+      </div>
+      <div>
+        <h4>Leistungen</h4>
+        <ul><li><a href="#leistungen">Prozess-Automationen</a></li><li><a href="#leistungen">KI-Wissenssysteme</a></li><li><a href="#leistungen">Voice &amp; Kommunikation</a></li><li><a href="#leistungen">KI-Strategie &amp; Beratung</a></li></ul>
+      </div>
+      <div>
+        <h4>Ailien</h4>
+        <ul><li><a href="#praxis">Praxisbeispiele</a></li><li><a href="#vorgehen">Vorgehen</a></li><li><a href="#faq">Häufige Fragen</a></li><li><a href="#rechner">Entlastungs-Rechner</a></li></ul>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul><li><a href="mailto:kontakt@ailien-automation.de">kontakt@ailien-automation.de</a></li><li><a href="#kontakt">Erstgespräch anfragen</a></li><li><a href="#">LinkedIn</a></li></ul>
+      </div>
+    </div>
+
+    <div class="ft-mark" aria-hidden="true">
+      <svg viewBox="7 11.5 143.5 51.6"><defs><g id="ftWord"><path d=""/><path fill-rule="evenodd" d="M49.2 12.5C53.6 12.5 56.7 15.6 56.7 19.7C56.7 22.4 55.3 24.4 53.3 26.8C51.9 28.5 50.5 30.4 49.8 31.2C49.4 31.5 48.9 31.5 48.6 31.2C47.8 30.4 46.5 28.5 45.1 26.8C43 24.4 41.7 22.4 41.7 19.7C41.7 15.6 44.7 12.5 49.2 12.5ZM43.7 20.3Q47.4 19.3 48.7 23.3Q45.1 23.6 43.7 20.3ZM54.6 20.3Q51 19.3 49.6 23.3Q53.3 23.6 54.6 20.3Z M21.9 62.6Q18.1 62.6 14.9 60.8Q11.8 58.9 9.9 55.6Q8 52.4 8 48.1Q8 43.7 9.9 40.5Q11.8 37.2 15.1 35.3Q18.3 33.5 22.4 33.5Q26.8 33.5 29.5 35.5Q32.1 37.4 33.2 40.7Q34.3 44 34.3 48.1Q34.3 50.4 33.7 53Q33 55.5 31.6 57.7Q30.1 59.9 27.8 61.2Q25.4 62.6 21.9 62.6ZM23.8 57.5Q26.9 57.5 29.2 56.3Q31.4 55.1 32.5 52.9Q33.7 50.8 33.7 48.1Q33.7 45.1 32.5 43Q31.3 40.9 29.1 39.8Q26.9 38.6 23.8 38.6Q19.3 38.6 16.9 41.3Q14.4 43.9 14.4 48.1Q14.4 50.9 15.6 53Q16.8 55.1 18.9 56.3Q21.1 57.5 23.8 57.5ZM33.7 34.1H39.9V62H34.1Q34.1 62 34 60.9Q33.9 59.9 33.8 58.3Q33.7 56.8 33.7 55.4ZM46 34.1H52.3V62H46ZM59.1 22.9H65.3V62H59.1ZM79.6 22.3V28.3H72.1V22.3ZM72.7 34.1H79V62H72.7ZM109.2 52.8H115.1Q114.7 55.7 112.9 57.9Q111.2 60.1 108.1 61.4Q105.1 62.6 100.9 62.6Q96.2 62.6 92.4 60.9Q88.7 59.1 86.5 55.8Q84.4 52.6 84.4 48.1Q84.4 43.7 86.5 40.4Q88.5 37.1 92.2 35.3Q95.9 33.5 100.7 33.5Q105.7 33.5 109 35.3Q112.3 37 114 40.5Q115.6 44 115.3 49.3H90.7Q91 51.7 92.3 53.6Q93.5 55.4 95.7 56.5Q97.9 57.5 100.8 57.5Q104.1 57.5 106.3 56.2Q108.5 54.9 109.2 52.8ZM100.5 38.5Q96.7 38.5 94.3 40.4Q91.8 42.3 91.1 45.2H109Q108.8 42.1 106.5 40.3Q104.2 38.5 100.5 38.5ZM120.3 34.1H126.5V62H120.3ZM138.3 33.5Q140.7 33.5 142.7 34.2Q144.8 34.8 146.3 36.2Q147.7 37.6 148.5 39.6Q149.4 41.6 149.4 44.4V62H143.1V45.6Q143.1 42.2 141.5 40.5Q139.8 38.9 136.3 38.9Q133.6 38.9 131.4 40Q129.2 41.2 127.8 43Q126.4 44.8 126.2 47L126.1 44Q126.4 41.9 127.4 40Q128.3 38.1 129.9 36.7Q131.4 35.2 133.6 34.3Q135.7 33.5 138.3 33.5Z"/></g><clipPath id="ftClip"><rect id="ftRise" x="0" y="64" width="161" height="70"/></clipPath></defs>
+        <g class="o"><use href="#ftWord"/></g>
+        <g clip-path="url(#ftClip)"><g class="f"><use href="#ftWord"/></g></g>
+      </svg>
+    </div>
+
+    <div class="ft-bot">
+      <span>© 2026 Ailien · ailien-automation.de</span>
+      <nav><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">AGB</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var clamp=function(v){return v<0?0:v>1?1:v};
+  /* Reveals */
+  var els=[].slice.call(document.querySelectorAll('.crv'));
+  if(reduce||!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')})}
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.15});
+    els.forEach(function(e,i){e.style.transitionDelay=(i%2?.12:0)+'s';io.observe(e)})}
+
+  /* Zeitstrahl + Wortmarke scroll-gesteuert */
+  var tl=document.querySelector('.ct-tl'), ink=tl&&tl.querySelector('.ink'), lis=tl?[].slice.call(tl.querySelectorAll('li')):[];
+  var pos=lis.map(function(l){return parseFloat(l.style.left)/100});
+  var mark=document.querySelector('.ft-mark'), rise=document.getElementById('ftRise');
+  function tick(){
+    var vh=innerHeight;
+    if(tl){
+      var r=tl.getBoundingClientRect();
+      var p=reduce?1:clamp((vh*.92-r.top)/(vh*.55));
+      ink.style.strokeDashoffset=1-p;
+      lis.forEach(function(l,i){l.classList.toggle('on',p>=pos[i]-.02)});
+    }
+    if(mark){
+      var m=mark.getBoundingClientRect();
+      var q=reduce?1:clamp((vh-m.top-m.height*.1)/(m.height*.9));
+      rise.setAttribute('y',(63-q*51).toFixed(2));
+    }
+  }
+  var raf=0;function on(){if(!raf)raf=requestAnimationFrame(function(){raf=0;tick()})}
+  addEventListener('scroll',on,{passive:true});addEventListener('resize',on);tick();
+
+  /* Formular */
+  var f=document.getElementById('ctForm'); if(!f) return;
+  var btns=[].slice.call(f.querySelectorAll('.ct-seg button'));
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    f.classList.toggle('call',b.dataset.mode==='call');
+  })});
+  f.querySelector('form').addEventListener('submit',function(e){
+    e.preventDefault(); /* Demo: hier später an Backend senden */
+    var form=e.target, E=form.elements, call=f.classList.contains('call');
+    var nm=E.namedItem('name'), ct=E.namedItem(call?'tel':'email'), cb=E.namedItem('dsgvo');
+    var name=nm.value.trim(), contact=ct.value.trim(), ok=cb.checked;
+    [nm,ct].forEach(function(i){i.style.borderColor=i.value.trim()?'':'#F2C46B'});
+    cb.parentNode.style.color=ok?'':'#F2C46B';
+    if(!name||!contact||!ok) return;
+    f.classList.add('sent');
+  });
+})();
+</script>
+
+</body>
+</html>
