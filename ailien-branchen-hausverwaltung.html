@@ -525,7 +525,7 @@
     </div>
     <div class="hv-call">
       <div class="hv-tr">
-        <div class="hv-trh"><span class="hv-ring"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span><span><b id="hvWho">Anruf auf der Notfallnummer</b><span id="hvObj">Musterstraße 12 · WE 9, 2. OG</span></span><time id="hvTime">23:40</time></div>
+        <div class="hv-trh"><span class="hv-ring"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span><span><b id="hvWho">Anruf auf der Notfallnummer</b><span id="hvObj">Ahornweg 12 · WE 9, 2. OG</span></span><time id="hvTime">23:40</time></div>
         <div id="hvLines" aria-live="polite"></div>
       </div>
       <div class="hv-dec">
@@ -651,10 +651,10 @@
   /* ---- Hero: Meldungen sortieren ---- */
   var IC={mail:'<svg viewBox="0 0 16 16"><rect x="1.5" y="3" width="13" height="10" rx="1.5"/><path d="M2 4l6 5 6-5"/></svg>',tel:'<svg viewBox="0 0 16 16"><path d="M3 2h3l1.3 3.2-1.6 1a7 7 0 0 0 3.1 3.1l1-1.6L13 9v3a1.3 1.3 0 0 1-1.3 1.3A10.7 10.7 0 0 1 1.7 3.3 1.3 1.3 0 0 1 3 2z"/></svg>',foto:'<svg viewBox="0 0 16 16"><rect x="1.5" y="4" width="13" height="9.5" rx="1.5"/><circle cx="8" cy="8.7" r="2.5"/><path d="M5.5 4l1-1.8h3l1 1.8"/></svg>',msg:'<svg viewBox="0 0 16 16"><path d="M2 3h12v8H6l-3 2.5V11H2z"/></svg>'};
   var M=[
-    {k:'tel',f:'Anruf · So 23:40',t:'„Bei mir kommt Wasser durch die Decke, im Bad!“',c:'now',tag:'Sofort',b:'Wasserrohrbruch',ad:'Musterstraße 12 · WE 9, 2. OG',ac:'Notdienst Sanitär beauftragt · 23:42'},
+    {k:'tel',f:'Anruf · So 23:40',t:'„Bei mir kommt Wasser durch die Decke, im Bad!“',c:'now',tag:'Sofort',b:'Wasserrohrbruch',ad:'Ahornweg 12 · WE 9, 2. OG',ac:'Notdienst Sanitär beauftragt · 23:42'},
     {k:'mail',f:'Mail · So 07:12',t:'Heizung im ganzen Haus seit gestern kalt.',c:'now',tag:'Sofort',b:'Heizungsausfall, ganzes Haus',ad:'Am Hang 9 · Gemeinschaftseigentum',ac:'Heizungsbauer beauftragt, Aushang an alle'},
     {k:'foto',f:'Foto · So 09:31',t:'Wasserfleck an der Schlafzimmerdecke, wird größer.',c:'wk',tag:'Woche',b:'Feuchtefleck unter dem Dach',ad:'Lindenweg 4 · WE 7, DG',ac:'Dachdecker-Termin Mi vorgeschlagen'},
-    {k:'msg',f:'Kontaktformular · Sa 18:05',t:'Licht im Treppenhaus 3. OG geht nicht.',c:'wk',tag:'Woche',b:'Treppenhausbeleuchtung defekt',ad:'Musterstraße 12 · 3. OG',ac:'Elektriker-Auftrag zur Freigabe'},
+    {k:'msg',f:'Kontaktformular · Sa 18:05',t:'Licht im Treppenhaus 3. OG geht nicht.',c:'wk',tag:'Woche',b:'Treppenhausbeleuchtung defekt',ad:'Ahornweg 12 · 3. OG',ac:'Elektriker-Auftrag zur Freigabe'},
     {k:'mail',f:'Mail · Sa 14:20',t:'Wann kommt die Nebenkostenabrechnung 2025?',c:'in',tag:'Info',b:'Frage zur Abrechnung',ad:'Am Hang 9 · WE 2',ac:'Antwortentwurf mit Ihrem Zeitplan'},
     {k:'mail',f:'Mail · Fr 21:47',t:'Bitte um das Protokoll der letzten Versammlung.',c:'in',tag:'Info',b:'Protokoll angefordert',ad:'WEG Lindenweg 4 · Eigentümer WE 6',ac:'Niederschrift angehängt, Entwurf bereit'}
   ];
@@ -699,7 +699,7 @@
 
   /* ---- Nacht-Telefon ---- */
   var S=[
-    {who:'Anruf auf der Notfallnummer',obj:'Musterstraße 12 · WE 9, 2. OG',time:'23:40',
+    {who:'Anruf auf der Notfallnummer',obj:'Ahornweg 12 · WE 9, 2. OG',time:'23:40',
      l:[['c','Anrufer','Hier läuft Wasser aus der Wand im Bad, das hört nicht auf!'],['a','Assistent','Ich helfe sofort. Bitte schließen Sie den Absperrhahn – bei Ihnen im Bad unter dem Waschbecken oder im Keller, Raum 3.'],['c','Anrufer','Okay … ist zu. Es tropft nur noch.'],['a','Assistent','Gut gemacht. Der Sanitär-Notdienst ist informiert und meldet sich in den nächsten Minuten bei Ihnen.']],
      d:0,acts:['Notdienst Sanitär aus Ihrer Liste beauftragt','Wohnung darunter (1. OG) per SMS gewarnt','Vorgang angelegt, Fotos angefordert','Schadenmeldung an die Gebäudeversicherung vorbereitet'],
      why:'<b>Regel:</b> Austretendes Wasser = Notfall. Kosten bis zu Ihrer Freigabegrenze ohne Rückfrage.'},
